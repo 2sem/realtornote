@@ -7,15 +7,31 @@
 //
 
 import UIKit
+import Firebase
+import GoogleMobileAds
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate {
 
     var window: UIWindow?
-
+    var fullAd : GADInterstialManager?;
+    var reviewManager : ReviewManager?;
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~7124016405");
+        FirebaseApp.configure()
+        
+        self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 3); //
+        self.reviewManager?.delegate = self;
+        //self.reviewManager?.show();
+        
+        self.fullAd = GADInterstialManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "FullAd") ?? "", interval: 60.0 * 60 * 3); //60.0 * 60 * 3
+        self.fullAd?.delegate = self;
+        self.fullAd?.canShowFirstTime = false;
+        self.fullAd?.show();
+
         return true
     }
 
@@ -29,8 +45,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard url.scheme == "kakaod3be13c89a776659651eef478d4e4268" else {
+            return false;
+        }
+        
+        //RNInfoTableViewController.startingQuery = url;
+        return true;
+    }
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        guard self.reviewManager?.canShow ?? false else{
+            self.fullAd?.show();
+            return;
+        }
+        self.reviewManager?.show();
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -41,6 +71,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // MARK: GADInterstialManagerDelegate
+    func GADInterstialGetLastShowTime() -> Date {
+        return RNDefaults.LastFullADShown;
+        //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
+    }
+    
+    func GADInterstialUpdate(showTime: Date) {
+        RNDefaults.LastFullADShown = showTime;
+    }
+    
+    func GADInterstialWillLoad() {
+        //RNInfoTableViewController.shared?.needAds = false;
+        //RNFavoriteTableViewController.shared?.needAds = false;
+    }
+    
+    // MARK: ReviewManagerDelegate
+    func reviewGetLastShowTime() -> Date {
+        return RNDefaults.LastShareShown;
+    }
+    
+    func reviewUpdate(showTime: Date) {
+        RNDefaults.LastShareShown = showTime;
+    }
 }
 

@@ -7,14 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB359B9258AE056390FB4C12 /* Pods_realtornote.framework */; };
+		2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04BD1D1F286DE60010CD69 /* RNSubjectViewController.swift */; };
+		2C04BD231F2881910010CD69 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04BD221F2881910010CD69 /* Int+.swift */; };
 		2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */; };
-		2C0D808F1F25C7D9002F58A5 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D808E1F25C7D9002F58A5 /* FirstViewController.swift */; };
 		2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */; };
 		2C0D80941F25C7D9002F58A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C0D80921F25C7D9002F58A5 /* Main.storyboard */; };
 		2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C0D80951F25C7D9002F58A5 /* Assets.xcassets */; };
 		2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C0D80971F25C7D9002F58A5 /* LaunchScreen.storyboard */; };
 		2C0D80A41F25C7DA002F58A5 /* realtornoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80A31F25C7DA002F58A5 /* realtornoteTests.swift */; };
 		2C0D80AF1F25C7DA002F58A5 /* realtornoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */; };
+		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
+		2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C17FC361F43217C00DFBCAF /* Array+.swift */; };
+		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
+		2C19380C1F272E0000E4BCFB /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380B1F272E0000E4BCFB /* String+.swift */; };
+		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
+		2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 2C1938101F2730D700E4BCFB /* realtornote.xlsx */; };
+		2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */; };
+		2C19381E1F273EFB00E4BCFB /* RNExcelSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */; };
+		2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19381F1F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift */; };
+		2C1938221F27464200E4BCFB /* Character+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938211F27464200E4BCFB /* Character+.swift */; };
+		2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */; };
+		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
+		2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */; };
+		2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */; };
+		2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */; };
+		2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BE1F27581E00644322 /* realtornote.xcdatamodeld */; };
+		2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7C31F275ED200644322 /* RNModelController.swift */; };
+		2C4AE7C61F27631C00644322 /* RNModelController+RNSubjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7C51F27631C00644322 /* RNModelController+RNSubjectInfo.swift */; };
+		2C4AE7C81F27689D00644322 /* RNModelController+RNChapterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7C71F27689D00644322 /* RNModelController+RNChapterInfo.swift */; };
+		2C4AE7CA1F276DB000644322 /* RNModelController+RNPartInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7C91F276DB000644322 /* RNModelController+RNPartInfo.swift */; };
+		2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7CC1F276F6400644322 /* RNModelController+RNExcelController.swift */; };
+		2C4AE7CF1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7CE1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift */; };
+		2C4AE7D31F277F2F00644322 /* RNSubjectInfo+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7D21F277F2F00644322 /* RNSubjectInfo+.swift */; };
+		2C4AE7D51F27812700644322 /* RNChapterInfo+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */; };
+		2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7D61F27879400644322 /* RNChapterInfo+RNExcelChapter.swift */; };
+		2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */; };
+		2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */; };
+		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
+		2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */; };
+		2C93E43C1F2F2B8400AFD09D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43B1F2F2B8400AFD09D /* UIApplication+.swift */; };
+		2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */; };
+		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
+		2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */; };
+		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
+		2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4451F2F71F900AFD09D /* Settings.bundle */; };
+		2CC9AB411F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */; };
+		2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */; };
+		2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */; };
+		2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA890A1F41A5E40026C966 /* RNQuestionViewController.swift */; };
+		2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */; };
+		2CDA890F1F41AE0D0026C966 /* RNQuestionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */; };
+		2CDA89111F41B2B50026C966 /* RNQuestionAnswerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */; };
+		7293195834CBE6FD9113BC82 /* Pods_realtornoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F555FD2F0094A1E9CA4B6F4 /* Pods_realtornoteTests.framework */; };
+		DB09DF2F6B32F40CF0464F7F /* Pods_realtornoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E52052CF679A7259D1EB8B8 /* Pods_realtornoteUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,9 +81,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F555FD2F0094A1E9CA4B6F4 /* Pods_realtornoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_realtornoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C04BD1D1F286DE60010CD69 /* RNSubjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNSubjectViewController.swift; sourceTree = "<group>"; };
+		2C04BD221F2881910010CD69 /* Int+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		2C0D80891F25C7D9002F58A5 /* realtornote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = realtornote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2C0D808E1F25C7D9002F58A5 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		2C0D80931F25C7D9002F58A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C0D80951F25C7D9002F58A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +97,58 @@
 		2C0D80AA1F25C7DA002F58A5 /* realtornoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = realtornoteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = realtornoteUITests.swift; sourceTree = "<group>"; };
 		2C0D80B01F25C7DA002F58A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2C17FC361F43217C00DFBCAF /* Array+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
+		2C19380B1F272E0000E4BCFB /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		2C19380E1F27300A00E4BCFB /* RNDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNDefaults.swift; sourceTree = "<group>"; };
+		2C1938101F2730D700E4BCFB /* realtornote.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = realtornote.xlsx; sourceTree = "<group>"; };
+		2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelChapter.swift; sourceTree = "<group>"; };
+		2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelSubject.swift; sourceTree = "<group>"; };
+		2C19381F1F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelSubject.swift"; sourceTree = "<group>"; };
+		2C1938211F27464200E4BCFB /* Character+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+.swift"; sourceTree = "<group>"; };
+		2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelPart.swift; sourceTree = "<group>"; };
+		2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelChapter.swift"; sourceTree = "<group>"; };
+		2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSCountDownLabel.swift; sourceTree = "<group>"; };
+		2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSDocumentRecognizer.swift; sourceTree = "<group>"; };
+		2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelPart.swift"; sourceTree = "<group>"; };
+		2C4AE7BF1F27581E00644322 /* realtornote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = realtornote.xcdatamodel; sourceTree = "<group>"; };
+		2C4AE7C31F275ED200644322 /* RNModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNModelController.swift; sourceTree = "<group>"; };
+		2C4AE7C51F27631C00644322 /* RNModelController+RNSubjectInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNSubjectInfo.swift"; sourceTree = "<group>"; };
+		2C4AE7C71F27689D00644322 /* RNModelController+RNChapterInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNChapterInfo.swift"; sourceTree = "<group>"; };
+		2C4AE7C91F276DB000644322 /* RNModelController+RNPartInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNPartInfo.swift"; sourceTree = "<group>"; };
+		2C4AE7CC1F276F6400644322 /* RNModelController+RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNExcelController.swift"; sourceTree = "<group>"; };
+		2C4AE7CE1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNSubjectInfo+RNExcelSubject.swift"; sourceTree = "<group>"; };
+		2C4AE7D21F277F2F00644322 /* RNSubjectInfo+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNSubjectInfo+.swift"; sourceTree = "<group>"; };
+		2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNChapterInfo+.swift"; sourceTree = "<group>"; };
+		2C4AE7D61F27879400644322 /* RNChapterInfo+RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNChapterInfo+RNExcelChapter.swift"; sourceTree = "<group>"; };
+		2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNPartViewController.swift; sourceTree = "<group>"; };
+		2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
+		2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADInterstialManager.swift; sourceTree = "<group>"; };
+		2C93E43B1F2F2B8400AFD09D /* UIApplication+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
+		2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
+		2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
+		2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
+		2C93E4451F2F71F900AFD09D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNFavoriteInfo.swift"; sourceTree = "<group>"; };
+		2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewController.swift; sourceTree = "<group>"; };
+		2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewCell.swift; sourceTree = "<group>"; };
+		2CC9AB461F2E051D00C8357E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		2CC9AB471F2E051F00C8357E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2CDA890A1F41A5E40026C966 /* RNQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionViewController.swift; sourceTree = "<group>"; };
+		2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionTableViewCell.swift; sourceTree = "<group>"; };
+		2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionInfo.swift; sourceTree = "<group>"; };
+		2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionAnswerInfo.swift; sourceTree = "<group>"; };
+		4E52052CF679A7259D1EB8B8 /* Pods_realtornoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_realtornoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B0D0A9B5FFBBCCD6E05E267 /* Pods-realtornoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests.release.xcconfig"; sourceTree = "<group>"; };
+		AB2179A845B8C7BF6C822231 /* Pods-realtornote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornote.release.xcconfig"; path = "Pods/Target Support Files/Pods-realtornote/Pods-realtornote.release.xcconfig"; sourceTree = "<group>"; };
+		AE0136927338BEC3E7347F32 /* Pods-realtornoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornoteUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		BB359B9258AE056390FB4C12 /* Pods_realtornote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_realtornote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF7AF745B3001E32D220084D /* Pods-realtornoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornoteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-realtornoteTests/Pods-realtornoteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C423D66454905F65DB508DFC /* Pods-realtornote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-realtornote/Pods-realtornote.debug.xcconfig"; sourceTree = "<group>"; };
+		E78BAF2AD18CB5FA29562F7E /* Pods-realtornoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-realtornoteTests/Pods-realtornoteTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7293195834CBE6FD9113BC82 /* Pods_realtornoteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +172,49 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB09DF2F6B32F40CF0464F7F /* Pods_realtornoteUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		277ACD23FDEE25BD430CD7F9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BB359B9258AE056390FB4C12 /* Pods_realtornote.framework */,
+				0F555FD2F0094A1E9CA4B6F4 /* Pods_realtornoteTests.framework */,
+				4E52052CF679A7259D1EB8B8 /* Pods_realtornoteUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		291F3DA11DD06AE80A99A872 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C423D66454905F65DB508DFC /* Pods-realtornote.debug.xcconfig */,
+				AB2179A845B8C7BF6C822231 /* Pods-realtornote.release.xcconfig */,
+				BF7AF745B3001E32D220084D /* Pods-realtornoteTests.debug.xcconfig */,
+				E78BAF2AD18CB5FA29562F7E /* Pods-realtornoteTests.release.xcconfig */,
+				AE0136927338BEC3E7347F32 /* Pods-realtornoteUITests.debug.xcconfig */,
+				7B0D0A9B5FFBBCCD6E05E267 /* Pods-realtornoteUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2C04BD1C1F286CF30010CD69 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				2C04BD1D1F286DE60010CD69 /* RNSubjectViewController.swift */,
+				2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */,
+				2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */,
+				2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */,
+				2CDA890A1F41A5E40026C966 /* RNQuestionViewController.swift */,
+				2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		2C0D80801F25C7D9002F58A5 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +222,8 @@
 				2C0D80A21F25C7DA002F58A5 /* realtornoteTests */,
 				2C0D80AD1F25C7DA002F58A5 /* realtornoteUITests */,
 				2C0D808A1F25C7D9002F58A5 /* Products */,
+				291F3DA11DD06AE80A99A872 /* Pods */,
+				277ACD23FDEE25BD430CD7F9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,13 +240,21 @@
 		2C0D808B1F25C7D9002F58A5 /* realtornote */ = {
 			isa = PBXGroup;
 			children = (
-				2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */,
-				2C0D808E1F25C7D9002F58A5 /* FirstViewController.swift */,
+				2C19380A1F272DA200E4BCFB /* leesam */,
+				2C4AE7CB1F276F2F00644322 /* sync */,
+				2C0D80BD1F25C866002F58A5 /* database */,
+				2C0D80BC1F25C847002F58A5 /* excel */,
+				2C19380D1F272F4300E4BCFB /* data */,
+				2C04BD1C1F286CF30010CD69 /* view */,
 				2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */,
+				2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */,
+				2C0D80BE1F25C989002F58A5 /* MainViewController.swift */,
 				2C0D80921F25C7D9002F58A5 /* Main.storyboard */,
 				2C0D80951F25C7D9002F58A5 /* Assets.xcassets */,
 				2C0D80971F25C7D9002F58A5 /* LaunchScreen.storyboard */,
+				2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */,
 				2C0D809A1F25C7D9002F58A5 /* Info.plist */,
+				2C93E4451F2F71F900AFD09D /* Settings.bundle */,
 			);
 			path = realtornote;
 			sourceTree = "<group>";
@@ -128,6 +277,84 @@
 			path = realtornoteUITests;
 			sourceTree = "<group>";
 		};
+		2C0D80BC1F25C847002F58A5 /* excel */ = {
+			isa = PBXGroup;
+			children = (
+				2C1938181F273E8100E4BCFB /* sheet */,
+				2C1938071F272C0900E4BCFB /* RNExcelController.swift */,
+				2C19381F1F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift */,
+				2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */,
+				2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */,
+			);
+			path = excel;
+			sourceTree = "<group>";
+		};
+		2C0D80BD1F25C866002F58A5 /* database */ = {
+			isa = PBXGroup;
+			children = (
+				2C4AE7BE1F27581E00644322 /* realtornote.xcdatamodeld */,
+				2C4AE7C31F275ED200644322 /* RNModelController.swift */,
+				2C4AE7C51F27631C00644322 /* RNModelController+RNSubjectInfo.swift */,
+				2C4AE7C71F27689D00644322 /* RNModelController+RNChapterInfo.swift */,
+				2C4AE7C91F276DB000644322 /* RNModelController+RNPartInfo.swift */,
+				2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */,
+				2C4AE7D21F277F2F00644322 /* RNSubjectInfo+.swift */,
+				2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */,
+			);
+			path = database;
+			sourceTree = "<group>";
+		};
+		2C19380A1F272DA200E4BCFB /* leesam */ = {
+			isa = PBXGroup;
+			children = (
+				2C93E43B1F2F2B8400AFD09D /* UIApplication+.swift */,
+				2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */,
+				2C19380B1F272E0000E4BCFB /* String+.swift */,
+				2C1938211F27464200E4BCFB /* Character+.swift */,
+				2C04BD221F2881910010CD69 /* Int+.swift */,
+				2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */,
+				2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */,
+				2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */,
+				2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */,
+				2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */,
+				2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */,
+				2C17FC361F43217C00DFBCAF /* Array+.swift */,
+				2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */,
+			);
+			path = leesam;
+			sourceTree = "<group>";
+		};
+		2C19380D1F272F4300E4BCFB /* data */ = {
+			isa = PBXGroup;
+			children = (
+				2C1938101F2730D700E4BCFB /* realtornote.xlsx */,
+				2C19380E1F27300A00E4BCFB /* RNDefaults.swift */,
+				2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */,
+				2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		2C1938181F273E8100E4BCFB /* sheet */ = {
+			isa = PBXGroup;
+			children = (
+				2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */,
+				2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */,
+				2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */,
+			);
+			path = sheet;
+			sourceTree = "<group>";
+		};
+		2C4AE7CB1F276F2F00644322 /* sync */ = {
+			isa = PBXGroup;
+			children = (
+				2C4AE7CC1F276F6400644322 /* RNModelController+RNExcelController.swift */,
+				2C4AE7CE1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift */,
+				2C4AE7D61F27879400644322 /* RNChapterInfo+RNExcelChapter.swift */,
+			);
+			path = sync;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +362,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C0D80B31F25C7DA002F58A5 /* Build configuration list for PBXNativeTarget "realtornote" */;
 			buildPhases = (
+				11E43D1EFD336141F960FB38 /* [CP] Check Pods Manifest.lock */,
 				2C0D80851F25C7D9002F58A5 /* Sources */,
 				2C0D80861F25C7D9002F58A5 /* Frameworks */,
 				2C0D80871F25C7D9002F58A5 /* Resources */,
+				9ECADFF9E7ACE763DBCCFDFF /* [CP] Embed Pods Frameworks */,
+				3E9714C1AC9D8F2BE3CE9CE9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -152,9 +382,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C0D80B61F25C7DA002F58A5 /* Build configuration list for PBXNativeTarget "realtornoteTests" */;
 			buildPhases = (
+				898C422087F29E8B54ECEE7B /* [CP] Check Pods Manifest.lock */,
 				2C0D809B1F25C7DA002F58A5 /* Sources */,
 				2C0D809C1F25C7DA002F58A5 /* Frameworks */,
 				2C0D809D1F25C7DA002F58A5 /* Resources */,
+				7A9D4230092899AC9F58E343 /* [CP] Embed Pods Frameworks */,
+				F505FB3508B026D9173BAC43 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,9 +403,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C0D80B91F25C7DA002F58A5 /* Build configuration list for PBXNativeTarget "realtornoteUITests" */;
 			buildPhases = (
+				10C2D4FECD9685F9738AAD46 /* [CP] Check Pods Manifest.lock */,
 				2C0D80A61F25C7DA002F58A5 /* Sources */,
 				2C0D80A71F25C7DA002F58A5 /* Frameworks */,
 				2C0D80A81F25C7DA002F58A5 /* Resources */,
+				736D043611530BB8B29ABF99 /* [CP] Embed Pods Frameworks */,
+				8F905D13E750F088DA770EB8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -238,8 +474,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
+				2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,
+				2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */,
 				2C0D80941F25C7D9002F58A5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,14 +499,192 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		10C2D4FECD9685F9738AAD46 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		11E43D1EFD336141F960FB38 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3E9714C1AC9D8F2BE3CE9CE9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		736D043611530BB8B29ABF99 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A9D4230092899AC9F58E343 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteTests/Pods-realtornoteTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		898C422087F29E8B54ECEE7B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8F905D13E750F088DA770EB8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9ECADFF9E7ACE763DBCCFDFF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F505FB3508B026D9173BAC43 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteTests/Pods-realtornoteTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2C0D80851F25C7D9002F58A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C4AE7D31F277F2F00644322 /* RNSubjectInfo+.swift in Sources */,
+				2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */,
+				2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */,
+				2CDA890F1F41AE0D0026C966 /* RNQuestionInfo.swift in Sources */,
+				2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */,
 				2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */,
+				2CDA89111F41B2B50026C966 /* RNQuestionAnswerInfo.swift in Sources */,
+				2C4AE7CF1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift in Sources */,
+				2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */,
+				2C4AE7CA1F276DB000644322 /* RNModelController+RNPartInfo.swift in Sources */,
+				2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */,
+				2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */,
+				2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */,
+				2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */,
+				2C04BD231F2881910010CD69 /* Int+.swift in Sources */,
+				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
+				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
+				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
+				2C93E43C1F2F2B8400AFD09D /* UIApplication+.swift in Sources */,
+				2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */,
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
-				2C0D808F1F25C7D9002F58A5 /* FirstViewController.swift in Sources */,
+				2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */,
+				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
+				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
+				2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */,
+				2C19380C1F272E0000E4BCFB /* String+.swift in Sources */,
+				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
+				2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */,
+				2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */,
+				2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */,
+				2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */,
+				2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */,
+				2C4AE7C61F27631C00644322 /* RNModelController+RNSubjectInfo.swift in Sources */,
+				2C19381E1F273EFB00E4BCFB /* RNExcelSubject.swift in Sources */,
+				2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */,
+				2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */,
+				2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */,
+				2C1938221F27464200E4BCFB /* Character+.swift in Sources */,
+				2C4AE7C81F27689D00644322 /* RNModelController+RNChapterInfo.swift in Sources */,
+				2C4AE7D51F27812700644322 /* RNChapterInfo+.swift in Sources */,
+				2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */,
+				2CC9AB411F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift in Sources */,
+				2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +724,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2C0D80931F25C7D9002F58A5 /* Base */,
+				2CC9AB461F2E051D00C8357E /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -315,6 +733,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2C0D80981F25C7D9002F58A5 /* Base */,
+				2CC9AB471F2E051F00C8357E /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -326,6 +745,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -377,6 +797,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -419,10 +840,12 @@
 		};
 		2C0D80B41F25C7DA002F58A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C423D66454905F65DB508DFC /* Pods-realtornote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornote/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -432,10 +855,12 @@
 		};
 		2C0D80B51F25C7DA002F58A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB2179A845B8C7BF6C822231 /* Pods-realtornote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornote/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -445,6 +870,7 @@
 		};
 		2C0D80B71F25C7DA002F58A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF7AF745B3001E32D220084D /* Pods-realtornoteTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -460,6 +886,7 @@
 		};
 		2C0D80B81F25C7DA002F58A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E78BAF2AD18CB5FA29562F7E /* Pods-realtornoteTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,6 +902,7 @@
 		};
 		2C0D80BA1F25C7DA002F58A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE0136927338BEC3E7347F32 /* Pods-realtornoteUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = M29A6H95KD;
@@ -489,6 +917,7 @@
 		};
 		2C0D80BB1F25C7DA002F58A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B0D0A9B5FFBBCCD6E05E267 /* Pods-realtornoteUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = M29A6H95KD;
@@ -520,6 +949,7 @@
 				2C0D80B51F25C7DA002F58A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C0D80B61F25C7DA002F58A5 /* Build configuration list for PBXNativeTarget "realtornoteTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +958,7 @@
 				2C0D80B81F25C7DA002F58A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C0D80B91F25C7DA002F58A5 /* Build configuration list for PBXNativeTarget "realtornoteUITests" */ = {
 			isa = XCConfigurationList;
@@ -536,8 +967,22 @@
 				2C0D80BB1F25C7DA002F58A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2C4AE7BE1F27581E00644322 /* realtornote.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2C4AE7BF1F27581E00644322 /* realtornote.xcdatamodel */,
+			);
+			currentVersion = 2C4AE7BF1F27581E00644322 /* realtornote.xcdatamodel */;
+			path = realtornote.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2C0D80811F25C7D9002F58A5 /* Project object */;
 }

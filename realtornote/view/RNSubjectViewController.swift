@@ -1,0 +1,256 @@
+//
+//  RNSubjectViewController.swift
+//  realtornote
+//
+//  Created by 영준 이 on 2017. 7. 26..
+//  Copyright © 2017년 leesam. All rights reserved.
+//
+
+import UIKit
+import DownPicker
+
+class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, RNPartViewControllerDelegate {
+
+    var subject : RNSubjectInfo?;
+    var chapter : RNChapterInfo!;
+    var chapters : [RNChapterInfo] = [];
+    var parts : [RNPartInfo]{
+        get{
+            return self.chapter.chapterParts.sorted(by: { (left, right) -> Bool in
+                return left.seq < right.seq;
+            });
+        }
+    }
+    var part : RNPartInfo!{
+        /*get{
+            return (self.viewControllers?.first as? RNPartViewController)?.part;
+        }*/
+        didSet{
+            var partView : UIViewController?;
+            
+            guard self.part != nil else{
+                return;
+            }
+            
+            if let view = self.partViewControllers[Int(self.part.seq ?? 0)]{
+                partView = view;
+                
+            }else{
+                partView = self.createPartView(self.part);
+            }
+            
+            if self.chapter?.seq != self.part.chapter?.seq{
+                /*self.subject?.subjectChapters.sorted(by: { (left, right) -> Bool in
+                    return left.seq < right.seq;
+                }) ?? [];*/
+                guard self.chapter != nil else{
+                    return;
+                }
+                
+                self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.part.chapter!) ?? 0;
+                self.onChapterSelected(self.chapterPicker.downPicker);
+            }
+            
+            self.setViewControllers([partView!], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil);
+        }
+    }
+    var partViewControllers : [Int : RNPartViewController] = [:];
+    var partContentFontSize : CGFloat?;
+    
+    var chapterPicker : UIDownPicker!;
+    
+    var modelController : RNModelController{
+        get{
+            return RNModelController.shared;
+        }
+    }
+    
+    @IBOutlet weak var chapterSelectButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        if RNDefaults.ContentSize > 0{
+            self.partContentFontSize = CGFloat(RNDefaults.ContentSize);
+        }
+        
+        self.navigationItem.title = subject?.name;
+        
+        self.chapters = self.subject?.subjectChapters.sorted(by: { (left, right) -> Bool in
+            return left.seq < right.seq;
+        }) ?? [];
+        self.chapterPicker = UIDownPicker(data: chapters.map({ (chp) -> String in
+            return "\(chp.seq.roman). \(chp.name ?? "")";
+        }));
+        
+        self.chapterPicker.downPicker.setToolbarDoneButtonText("완료");
+        self.chapterPicker.downPicker.setToolbarCancelButtonText("취소");
+        
+        if self.chapter == nil{
+            if self.part != nil{
+                self.chapter = self.part!.chapter;
+            }else{
+                self.chapter = self.chapters.first(where: { (chapter) -> Bool in
+                    return Int(chapter.no) == RNDefaults.LastChapter[Int(self.subject?.no ?? 1).description];
+                });
+            }
+        }
+        
+        if self.chapter == nil{
+            self.chapter = self.chapters.first;
+        }
+        
+        self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.chapter!) ?? 0;
+            
+        
+        self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "")", for: .normal);
+        self.chapterPicker.downPicker.addTarget(self, action: #selector(onChapterSelected(_:)), for: .valueChanged);
+        self.view.addSubview(self.chapterPicker);
+        
+        self.delegate = self;
+        self.dataSource = self;
+        
+        if self.part != nil{
+            RNDefaults.LastPart[Int((self.part.chapter?.no)!).description] = Int(self.part?.seq ?? 1);
+        }
+        self.updateParts();
+        
+        UIPageControl.appearance().backgroundColor = "#81d4fa".toUIColor();
+        UIPageControl.appearance().tintColor = "#0288d1".toUIColor();
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func onShare(_ button: UIBarButtonItem) {
+        ReviewManager.shared?.show(true);
+    }
+    
+    func createPartView(_ part : RNPartInfo) -> RNPartViewController{
+        var value : RNPartViewController! = self.storyboard?.instantiateViewController(withIdentifier: "RNPartViewController") as? RNPartViewController;
+        value?.part = part;
+        self.partViewControllers[Int(part.seq)] = value;
+        value.delegate = self;
+        
+        return value;
+    }
+    
+    func updateParts(){
+        self.partViewControllers = [:];
+        self.parts.forEach { (part) in
+            self.partViewControllers[Int(part.seq)] = self.createPartView(part);
+        }
+        
+        var storedPart = RNDefaults.LastPart[Int(self.chapter.no).description] ?? 1;
+        var view : RNPartViewController! = self.partViewControllers[max(storedPart, 1)];
+        //var view : RNPartViewController! = self.createPartView(self.parts.first!);
+        //self.partViewControllers[Int(view.part.seq)] = view;
+        self.setViewControllers([view], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil);
+        
+        RNDefaults.setLastChapter(subject: Int(self.subject?.no ?? 1), value: Int(self.chapter?.no ?? 1));
+    }
+    
+    @IBAction func onChangeChapter(_ sender: UIButton) {
+        self.chapterPicker.becomeFirstResponder();
+    }
+    
+    func onChapterSelected(_ picker: DownPicker){
+        guard self.chapter != self.chapters[picker.selectedIndex] else{
+            return;
+        }
+        
+        self.chapter = self.chapters[picker.selectedIndex];
+        self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "")", for: .normal);
+        //refresh
+        self.updateParts();
+        print("selected \(self.chapter.name)");
+    }
+    
+    // MARK: UIPageViewControllerDataSource
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        var value : RNPartViewController?;
+        var partViewController = viewController as? RNPartViewController;
+        var part : RNPartInfo! = partViewController?.part;
+        
+        /*guard part.seq ?? 0 > 1 else{
+            return value;
+        }*/
+        
+        var newIndex = Int(part.seq - 1);
+        if newIndex < 1{
+            newIndex = self.parts.count;
+        }
+        
+        if let view = self.partViewControllers[newIndex]{
+            value = view;
+        }else{
+            value = self.createPartView(self.parts[min(newIndex - 1, self.parts.count - 1)]);
+        }
+        
+        //value?.contentFontSize = self.partContentFontSize;
+        return value;
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        var value : RNPartViewController?;
+        var partViewController = viewController as? RNPartViewController;
+        var part : RNPartInfo! = partViewController?.part;
+
+        /*guard Int(part.seq ?? 0) < self.chapter.chapterParts.count else{
+            return value;
+        }*/
+    
+        var newIndex = Int(part.seq + 1);
+        if newIndex > self.chapter.chapterParts.count{
+            newIndex = 1;
+        }
+        
+        if let view = self.partViewControllers[newIndex]{
+            value = view;
+        }else{
+            value = self.createPartView(self.parts[max(0, newIndex - 1)]);
+        }
+        
+        //value?.contentFontSize = self.partContentFontSize;
+        return value;
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return self.parts.count
+    }
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        var view = pageViewController.viewControllers?.first as? RNPartViewController;
+        return Int(view!.part.seq - 1) ?? 0;
+        //return Int(view?.part.seq ?? 0) - 1;
+    }
+    
+    // MARK: UIPageViewControllerDelegate
+    
+    // MARK: RNPartViewControllerDelegate
+    func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat) {
+        RNDefaults.ContentSize = Float(size);
+    }
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if let nav = segue.destination as? UINavigationController{
+            if let view = nav.viewControllers.first as? RNQuestionViewController{
+                var partView = self.viewControllers?.first as? RNPartViewController;
+                var paragraphs : [LSDocumentRecognizer.LSDocumentParagraph] = [];
+                for paragraph in partView!.paragraphs{
+                    paragraphs.append(paragraph)
+                    paragraphs.append(contentsOf: paragraph.allParagraphs);
+                }
+                
+                view.questions = RNQuestionInfo.createQuestions(paragraphs);
+            }
+        }
+    }
+}

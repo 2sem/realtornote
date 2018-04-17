@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>ko_KR</string>
+	<key>CFBundleDisplayName</key>
+	<string>공인중개사요약집</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,9 +17,39 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakaod3be13c89a776659651eef478d4e4268</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
+	<key>GoogleADUnitID</key>
+	<dict>
+		<key>FullAd</key>
+		<string>ca-app-pub-9684378399371172/1235951829</string>
+		<key>TableBanner</key>
+		<string>ca-app-pub-9684378399371172/3132800505</string>
+	</dict>
+	<key>KAKAO_APP_KEY</key>
+	<string>d3be13c89a776659651eef478d4e4268</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaotalk-5.9.7</string>
+		<string>kakaod3be13c89a776659651eef478d4e4268</string>
+		<string>kakaolink</string>
+		<string>fb</string>
+		<string>fbapi</string>
+		<string>fb-message-api</string>
+		<string>fbauth2</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
