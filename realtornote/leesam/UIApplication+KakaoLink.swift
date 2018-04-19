@@ -8,16 +8,17 @@
 
 import Foundation
 import KakaoLink
+import KakaoMessageTemplate
 
 extension UIApplication{
     func shareByKakao(){
-        var kakaoLink = KLKLinkObject();
-        var kakaoContent = KLKContentObject.init { (builder) in
+        var kakaoLink = KMTLinkObject();
+        var kakaoContent = KMTContentObject.init { (builder) in
             builder.title = UIApplication.shared.displayName ?? "";
             builder.imageURL = URL(string: "https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/f0/94/d4/f094d4c5-ae50-87db-4970-26a5a9c194c1/pr_source.png/150x150bb.jpg")!;
                 //URL(string: "http://mud-kage.kakao.co.kr/14/dn/btqgX0q8UNy/IIuo0tK5W7TRUviC4VFBEK/o.jpg")!;
                 //URL(string: "https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/68/6a/19/686a194c-b5a8-ccd5-d63d-7fc0a3e25e6f/pr_source.png/150x150bb.jpg")!;
-            builder.link = KLKLinkObject.init(builderBlock: { (linkBuilder) in
+            builder.link = KMTLinkObject.init(builderBlock: { (linkBuilder) in
                 var urlComponents = URLComponents(string: "http://search.daum.net/search");
                 urlComponents?.queryItems = [URLQueryItem(name: "q", value: "공인중개사요약집")];
                 linkBuilder.webURL = urlComponents!.url!;
@@ -28,21 +29,21 @@ extension UIApplication{
         //kakaoContent.imageHeight = 120; //160
         //kakaoContent.desc = "내 손안의 민주주의";
         
-        var kakaoTemplate = KLKFeedTemplate.init(builderBlock: { (kakaoBuilder) in
+        var kakaoTemplate = KMTFeedTemplate.init(builderBlock: { (kakaoBuilder) in
             kakaoBuilder.content = kakaoContent;
             //kakaoBuilder.buttons?.add(kakaoWebButton);
             //link can't have more than two buttons
             // - content's url, button1 url, button2 url
-            kakaoBuilder.addButton(KLKButtonObject(builderBlock: { (buttonBuilder) in
-                buttonBuilder.link = KLKLinkObject(builderBlock: { (linkBuilder) in
+            kakaoBuilder.addButton(KMTButtonObject(builderBlock: { (buttonBuilder) in
+                buttonBuilder.link = KMTLinkObject(builderBlock: { (linkBuilder) in
                     linkBuilder.webURL = URL(string: "https://itunes.apple.com/us/app/id1265759928?mt=8");
                     linkBuilder.mobileWebURL = URL(string: "https://itunes.apple.com/us/app/id1265759928?mt=8");
                 })
                 buttonBuilder.title = "애플 앱스토어";
             }));
             
-            kakaoBuilder.addButton(KLKButtonObject(builderBlock: { (buttonBuilder) in
-                buttonBuilder.link = KLKLinkObject(builderBlock: { (linkBuilder) in
+            kakaoBuilder.addButton(KMTButtonObject(builderBlock: { (buttonBuilder) in
+                buttonBuilder.link = KMTLinkObject(builderBlock: { (linkBuilder) in
                     linkBuilder.webURL = URL(string: "https://play.google.com/store/apps/details?id=kr.co.joonhyun.realtorone&hl=ko");
                     linkBuilder.mobileWebURL = URL(string: "https://play.google.com/store/apps/details?id=kr.co.joonhyun.realtorone&hl=ko");
                     //linkBuilder.mobileWebURL = URL(string: "www.daum.net");
@@ -78,31 +79,31 @@ extension UIApplication{
     }
     
     func _shareByKakao(){
-        var kakaoNews1 = KLKContentObject(title: "‘문자행동’ 어플 개발자 인터뷰···“민주주의 발전에 한손 보탤 수 있길”", imageURL: URL(string: "http://img.khan.co.kr/news/2017/06/23/l_2017062301003119000246131.jpg")!, link: KLKLinkObject(builderBlock: { (linkBuilder) in
+        var kakaoNews1 = KMTContentObject(title: "‘문자행동’ 어플 개발자 인터뷰···“민주주의 발전에 한손 보탤 수 있길”", imageURL: URL(string: "http://img.khan.co.kr/news/2017/06/23/l_2017062301003119000246131.jpg")!, link: KMTLinkObject(builderBlock: { (linkBuilder) in
             linkBuilder.webURL = URL(string: "http://news.khan.co.kr/kh_news/khan_art_view.html?artid=201706231651011&code=940100");
             //linkBuilder.webURL = URL(string: "http://www.daum.net");
             linkBuilder.mobileWebURL = linkBuilder.webURL;
         }));
         kakaoNews1.desc = "경향신문";
-        var kakaoNews2 = KLKContentObject(title: "국회의원 연락처 한 곳에…‘문자행동’ 어플까지 나왔네", imageURL: URL(string: "http://img.hani.co.kr/imgdb/resize/2017/0623/00501745_20170623.JPG")!, link: KLKLinkObject(builderBlock: { (linkBuilder) in
+        var kakaoNews2 = KMTContentObject(title: "국회의원 연락처 한 곳에…‘문자행동’ 어플까지 나왔네", imageURL: URL(string: "http://img.hani.co.kr/imgdb/resize/2017/0623/00501745_20170623.JPG")!, link: KMTLinkObject(builderBlock: { (linkBuilder) in
             linkBuilder.webURL = URL(string: "http://www.hani.co.kr/arti/society/society_general/799996.html");
             linkBuilder.mobileWebURL = linkBuilder.webURL;
         }));
         kakaoNews2.desc = "한겨례";
-        var kakaoNews3 = KLKContentObject(builderBlock: { (contentBuilder) in
+        var kakaoNews3 = KMTContentObject(builderBlock: { (contentBuilder) in
             contentBuilder.title = "\"문자 폭탄\" VS \"문자 행동\" 논란 속에…'의견 앱' 등장";
             contentBuilder.desc = "SBS";
             contentBuilder.imageURL = URL(string: "https://www.youtube.com/watch?v=0n0oQkLX_4s")!;
-            contentBuilder.link = KLKLinkObject(builderBlock: { (linkBuilder) in
+            contentBuilder.link = KMTLinkObject(builderBlock: { (linkBuilder) in
                 linkBuilder.webURL = URL(string: "https://youtu.be/0n0oQkLX_4s");
                 linkBuilder.mobileWebURL = linkBuilder.webURL;
             });
         })
         //kakaoNews3.desc = "SBS";
         
-        var kakaoTemplate = KLKListTemplate(builderBlock: { (kakaoBuilder) in
+        var kakaoTemplate = KMTListTemplate(builderBlock: { (kakaoBuilder) in
             kakaoBuilder.headerTitle = "문자행동 - 내 손안의 민주주의";
-            kakaoBuilder.headerLink = KLKLinkObject(builderBlock: { (linkBuilder) in
+            kakaoBuilder.headerLink = KMTLinkObject(builderBlock: { (linkBuilder) in
                 var searchUrl = URLComponents(string: "http://search.daum.net/search");
                 searchUrl?.queryItems = [URLQueryItem(name: "q", value: "문자행동")];
                 linkBuilder.webURL = searchUrl?.url;
@@ -111,8 +112,8 @@ extension UIApplication{
             //kakaoBuilder.buttons?.add(kakaoWebButton);
             //link can't have more than two buttons
             // - content's url, button1 url, button2 url
-            kakaoBuilder.addButton(KLKButtonObject(builderBlock: { (buttonBuilder) in
-                buttonBuilder.link = KLKLinkObject(builderBlock: { (linkBuilder) in
+            kakaoBuilder.addButton(KMTButtonObject(builderBlock: { (buttonBuilder) in
+                buttonBuilder.link = KMTLinkObject(builderBlock: { (linkBuilder) in
                     linkBuilder.webURL = URL(string: "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(UIApplication.shared.appId)&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8");
                     //linkBuilder.webURL = URL(string: "https://www.youtube.com/watch?v=0n0oQkLX_4s");
                     
@@ -121,8 +122,8 @@ extension UIApplication{
                 buttonBuilder.title = "응원하기";
             }));
             
-            kakaoBuilder.addButton(KLKButtonObject(builderBlock: { (buttonBuilder) in
-                buttonBuilder.link = KLKLinkObject(builderBlock: { (linkBuilder) in
+            kakaoBuilder.addButton(KMTButtonObject(builderBlock: { (buttonBuilder) in
+                buttonBuilder.link = KMTLinkObject(builderBlock: { (linkBuilder) in
                     //linkBuilder.webURL = URL(string: "https://itunes.apple.com/us/app/id1243863489?mt=8");
                     //linkBuilder.mobileWebURL = URL(string: "https://itunes.apple.com/us/app/id1243863489?mt=8");
                 })

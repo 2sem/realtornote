@@ -13,7 +13,11 @@ import UIKit
 extension UIApplication{
     var appId : String{
         get{
-            return "1265759928";
+            guard let value = Bundle.main.infoDictionary?["Itunes App Id"] as? String else{
+                preconditionFailure("Add 'Itunes App Id' info Info.plist.");
+            }
+            
+            return value;
         }
     }
     
@@ -55,8 +59,9 @@ extension UIApplication{
         self.open(self.urlForItunes, options: [:], completionHandler: nil) ;
     }
     
-    func openReview(_ appId : String = "1265759928", completion: ((Bool) -> Void)? = nil){
-        var rateUrl = URL(string: "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(appId)&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8");
+    func openReview(_ appId : String = "", completion: ((Bool) -> Void)? = nil){
+        let appId = appId.isEmpty ? self.appId : appId;
+        let rateUrl = URL(string: "https://itunes.apple.com/app/myapp/id\(appId)?mt=8&action=write-review");
         
         self.open(rateUrl!, options: [:], completionHandler: completion);
     }

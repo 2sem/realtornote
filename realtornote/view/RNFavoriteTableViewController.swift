@@ -46,9 +46,9 @@ class RNFavoriteTableViewController: UITableViewController {
             return;
         }
         
-        var main = self.tabBarController as? MainViewController;
+        let tabBar = self.tabBarController as? RNTabBarController;
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            main?.moveToPart(self.partToMove);
+            tabBar?.moveToPart(self.partToMove);
         }
     }
     
@@ -77,9 +77,8 @@ class RNFavoriteTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: RNFavoriteTableViewController.CellID, for: indexPath) as? RNFavoriteTableViewCell;
 
         // Configure the cell...
-        var favor = self.favorites[indexPath.row];
+        let favor = self.favorites[indexPath.row];
         cell?.favor = favor;
-        
 
         return cell!
     }
@@ -96,13 +95,12 @@ class RNFavoriteTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            var cell = tableView.cellForRow(at: indexPath) as? RNFavoriteTableViewCell;
-            guard cell != nil else{
+            guard let cell = tableView.cellForRow(at: indexPath) as? RNFavoriteTableViewCell else{
                 return;
             }
             
-            self.favorites.remove(at: self.favorites.index(of: cell!.favor)!);
-            self.modelController.removeFavorite(cell!.favor);
+            self.favorites.remove(at: self.favorites.index(of: cell.favor)!);
+            self.modelController.removeFavorite(cell.favor);
             self.modelController.saveChanges();
             tableView.deleteRows(at: [indexPath], with: .fade);
         } else if editingStyle == .insert {
@@ -112,7 +110,7 @@ class RNFavoriteTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.hidesBottomBarWhenPushed = false;
-        var favorite = self.favorites[indexPath.row];
+        let favorite = self.favorites[indexPath.row];
         self.partToMove = favorite.part;
         self.navigationController?.popViewController(animated: true);
         /*var main = self.tabBarController as? MainViewController;
@@ -143,7 +141,7 @@ class RNFavoriteTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let view = segue.destination as? RNPartViewController{
-            var part = self.favorites[self.tableView.indexPathForSelectedRow?.row ?? 0].part;
+            let part = self.favorites[self.tableView.indexPathForSelectedRow?.row ?? 0].part;
             view.part = part;
         }
     }

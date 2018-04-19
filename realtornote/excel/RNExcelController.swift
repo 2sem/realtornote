@@ -13,30 +13,28 @@ class RNExcelController : NSObject{
     
     var version : String{
         get{
-            var cell = self.infoSheet?.cell(forCellReference: "C2");
-            
-            return cell?.stringValue() ?? "";
+            return self.infoSheet?.cell(forCellReference: "C2")?
+                .stringValue() ?? "";
         }
     }
     
     var notice : String{
         get{
-            var cell = self.infoSheet?.cell(forCellReference: "C3");
-            
-            return cell?.stringValue() ?? "";
+            return self.infoSheet?.cell(forCellReference: "C3")?
+                .stringValue() ?? "";
         }
     }
     
     var noticeDate : Date{
         get{
-            var cell = self.infoSheet?.cell(forCellReference: "C4");
+            let cell = self.infoSheet?.cell(forCellReference: "C4");
             return (cell?.stringValue() ?? "").toDate("MM/dd/yy")!;
         }
     }
     
     var patch : String{
         get{
-            var cell = self.infoSheet?.cell(forCellReference: "C5");
+            let cell = self.infoSheet?.cell(forCellReference: "C5");
             
             return cell?.stringValue() ?? "";
         }
@@ -87,7 +85,7 @@ class RNExcelController : NSObject{
         
         while(true){
             ch = Character(beginCell).increase(UInt32(i));
-            var cell = sheet.cell(forCellReference: "\(ch)\(line)");
+            let cell = sheet.cell(forCellReference: "\(ch)\(line)");
             guard !(cell?.stringValue() ?? "").isEmpty else{
                 break;
             }

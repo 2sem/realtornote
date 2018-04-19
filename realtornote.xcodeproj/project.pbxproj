@@ -18,6 +18,8 @@
 		2C0D80A41F25C7DA002F58A5 /* realtornoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80A31F25C7DA002F58A5 /* realtornoteTests.swift */; };
 		2C0D80AF1F25C7DA002F58A5 /* realtornoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */; };
 		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
+		2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1272372085EAB8009AF35B /* NSNotification+.swift */; };
+		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
 		2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C17FC361F43217C00DFBCAF /* Array+.swift */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
 		2C19380C1F272E0000E4BCFB /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380B1F272E0000E4BCFB /* String+.swift */; };
@@ -29,6 +31,7 @@
 		2C1938221F27464200E4BCFB /* Character+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938211F27464200E4BCFB /* Character+.swift */; };
 		2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */; };
 		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
+		2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */; };
 		2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */; };
 		2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */; };
 		2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */; };
@@ -46,12 +49,12 @@
 		2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
 		2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */; };
-		2C93E43C1F2F2B8400AFD09D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43B1F2F2B8400AFD09D /* UIApplication+.swift */; };
 		2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */; };
 		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
 		2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */; };
 		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
 		2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4451F2F71F900AFD09D /* Settings.bundle */; };
+		2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C95BEC92038007A004DCD95 /* RNTabBarController.swift */; };
 		2CC9AB411F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */; };
 		2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */; };
 		2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */; };
@@ -98,6 +101,8 @@
 		2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = realtornoteUITests.swift; sourceTree = "<group>"; };
 		2C0D80B01F25C7DA002F58A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2C1272372085EAB8009AF35B /* NSNotification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+.swift"; sourceTree = "<group>"; };
+		2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C17FC361F43217C00DFBCAF /* Array+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
 		2C19380B1F272E0000E4BCFB /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -109,6 +114,7 @@
 		2C1938211F27464200E4BCFB /* Character+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+.swift"; sourceTree = "<group>"; };
 		2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelPart.swift; sourceTree = "<group>"; };
 		2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelChapter.swift"; sourceTree = "<group>"; };
+		2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNInternetViewController.swift; sourceTree = "<group>"; };
 		2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSCountDownLabel.swift; sourceTree = "<group>"; };
 		2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSDocumentRecognizer.swift; sourceTree = "<group>"; };
 		2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelPart.swift"; sourceTree = "<group>"; };
@@ -132,6 +138,7 @@
 		2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
 		2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
 		2C93E4451F2F71F900AFD09D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		2C95BEC92038007A004DCD95 /* RNTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNTabBarController.swift; sourceTree = "<group>"; };
 		2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNFavoriteInfo.swift"; sourceTree = "<group>"; };
 		2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewController.swift; sourceTree = "<group>"; };
 		2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewCell.swift; sourceTree = "<group>"; };
@@ -211,6 +218,7 @@
 				2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */,
 				2CDA890A1F41A5E40026C966 /* RNQuestionViewController.swift */,
 				2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */,
+				2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -248,6 +256,7 @@
 				2C04BD1C1F286CF30010CD69 /* view */,
 				2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */,
 				2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */,
+				2C95BEC92038007A004DCD95 /* RNTabBarController.swift */,
 				2C0D80BE1F25C989002F58A5 /* MainViewController.swift */,
 				2C0D80921F25C7D9002F58A5 /* Main.storyboard */,
 				2C0D80951F25C7D9002F58A5 /* Assets.xcassets */,
@@ -318,8 +327,10 @@
 				2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */,
 				2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */,
 				2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */,
+				2C1272372085EAB8009AF35B /* NSNotification+.swift */,
 				2C17FC361F43217C00DFBCAF /* Array+.swift */,
 				2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */,
+				2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */,
 			);
 			path = leesam;
 			sourceTree = "<group>";
@@ -367,7 +378,6 @@
 				2C0D80861F25C7D9002F58A5 /* Frameworks */,
 				2C0D80871F25C7D9002F58A5 /* Resources */,
 				9ECADFF9E7ACE763DBCCFDFF /* [CP] Embed Pods Frameworks */,
-				3E9714C1AC9D8F2BE3CE9CE9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -386,8 +396,6 @@
 				2C0D809B1F25C7DA002F58A5 /* Sources */,
 				2C0D809C1F25C7DA002F58A5 /* Frameworks */,
 				2C0D809D1F25C7DA002F58A5 /* Resources */,
-				7A9D4230092899AC9F58E343 /* [CP] Embed Pods Frameworks */,
-				F505FB3508B026D9173BAC43 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -407,8 +415,6 @@
 				2C0D80A61F25C7DA002F58A5 /* Sources */,
 				2C0D80A71F25C7DA002F58A5 /* Frameworks */,
 				2C0D80A81F25C7DA002F58A5 /* Resources */,
-				736D043611530BB8B29ABF99 /* [CP] Embed Pods Frameworks */,
-				8F905D13E750F088DA770EB8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -427,23 +433,26 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = leesam;
 				TargetAttributes = {
 					2C0D80881F25C7D9002F58A5 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = M29A6H95KD;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
 					2C0D809E1F25C7DA002F58A5 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = M29A6H95KD;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2C0D80881F25C7D9002F58A5;
 					};
 					2C0D80A91F25C7DA002F58A5 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = M29A6H95KD;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2C0D80881F25C7D9002F58A5;
 					};
@@ -506,13 +515,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-realtornoteUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		11E43D1EFD336141F960FB38 /* [CP] Check Pods Manifest.lock */ = {
@@ -521,58 +533,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-realtornote-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3E9714C1AC9D8F2BE3CE9CE9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		736D043611530BB8B29ABF99 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7A9D4230092899AC9F58E343 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteTests/Pods-realtornoteTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		898C422087F29E8B54ECEE7B /* [CP] Check Pods Manifest.lock */ = {
@@ -581,28 +551,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-realtornoteTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		8F905D13E750F088DA770EB8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9ECADFF9E7ACE763DBCCFDFF /* [CP] Embed Pods Frameworks */ = {
@@ -611,28 +569,30 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DownPicker/DownPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
+				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/XMLDictionary/XMLDictionary.framework",
+				"${BUILT_PRODUCTS_DIR}/XlsxReaderWriter/XlsxReaderWriter.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DownPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XMLDictionary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XlsxReaderWriter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F505FB3508B026D9173BAC43 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-realtornoteTests/Pods-realtornoteTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -647,9 +607,11 @@
 				2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */,
 				2CDA890F1F41AE0D0026C966 /* RNQuestionInfo.swift in Sources */,
 				2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */,
+				2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */,
 				2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */,
 				2CDA89111F41B2B50026C966 /* RNQuestionAnswerInfo.swift in Sources */,
 				2C4AE7CF1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift in Sources */,
+				2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */,
 				2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */,
 				2C4AE7CA1F276DB000644322 /* RNModelController+RNPartInfo.swift in Sources */,
 				2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */,
@@ -660,9 +622,9 @@
 				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
 				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
 				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
-				2C93E43C1F2F2B8400AFD09D /* UIApplication+.swift in Sources */,
 				2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */,
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
+				2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */,
 				2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */,
 				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
@@ -680,6 +642,7 @@
 				2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */,
 				2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */,
 				2C1938221F27464200E4BCFB /* Character+.swift in Sources */,
+				2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */,
 				2C4AE7C81F27689D00644322 /* RNModelController+RNChapterInfo.swift in Sources */,
 				2C4AE7D51F27812700644322 /* RNChapterInfo+.swift in Sources */,
 				2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */,
@@ -752,15 +715,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -804,15 +775,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -843,13 +822,17 @@
 			baseConfigurationReference = C423D66454905F65DB508DFC /* Pods-realtornote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -858,13 +841,16 @@
 			baseConfigurationReference = AB2179A845B8C7BF6C822231 /* Pods-realtornote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -879,7 +865,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/realtornote.app/realtornote";
 			};
 			name = Debug;
@@ -895,7 +882,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/realtornote.app/realtornote";
 			};
 			name = Release;
@@ -910,7 +898,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = realtornote;
 			};
 			name = Debug;
@@ -925,7 +914,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = realtornote;
 			};
 			name = Release;

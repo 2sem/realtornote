@@ -23,16 +23,16 @@ class RNTabBarController: UITabBarController {
             RNModelController.shared.sync(RNExcelController.Default);
         }
         // Do any additional setup after loading the view.
+        //apply tab title as names of subjects
         for (i, viewController) in (self.viewControllers ?? []).enumerated(){
-            var subject = RNModelController.shared.findSubject(i+1);
-            guard subject != nil else{
+            guard let subject = RNModelController.shared.findSubject(i+1) else{
                 return;
             }
             
-            var nav = viewController as? UINavigationController;
-            var subjectView = nav?.visibleViewController as? RNSubjectViewController;
+            let nav = viewController as? UINavigationController;
+            let subjectView = nav?.visibleViewController as? RNSubjectViewController;
             
-            viewController.tabBarItem.title = subject?.name;
+            viewController.tabBarItem.title = subject.name;
             subjectView?.subject = subject;
         }
         
@@ -45,13 +45,13 @@ class RNTabBarController: UITabBarController {
     }
     
     func moveToPart(_ part : RNPartInfo){
-        var subject = part.chapter?.subject;
+        let subject = part.chapter?.subject;
         
-        self.selectedIndex = (subject?.no ?? 0) - 1;
+        self.selectedIndex = Int(subject?.no ?? 0) - 1;
         RNDefaults.LastSubject = self.selectedIndex;
 
-        var nav = self.selectedViewController as? UINavigationController;
-        var view = nav?.viewControllers.first as? RNSubjectViewController;
+        let nav = self.selectedViewController as? UINavigationController;
+        let view = nav?.viewControllers.first as? RNSubjectViewController;
         view?.part = part;
     }
 

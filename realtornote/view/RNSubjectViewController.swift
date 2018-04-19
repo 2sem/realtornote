@@ -32,7 +32,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                 return;
             }
             
-            if let view = self.partViewControllers[Int(self.part.seq ?? 0)]{
+            if let view = self.partViewControllers[Int(self.part.seq)]{
                 partView = view;
                 
             }else{
@@ -66,9 +66,12 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     @IBOutlet weak var chapterSelectButton: UIButton!
+    var leftButton : UIButton!;
+    var rightButton : UIButton!;
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         if RNDefaults.ContentSize > 0{
             self.partContentFontSize = CGFloat(RNDefaults.ContentSize);
@@ -103,9 +106,10 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.chapter!) ?? 0;
             
         
-        self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "")", for: .normal);
+        self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "") ▼", for: .normal);
         self.chapterPicker.downPicker.addTarget(self, action: #selector(onChapterSelected(_:)), for: .valueChanged);
         self.view.addSubview(self.chapterPicker);
+        self.chapterSelectButton.sizeToFit();
         
         self.delegate = self;
         self.dataSource = self;
@@ -115,8 +119,33 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         }
         self.updateParts();
         
-        UIPageControl.appearance().backgroundColor = "#81d4fa".toUIColor();
-        UIPageControl.appearance().tintColor = "#0288d1".toUIColor();
+        let pageControl = UIPageControl.appearance();
+        pageControl.backgroundColor = "#81d4fa".toUIColor();
+        pageControl.tintColor = "#0288d1".toUIColor();
+        
+        return;
+        /*self.leftButton = UIButton();
+        self.leftButton.setImage(UIImage.init(named: "icon_left"), for: .normal);
+        self.leftButton.isUserInteractionEnabled = false;
+        self.view.addSubview(self.leftButton);
+        self.leftButton.widthAnchor.constraint(equalToConstant: 44).isActive = true;
+        self.leftButton.heightAnchor.constraint(equalToConstant: 25).isActive = true;
+        self.leftButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true;
+        self.leftButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true;
+        //self.view.bringSubview(toFront: self.leftButton);
+        //self.leftButton.tintColor = UIColor.white;
+        
+        self.rightButton = UIButton();
+        self.rightButton.setImage(UIImage.init(named: "icon_right"), for: .normal);
+        self.rightButton.isUserInteractionEnabled = false;
+        //self.view.bringSubview(toFront: self.rightButton);
+        //self.rightButton.tintColor = UIColor.white;
+        
+        pageControl.addSubview(self.rightButton);
+        self.rightButton.heightAnchor.constraint(equalToConstant: 25).isActive = true;
+        self.rightButton.widthAnchor.constraint(equalToConstant: 44).isActive = true;
+        //self.rightButton.trailingAnchor.constraint(equalTo: pageControl.trailingAnchor).isActive = true;
+        //self.rightButton.bottomAnchor.constraint(equalTo: pageControl.bottomAnchor).isActive = true;*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -129,8 +158,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     func createPartView(_ part : RNPartInfo) -> RNPartViewController{
-        var value : RNPartViewController! = self.storyboard?.instantiateViewController(withIdentifier: "RNPartViewController") as? RNPartViewController;
-        value?.part = part;
+        let value : RNPartViewController! = self.storyboard?.instantiateViewController(withIdentifier: "RNPartViewController") as? RNPartViewController;
+        value.part = part;
         self.partViewControllers[Int(part.seq)] = value;
         value.delegate = self;
         
@@ -143,8 +172,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
             self.partViewControllers[Int(part.seq)] = self.createPartView(part);
         }
         
-        var storedPart = RNDefaults.LastPart[Int(self.chapter.no).description] ?? 1;
-        var view : RNPartViewController! = self.partViewControllers[max(storedPart, 1)];
+        let storedPart = RNDefaults.LastPart[Int(self.chapter.no).description] ?? 1;
+        let view : RNPartViewController! = self.partViewControllers[max(storedPart, 1)];
         //var view : RNPartViewController! = self.createPartView(self.parts.first!);
         //self.partViewControllers[Int(view.part.seq)] = view;
         self.setViewControllers([view], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil);
@@ -156,23 +185,24 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         self.chapterPicker.becomeFirstResponder();
     }
     
-    func onChapterSelected(_ picker: DownPicker){
+    @objc func onChapterSelected(_ picker: DownPicker){
         guard self.chapter != self.chapters[picker.selectedIndex] else{
             return;
         }
         
         self.chapter = self.chapters[picker.selectedIndex];
-        self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "")", for: .normal);
+        self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "") ▼", for: .normal);
+        self.chapterSelectButton.sizeToFit();
         //refresh
         self.updateParts();
-        print("selected \(self.chapter.name)");
+        print("selected \(self.chapter.name ?? "")");
     }
     
     // MARK: UIPageViewControllerDataSource
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         var value : RNPartViewController?;
-        var partViewController = viewController as? RNPartViewController;
-        var part : RNPartInfo! = partViewController?.part;
+        let partViewController = viewController as? RNPartViewController;
+        let part : RNPartInfo! = partViewController?.part;
         
         /*guard part.seq ?? 0 > 1 else{
             return value;
@@ -195,8 +225,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         var value : RNPartViewController?;
-        var partViewController = viewController as? RNPartViewController;
-        var part : RNPartInfo! = partViewController?.part;
+        let partViewController = viewController as? RNPartViewController;
+        let part : RNPartInfo! = partViewController?.part;
 
         /*guard Int(part.seq ?? 0) < self.chapter.chapterParts.count else{
             return value;
@@ -222,8 +252,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        var view = pageViewController.viewControllers?.first as? RNPartViewController;
-        return Int(view!.part.seq - 1) ?? 0;
+        let view = pageViewController.viewControllers?.first as? RNPartViewController;
+        return Int(view!.part.seq - 1);
         //return Int(view?.part.seq ?? 0) - 1;
     }
     
@@ -242,7 +272,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         // Pass the selected object to the new view controller.
         if let nav = segue.destination as? UINavigationController{
             if let view = nav.viewControllers.first as? RNQuestionViewController{
-                var partView = self.viewControllers?.first as? RNPartViewController;
+                let partView = self.viewControllers?.first as? RNPartViewController;
                 var paragraphs : [LSDocumentRecognizer.LSDocumentParagraph] = [];
                 for paragraph in partView!.paragraphs{
                     paragraphs.append(paragraph)

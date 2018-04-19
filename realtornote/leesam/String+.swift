@@ -306,8 +306,8 @@ extension String {
             }
             
             for index in 0..<match!.numberOfRanges{
-                var range = match!.rangeAt(index);
-                values[index] = (self as! NSString).substring(with: range);
+                var range = match!.range(at: index);
+                values[index] = (self as NSString).substring(with: range);
                 
                 print("matches index[\(index)] location[\(range.location)] length[\(range.length)] text[\(values[index])]");
             }

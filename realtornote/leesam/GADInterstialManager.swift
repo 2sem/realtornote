@@ -23,6 +23,7 @@ extension GADInterstialManagerDelegate{
 
 class GADInterstialManager : NSObject, GADInterstitialDelegate{
     var window : UIWindow;
+    var rootViewController : UIViewController!;
     var unitId : String;
     var interval : TimeInterval = 60.0 * 60.0 * 3.0;
     var canShowFirstTime = true;
@@ -139,7 +140,11 @@ class GADInterstialManager : NSObject, GADInterstitialDelegate{
         }
         
         print("present full ad view[\(self.window.rootViewController)]");
-        self.fullAd?.present(fromRootViewController: self.window.rootViewController!);
+        if rootViewController != nil{
+            self.fullAd?.present(fromRootViewController: self.rootViewController);
+        }else{
+            self.fullAd?.present(fromRootViewController: self.window.rootViewController!);
+        }
         self.delegate?.GADInterstialUpdate(showTime: Date());
         //RSDefaults.LastFullADShown = Date();
     }

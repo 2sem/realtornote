@@ -22,20 +22,62 @@ class LSDocumentRecognizer : NSObject{
             }
         }
         
-        var root : Bool{
+        var isRoot : Bool{
             get{
                 return self.parent == nil;
             }
         }
         
+        var root : LSDocumentParagraph{
+            get{
+                return self.parent == nil ? self : self.parent!.root;
+            }
+        }
+        
+        var indexingParent : LSDocumentParagraph{
+            get{
+                return self.indexType.isIndexing ? self : self.parent!.indexingParent;
+            }
+        }
+        
+        var allParentHasSingleChild : Bool{
+            get{
+                return (self.parent?.children.count ?? 1) == 1 && (self.parent?.allParentHasSingleChild ?? true);
+            }
+        }
+        
+        func sibilsHasChild(_ type : IndexType? = nil) -> Bool{
+            var value = false;
+            
+            guard self.parent != nil else{
+                return value;
+            }
+            
+            for sibil in self.parent!.children{
+                guard sibil !== self else{
+                    continue;
+                }
+                
+                if type == nil{
+                    value = value || sibil.children.any;
+                }else{
+                    value = value || sibil.children.filter({ (p) -> Bool in
+                        return p.indexType == type;
+                    }).any;
+                }
+            }
+            
+            return value;
+        }
+        
         var indexType : IndexType = .dash;
         enum IndexType : String{
             case none = ""
-            case number = "\\d+\\."
-            case brackets_number = "\\(\\d+\\)"
+            case number = "(?<index>\\d+)\\."
+            case brackets_number = "\\((?<index>\\d+)\\)"
             case dash = "-"
-            case half_bracket_number = "\\d+\\)"
-            case half_bracket_alpha = "\\S\\)"
+            case half_bracket_number = "(?<index>\\d+)\\)"
+            case half_bracket_alpha = "(?<index>\\S)\\)"
             case term = "◎"
             case next = "⇒"
             
@@ -46,12 +88,19 @@ class LSDocumentRecognizer : NSObject{
                 return values.contains(self);
             }
             
-            func parseMatched(_ string: String) -> String?{
-                return string.parse("^(?<index>\(self.rawValue))\\s*(?<text>[\\S\\s]+)$")[2];
+            var isIndexing : Bool{
+                get{
+                    //.half_bracket_alpha, 
+                    return [.number, .brackets_number, .half_bracket_number].contains(self);
+                }
+            }
+            
+            func parseMatched(_ string: String) -> [Int : String]{
+                return string.parse("^\(self.rawValue)\\s*(?<text>[\\S\\s]+)$");
             }
             
             func isMatched(string : String) -> Bool{
-                return string.validate("^(?<index>\(self.rawValue))\\s*(?<text>[\\S\\s]+)$");
+                return string.validate("^\(self.rawValue)\\s*(?<text>[\\S\\s]+)$");
             }
             
             func toIndexString(_ index : Int) -> String{
@@ -68,7 +117,7 @@ class LSDocumentRecognizer : NSObject{
                         value = "\(index))";
                         break;
                     case .half_bracket_alpha:
-                        value = "\(index))";
+                        value = "\(index.alpha))";
                         break;
                     default:
                         break;
@@ -77,18 +126,31 @@ class LSDocumentRecognizer : NSObject{
                 return value;
             }
             
-            static func parseType(_ string: String) -> (IndexType, String){
+            static func parseType(_ string: String) -> (IndexType, Int, String){
                 var value = [IndexType.number, .brackets_number, .dash, .half_bracket_number, .half_bracket_alpha, .term, .next]
-                    .map({ (indexType) -> (IndexType, String) in
-                    var text = indexType.parseMatched(string);
+                    .map({ (indexType) -> (IndexType, Int, String) in
+                    var matchResults = indexType.parseMatched(string);
+                    var text = matchResults[matchResults.keys.max() ?? 0];
+                    var index = 0;
                     
-                    return (text != nil ? indexType : .none, text ?? "");
-                }).filter({ (indexType, text) -> Bool in
+                    if matchResults.keys.count > 2{
+                        index = Int(matchResults[1]!) ?? 0;
+                        
+                        if indexType == .half_bracket_alpha{
+                            index = Int(alpha: matchResults[1]!);
+                            if index == 0{
+                                text = nil;
+                            }
+                        }
+                    }
+                    
+                    return (text != nil ? indexType : .none, index, text ?? "");
+                }).filter({ (indexType, index, text) -> Bool in
                     return indexType != .none;
                 }).first;
                 
                 if value == nil{
-                    value = (.none, string);
+                    value = (.none, 0, string);
                 }
                 
                 return value!;
@@ -98,7 +160,8 @@ class LSDocumentRecognizer : NSObject{
         init(_ string : String) {
             let parse = IndexType.parseType(string.trimmingCharacters(in: CharacterSet.whitespaces));
             self.indexType = parse.0 ?? .none;
-            self.text = parse.1;
+            self.index = parse.1
+            self.text = parse.2;
         }
         
         func findParent(_ type : IndexType) -> LSDocumentParagraph?{
@@ -145,23 +208,38 @@ class LSDocumentRecognizer : NSObject{
                         before.parent?.children.append(paragraph);
                         paragraph.parent = before.parent;
                     }
-                }else{
-                    if let sibil = before.findParent(paragraph.indexType){
-                        /*if !paragraph.indexType.orderable{
-                            
-                        }*/
+                }else if let sibil = before.findParent(paragraph.indexType){
+                    if paragraph.index == 1{
+                        before.children.append(paragraph);
+                        paragraph.parent = before;
+                        //paragraph.index = before.index;
+                    }else{
                         sibil.parent?.children.append(paragraph);
                         paragraph.parent = sibil.parent;
-                        paragraph.index = sibil.index + 1;
-                    }else if paragraph.indexType == .term && before.indexType != .term
+                    }
+                }/*else if paragraph.indexType == .term && before.indexType != .term
                         && before.parent != nil{
+                     
+                 }*/else if paragraph.indexType == .term{
+                    var indexingParent = before.indexingParent;
+                    
+                    if let sibil = before.findParent(paragraph.indexType){
+                        sibil.parent?.children.append(paragraph);
+                        paragraph.parent = sibil.parent;
+                    }
+                    else if indexingParent != before || before.parent == nil{
+                        indexingParent.children.append(paragraph);
+                        paragraph.parent = indexingParent;
+                    }else if (before.parent?.children ?? []).count > 1 && !before.sibilsHasChild() {
                         before.parent?.children.append(paragraph);
                         paragraph.parent = before.parent;
-                        paragraph.index = before.index;
                     }else{
                         before.children.append(paragraph);
                         paragraph.parent = before;
                     }
+                }else{
+                    before.children.append(paragraph);
+                    paragraph.parent = before;
                 }
                 /*else before.indexType <= paragraph.indexType{
                     

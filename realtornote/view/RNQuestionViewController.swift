@@ -14,15 +14,31 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     var question : RNQuestionInfo!;
     var index = 0;
     
+    var adWindowBackup : UIWindow!;
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var countDownLabel: LSCountDownLabel!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var answerTable: UITableView!
     
+    @IBOutlet weak var closeButton: UIBarButtonItem!
+    @IBOutlet weak var restartButton: UIBarButtonItem!
+
+    override func viewWillAppear(_ animated: Bool) {
+        GADInterstialManager.shared?.rootViewController = self;
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        guard !self.questions.isEmpty else{
+            self.showAlert(title: "문제생성 실패", msg: "문제 생성을 위한 데이터가 충분하지 않습니다", actions: [UIAlertAction.init(title: "확인", style: .default, handler: { (act) in
+                self.dismiss(animated: false, completion: nil);
+            })], style: .alert);
+            return;
+        }
+        
         self.loadQuestion(self.index);
     }
 
@@ -31,20 +47,25 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        GADInterstialManager.shared?.rootViewController = nil;
+    }
+    
     func loadQuestion(_ index : Int){
         self.question = self.questions[index];
         self.questionLabel.text = self.question.text;
         self.titleLabel.text = self.question.title;
-
+        self.navigationItem.title = "자동 생성 퀴즈 (\(self.index + 1)/\(self.questions.count))";
+        
         self.answerTable.reloadData();
         self.answerTable.allowsSelection = true;
         
         self.countDownLabel.start { (remainSeconds) in
-            var answer_idx = self.question.answers.enumerated().first(where: { (index, ans) -> Bool in
+            let answer_idx = self.question.answers.enumerated().first(where: { (index, ans) -> Bool in
                 return ans.isCorrect;
             });
             
-            var cell = self.answerTable.cellForRow(at: IndexPath.init(row: answer_idx!.offset, section: 0)) as? RNQuestionTableViewCell;
+            let cell = self.answerTable.cellForRow(at: IndexPath.init(row: answer_idx!.offset, section: 0)) as? RNQuestionTableViewCell;
             cell?.markOn();
             self.countDownLabel.text = "";
             DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
@@ -56,12 +77,23 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     func next(){
         self.index = self.index + 1;
         guard self.index < self.questions.count else{
+            self.restartButton.isEnabled = true;
+            self.answerTable.allowsSelection = false;
+            if self.presentingViewController != nil && GADRewardManager.shared?.canShow ?? false{
+                GADInterstialManager.shared?.show(true);
+            }
             return;
         }
         self.loadQuestion(self.index);
     }
     
-    @IBAction func onCancel(_ sender: UIBarButtonItem) {
+    @IBAction func onRestart(_ sender: UIBarButtonItem) {
+        self.index = 0;
+        self.loadQuestion(self.index);
+        self.restartButton.isEnabled = false;
+    }
+    
+    @IBAction func onClose(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true) { 
             
         };
@@ -77,7 +109,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "RNQuestionTableViewCell", for: indexPath) as? RNQuestionTableViewCell;
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RNQuestionTableViewCell", for: indexPath) as? RNQuestionTableViewCell;
         
         cell!.answer = self.question.answers[indexPath.row];
         cell!.index = indexPath.row + 1;
@@ -90,19 +122,19 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         //cell?.answer?.isCorrect
         
         //var indexes = tableView.indexPathsForVisibleRows ?? [];
-        var currentAnswer = self.question.answers[indexPath.row];
+        let currentAnswer = self.question.answers[indexPath.row];
         if !currentAnswer.isCorrect{
-            var index = self.question.answers.index(where: { (answer) -> Bool in
+            let index = self.question.answers.index(where: { (answer) -> Bool in
                 return answer.isCorrect;
             }) ?? 0;
             
-            var cell = tableView.cellForRow(at: IndexPath.init(row: index, section: 0)) as? RNQuestionTableViewCell;
+            let cell = tableView.cellForRow(at: IndexPath.init(row: index, section: 0)) as? RNQuestionTableViewCell;
             cell?.markOn();
         }
         
         tableView.allowsSelection = false;
         self.countDownLabel.stop();
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.next();
         }
     }

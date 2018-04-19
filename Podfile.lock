@@ -1,0 +1,95 @@
+PODS:
+  - DownPicker (0.1.34)
+  - Firebase/Core (4.13.0):
+    - FirebaseAnalytics (= 4.2.0)
+    - FirebaseCore (= 4.0.20)
+  - FirebaseAnalytics (4.2.0):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - nanopb (~> 0.3)
+  - FirebaseCore (4.0.20):
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+  - FirebaseInstanceID (2.0.10):
+    - FirebaseCore (~> 4.0)
+  - Google-Mobile-Ads-SDK (7.30.0)
+  - GoogleToolboxForMac/Defines (2.1.3)
+  - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
+    - GoogleToolboxForMac/Defines (= 2.1.3)
+  - KakaoOpenSDK (1.7.0):
+    - KakaoOpenSDK/KakaoCommon (= 1.7.0)
+    - KakaoOpenSDK/KakaoLink (= 1.7.0)
+    - KakaoOpenSDK/KakaoMessageTemplate (= 1.7.0)
+    - KakaoOpenSDK/KakaoNavi (= 1.7.0)
+    - KakaoOpenSDK/KakaoOpenSDK (= 1.7.0)
+    - KakaoOpenSDK/KakaoS2 (= 1.7.0)
+  - KakaoOpenSDK/KakaoCommon (1.7.0)
+  - KakaoOpenSDK/KakaoLink (1.7.0):
+    - KakaoOpenSDK/KakaoCommon
+  - KakaoOpenSDK/KakaoMessageTemplate (1.7.0)
+  - KakaoOpenSDK/KakaoNavi (1.7.0):
+    - KakaoOpenSDK/KakaoCommon
+  - KakaoOpenSDK/KakaoOpenSDK (1.7.0)
+  - KakaoOpenSDK/KakaoS2 (1.7.0):
+    - KakaoOpenSDK/KakaoCommon
+  - LSExtensions (0.0.1)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
+  - ProgressWebViewController (1.6.1)
+  - SSZipArchive (0.4.0)
+  - XlsxReaderWriter (1.0.11):
+    - SSZipArchive (~> 0.4)
+    - XMLDictionary (~> 1.4)
+  - XMLDictionary (1.4.1)
+
+DEPENDENCIES:
+  - DownPicker
+  - Firebase/Core
+  - Google-Mobile-Ads-SDK
+  - KakaoOpenSDK
+  - LSExtensions (from `~/Projects/leesam/pods/LSExtensions/src/LSExtensions`)
+  - ProgressWebViewController
+  - XlsxReaderWriter
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - DownPicker
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - Google-Mobile-Ads-SDK
+    - GoogleToolboxForMac
+    - KakaoOpenSDK
+    - nanopb
+    - ProgressWebViewController
+    - SSZipArchive
+    - XlsxReaderWriter
+    - XMLDictionary
+
+EXTERNAL SOURCES:
+  LSExtensions:
+    :path: "~/Projects/leesam/pods/LSExtensions/src/LSExtensions"
+
+SPEC CHECKSUMS:
+  DownPicker: c00ea63f08ae82116cc93d0eba74e86bf3d4c68e
+  Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
+  FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
+  FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
+  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
+  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
+  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
+  KakaoOpenSDK: 82e9c4d57c7d273360e4b49c2d8a0d8626216143
+  LSExtensions: c331269bad2dd60500e3b03de7e804d1e10913ef
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  ProgressWebViewController: b43f1bfd69951e07ff690eabc0fdc10abe2a8e06
+  SSZipArchive: d3d66fc0e3fb6ac0f723d95481aae71aae916cc3
+  XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
+  XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
+
+PODFILE CHECKSUM: 9cdfb936757714b19b1664fcb63b3aba86b2e71c
+
+COCOAPODS: 1.5.0

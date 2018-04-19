@@ -12,8 +12,14 @@ protocol RNPartViewControllerDelegate : NSObjectProtocol{
     func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat);
 }
 
-class RNPartViewController: UIViewController, UITextViewDelegate {
+class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDelegate {
 
+    class constraints{
+        static let HIDE_SEARCH_BAR = "HIDE_SEARCH_BAR";
+        static let SHOW_SEARCH_BAR = "SHOW_SEARCH_BAR";
+        static let CONTENT_BOTTOM = "CONTENT_BOTTOM";
+    }
+    
     var modelController : RNModelController{
         get{
             return RNModelController.shared;
@@ -32,9 +38,17 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
     
     var delegate : RNPartViewControllerDelegate?;
     
+    var constraint_hide_search_bar : NSLayoutConstraint?;
+    var constraint_show_search_bar : NSLayoutConstraint?;
+    var constraint_content_bottom : NSLayoutConstraint?;
+    
+    @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentView: UITextView!
     @IBOutlet weak var bookButton: UIButton!
+    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     static let bookOnImage = UIImage(named: "icon_book_on")?.withRenderingMode(.alwaysTemplate);
     static let bookOffImage = UIImage(named: "icon_book_off")?.withRenderingMode(.alwaysTemplate);
     
@@ -54,6 +68,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
         lastOffsets[Int(self.part.chapter?.no ?? 0)] = 0;
         RNDefaults.LastContentOffset = lastOffsets;*/
         
+        self.searchBar.showsCancelButton = true;
         self.toggleFavorite(self.modelController.isExistFavorite(self.part));
         self.bookButton.isHidden = self.navigationController?.visibleViewController === self;
     }
@@ -72,6 +87,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
             self.titleLabel.text = "\(self.part?.seq ?? 0). \(self.part?.name ?? "")";
             //self.contentView.text = self.part.content;
             self.contentView.text = LSDocumentRecognizer.shared.toString(self.paragraphs);
+            //self.contentView.text = self.part.content ?? "";
             
             self.loadOffset();
             self.contentView.isScrollEnabled = true;
@@ -81,10 +97,37 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
         self.contentView.isScrollEnabled = false;
         
         self.navigationItem.title = "\(part?.seq ?? 0). \(part?.name ?? "")";
+        
+        self.searchBar.delegate = self;
+        self.constraint_hide_search_bar = self.view.constraints.first(where: { (cst) -> Bool in
+            return cst.identifier == constraints.HIDE_SEARCH_BAR;
+        })
+        self.constraint_show_search_bar = self.titleView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor);
+        self.constraint_show_search_bar?.isActive = false;
+        
+        self.constraint_content_bottom = self.view.constraints.first(where: { (cst) -> Bool in
+            return cst.identifier == constraints.CONTENT_BOTTOM;
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //self.contentView.scrollRectToVisible(CGRect.zero, animated: false);
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(noti:)), name: .UIKeyboardWillShow, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(noti:)), name: .UIKeyboardWillHide, object: nil);
+        
+        //GADInterstialManager.shared?.show();
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if self.constraint_show_search_bar?.isActive ?? false{
+            if !self.searchRanges.isEmpty{
+                self.contentView.text = self.contentView.attributedText.string;
+            }
+            self.showSearchBar(false);
+        }
+        
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil);
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil);
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,7 +136,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
     }
     
     func loadOffset(){
-        var y = RNDefaults.getLastContentOffset(Int(self.part?.no ?? 0));
+        let y = RNDefaults.getLastContentOffset(Int(self.part?.no ?? 0));
         self.contentView.contentOffset = CGPoint(x: self.contentView.contentInset.left, y: CGFloat(y) + self.contentView.contentInset.top);
     }
     
@@ -103,6 +146,34 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
         }else{
             self.bookButton.setImage(RNPartViewController.bookOffImage, for: .normal);
         }
+    }
+    
+    func showSearchBar(_ visible : Bool){
+        if visible{
+            self.constraint_hide_search_bar?.isActive = false;
+            self.constraint_show_search_bar?.isActive = true;
+        }else{
+            self.constraint_show_search_bar?.isActive = false;
+            self.constraint_hide_search_bar?.isActive = true;
+        }
+        
+        if visible{
+            self.navigationController?.isNavigationBarHidden = true;
+        }
+        
+        UIView.animate(withDuration: 0.5, animations: {
+        self.view.layoutIfNeeded();
+            if visible{
+                self.searchBar.becomeFirstResponder();
+            }else{
+                self.searchBar.resignFirstResponder();
+                self.navigationController?.isNavigationBarHidden = false;
+            }
+        }) { (result) in
+        }
+    }
+    @IBAction func onShowSearchBar(_ button: UIButton) {
+        self.showSearchBar(true);
     }
     
     @IBAction func onFavor(_ sender: UIButton) {
@@ -123,14 +194,105 @@ class RNPartViewController: UIViewController, UITextViewDelegate {
     @IBAction func onPinch(_ gesture: UIPinchGestureRecognizer) {
         var fontSize = self.contentView.font?.pointSize ?? 0.0;
         if gesture.velocity > 0{
-            fontSize = min(self.maxFontSize, fontSize.adding(1));
+            fontSize = min(self.maxFontSize, fontSize + 1);
         }else{
-            fontSize = max(self.minFontSize, fontSize.adding(-1));
+            fontSize = max(self.minFontSize, fontSize - 1);
         }
         
         self.contentView.font = self.contentView.font?.withSize(fontSize);
         RNPartViewController.contentFontSize = fontSize;
         self.delegate?.partViewController(self, didChangeFontSize: RNPartViewController.contentFontSize!);
+    }
+    
+    // MARK: UISearchBarDelegate
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.showSearchBar(false);
+        if self.contentView.attributedText != nil{
+            self.contentView.text = self.contentView.attributedText.string;
+        }
+    }
+    
+    var blockedContent : NSMutableAttributedString?;
+    var searchIndex : Int = -1;
+    var searchRanges : [NSRange] = [];
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        do{
+            let regex = try NSRegularExpression.init(pattern: searchText, options: .caseInsensitive);
+            let matches = regex.matches(in: self.contentView.text, options: [], range: self.contentView.text.fullRange);
+            self.blockedContent = NSMutableAttributedString.init(string: self.contentView.text);
+
+            self.searchRanges = matches.map{ (result) -> NSRange in
+                return result.range;
+            };
+            for (i, range) in self.searchRanges.enumerated(){
+                if i <= 0{
+                    self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.green, range: range);
+                    self.searchIndex = 0;
+                }else{
+                    self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.yellow, range: range);
+                }
+                //self.contentView.attributedText.add
+            }
+            
+            self.contentView.attributedText = self.blockedContent;
+        }catch{}
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard self.searchRanges.count > 1 else{
+            return;
+        }
+        
+        self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.yellow, range: self.searchRanges[self.searchIndex]);
+        
+        self.searchIndex = self.searchIndex + 1;
+        if self.searchIndex >= self.searchRanges.count{
+            self.searchIndex = 0;
+        }
+        
+        let newRange = self.searchRanges[self.searchIndex];
+        self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.green, range: newRange);
+        self.contentView.attributedText = self.blockedContent;
+        
+        self.contentView.scrollRangeToVisible(newRange);
+    }
+    
+    /// MARK: keyboard notification
+    var keyboardEnabled = false;
+    @objc func keyboardWillShow(noti: NSNotification){
+        print("keyboard will show move view to upper -- \(noti.object.debugDescription)");
+        //        if self.nativeTextView.isFirstResponder {
+        if !keyboardEnabled {
+            keyboardEnabled = true;
+            //            self.viewContainer.frame.origin.y -= 180;
+            let keyboardframe = noti.keyboardFrame;
+            
+            // - self.bottomBannerView.frame.height
+            let screenView = UIApplication.shared.keyWindow?.rootViewController?.view;
+            let screenFrame = screenView!.convert(screenView!.bounds, to: nil);
+            let contentFrame = self.contentView.convert(self.contentView.bounds, to: screenView);
+            let contentBottomOffset = screenFrame.maxY - contentFrame.maxY;
+            //self.constraint_content_bottom?.constant = contentBottomOffset - frame.height;
+            self.constraint_content_bottom?.constant = -(keyboardframe.height - contentBottomOffset);
+            //self.contentView.textContainerInset.bottom = -(frame.height - contentBottomOffset);
+        };
+        //native y -= (keyboard height - bottom banner height)
+        // keyboard top == native bottom
+        //        }
+    }
+    
+    @objc func keyboardWillHide(noti: Notification){
+        print("keyboard will hide move view to lower  -- \(noti.object.debugDescription)");
+        //        if self.nativeTextView.isFirstResponder{
+        
+        //        }
+        //&&
+        if keyboardEnabled {
+            keyboardEnabled = false;
+            //            self.viewContainer.frame.origin.y += 180;
+            self.constraint_content_bottom?.constant = 0;
+        };
     }
     
     // MARK: UITextViewDelegate

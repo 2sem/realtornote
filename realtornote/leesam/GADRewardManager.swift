@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import LSExtensions
 
 protocol GADRewardManagerDelegate : NSObjectProtocol{
     func GADRewardGetLastShowTime() -> Date;

@@ -11,10 +11,11 @@ import Firebase
 import GoogleMobileAds
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
 
     var window: UIWindow?
     var fullAd : GADInterstialManager?;
+    var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -23,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~7124016405");
         FirebaseApp.configure()
         
+        self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 24); //
+        self.rewardAd?.delegate = self;
+
         self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 3); //
         self.reviewManager?.delegate = self;
         //self.reviewManager?.show();
@@ -31,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         self.fullAd?.delegate = self;
         self.fullAd?.canShowFirstTime = false;
         self.fullAd?.show();
-
         return true
     }
 
@@ -93,6 +96,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     
     func reviewUpdate(showTime: Date) {
         RNDefaults.LastShareShown = showTime;
+    }
+    
+    // MARK: GADRewardManagerDelegate
+    func GADRewardGetLastShowTime() -> Date {
+        return RNDefaults.LastRewardADShown;
+    }
+    
+    func GADRewardUpdate(showTime: Date) {
+        
+    }
+    
+    func GADRewardUserCompleted() {
+        RNDefaults.LastRewardADShown = Date();
     }
 }
 

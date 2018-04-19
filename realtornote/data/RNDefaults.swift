@@ -19,6 +19,7 @@ class RNDefaults{
     class Keys{
         static let LastFullADShown = "LastFullADShown";
         static let LastShareShown = "LastShareShown";
+        static let LastRewardADShown = "LastRewardADShown";
         
         static let LastNotice = "LastNotice";
         static let DataVersion = "DataVersion";
@@ -150,5 +151,16 @@ class RNDefaults{
         var lastOffsets = RNDefaults.LastContentOffset;
         lastOffsets[part.description] = value;
         RNDefaults.LastContentOffset = lastOffsets;
+    }
+    
+    static var LastRewardADShown : Date{
+        get{
+            var seconds = Defaults.double(forKey: Keys.LastRewardADShown);
+            return Date.init(timeIntervalSince1970: seconds);
+        }
+        
+        set(value){
+            Defaults.set(value.timeIntervalSince1970, forKey: Keys.LastRewardADShown);
+        }
     }
 }

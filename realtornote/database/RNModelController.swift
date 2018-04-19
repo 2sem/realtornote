@@ -25,9 +25,9 @@ class RNModelController : NSObject{
     private static var _shared = RNModelController();
     static var shared : RNModelController{
         get{
-            var timeout = DispatchTime.now() + DispatchTimeInterval.seconds(3);
+            let timeout = DispatchTime.now() + DispatchTimeInterval.seconds(3);
             //print("enter \(self) instance - \(self) - \(Thread.current)");
-            var value = _shared;
+            let value = _shared;
             //            value.waitInit();
             //print("wait \(self) instance - \(self) - \(Thread.current)");
             self.dispatchGroupForInit.wait();
@@ -67,7 +67,7 @@ class RNModelController : NSObject{
             //        DispatchQueue.main.async{
             
             //get path for app's url
-            var storeUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(RNModelController.FileName).appendingPathExtension("sqlite");
+            let storeUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent(RNModelController.FileName).appendingPathExtension("sqlite");
             //create path for data file
             //let storeUrl = Bundle.main.url(forResource: RNModelController.FileName, withExtension: "sqlite");
             //let storeUrl = docUrl;
@@ -125,12 +125,12 @@ class RNModelController : NSObject{
     }
     
     func endTransaction(){
-        print("end transaction. name[\(self.context.undoManager?.undoActionName)] context[\(self.context)]");
+        print("end transaction. name[\(self.context.undoManager?.undoActionName ?? "")] context[\(self.context.description)]");
         self.context.undoManager?.endUndoGrouping();
     }
     
     func undo(){
-        print("undo. name[\(self.context.undoManager?.undoActionName)] context[\(self.context)]");
+        print("undo. name[\(self.context.undoManager?.undoActionName ?? "")] context[\(self.context.description)]");
         self.context.undoManager?.undo();
     }
     

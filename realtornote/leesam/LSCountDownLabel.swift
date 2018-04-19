@@ -42,10 +42,16 @@ class LSCountDownLabel : UILabel{
         //self.font = self.font.withSize(self.fontSizeBackup);
     }
     
-    func count(_ completion: @escaping (Int) -> Void){
+    private func count(_ completion: @escaping (Int) -> Void){
         //self.font = self.font.withSize(self.fontSizeBackup / 2.0);
         self.transform = CGAffineTransform.init(scaleX: 0.25, y: 0.25);
         self.text = "\(self.currentSecond)";
+        
+        guard self.isCounting  else{
+            self.text = "";
+            return;
+        }
+        
         UIView.animate(withDuration: 1.0, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             //self.font = self.font.withSize(self.fontSizeBackup);
             self.transform = CGAffineTransform.identity;
