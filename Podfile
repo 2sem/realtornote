@@ -14,7 +14,6 @@ target 'realtornote' do
   pod 'ProgressWebViewController'
   pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
 
-#target.headers_build_phase.files[-1].settings = { "ATTRIBUTES" => ["Public"] }
   target 'realtornoteTests' do
     inherit! :search_paths
     # Pods for testing
@@ -25,6 +24,7 @@ target 'realtornote' do
     # Pods for testing
   end
 
+#script to do after install pod projects
   post_install do |installer|
       #find target name of "XlsxReaderWriter" from targets in Pods
       XlsxReaderWriter = installer.pods_project.targets.find{ |t| t.name == "XlsxReaderWriter" }
@@ -34,30 +34,32 @@ target 'realtornote' do
       #puts "capture #{XMLDictionary}";
       #find file reference for "XMLDictionary.h" of a Project "XMLDictionary"
       XMLDictionaryHeader = XMLDictionary.headers_build_phase.files.find{ |b| b.file_ref.name == "XMLDictionary.h" }.file_ref
-=begin
-      installer.pods_project.targets.each do |target|
-        case target.name
-            when "XlsxReaderWriter"
-                XlsxReaderWriter = target
-                puts "capture #{XlsxReaderWriter}";
-            when "XMLDictionary"
-            target.headers_build_phase.files.each do |build_phase|
-                #for i in 0..target.headers_build_phase.files.length - 1
-                #file = target.headers_build_phase.files[i];
-                file = build_phase.file_ref;
-                if file.name == "XMLDictionary.h"
-                    XMLDictionaryHeader = file;
-                    puts "capture #{file.inspect}";
-                end
-            end
-        end
-       end
-=end
 
-        #add reference for "XMLDictionary.h" into project "XlsxReaderWriter"
-        XMLDictionaryHeaderBuild = XlsxReaderWriter.headers_build_phase.add_file_reference(XMLDictionaryHeader, avoid_duplicates = true);
-        #make new file appended public
-        XMLDictionaryHeaderBuild.settings = { "ATTRIBUTES" => ["Public"] }
-    puts "add #{XMLDictionaryHeader} into XlsxReaderWriter";
+      #add reference for "XMLDictionary.h" into project "XlsxReaderWriter"
+      XMLDictionaryHeaderBuild = XlsxReaderWriter.headers_build_phase.add_file_reference(XMLDictionaryHeader, avoid_duplicates = true);
+      #make new file appended public
+      XMLDictionaryHeaderBuild.settings = { "ATTRIBUTES" => ["Public"] }
+      puts "add #{XMLDictionaryHeader} into XlsxReaderWriter";
+      
+      =begin
+       installer.pods_project.targets.each do |target|
+        case target.name
+       when "XlsxReaderWriter"
+       XlsxReaderWriter = target
+       puts "capture #{XlsxReaderWriter}";
+       when "XMLDictionary"
+       target.headers_build_phase.files.each do |build_phase|
+       #for i in 0..target.headers_build_phase.files.length - 1
+       #file = target.headers_build_phase.files[i];
+       file = build_phase.file_ref;
+       if file.name == "XMLDictionary.h"
+       XMLDictionaryHeader = file;
+       puts "capture #{file.inspect}";
+       end
+       end
+       end
+       end
+       =end
+
   end
 end
