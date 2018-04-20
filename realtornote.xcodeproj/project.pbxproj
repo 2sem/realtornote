@@ -29,7 +29,6 @@
 		2C1938221F27464200E4BCFB /* Character+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938211F27464200E4BCFB /* Character+.swift */; };
 		2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */; };
 		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
-		2C19CD8520898A9A003E456F /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380B1F272E0000E4BCFB /* String+.swift */; };
 		2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */; };
 		2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */; };
 		2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */; };
@@ -85,7 +84,6 @@
 /* Begin PBXFileReference section */
 		0F555FD2F0094A1E9CA4B6F4 /* Pods_realtornoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_realtornoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C04BD1D1F286DE60010CD69 /* RNSubjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNSubjectViewController.swift; sourceTree = "<group>"; };
-		2C04BD221F2881910010CD69 /* Int+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		2C0D80891F25C7D9002F58A5 /* realtornote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = realtornote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
@@ -317,7 +315,6 @@
 				2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */,
 				2C19380B1F272E0000E4BCFB /* String+.swift */,
 				2C1938211F27464200E4BCFB /* Character+.swift */,
-				2C04BD221F2881910010CD69 /* Int+.swift */,
 				2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */,
 				2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */,
 				2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */,
@@ -618,7 +615,6 @@
 				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
 				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
 				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
-				2C19CD8520898A9A003E456F /* String+.swift in Sources */,
 				2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */,
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
 				2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */,

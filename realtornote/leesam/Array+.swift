@@ -1,6 +1,6 @@
 //
 //  Array+.swift
-//  realtornote
+//  LSExtensions
 //
 //  Created by 영준 이 on 2017. 8. 15..
 //  Copyright © 2017년 leesam. All rights reserved.
@@ -15,21 +15,29 @@ extension Array{
         }
     }
     
-    func takeFirst(_ n: Int) -> ArraySlice<Element>{
-        //return self.dropLast(self.);
-        var values : ArraySlice<Element> = [];
-        
-        for element in self{
-            if self.count >= n{
-                break;
-            }
-            
-            values.append(element);
-        }
-        
-        return values;
+    /**
+        Indicates whether this contains any value fit to given condition
+         - parameter predicate: Block to get condition with an element
+         - returns: whether this contains any value fir to given condition
+     */
+    func any(where predicate: (Element) throws -> Bool = { _ in true }) rethrows -> Bool{
+        return self.first{ try! predicate($0) } != nil;
     }
     
+    /**
+        Returns new sequence containing n elements from begin of this
+        - parameter n: elements count to put new sequence
+        - returns: new sequence containing n elements from begin of this
+    */
+    func takeFirst(_ n: Int) -> ArraySlice<Element>{
+        return self.dropLast(Swift.max(self.count - n, 0));
+    }
+    
+    /**
+        Returns new sequence containing n elements from end of this
+        - parameter n: elements count to put new sequence
+        - returns: new sequence containing n elements from end of this
+     */
     func takeLast(_ n: Int) -> ArraySlice<Element>{
         return self.dropFirst(Swift.max(self.count - n, 0));
     }
@@ -39,10 +47,15 @@ extension Array{
             return self.takeRandom(1).first;
         }
     }
+    
+    /**
+        Returns new sequence containing n elements randomally from this
+         - parameter n: elements count to put new sequence
+         - returns: new sequence containing n elements randomally from this
+    */
     func takeRandom(_ n:Int) -> ArraySlice<Element>{
         var values : ArraySlice<Element> = [];
         var valueSet : [Int] = [];
-        
         for _ in 0..<Swift.min(n, self.count){
             var value : Element
             
@@ -60,15 +73,21 @@ extension Array{
         return values;
     }
     
+    /**
+        Removes element from this and returns it
+         - parameter item: element to remove from this
+         - parameter predicate: block to check if two element are same
+         - returns: element removed from this.
+     */
     @discardableResult
     mutating func remove(_ item : Element, where predicate: (Element, Element) throws -> Bool) rethrows -> Bool{
         var i = 0;
-        var value = false;
+        var value : Bool = true;
         
         for element in self{
             if try predicate(element, item) {
                 self.remove(at: i);
-                value = true;
+                value = false;
                 break;
             }
             
@@ -78,10 +97,19 @@ extension Array{
         return value;
     }
     
+    /**
+        Suffles this array
+         - parameter predicate: block to check if two element are same
+    */
     mutating func suffled(where predicate: (Element, Element) throws -> Bool) rethrows{
         self = try self.suffle(where: predicate);
     }
     
+    /**
+        Returns new array contaning suffled elements from this
+         - parameter predicate: block to check if two element are same
+         - returns: New array contaning suffled elements from this
+    */
     func suffle(where predicate: (Element, Element) throws -> Bool) rethrows -> [Element]{
         var values : [Element] = [];
         var copies = self;

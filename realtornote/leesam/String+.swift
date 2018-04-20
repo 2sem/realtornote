@@ -1,6 +1,6 @@
 //
 //  String+.swift
-//  WhoCallMe
+//  LSExtensions
 //
 //  Created by 영준 이 on 2016. 3. 11..
 //  Copyright © 2016년 leesam. All rights reserved.
@@ -9,18 +9,24 @@
 import UIKit
 
 extension String {
+    /**
+     Indicates whether this have any value(= not empty)
+    */
     var any : Bool{
         get{
             return !self.isEmpty;
         }
     }
     
-    func localized(_ defaultText : String? = nil, locale: Locale? = Locale.current) -> String{
+    /**
+        Gets Localized String by specified Locale
+        - parameter defaultText: default String if there is no localized string for this
+        - parameter locale: Locale to get localized String with
+        - returns: Localized String by specified Locale
+    */
+    public func localized(_ defaultText : String? = nil, locale: Locale? = Locale.current) -> String{
         var value = self;
-        var bundlePath : String? = nil;
-        if bundlePath == nil{
-            bundlePath = Bundle.main.path(forResource: locale?.identifier, ofType: "lproj");
-        }
+        var bundlePath : String? = Bundle.main.path(forResource: locale?.identifier, ofType: "lproj");
         if bundlePath == nil{
             bundlePath = Bundle.main.path(forResource: locale?.languageCode, ofType: "lproj");
         }
@@ -28,37 +34,33 @@ extension String {
             bundlePath = Bundle.main.path(forResource: "\(locale?.languageCode ?? "")-\(locale?.scriptCode ?? "")", ofType: "lproj");
         }
         
-        //check if specified lang equals to base lang
+        //Check if specified lang equals to base lang
         if bundlePath == nil && locale?.languageCode == "en"{
             bundlePath = Bundle.main.path(forResource: nil, ofType: "lproj");
         }
+        
         if bundlePath == nil{
             value = NSLocalizedString(defaultText ?? self, comment: "");
         }else{
-            var bundle = Bundle(path: bundlePath!)!;
-            //            value = bundle.localizedString(forKey: self, value: defaultText ?? self, table: nil);
+            let bundle = Bundle(path: bundlePath!)!;
             
             value = bundle.localizedString(forKey: self, value: defaultText ?? self, table: nil);
-            //            value = NSLocalizedString(self, tableName: nil, bundle: bundle, value: defaultText ?? self, comment: "");
         }
         
         return value;
-        //        return NSLocalizedString(defaultText ?? self, comment: "");
     }
 
-    func containsKorean() -> Bool{
-        var value = false;
-        
-        for char in self.characters{
-            value = char.isKorean();
-            if value {
-                break;
-            }
-        }
-        
-        return value;
+    /**
+     Indicates whether this contains Korean Character
+    */
+    public func containsKorean() -> Bool{
+        return self.first{ $0.isKorean() } != nil;
     }
     
+    /**
+     Gets String generated with Cho Seong Characters of this String.
+     - parameter double2One: Indicate whether make two cho seong to single.
+    */
     func getKoreanChoSeongs(_ double2One : Bool = true) -> String?{
         var value : String = "";
         
@@ -68,19 +70,21 @@ extension String {
         
         var noKorean = true;
         var lastCho = "";
-        for (i, char) in self.characters.enumerated(){
+        //go through characters of this
+        for char in self{
             var cho = char.getKoreanChoseong();
             
             if double2One && cho != nil{
                 let doubleCho = lastCho.getMergeKoreanChoseong(cho!);
                 if !doubleCho.isEmpty{
-                    value.replaceSubrange((value.characters.index(value.endIndex, offsetBy: -1) ..< value.endIndex), with: "");
+                    //remove cho seong before this cho seong
+                    //value.replaceSubrange((value.index(value.endIndex, offsetBy: -1) ..< value.endIndex), with: "");
+                    value.remove(at: value.index(before: value.endIndex));
                     cho = doubleCho;
                 }
             }
             
             value += cho != nil ? cho! : (noKorean ? "" : " ");
-            //NSLog("\(char) => \(cho) - \(String(char))");
             noKorean = cho == nil;
             
             lastCho = cho ?? "";
@@ -103,6 +107,11 @@ extension String {
         return value;
     }
     
+    /**
+     Gets String merged given cho seong with Cho Seong Character of this String.
+     - parameter double2One: Indicate whether make two cho seong to single.
+     - returns: double cho seong if given cho seong is same to this cho seong.
+     */
     func getMergeKoreanChoseong(_ targetChoseong : String) -> String{
         var value = "";
         
@@ -139,6 +148,10 @@ extension String {
         return value;
     }
     
+    /**
+        Gets Korean Parts(cho seong, jung seong, jong seong) of this
+        - parameter double2One: Indicate whether make two cho seong to single.
+    */
     func getKoreanParts(_ double2One : Bool = true) -> String?{
         var value : String = "";
         
@@ -146,15 +159,7 @@ extension String {
             return value;
         }
         
-        var noKorean = true;
-        var lastCho = "";
-        for (i, char) in self.characters.enumerated(){
-            var kor = char.getKoreanParts();
-            
-            //print("get parts \(char) => \(kor)");
-            
-            value += kor ?? "";
-        }
+        self.forEach({ value += $0.getKoreanParts() })
         
         //어 : C5B4 = ㅇ(U+3147) + ㅓ(U+3153)
         //hangul jungseong - begin - ㅏ(U+314F) 1161
@@ -165,40 +170,41 @@ extension String {
         return value;
     }
 
-    
+    /**
+        Count of characters
+    */
     var length : Int{
         get{
-            return self.characters.count;
+            return self.count;
         }
     }
     
+    /**
+        Gets string removed empty spaces
+        - returns: string removed empty spaces
+    */
     func trim() -> String{
         return self.trimmingCharacters(in: CharacterSet.whitespaces);
     }
 
+    /**
+        Returns indicate whether this is Hex String
+         - returns: indicates whether this is Hex String
+    */
     func isHex() -> Bool{
-        var value = true;
-        
+        var value = self.length > 0;
         let hexStrings = "abcdef0123456789";
         let lower = self.lowercased();
         
-        for char in lower.characters {
-            let range = hexStrings.range(of: String(char));
-            //print("find \(char) in \(hexStrings) => \(range)");
-            
-            if range == nil || range?.isEmpty == true{
-                value = false;
-                break;
-            }
-        }
-        
-        if self.length <= 0{
-            value = false;
-        }
+        value = lower.first{ !hexStrings.contains($0) } != nil;
         
         return value;
     }
     
+    /**
+        Returns UIColor generated with this color value
+     - requires: this should be formated '#aarrggbb' or '#rrggbb' or 'aarrggbb' or 'rrggbb'
+    */
     func toUIColor() -> UIColor?{
         var value : UIColor?;
         let colorString = self.trim();
@@ -214,29 +220,29 @@ extension String {
             index = self.index(index, offsetBy: 1);
         }
         
-        let length = self.substring(from: index).length;
-        if length < 6 {
+        let length = self[index...].count;
+        guard length >= 6 else {
             return value;
         }
         
         do{
             //parse each 2 characters
-            let rString = self.substring(with: index..<self.index(index, offsetBy: 2));
+            let rString = String(self[index..<self.index(index, offsetBy: 2)]);
             index = self.index(index, offsetBy: 2);
             
-            let gString = self.substring(with: index..<self.index(index, offsetBy: 2));
+            let gString = String(self[index..<self.index(index, offsetBy: 2)]);
             index = self.index(index, offsetBy: 2);
             
-            let bString = self.substring(with: index..<self.index(index, offsetBy: 2));
+            let bString = String(self[index..<self.index(index, offsetBy: 2)]);
             
             var aString = "";
             if length > 6 {
                 index = self.index(index, offsetBy: 2);
                 
-                aString = self.substring(with: index..<(self.index(index, offsetBy: 2)));
+                aString = String(self[index..<self.index(index, offsetBy: 2)]);
             }
             
-            //check string is hex string to avoid fatalError
+            //checks if string is hex string to avoid fatalError
             if !rString.isHex(){
                 throw StringExtensionError.invalidHex("[\(rString)] is not hex string.");
             }
@@ -260,22 +266,33 @@ extension String {
             }
             
             value = UIColor(red: rValue, green: gValue, blue: bValue, alpha: alpha);
-            print("create color[\(value)] with [\(self)]");
-        }catch(let error){
+            print("create color[\(value?.description ?? "")] with [\(self)]");
+        }catch let error{
             print("invalid color value[\(self)] error[\(error)]");
         }
         
         return value;
     }
     
-    func toDate(_ format : String = "yyyy-MM-dd'T'HH:mm:ssZZZZ") -> Date?{
+    /**
+         Returns the Date created by this
+         - parameter format: date format to parse
+         - parameter timezone: TimeZone of the date to be returned
+         - requires: this should be formated given format
+         - returns: The date created by this
+    */
+    func toDate(_ format : String = "yyyy-MM-dd'T'HH:mm:ssZZZZ", timezone: TimeZone? = TimeZone(identifier: "Asia/Seoul")) -> Date?{
         let formatter = DateFormatter();
         formatter.dateFormat = format;
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul");
+        formatter.timeZone = timezone;
         
         return formatter.date(from: self);
     }
     
+    /**
+        Returns the indicate whether this is passed validation by given pattern
+         - parameter pattern: pattern to validate this with
+    */
     func validate(_ pattern : String) -> Bool{
         var value = false;
         do{
@@ -283,7 +300,7 @@ extension String {
             let range = NSMakeRange(0, self.length);
             let match = rex.firstMatch(in: self, options: .reportProgress, range: range);
             value = (match?.range.location ?? NSNotFound) != NSNotFound;
-            print("string validate. string[\(self)] => result[\(value)]. match[\(match)]", terminator: "\n");
+            //print("string validate. string[\(self)] => result[\(value)]. match[\(match)]", terminator: "\n");
         }catch(let error){
             print("string validation error[\(error) string[\(self)]]")
         }
@@ -291,6 +308,11 @@ extension String {
         return value;
     }
     
+    /**
+        Returns the dictionary generated by parsing this with given pattern
+         - parameter pattern: pattern to parse this
+         - returns: the dictionary generated by parsing this with given pattern
+    */
     func parse(_ pattern : String) -> [Int : String]{
         var values : [Int : String] = [:];
         do{
@@ -299,17 +321,17 @@ extension String {
             //let match = rex.firstMatch(in: self, options: .reportProgress, range: range);
             //print("parse string. string[\(self)] pattern[\(pattern)]");
             let match = rex.firstMatch(in: self, options: .reportCompletion, range: self.fullRange);
-            print("matches components[\(match?.components)] range[\(match?.numberOfRanges)]");
+            print("matches components[\(match?.components?.description ?? "")] range[\(match?.numberOfRanges.description ?? "")]");
             
             guard match != nil else{
                 return values;
             }
             
             for index in 0..<match!.numberOfRanges{
-                var range = match!.range(at: index);
+                let range = match!.range(at: index);
                 values[index] = (self as NSString).substring(with: range);
                 
-                print("matches index[\(index)] location[\(range.location)] length[\(range.length)] text[\(values[index])]");
+                print("matches index[\(index.description)] location[\(range.location.description)] length[\(range.length.description)] text[\(values[index]?.description ?? "")]");
             }
             /*rex.matches(in: self, options: .reportProgress, range: self.fullRange).forEach({ (result) in
                 print("matches components[\(result.components)] range[\(result.rangeAt(1).location)] range[\(result.rangeAt(2).location)]");
@@ -319,19 +341,25 @@ extension String {
             })*/
             //value = (match?.range.location ?? NSNotFound) != NSNotFound;
             //print("string validate. string[\(self)] => result[\(value)]. match[\(match)]", terminator: "\n");
-        }catch(let error){
+        }catch let error{
             print("string validation error[\(error) string[\(self)]]")
         }
         
         return values;
     }
     
+    /**
+     Indicates whether this is file name
+    */
     var isFileName : Bool{
         get{
-            return self.validate("^[\\w\\s~\\!@#\\$%\\^&\\(\\)\\+\\-=\\{\\}\\[\\];\",\\.]+$") ?? false;
+            return self.validate("^[\\w\\s~\\!@#\\$%\\^&\\(\\)\\+\\-=\\{\\}\\[\\];\",\\.]+$");
         }
     }
     
+    /**
+        Full Range of this
+    */
     var fullRange : NSRange{
         get{
             return NSMakeRange(0, self.length);
@@ -339,21 +367,19 @@ extension String {
         }
     }
     
+    /**
+        Returns new string generated this repeated given number of times.
+         - parameter count: Repeating count
+         - returns: New string generated this repeated given number of times.
+    */
     func multiply(_ count : Int) -> String{
-        var value = "";
-        
-        guard count > 0 else{
-            return value;
-        }
-        
-        (1...count).forEach { (n) in
-            value = value + self;
-        }
-        
-        return value;
+        return String.init(repeating: self, count: count);
     }
 }
 
 enum StringExtensionError : Error{
+    /**
+        Error to indicate that String is not Hex formated
+     */
     case invalidHex(String);
 }
