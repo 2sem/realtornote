@@ -9,51 +9,101 @@
 import Foundation
 
 extension Int{
-    var roman : String{
-        get{
-            let romans : [String] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-            var value = romans[self % romans.count - 1];
-            
-            return value;
-        }
+    
+    static let romans : [String] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+    static let lowerAlphas : [String] = (UnicodeScalar("a")!.value...UnicodeScalar("z")!.value)
+        .compactMap { String(UnicodeScalar($0)!) };
+    static let upperAlphas : [String] = (UnicodeScalar("A")!.value...UnicodeScalar("Z")!.value)
+        .compactMap { String(UnicodeScalar($0)!) };
+        /*["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+                             "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];*/
+    /**
+     The roman number sequenced by this value
+        - Requires: Value should be less than 12(XII)
+        - Note: value start from 1
+    */
+    public var roman : String{
+        let list = type(of: self).romans;
+        return list[self % list.count - 1];
     }
     
-    var alpha : String{
-        get{
-            let alphas : [String] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-                "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-            var value = alphas[self % alphas.count - 1];
-            
-            return value;
-        }
+    /**
+        The lower case alphabet sequenced by this value
+         - Note: value start from 1
+    */
+    var lowerAlpha : String{
+        let list = type(of: self).lowerAlphas;
+        return list[self % list.count - 1];
     }
     
+    /**
+     The upper case alphabet sequenced by this value
+         - Note: value start from 1
+     */
+    var upperAlpha : String{
+        let list = type(of: self).upperAlphas;
+        return list[self % list.count - 1];
+    }
+    
+    /**
+        The sequence of the specified lower case alpha.
+         - Note: value start from 1
+    */
     init(alpha: String) {
-        let alphas : [String] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-                                 "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-        
-        self = (alphas.index(of: alpha) ?? -1) + 1;
+        self = (type(of: self).lowerAlphas.index(of: alpha) ?? -1) + 1;
     }
 }
 
 extension Int32{
+    /**
+     The roman number sequenced by this value
+        - Requires: Value should be less than 12(XII)
+        - Note: value start from 1
+     */
     var roman : String{
-        get{
-            let romans : [String] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-            var value = romans[Int(self % 10 - 1)];
-            
-            return value;
-        }
+        return Int(self).roman;
+    }
+    
+    /**
+     The lower case alphabet sequenced by this value
+         - Note: value start from 1
+     */
+    var lowerAlpha : String{
+        return Int(self).lowerAlpha;
+    }
+    
+    /**
+     The upper case alphabet sequenced by this value
+         - Note: value start from 1
+     */
+    var upperAlpha : String{
+        return Int(self).upperAlpha;
     }
 }
 
 extension Int16{
+    /**
+     The roman number sequenced by this value
+         - Requires: Value should be less than 12(XII)
+         - Note: value start from 1
+     */
     var roman : String{
-        get{
-            let romans : [String] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-            var value = romans[Int(self % 10 - 1)];
-            
-            return value;
-        }
+        return Int(self).roman;
+    }
+    
+    /**
+     The lower case alphabet sequenced by this value
+         - Note: value start from 1
+     */
+    var lowerAlpha : String{
+        return Int(self).lowerAlpha;
+    }
+    
+    /**
+     The upper case alphabet sequenced by this value
+         - Note: value start from 1
+     */
+    var upperAlpha : String{
+        return Int(self).upperAlpha;
     }
 }

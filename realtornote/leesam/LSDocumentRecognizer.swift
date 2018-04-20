@@ -117,7 +117,7 @@ class LSDocumentRecognizer : NSObject{
                         value = "\(index))";
                         break;
                     case .half_bracket_alpha:
-                        value = "\(index.alpha))";
+                        value = "\(index.lowerAlpha))";
                         break;
                     default:
                         break;

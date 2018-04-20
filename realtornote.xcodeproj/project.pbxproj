@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB359B9258AE056390FB4C12 /* Pods_realtornote.framework */; };
 		2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04BD1D1F286DE60010CD69 /* RNSubjectViewController.swift */; };
-		2C04BD231F2881910010CD69 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04BD221F2881910010CD69 /* Int+.swift */; };
 		2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */; };
 		2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */; };
 		2C0D80941F25C7D9002F58A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C0D80921F25C7D9002F58A5 /* Main.storyboard */; };
@@ -22,7 +21,6 @@
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
 		2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C17FC361F43217C00DFBCAF /* Array+.swift */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
-		2C19380C1F272E0000E4BCFB /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380B1F272E0000E4BCFB /* String+.swift */; };
 		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
 		2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 2C1938101F2730D700E4BCFB /* realtornote.xlsx */; };
 		2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */; };
@@ -31,6 +29,7 @@
 		2C1938221F27464200E4BCFB /* Character+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938211F27464200E4BCFB /* Character+.swift */; };
 		2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */; };
 		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
+		2C19CD8520898A9A003E456F /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380B1F272E0000E4BCFB /* String+.swift */; };
 		2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */; };
 		2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */; };
 		2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */; };
@@ -132,7 +131,6 @@
 		2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADInterstialManager.swift; sourceTree = "<group>"; };
-		2C93E43B1F2F2B8400AFD09D /* UIApplication+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
 		2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
@@ -316,7 +314,6 @@
 		2C19380A1F272DA200E4BCFB /* leesam */ = {
 			isa = PBXGroup;
 			children = (
-				2C93E43B1F2F2B8400AFD09D /* UIApplication+.swift */,
 				2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */,
 				2C19380B1F272E0000E4BCFB /* String+.swift */,
 				2C1938211F27464200E4BCFB /* Character+.swift */,
@@ -618,10 +615,10 @@
 				2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */,
 				2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */,
 				2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */,
-				2C04BD231F2881910010CD69 /* Int+.swift in Sources */,
 				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
 				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
 				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
+				2C19CD8520898A9A003E456F /* String+.swift in Sources */,
 				2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */,
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
 				2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */,
@@ -629,7 +626,6 @@
 				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
 				2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */,
-				2C19380C1F272E0000E4BCFB /* String+.swift in Sources */,
 				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
 				2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */,
 				2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */,

@@ -32,7 +32,7 @@ PODS:
   - KakaoOpenSDK/KakaoOpenSDK (1.7.0)
   - KakaoOpenSDK/KakaoS2 (1.7.0):
     - KakaoOpenSDK/KakaoCommon
-  - LSExtensions (0.0.1)
+  - LSExtensions (0.0.2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -83,13 +83,13 @@ SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   KakaoOpenSDK: 82e9c4d57c7d273360e4b49c2d8a0d8626216143
-  LSExtensions: c331269bad2dd60500e3b03de7e804d1e10913ef
+  LSExtensions: f27e19ae6292e4c19587a55ebbdfcc6a094cf71e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   ProgressWebViewController: b43f1bfd69951e07ff690eabc0fdc10abe2a8e06
   SSZipArchive: d3d66fc0e3fb6ac0f723d95481aae71aae916cc3
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: 9cdfb936757714b19b1664fcb63b3aba86b2e71c
+PODFILE CHECKSUM: 913e8fd859f9daa0d901f76c636628fc63ca438b
 
 COCOAPODS: 1.5.0
