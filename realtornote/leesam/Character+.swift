@@ -1,13 +1,13 @@
 //
 //  Character.swift
-//  WhoCallMe
+//  LSExtensions
 //
 //  Created by 영준 이 on 2016. 3. 15..
 //  Copyright © 2016년 leesam. All rights reserved.
 //
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+/*// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
@@ -40,14 +40,18 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   default:
     return !(rhs < lhs)
   }
-}
+}*/
 
 
 extension Character {
-    func isKorean() -> Bool{
-        let code = self.scalars.first?.value;
+    /**
+     Returns the indicate whether this is korean
+     - returns: the indicate whether this is korean
+    */
+    public func isKorean() -> Bool{
+        let code = self.scalars.first?.value ?? 0;
         
-        //complete || short
+        //Is this in complete or short?
         return (code >= 0xAC00 && code <= 0xD7AF) || (code >= 0x3130 && code <= 0x318F);
     }
     
@@ -57,6 +61,10 @@ extension Character {
     static let koreanJungSeongs = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅕ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"];
     static let koreanJongSeongs = [" ", "ㄱ", "ㄲ", "ㄱㅅ", "ㄴ", "ㄴㅈ", "ㄴㅎ", "ㄷ", "ㄹ", "ㄹㄱ", "ㄹㅁ", "ㄹㅂ", "ㄹㅅ", "ㄹㅌ", "ㄹㅍ", "ㄹㅎ", "ㅁ", "ㅂ", "ㅂㅅ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
     
+    /**
+     Returns the index from "가"
+         - returns: the index from "가"
+    */
     func getKoreanIndex() -> UInt32?{
         var value : UInt32?;
         
@@ -75,14 +83,21 @@ extension Character {
         return value;
     }
     
+    /**
+        the indicate whether this is korean part
+    */
     var isKoreanPart : Bool{
         get{
-            let uCode = self.scalars.first?.value;
+            let uCode = self.scalars.first?.value ?? 0;
 
             return uCode >= 0x3131 && uCode <= 0x318E;
         }
     }
     
+    /**
+        Returns cho seong get from this
+     - returns: Cho seong get from this
+    */
     func getKoreanChoseong() -> String?{
         var value : String?;
         
@@ -91,25 +106,24 @@ extension Character {
         }
         
         //is not completed korean character?
-        
-        
-        let uIndex = self.getKoreanIndex();
-        
-        if uIndex == nil{
+        guard let uIndex = self.getKoreanIndex() else{
             if isKoreanPart{
                 value = String(self);
             }
             return value;
         }
         
-        let idx_cho = uIndex! / UInt32(Character.koreanJungSeongs.count * Character.koreanJongSeongs.count);
-        
+        let idx_cho = uIndex / UInt32(Character.koreanJungSeongs.count * Character.koreanJongSeongs.count);
         
         value = Character.koreanChoSeongs[Int(idx_cho)];
         
         return value;
     }
     
+    /**
+     Returns jung seong got from this
+     - returns: Jung seong got from this
+     */
     func getKoreanJungSeong() -> String?{
         var value : String?;
         
@@ -125,6 +139,10 @@ extension Character {
         return value;
     }
     
+    /**
+     Returns jong seong got from this
+     - returns: Jong seong got from this
+     */
     func getKoreanJongSeong() -> String?{
         var value : String?;
         
@@ -140,6 +158,10 @@ extension Character {
         return value;
     }
     
+    /**
+        Returns cho, jung, jong seong got from this
+         - returns: Cho, jung, jong seong got from this
+    */
     func getKoreanParts() -> String{
         var value : String = "";
         
@@ -148,10 +170,7 @@ extension Character {
         }
         
         //is not completed korean character?
-        
-        let uIndex : UInt32! = self.getKoreanIndex();
-        
-        if uIndex == nil{
+        guard let uIndex : UInt32 = self.getKoreanIndex() else{
             if isKoreanPart{
                 value = String(self);
             }
@@ -163,9 +182,9 @@ extension Character {
         let idx_jong = Int(uIndex % UInt32(Character.koreanJongSeongs.count));
             //* Character.koreanJongSeongs.count));
         
-        var cho = Character.koreanChoSeongs.count > idx_cho ? Character.koreanChoSeongs[idx_cho] : "";
-        var jung = Character.koreanJungSeongs.count > idx_jung ? Character.koreanJungSeongs[Int(idx_jung)] : "";
-        var jong = Character.koreanJongSeongs.count > idx_jong ? Character.koreanJongSeongs[idx_jong] : "";
+        let cho = Character.koreanChoSeongs.count > idx_cho ? Character.koreanChoSeongs[idx_cho] : "";
+        let jung = Character.koreanJungSeongs.count > idx_jung ? Character.koreanJungSeongs[Int(idx_jung)] : "";
+        let jong = Character.koreanJongSeongs.count > idx_jong ? Character.koreanJongSeongs[idx_jong] : "";
         
         //print("get kor char parts \(self) => cho[\(idx_cho)] jung[\(idx_jung)] jong[\(idx_jong)]");
         value = cho + jung + jong;
@@ -173,17 +192,20 @@ extension Character {
         return value;
     }
     
+    /**
+     Returns the character advanced by given number
+     - returns: The character advanced by given number
+    */
     func increase(_ num : UInt32) -> Character{
-        var chrValue = UInt32(String(self).unicodeScalars.first!.value + num);
+        let chrValue = UInt32(String(self).unicodeScalars.first!.value + num);
         return Character.init(UnicodeScalar(chrValue)!);
     }
     
-    var scalars : String.UnicodeScalarView {
-        get{
-            var scalarString = String(self);
-            let scalars = scalarString.unicodeScalars;
-            
-            return scalars;
-        }
+    /**
+     
+    */
+    fileprivate var scalars : String.UnicodeScalarView {
+        let scalarString = String(self);
+        return scalarString.unicodeScalars;
     }
 }

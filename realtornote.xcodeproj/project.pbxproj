@@ -19,14 +19,12 @@
 		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
 		2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1272372085EAB8009AF35B /* NSNotification+.swift */; };
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
-		2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C17FC361F43217C00DFBCAF /* Array+.swift */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
 		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
 		2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 2C1938101F2730D700E4BCFB /* realtornote.xlsx */; };
 		2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */; };
 		2C19381E1F273EFB00E4BCFB /* RNExcelSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */; };
 		2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19381F1F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift */; };
-		2C1938221F27464200E4BCFB /* Character+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938211F27464200E4BCFB /* Character+.swift */; };
 		2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */; };
 		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
 		2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */; };
@@ -611,7 +609,6 @@
 				2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */,
 				2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */,
 				2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */,
-				2C17FC371F43217C00DFBCAF /* Array+.swift in Sources */,
 				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
 				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
 				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
@@ -633,7 +630,6 @@
 				2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */,
 				2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */,
 				2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */,
-				2C1938221F27464200E4BCFB /* Character+.swift in Sources */,
 				2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */,
 				2C4AE7C81F27689D00644322 /* RNModelController+RNChapterInfo.swift in Sources */,
 				2C4AE7D51F27812700644322 /* RNChapterInfo+.swift in Sources */,
