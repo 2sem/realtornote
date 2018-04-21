@@ -167,7 +167,7 @@ class GADRewardManager : NSObject, GADRewardBasedVideoAdDelegate{
         guard self.rewarded else{
             return;
         }
-        
+    
         self.window.rootViewController?.showAlert(title: "후원해주셔서 감사합니다.", msg: "불편하신 사항은 리뷰에 남겨주시면 반영하겠습니다.", actions: [UIAlertAction.init(title: "확인", style: .default, handler: nil), UIAlertAction.init(title: "평가하기", style: .default, handler: { (act) in
             UIApplication.shared.openReview();
         })], style: .alert);

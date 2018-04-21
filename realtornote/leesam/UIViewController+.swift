@@ -15,7 +15,7 @@ extension UIViewController {
     /**
      Window presenting this
     */
-    var window : UIWindow?{
+    public var window : UIWindow?{
         get{
             return UIApplication.shared.windows.first{ $0 === self.rootViewController }
         }
@@ -24,7 +24,7 @@ extension UIViewController {
     /**
      Root UIViewController presenting this
     */
-    var rootViewController: UIViewController?{
+    public var rootViewController: UIViewController?{
         guard let parent = self.parent else{
             return self;
         }
@@ -36,7 +36,7 @@ extension UIViewController {
      Top UIViewController of this if this is container view controller
          - requires: this should be UINavigationContoller/UITabBarController/UIAlertController
     */
-    var mostTopViewController : UIViewController?{
+    public var mostTopViewController : UIViewController?{
         get{
             var value : UIViewController?;
             if let nav = self as? UINavigationController{
@@ -69,7 +69,7 @@ extension UIViewController {
          - returns: Alert Controller generated with given information and returns it
     */
     @discardableResult
-    func showAlert(title: String, msg: String, actions : [UIAlertAction], style: UIAlertControllerStyle, sourceView: UIView? = nil, sourceRect: CGRect? = nil, popoverDelegate: UIPopoverPresentationControllerDelegate? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
+    public func showAlert(title: String, msg: String, actions : [UIAlertAction], style: UIAlertControllerStyle, sourceView: UIView? = nil, sourceRect: CGRect? = nil, popoverDelegate: UIPopoverPresentationControllerDelegate? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
         let alert = UIAlertController(title: title, message: msg, preferredStyle: style);
         for act in actions{
             alert.addAction(act);
@@ -98,7 +98,7 @@ extension UIViewController {
          - parameter completion: block to be called after presenting UIAlertController has been completed
          - returns: UIAlertController containing UIActivityIndicatorView to indicate progressing
     */
-    func showIndicator(title: String?, msg: String = "\n\n\n", completion: (() -> Void)? = nil) -> UIAlertController{
+    public func showIndicator(title: String?, msg: String = "\n\n\n", completion: (() -> Void)? = nil) -> UIAlertController{
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert);
         
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge);
@@ -127,7 +127,7 @@ extension UIViewController {
          - returns: UIAlertController containing UITextField to get password
     */
     @discardableResult
-    func showPasscode(title: String?, msg: String, buttonTitle: String? = "OK", validationHandler: ((_ password: String) -> Bool)? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
+    public func showPasscode(title: String?, msg: String, buttonTitle: String? = "OK", validationHandler: ((_ password: String) -> Bool)? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert);
         
         alert.addTextField { (txt) -> Void in
@@ -163,7 +163,7 @@ extension UIViewController {
      - parameter color: Background Color of Popover
      - returns: UIPopoverPresentationController for new Popover on this
     */
-    func popOverFromButton(inView: UIViewController, buttonToShow: UIBarButtonItem, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool=true, color: UIColor? = nil) -> UIPopoverPresentationController?{
+    public func popOverFromButton(inView: UIViewController, buttonToShow: UIBarButtonItem, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool=true, color: UIColor? = nil) -> UIPopoverPresentationController?{
         self.modalPresentationStyle = .popover;
         let pop = self.popoverPresentationController;
         
@@ -199,7 +199,7 @@ extension UIViewController {
      - parameter completion: block to be called when presenting this has been completed
      - returns: UIPopoverPresentationController for new Popover on this
      */
-    func popOver(inView: UIViewController, popOverDelegate delegate: UIPopoverPresentationControllerDelegate? = nil, viewToShow view: UIView, rectToShow rect: CGRect, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool, color: UIColor? = nil, completion: (() -> Void)? = nil) -> UIPopoverPresentationController?{
+    public func popOver(inView: UIViewController, popOverDelegate delegate: UIPopoverPresentationControllerDelegate? = nil, viewToShow view: UIView, rectToShow rect: CGRect, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool, color: UIColor? = nil, completion: (() -> Void)? = nil) -> UIPopoverPresentationController?{
         var pop = self.popoverPresentationController;
         self.modalPresentationStyle = .popover;
         
@@ -234,7 +234,7 @@ extension UIViewController {
     /**
      Indication whether this is presented as Popover
     */
-    var isPopover : Bool{
+    public var isPopover : Bool{
         get{
             var value = self.popoverPresentationController != nil;
             
@@ -254,100 +254,80 @@ extension UIViewController {
      - parameter type: UIViewController's type to get
      - returns: child UIViewController found out in this by given Type
     */
-    func childViewController<T : UIViewController>(type: T.Type) -> T?{
+    public func childViewController<T : UIViewController>(type: T.Type) -> T?{
         return self.childViewControllers.filter({ (view) -> Bool in
             return view.isKind(of: type);
         }).first as? T;
     }
     
-    func backupNavigationBarHidden( hidden : inout Bool){
+    public func backupProperty<P>(value: inout P, getter: (UIViewController) -> P){
+        P = getter(self);
+    }
+    
+    public func restoreProperty<P>(value: inout P, setter: (UIViewController, P) -> Void){
+        setter(self, value);
+    }
+    
+    public func backupNavigationBarHidden( hidden : inout Bool){
         hidden = (self.navigationController?.isNavigationBarHidden ?? false);
     }
     
-    func restoreNavigationBarHidden( hidden: inout Bool){
+    public func restoreNavigationBarHidden( hidden: inout Bool){
         self.navigationController?.isNavigationBarHidden = hidden;
     }
     
-    func backupNavigationBarTranslucent( translucent : inout Bool){
+    public func backupNavigationBarTranslucent( translucent : inout Bool){
         translucent = (self.navigationController?.navigationBar.isTranslucent ?? false);
     }
     
-    func restoreNavigationBarTranslucent( translucent: inout Bool){
+    public func restoreNavigationBarTranslucent( translucent: inout Bool){
         self.navigationController?.navigationBar.isTranslucent = translucent;
     }
     
-    func backupTabBarTranslucent( translucent : inout Bool){
+    public func backupTabBarTranslucent( translucent : inout Bool){
         translucent = (self.tabBarController?.tabBar.isTranslucent ?? false);
     }
     
-    func restoreTabBarTranslucent( translucent: inout Bool){
+    public func restoreTabBarTranslucent( translucent: inout Bool){
         self.tabBarController?.tabBar.isTranslucent = translucent;
     }
     
-    func openSettingsOrCancel(title: String = "Something is disabled", msg: String = "Please enable to do something", style: UIAlertControllerStyle = .alert, titleForOK: String = "OK", titleForSettings: String = "Settings"){
+    /**
+     Presents UIAlertController to notify you need to change the setting for this app to do something and provide button to open Settings App.
+     - parameter title: title of UIAlertController to present
+     - parameter msg: message of UIAlertController to present
+     - parameter style: style of UIAlertController to present
+     - parameter titleForOK: title of "OK" button
+     - parameter titleForSettings: title of "Settings" button
+    */
+    public func openSettingsOrCancel(title: String = "Something is disabled", msg: String = "Please enable to do something", style: UIAlertControllerStyle = .alert, titleForOK: String = "OK", titleForSettings: String = "Settings"){
         let acts = [UIAlertAction(title: titleForSettings, style: .default, handler: { (act) in
-            self.openSettings();
+            UIApplication.shared.openSettings();
         }), UIAlertAction(title: titleForOK, style: .default, handler: nil)];
         self.showAlert(title: title, msg: msg, actions: acts, style: style);
     }
     
-    func showCellularAlert(title: String, okHandler : ((UIAlertAction) -> Void)? = nil, cancelHandler : ((UIAlertAction) -> Void)? = nil){
+    /**
+     Presents UIAlertController to notify you need to cellular data or Wi-Fi to do something.
+     - parameter title: title of UIViewController
+     - parameter okHandler: Handler for OK Button
+     - parameter cancelHandler: Handler for Cancel Button
+    */
+    public func showCellularAlert(title: String, okHandler : ((UIAlertAction) -> Void)? = nil, cancelHandler : ((UIAlertAction) -> Void)? = nil){
         self.showAlert(title: title, msg: "Turn on cellular data or use Wi-Fi to access data".localized(), actions: [UIAlertAction(title: "Cancel".localized(), style: .default, handler: cancelHandler), UIAlertAction(title: "OK".localized(), style: .default, handler: okHandler)], style: .alert);
     }
     
-    func share(_ activityItems: [Any], applicationActivities: [UIActivity]? = nil, completion: (() -> Void)? = nil){
+    /**
+     Presents UIActivityViewController to share given item to another app
+     - parameter activityItems: items to share to another app
+     - parameter applicationActivities: app filter to shared
+     - parameter completion: block to be called when presenting share activity has been completed
+    */
+    public func share(_ activityItems: [Any], applicationActivities: [UIActivity]? = nil, completion: (() -> Void)? = nil){
         let controller = UIActivityViewController.init(activityItems: activityItems, applicationActivities: applicationActivities);
         controller.popoverPresentationController?.sourceView = self.view;
         //        controller.excludedActivityTypes = [.mail, .message, .postToFacebook, .postToTwitter];
         self.present(controller, animated: true, completion: completion);
-    }
-    
-    func call(_ number: String){
-        UIApplication.shared.open(URL(string: "tel://\(number)")!, options: [:], completionHandler: nil);
-        
-        /*self.showAlert(title: number, msg: "", actions: [UIAlertAction(title: "Cancel", style: .cancel, handler: nil), UIAlertAction.init(title: "Call", style: .default, handler: { (act) in
-            
-        })], style: .alert);*/
-    }
-    
-    /*func shareOrReview(cancelation: ((UIAlertAction) -> Void)? = nil){
-        var name : String = self.nibBundle?.localizedInfoDictionary?["CFBundleDisplayName"] as? String ?? "";
-        var acts = [UIAlertAction(title: String(format: "Review '%@'".localized(), name), style: .default) { (act) in
-            
-            UIApplication.shared.openReview();
-            },
-                    UIAlertAction(title: String(format: "Recommend '%@'".localized(), name), style: .default) { (act) in
-                        self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"]);
-            },
-                    UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: cancelation)]
-        self.showAlert(title: "App rating and recommendation".localized(), msg: String(format: "Please rate '%@' or recommend it to your friends.".localized(), name), actions: acts, style: .alert);
-    }*/
-    
-    func searchByGoogle(_ keyword : String){
-        var urlComponents = URLComponents(string: "https://www.google.co.kr/search");
-        urlComponents?.queryItems = [URLQueryItem(name: "q", value: keyword)];
-        UIApplication.shared.open(urlComponents!.url!, options: [:], completionHandler: nil);
-
-    }
-    
-    func searchByDaum(_ keyword : String){
-        var urlComponents = URLComponents(string: "http://search.daum.net/search");
-        urlComponents?.queryItems = [URLQueryItem(name: "q", value: keyword)];
-        UIApplication.shared.open(urlComponents!.url!, options: [:], completionHandler: nil);
-        
-    }
-    
-    func searchByNaver(_ keyword : String){
-        var urlComponents = URLComponents(string: "http://search.naver.com/search.naver");
-        urlComponents?.queryItems = [URLQueryItem(name: "query", value: keyword)];
-        UIApplication.shared.open(urlComponents!.url!, options: [:], completionHandler: nil);
-        
-    }
-    
-    var isInKorean : Bool{
-        get{
-            return Locale.current.identifier.hasPrefix("ko");
-        }
     }
 }
 

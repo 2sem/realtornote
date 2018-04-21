@@ -44,7 +44,6 @@
 		2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
 		2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */; };
-		2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */; };
 		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
 		2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */; };
 		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
@@ -601,7 +600,6 @@
 				2C4AE7CA1F276DB000644322 /* RNModelController+RNPartInfo.swift in Sources */,
 				2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */,
 				2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */,
-				2C93E43E1F2F2BE300AFD09D /* UIViewController+.swift in Sources */,
 				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
 				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
 				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
