@@ -1,6 +1,6 @@
 //
 //  UIViewController+.swift
-//  wherewego
+//  LSExtensions
 //
 //  Created by 영준 이 on 2017. 4. 23..
 //  Copyright © 2017년 leesam. All rights reserved.
@@ -12,12 +12,30 @@ import UIKit
 import CoreLocation
 
 extension UIViewController {
+    /**
+     Window presenting this
+    */
     var window : UIWindow?{
         get{
-            return UIApplication.shared.keyWindow;
+            return UIApplication.shared.windows.first{ $0 === self.rootViewController }
         }
     }
     
+    /**
+     Root UIViewController presenting this
+    */
+    var rootViewController: UIViewController?{
+        guard let parent = self.parent else{
+            return self;
+        }
+        
+        return parent;
+    }
+    
+    /**
+     Top UIViewController of this if this is container view controller
+         - requires: this should be UINavigationContoller/UITabBarController/UIAlertController
+    */
     var mostTopViewController : UIViewController?{
         get{
             var value : UIViewController?;
@@ -27,6 +45,7 @@ extension UIViewController {
                 value = tab.selectedViewController;
             }else if value?.presentedViewController != nil{
                 if value?.presentedViewController is UIAlertController{
+                    //ignore UIAlertController, so it consider as end view controller
                 }else{
                     value = value?.presentedViewController;
                 }
@@ -37,6 +56,18 @@ extension UIViewController {
         }
     }
     
+    /**
+        Presents Alert Controller generated with given information and returns it
+         - parameter title: title of UIAlertController to present
+         - parameter msg: message of UIAlertController to present
+         - parameter style: style of UIAlertController to present
+         - parameter sourceView: source view for popover
+         - parameter sourceRect: source rect for popover
+         - parameter popoverDelegate: delegate for popover
+         - parameter completion: block to be called when presenting UIAlertController has been completed
+         - note: UIAlertController will be presented as popover if given style is ActionSheet and this app is launched on iPad
+         - returns: Alert Controller generated with given information and returns it
+    */
     @discardableResult
     func showAlert(title: String, msg: String, actions : [UIAlertAction], style: UIAlertControllerStyle, sourceView: UIView? = nil, sourceRect: CGRect? = nil, popoverDelegate: UIPopoverPresentationControllerDelegate? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
         let alert = UIAlertController(title: title, message: msg, preferredStyle: style);
@@ -44,8 +75,8 @@ extension UIViewController {
             alert.addAction(act);
         };
         
+        //UIAlertController is presented as popover if the style of it is ActionSheet and this app is launched on iPad
         if style == .actionSheet && alert.modalPresentationStyle == .popover{
-            
             alert.popoverPresentationController?.sourceView = sourceView;
             if sourceRect != nil{
                 alert.popoverPresentationController?.sourceRect = sourceRect!;
@@ -60,6 +91,13 @@ extension UIViewController {
         return alert;
     }
     
+    /**
+        Presens UIAlertController containing UIActivityIndicatorView to indicate progressing
+         - parameter title: title of UIAlertController
+         - parameter msg: message of UIAlertController
+         - parameter completion: block to be called after presenting UIAlertController has been completed
+         - returns: UIAlertController containing UIActivityIndicatorView to indicate progressing
+    */
     func showIndicator(title: String?, msg: String = "\n\n\n", completion: (() -> Void)? = nil) -> UIAlertController{
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert);
         
@@ -74,15 +112,29 @@ extension UIViewController {
         return alert;
     }
     
+    /**
+        Presens UIAlertController containing Security TextField to input the Password
+         - parameter title: title of UIAlertController
+         - parameter msg: message of UIAlertController
+         - parameter completion: block to be called after presenting UIAlertController has been completed
+         - parameter OK: Button title to do something with the Password
+         - parameter validationHandler: Handler to validate password
+             - parameter password: Password input on UIAlertController
+         - parameter completion: block to be called when presenting UIAlertController has been completed
+         - note:
+                Default validation button name is "OK"
+                you can localize title of the cancel button "Cancel"
+         - returns: UIAlertController containing UITextField to get password
+    */
     @discardableResult
-    func showPasscode(title: String?, msg: String, buttonTitle: String? = "OK", request: ((String) -> Bool)? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
+    func showPasscode(title: String?, msg: String, buttonTitle: String? = "OK", validationHandler: ((_ password: String) -> Bool)? = nil, completion: (() -> Void)? = nil) -> UIAlertController{
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert);
         
         alert.addTextField { (txt) -> Void in
             txt.placeholder = "Input password";
             txt.isSecureTextEntry = true;
         };
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (act) -> Void in
+        alert.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: { (act) -> Void in
         }));
         alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { (act) -> Void in
             let txt = alert.textFields?.first;
@@ -91,8 +143,9 @@ extension UIViewController {
                 return;
             }
             
-            if request?(txt!.text!) == false {
-                self.showPasscode(title: title, msg: msg, buttonTitle: buttonTitle, request: request, completion: completion);
+            //if validation has been failed
+            if validationHandler?(txt!.text!) == false {
+                self.showPasscode(title: title, msg: msg, buttonTitle: buttonTitle, validationHandler: validationHandler, completion: completion);
             }
         }));
         
@@ -101,30 +154,24 @@ extension UIViewController {
         return alert;
     }
     
-    /// < 8.0
-    //    func popOverFromButton(buttonToShow: UIBarButtonItem, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool) -> UIPopoverController{
-    //        var pop = UIPopoverController(contentViewController: self);
-    //        pop.presentPopoverFromBarButtonItem(buttonToShow, permittedArrowDirections: .Any, animated: true);
-    //
-    ////        (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated;
-    //
-    //        return pop;
-    //    }
-    
+    /**
+     Presents given UIViewController as Popover on this
+     - parameter inView: UIViewController to present as Popover
+     - parameter buttonToShow: UIBarButtonItem which is the begin of arrow for Popover
+     - parameter permittedArrowDirections: Direction of Arrow for Popover
+     - parameter animated: Indication whether present popover with the animation
+     - parameter color: Background Color of Popover
+     - returns: UIPopoverPresentationController for new Popover on this
+    */
     func popOverFromButton(inView: UIViewController, buttonToShow: UIBarButtonItem, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool=true, color: UIColor? = nil) -> UIPopoverPresentationController?{
-        var pop = self.popoverPresentationController;
-        //        pop = LSPopoverPresentationController(presentedViewController: self, presentingViewController: inView);
         self.modalPresentationStyle = .popover;
-        pop = self.popoverPresentationController;
-        
-        //        var alreadyPoped = pop != nil;
+        let pop = self.popoverPresentationController;
         
         if inView.presentedViewController === self {
             return inView.presentedViewController?.popoverPresentationController;
         }
         else if inView.presentedViewController != nil {
             inView.presentedViewController?.dismiss(animated: false, completion: nil);
-            //            pop = self.popoverPresentationController;
         }
         pop?.permittedArrowDirections = .any;
         pop?.barButtonItem = buttonToShow;
@@ -137,16 +184,21 @@ extension UIViewController {
         
         inView.present(self, animated: animated, completion: nil);
         
-        //        pop?.presentationStyle = .FormSheet;
-        
-        
-        //        pop.presentPopoverFromBarButtonItem(buttonToShow, permittedArrowDirections: .Any, animated: true);
-        
-        //        (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated;
-        
         return pop;
     }
     
+    /**
+     Presents given UIViewController as Popover on this
+     - parameter inView: UIViewController to present as Popover
+     - parameter popOverDelegate: delegate for Popover
+     - parameter viewToShow: UIView to use as the begin of arrow instead UIBarButtonItem
+     - parameter rectToShow: Area to use as the begin of arrow instead UIBarButtonItem
+     - parameter permittedArrowDirections: Direction of Arrow for Popover
+     - parameter animated: Indication whether present popover with the animation
+     - parameter color: Background Color of Popover
+     - parameter completion: block to be called when presenting this has been completed
+     - returns: UIPopoverPresentationController for new Popover on this
+     */
     func popOver(inView: UIViewController, popOverDelegate delegate: UIPopoverPresentationControllerDelegate? = nil, viewToShow view: UIView, rectToShow rect: CGRect, permittedArrowDirections : UIPopoverArrowDirection, animated : Bool, color: UIColor? = nil, completion: (() -> Void)? = nil) -> UIPopoverPresentationController?{
         var pop = self.popoverPresentationController;
         self.modalPresentationStyle = .popover;
@@ -158,22 +210,16 @@ extension UIViewController {
         }
         else if inView.presentedViewController != nil {
             inView.presentedViewController?.dismiss(animated: false, completion: nil);
-            //            pop = self.popoverPresentationController;
         }
         
-        //        pop?.permittedArrowDirections = .Any;
-        //        pop?.barButtonItem = buttonToShow;
         pop?.permittedArrowDirections = permittedArrowDirections;
         pop?.sourceView = view;
         pop?.sourceRect = rect;
         pop?.backgroundColor = color;
-        //        self.modalInPopover = true;
         
         if delegate != nil{
             pop?.delegate = delegate;
         }
-        //        pop?.preferredContentSize = CGSizeMake(300, 200);
-        //        self.preferredContentSize = CGRectZero;
         
         if inView is UIPopoverPresentationControllerDelegate{
             pop?.delegate = inView as? UIPopoverPresentationControllerDelegate;
@@ -182,17 +228,12 @@ extension UIViewController {
         
         inView.present(self, animated: true, completion: completion);
         
-        
-        //        pop?.presentationStyle = .FormSheet;
-        
-        
-        //        pop.presentPopoverFromBarButtonItem(buttonToShow, permittedArrowDirections: .Any, animated: true);
-        
-        //        (void)presentPopoverFromBarButtonItem:(UIBarButtonItem *)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections animated:(BOOL)animated;
-        
         return pop;
     }
     
+    /**
+     Indication whether this is presented as Popover
+    */
     var isPopover : Bool{
         get{
             var value = self.popoverPresentationController != nil;
@@ -208,11 +249,13 @@ extension UIViewController {
         }
     }
     
+    /**
+     Returns child UIViewController is given Type
+     - parameter type: UIViewController's type to get
+     - returns: child UIViewController found out in this by given Type
+    */
     func childViewController<T : UIViewController>(type: T.Type) -> T?{
-        //        print("childViewController filter count[\(self.childViewControllers.count)]");
         return self.childViewControllers.filter({ (view) -> Bool in
-            //            print("childViewController filter \(view) == \(type)");
-            
             return view.isKind(of: type);
         }).first as? T;
     }
@@ -239,14 +282,6 @@ extension UIViewController {
     
     func restoreTabBarTranslucent( translucent: inout Bool){
         self.tabBarController?.tabBar.isTranslucent = translucent;
-    }
-    
-    func openSettings(completionHandler completion: ((Bool) -> Swift.Void)? = nil){
-        let url_settings = URL(string:UIApplicationOpenSettingsURLString);
-        print("open settings - \(url_settings?.description ?? "")");
-        UIApplication.shared.open(url_settings!, options: [:], completionHandler: { (result) in
-            
-        })
     }
     
     func openSettingsOrCancel(title: String = "Something is disabled", msg: String = "Please enable to do something", style: UIAlertControllerStyle = .alert, titleForOK: String = "OK", titleForSettings: String = "Settings"){

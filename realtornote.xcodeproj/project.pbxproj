@@ -17,7 +17,6 @@
 		2C0D80A41F25C7DA002F58A5 /* realtornoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80A31F25C7DA002F58A5 /* realtornoteTests.swift */; };
 		2C0D80AF1F25C7DA002F58A5 /* realtornoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */; };
 		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
-		2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1272372085EAB8009AF35B /* NSNotification+.swift */; };
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
 		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
@@ -98,15 +97,12 @@
 		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2C1272372085EAB8009AF35B /* NSNotification+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+.swift"; sourceTree = "<group>"; };
 		2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
-		2C17FC361F43217C00DFBCAF /* Array+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
-		2C19380B1F272E0000E4BCFB /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2C19380E1F27300A00E4BCFB /* RNDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNDefaults.swift; sourceTree = "<group>"; };
 		2C1938101F2730D700E4BCFB /* realtornote.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = realtornote.xlsx; sourceTree = "<group>"; };
 		2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelChapter.swift; sourceTree = "<group>"; };
 		2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelSubject.swift; sourceTree = "<group>"; };
 		2C19381F1F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelSubject.swift"; sourceTree = "<group>"; };
-		2C1938211F27464200E4BCFB /* Character+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+.swift"; sourceTree = "<group>"; };
 		2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelPart.swift; sourceTree = "<group>"; };
 		2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelChapter.swift"; sourceTree = "<group>"; };
 		2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNInternetViewController.swift; sourceTree = "<group>"; };
@@ -311,8 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				2C93E43D1F2F2BE300AFD09D /* UIViewController+.swift */,
-				2C19380B1F272E0000E4BCFB /* String+.swift */,
-				2C1938211F27464200E4BCFB /* Character+.swift */,
 				2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */,
 				2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */,
 				2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */,
@@ -320,7 +314,6 @@
 				2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */,
 				2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */,
 				2C1272372085EAB8009AF35B /* NSNotification+.swift */,
-				2C17FC361F43217C00DFBCAF /* Array+.swift */,
 				2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */,
 				2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */,
 			);
@@ -614,7 +607,6 @@
 				2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */,
 				2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */,
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
-				2C1272382085EAB8009AF35B /* NSNotification+.swift in Sources */,
 				2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */,
 				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,

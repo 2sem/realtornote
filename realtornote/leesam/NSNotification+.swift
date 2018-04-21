@@ -1,6 +1,6 @@
 //
 //  NSNotification.swift
-//  realtornote
+//  LSExtensions
 //
 //  Created by 영준 이 on 2018. 4. 17..
 //  Copyright © 2018년 leesam. All rights reserved.
@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 extension NSNotification{
+    /**
+     Frame of Keyboard
+    */
     var keyboardFrame : CGRect{
         var value = (self.userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue;
         if value.height <= 0{
@@ -19,6 +22,9 @@ extension NSNotification{
         return value;
     }
     
+    /**
+     Duration of Animation to appear Keyboard
+    */
     var keyboardAniDuration : TimeInterval{
         return userInfo![UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval;
     }
