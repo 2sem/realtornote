@@ -38,9 +38,11 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     
     var delegate : RNPartViewControllerDelegate?;
     
-    var constraint_hide_search_bar : NSLayoutConstraint?;
+    //var constraint_hide_search_bar : NSLayoutConstraint?;
+    @IBOutlet var constraint_hide_search_bar: NSLayoutConstraint!
     var constraint_show_search_bar : NSLayoutConstraint?;
-    var constraint_content_bottom : NSLayoutConstraint?;
+    //var constraint_content_bottom : NSLayoutConstraint?;
+    @IBOutlet var constraint_content_bottom: NSLayoutConstraint!
     
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleLabel: UILabel!

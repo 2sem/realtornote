@@ -338,6 +338,8 @@
                     </view>
                     <connections>
                         <outlet property="bookButton" destination="IxY-v0-6aN" id="qKl-d8-0OS"/>
+                        <outlet property="constraint_content_bottom" destination="EXc-hL-lcf" id="qxL-XX-SNV"/>
+                        <outlet property="constraint_hide_search_bar" destination="s0Y-AJ-Mn2" id="HaX-OD-Zcq"/>
                         <outlet property="contentView" destination="3xH-mX-SrD" id="fiB-Oa-zo0"/>
                         <outlet property="searchBar" destination="FN6-3U-UR5" id="3xr-a8-Kjr"/>
                         <outlet property="searchButton" destination="c8h-CZ-m6P" id="oIJ-0g-tye"/>

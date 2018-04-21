@@ -55,7 +55,7 @@ class LSCountDownLabel : UILabel{
         UIView.animate(withDuration: 1.0, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             //self.font = self.font.withSize(self.fontSizeBackup);
             self.transform = CGAffineTransform.identity;
-        }) { (result) in
+        }) { [unowned self](result) in
             self.currentSecond = self.currentSecond - 1;
             
             guard self.currentSecond > 0 else{

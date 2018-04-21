@@ -268,8 +268,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        //Set paragraphs of current part as paragraphs of RNQuestionViewController to create questions
         if let nav = segue.destination as? UINavigationController{
             if let view = nav.viewControllers.first as? RNQuestionViewController{
                 let partView = self.viewControllers?.first as? RNPartViewController;

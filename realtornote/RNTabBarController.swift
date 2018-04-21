@@ -13,19 +13,17 @@ class RNTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //var recognizer = LSDocumentRecognizer();
-        //recognizer.recognize(doc: "1) hah hoho ", symbols: []);
-        
+        //Updates if excel file is new version
         if RNExcelController.Default.needToUpdate{
             RNExcelController.Default.loadFromFlie();
             
-            //sync groups and persons to database
+            //Syncs groups and persons to database
             RNModelController.shared.sync(RNExcelController.Default);
         }
-        // Do any additional setup after loading the view.
-        //apply tab title as names of subjects
+        
+        //Applys names of subjects to the tab titles
         for (i, viewController) in (self.viewControllers ?? []).enumerated(){
-            guard let subject = RNModelController.shared.findSubject(i+1) else{
+            guard let subject = RNModelController.shared.findSubject(i + 1) else{
                 return;
             }
             
@@ -36,6 +34,7 @@ class RNTabBarController: UITabBarController {
             subjectView?.subject = subject;
         }
         
+        //Go to last subject user saw
         self.selectedIndex = RNDefaults.LastSubject;
     }
 
