@@ -17,6 +17,7 @@
 		2C0D80A41F25C7DA002F58A5 /* realtornoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80A31F25C7DA002F58A5 /* realtornoteTests.swift */; };
 		2C0D80AF1F25C7DA002F58A5 /* realtornoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */; };
 		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
+		2C12B004208B87AB00242517 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C12B003208B87AB00242517 /* .gitignore */; };
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
 		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
@@ -94,6 +95,7 @@
 		2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = realtornoteUITests.swift; sourceTree = "<group>"; };
 		2C0D80B01F25C7DA002F58A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2C12B003208B87AB00242517 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
 		2C19380E1F27300A00E4BCFB /* RNDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNDefaults.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 		2C0D80801F25C7D9002F58A5 = {
 			isa = PBXGroup;
 			children = (
+				2C12B003208B87AB00242517 /* .gitignore */,
 				2C0D808B1F25C7D9002F58A5 /* realtornote */,
 				2C0D80A21F25C7DA002F58A5 /* realtornoteTests */,
 				2C0D80AD1F25C7DA002F58A5 /* realtornoteUITests */,
@@ -464,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */,
+				2C12B004208B87AB00242517 /* .gitignore in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
 				2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,
