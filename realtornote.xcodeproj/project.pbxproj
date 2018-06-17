@@ -42,6 +42,8 @@
 		2C4AE7D51F27812700644322 /* RNChapterInfo+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */; };
 		2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7D61F27879400644322 /* RNChapterInfo+RNExcelChapter.swift */; };
 		2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */; };
+		2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */; };
+		2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5C059020C6AFCA0064E4DB /* realtornote.plist */; };
 		2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
 		2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */; };
@@ -96,6 +98,7 @@
 		2C0D80B01F25C7DA002F58A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2C12B003208B87AB00242517 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2C1468DA20C6234B00F81270 /* realtornote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = realtornote.entitlements; sourceTree = "<group>"; };
 		2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
 		2C19380E1F27300A00E4BCFB /* RNDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNDefaults.swift; sourceTree = "<group>"; };
@@ -120,6 +123,8 @@
 		2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNChapterInfo+.swift"; sourceTree = "<group>"; };
 		2C4AE7D61F27879400644322 /* RNChapterInfo+RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNChapterInfo+RNExcelChapter.swift"; sourceTree = "<group>"; };
 		2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNPartViewController.swift; sourceTree = "<group>"; };
+		2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNPushController.swift; sourceTree = "<group>"; };
+		2C5C059020C6AFCA0064E4DB /* realtornote.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = realtornote.plist; sourceTree = "<group>"; };
 		2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADInterstialManager.swift; sourceTree = "<group>"; };
@@ -238,9 +243,11 @@
 		2C0D808B1F25C7D9002F58A5 /* realtornote */ = {
 			isa = PBXGroup;
 			children = (
+				2C1468DA20C6234B00F81270 /* realtornote.entitlements */,
 				2C19380A1F272DA200E4BCFB /* leesam */,
 				2C4AE7CB1F276F2F00644322 /* sync */,
 				2C0D80BD1F25C866002F58A5 /* database */,
+				2C5C058D20C6AE840064E4DB /* push */,
 				2C0D80BC1F25C847002F58A5 /* excel */,
 				2C19380D1F272F4300E4BCFB /* data */,
 				2C04BD1C1F286CF30010CD69 /* view */,
@@ -253,6 +260,7 @@
 				2C0D80971F25C7D9002F58A5 /* LaunchScreen.storyboard */,
 				2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */,
 				2C0D809A1F25C7D9002F58A5 /* Info.plist */,
+				2C5C059020C6AFCA0064E4DB /* realtornote.plist */,
 				2C93E4451F2F71F900AFD09D /* Settings.bundle */,
 			);
 			path = realtornote;
@@ -349,6 +357,14 @@
 			path = sync;
 			sourceTree = "<group>";
 		};
+		2C5C058D20C6AE840064E4DB /* push */ = {
+			isa = PBXGroup;
+			children = (
+				2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */,
+			);
+			path = push;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -424,6 +440,11 @@
 						DevelopmentTeam = M29A6H95KD;
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2C0D809E1F25C7DA002F58A5 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -468,6 +489,7 @@
 			files = (
 				2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */,
 				2C12B004208B87AB00242517 /* .gitignore in Resources */,
+				2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
 				2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,
@@ -554,6 +576,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/DownPicker/DownPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
@@ -565,6 +588,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DownPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
@@ -607,6 +631,7 @@
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
 				2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */,
 				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
+				2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
 				2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */,
 				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
@@ -800,6 +825,7 @@
 			baseConfigurationReference = C423D66454905F65DB508DFC /* Pods-realtornote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = realtornote/realtornote.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornote/Info.plist;
@@ -819,6 +845,7 @@
 			baseConfigurationReference = AB2179A845B8C7BF6C822231 /* Pods-realtornote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = realtornote/realtornote.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornote/Info.plist;

@@ -13,6 +13,7 @@ target 'realtornote' do
   pod 'KakaoOpenSDK'
   pod 'ProgressWebViewController'
   pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
+  pod 'Alamofire'
 
   target 'realtornoteTests' do
     inherit! :search_paths
@@ -33,10 +34,12 @@ target 'realtornote' do
       XMLDictionary = installer.pods_project.targets.find{ |t| t.name == "XMLDictionary" }
       #puts "capture #{XMLDictionary}";
       #find file reference for "XMLDictionary.h" of a Project "XMLDictionary"
-      XMLDictionaryHeader = XMLDictionary.headers_build_phase.files.find{ |b| b.file_ref.name == "XMLDictionary.h" }.file_ref
+      XMLDictionaryHeader = XMLDictionary.headers_build_phase.files
+          .find{ |b| b.file_ref.name == "XMLDictionary.h" }.file_ref
 
       #add reference for "XMLDictionary.h" into project "XlsxReaderWriter"
-      XMLDictionaryHeaderBuild = XlsxReaderWriter.headers_build_phase.add_file_reference(XMLDictionaryHeader, avoid_duplicates = true);
+      XMLDictionaryHeaderBuild = XlsxReaderWriter.headers_build_phase
+          .add_file_reference(XMLDictionaryHeader, avoid_duplicates = true);
       #make new file appended public
       XMLDictionaryHeaderBuild.settings = { "ATTRIBUTES" => ["Public"] }
       puts "add #{XMLDictionaryHeader} into XlsxReaderWriter";

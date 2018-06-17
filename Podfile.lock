@@ -1,38 +1,41 @@
 PODS:
+  - Alamofire (4.7.2)
   - DownPicker (0.1.34)
-  - Firebase/Core (4.13.0):
-    - FirebaseAnalytics (= 4.2.0)
-    - FirebaseCore (= 4.0.20)
-  - FirebaseAnalytics (4.2.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - Firebase/Core (5.1.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.0.1)
+  - Firebase/CoreOnly (5.1.0):
+    - FirebaseCore (= 5.0.2)
+  - FirebaseAnalytics (5.0.1):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.20):
+  - FirebaseCore (5.0.2):
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (2.0.10):
-    - FirebaseCore (~> 4.0)
-  - Google-Mobile-Ads-SDK (7.30.0)
-  - GoogleToolboxForMac/Defines (2.1.3)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
-    - GoogleToolboxForMac/Defines (= 2.1.3)
-  - KakaoOpenSDK (1.7.0):
-    - KakaoOpenSDK/KakaoCommon (= 1.7.0)
-    - KakaoOpenSDK/KakaoLink (= 1.7.0)
-    - KakaoOpenSDK/KakaoMessageTemplate (= 1.7.0)
-    - KakaoOpenSDK/KakaoNavi (= 1.7.0)
-    - KakaoOpenSDK/KakaoOpenSDK (= 1.7.0)
-    - KakaoOpenSDK/KakaoS2 (= 1.7.0)
-  - KakaoOpenSDK/KakaoCommon (1.7.0)
-  - KakaoOpenSDK/KakaoLink (1.7.0):
+  - FirebaseInstanceID (3.0.0):
+    - FirebaseCore (~> 5.0)
+  - Google-Mobile-Ads-SDK (7.31.0)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - KakaoOpenSDK (1.8.2):
+    - KakaoOpenSDK/KakaoCommon (= 1.8.2)
+    - KakaoOpenSDK/KakaoLink (= 1.8.2)
+    - KakaoOpenSDK/KakaoMessageTemplate (= 1.8.2)
+    - KakaoOpenSDK/KakaoNavi (= 1.8.2)
+    - KakaoOpenSDK/KakaoOpenSDK (= 1.8.2)
+    - KakaoOpenSDK/KakaoS2 (= 1.8.2)
+  - KakaoOpenSDK/KakaoCommon (1.8.2)
+  - KakaoOpenSDK/KakaoLink (1.8.2):
     - KakaoOpenSDK/KakaoCommon
-  - KakaoOpenSDK/KakaoMessageTemplate (1.7.0)
-  - KakaoOpenSDK/KakaoNavi (1.7.0):
+  - KakaoOpenSDK/KakaoMessageTemplate (1.8.2)
+  - KakaoOpenSDK/KakaoNavi (1.8.2):
     - KakaoOpenSDK/KakaoCommon
-  - KakaoOpenSDK/KakaoOpenSDK (1.7.0)
-  - KakaoOpenSDK/KakaoS2 (1.7.0):
+  - KakaoOpenSDK/KakaoOpenSDK (1.8.2)
+  - KakaoOpenSDK/KakaoS2 (1.8.2):
     - KakaoOpenSDK/KakaoCommon
-  - LSExtensions (0.0.2)
+  - LSExtensions (0.0.7)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -46,6 +49,7 @@ PODS:
   - XMLDictionary (1.4.1)
 
 DEPENDENCIES:
+  - Alamofire
   - DownPicker
   - Firebase/Core
   - Google-Mobile-Ads-SDK
@@ -55,7 +59,8 @@ DEPENDENCIES:
   - XlsxReaderWriter
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
     - DownPicker
     - Firebase
     - FirebaseAnalytics
@@ -75,21 +80,22 @@ EXTERNAL SOURCES:
     :path: "~/Projects/leesam/pods/LSExtensions/src/LSExtensions"
 
 SPEC CHECKSUMS:
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   DownPicker: c00ea63f08ae82116cc93d0eba74e86bf3d4c68e
-  Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
-  FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
-  FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
-  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
-  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
-  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
-  KakaoOpenSDK: 82e9c4d57c7d273360e4b49c2d8a0d8626216143
-  LSExtensions: b0538da641d3c6fa09044d2d8771644e3ceeee12
+  Firebase: e08fb0795f35707aeb1d8a715c731c45bdf6fd56
+  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
+  FirebaseCore: b81044df1044c0857a0737c6324678b72d4f7f00
+  FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
+  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  KakaoOpenSDK: c09b1291ef293e2ef3faced8ca14b1d1c077bd96
+  LSExtensions: 89de8206e1bf08c5ada457964f17446e1571a03e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   ProgressWebViewController: b43f1bfd69951e07ff690eabc0fdc10abe2a8e06
   SSZipArchive: d3d66fc0e3fb6ac0f723d95481aae71aae916cc3
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: 913e8fd859f9daa0d901f76c636628fc63ca438b
+PODFILE CHECKSUM: 2c5f4ae810e7be466f78c3c06b18318e92a2f664
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2

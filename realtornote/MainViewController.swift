@@ -10,12 +10,45 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    static var startingUrl : URL!{
+        didSet{
+            guard let url = startingUrl else{
+                return;
+            }
+            
+            shared?.openUrl(url);
+        }
+    }
+    private(set) static var shared : MainViewController!;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        MainViewController.shared = self;
+        if let url = MainViewController.startingUrl{
+            self.openUrl(url);
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func openUrl(_ url : URL){
+        var nav = self.presentedViewController as? UINavigationController;
+        guard let internetView = self.storyboard?.instantiateViewController(withIdentifier: "internetView") as? RNInternetViewController else{
+            return;
+        }
+        
+        internetView.startingUrl = url.absoluteString;
+        internetView.hidesBottomBarWhenPushed = true;
+        
+        if nav != nil{
+            nav?.pushViewController(internetView, animated: true);
+        }else if let tabView = self.childViewControllers.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
+            nav = tabView.viewControllers?[tabView.selectedIndex] as? UINavigationController;
+            nav?.pushViewController(internetView, animated: true);
+        }
     }
 
     @IBAction func onDonate(_ button: UIButton) {

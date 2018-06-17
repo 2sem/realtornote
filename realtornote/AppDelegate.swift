@@ -9,9 +9,11 @@
 import UIKit
 import Firebase
 import GoogleMobileAds
+import UserNotifications
+import LSExtensions
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     var fullAd : GADInterstialManager?;
@@ -35,7 +37,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         self.fullAd?.delegate = self;
         self.fullAd?.canShowFirstTime = false;
         self.fullAd?.show();
+        
+        UNUserNotificationCenter.current().delegate = self;
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
+            guard result else{
+                return;
+            }
+            
+            DispatchQueue.main.syncInMain {
+                application.registerForRemoteNotifications();
+            }
+        }
+        
+        /**
+         Nodejs:
+         {
+            title: ..
+            body: ..
+            sound: "default",
+            topic: "com.y2k..."
+            payload: {
+                category: category,
+                item: item
+            }
+        }
+         */
+        if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
+            let noti = push["aps"] as! [String: AnyObject];
+            let alert = noti["alert"] as! [String: AnyObject];
+            let title = alert["title"] as? String ?? "";
+            let body = alert["body"] as? String ?? "";
+            //Custom data can be receive from 'aps' not 'alert'
+            let category = push["category"] as? String ?? "";
+            //let url = push["url"] as? String ?? "";
+            
+            self.performPushCommand(title, body: body, category: category, payload: push);
+            print("launching with push[\(push)]");
+        }else if let launchUrl = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL{
+            //self.openKakaoUrl(launchUrl);
+        }
+        
         return true
+    }
+    
+    func performPushCommand(_ title : String, body : String, category : String, payload : [String : AnyObject]){
+        let category = RNPushController.Category(rawValue: category);
+        print("parse push command. category[\(category)] title[\(title)] body[\(body)]");
+        
+        switch category{
+        case .notice?, .news?, .quiz?, .update?:
+            guard let url = URL(string: payload["url"] as? String ?? "") else{
+                return;
+            }
+            MainViewController.startingUrl = url;
+            break;
+        default:
+            print("receive unkown command. category[\(category.debugDescription)]");
+            break;
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -73,6 +132,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        //.reduce("", {$0 + String(format: "%02X", $1)});
+        RNPushController.shared.register(deviceToken.hexString);
+        
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("APNs registration failed: \(error)");
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+    }
 
     // MARK: GADInterstialManagerDelegate
     func GADInterstialGetLastShowTime() -> Date {
@@ -109,6 +182,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     
     func GADRewardUserCompleted() {
         RNDefaults.LastRewardADShown = Date();
+    }
+    
+    // MARK: UNUserNotificationCenterDelegate
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        //update app
+        print("receive push notification in foreground. identifier[\(notification.request.identifier)] title[\(notification.request.content.title)] body[\(notification.request.content.body)]");
+        
+        //UNNotificationPresentationOptions
+        completionHandler([.alert, .sound]);
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("receive push. title[\(response.notification.request.content.title)] body[\(response.notification.request.content.body)] userInfo[\(response.notification.request.content.userInfo)]");
+        let userInfo = response.notification.request.content.userInfo;
+        let category = userInfo["category"] as? String;
+        let item = userInfo["item"] as? String;
+        self.performPushCommand(response.notification.request.content.title, body: response.notification.request.content.body, category: category ?? "", payload: userInfo as? [String : AnyObject] ?? [:]);
+        /*if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
+         let noti = push["aps"] as! [String: AnyObject];
+         let alert = noti["alert"] as! [String: AnyObject];
+         RSSearchTableViewController.startingKeyword = alert["body"] as? String ?? "";
+         print("launching with push[\(push)]");
+         }*/
+        completionHandler();
     }
 }
 
