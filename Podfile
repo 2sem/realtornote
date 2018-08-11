@@ -11,6 +11,8 @@ target 'realtornote' do
   pod 'DownPicker'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Crash'
   pod 'KakaoOpenSDK'
   pod 'ProgressWebViewController'
   pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'

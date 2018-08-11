@@ -18,6 +18,7 @@
 		2C0D80AF1F25C7DA002F58A5 /* realtornoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */; };
 		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
 		2C12B004208B87AB00242517 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C12B003208B87AB00242517 /* .gitignore */; };
+		2C13CB3E211B1F4500312C73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C13CB3D211B1F4500312C73 /* GoogleService-Info.plist */; };
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
 		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
@@ -44,7 +45,6 @@
 		2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */; };
 		2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */; };
 		2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5C059020C6AFCA0064E4DB /* realtornote.plist */; };
-		2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
 		2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */; };
 		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
@@ -98,6 +98,7 @@
 		2C0D80B01F25C7DA002F58A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2C12B003208B87AB00242517 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2C13CB3D211B1F4500312C73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C1468DA20C6234B00F81270 /* realtornote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = realtornote.entitlements; sourceTree = "<group>"; };
 		2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
@@ -125,7 +126,6 @@
 		2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNPartViewController.swift; sourceTree = "<group>"; };
 		2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNPushController.swift; sourceTree = "<group>"; };
 		2C5C059020C6AFCA0064E4DB /* realtornote.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = realtornote.plist; sourceTree = "<group>"; };
-		2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADInterstialManager.swift; sourceTree = "<group>"; };
 		2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
@@ -244,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				2C1468DA20C6234B00F81270 /* realtornote.entitlements */,
+				2C155A65211EB44B00028266 /* crash */,
 				2C19380A1F272DA200E4BCFB /* leesam */,
 				2C4AE7CB1F276F2F00644322 /* sync */,
 				2C0D80BD1F25C866002F58A5 /* database */,
@@ -258,7 +259,7 @@
 				2C0D80921F25C7D9002F58A5 /* Main.storyboard */,
 				2C0D80951F25C7D9002F58A5 /* Assets.xcassets */,
 				2C0D80971F25C7D9002F58A5 /* LaunchScreen.storyboard */,
-				2C93E4351F2F2A1600AFD09D /* GoogleService-Info.plist */,
+				2C13CB3D211B1F4500312C73 /* GoogleService-Info.plist */,
 				2C0D809A1F25C7D9002F58A5 /* Info.plist */,
 				2C5C059020C6AFCA0064E4DB /* realtornote.plist */,
 				2C93E4451F2F71F900AFD09D /* Settings.bundle */,
@@ -309,6 +310,13 @@
 				2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */,
 			);
 			path = database;
+			sourceTree = "<group>";
+		};
+		2C155A65211EB44B00028266 /* crash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = crash;
 			sourceTree = "<group>";
 		};
 		2C19380A1F272DA200E4BCFB /* leesam */ = {
@@ -488,10 +496,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */,
+				2C13CB3E211B1F4500312C73 /* GoogleService-Info.plist in Resources */,
 				2C12B004208B87AB00242517 /* .gitignore in Resources */,
 				2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
-				2C93E4361F2F2A1600AFD09D /* GoogleService-Info.plist in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,
 				2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */,
 				2C0D80941F25C7D9002F58A5 /* Main.storyboard in Resources */,
@@ -578,9 +586,11 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-realtornote/Pods-realtornote-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/DownPicker/DownPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/XMLDictionary/XMLDictionary.framework",
 				"${BUILT_PRODUCTS_DIR}/XlsxReaderWriter/XlsxReaderWriter.framework",
@@ -590,9 +600,11 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DownPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XMLDictionary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XlsxReaderWriter.framework",

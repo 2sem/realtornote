@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>332164152617-tunfrp0ocjgeogh3ei71g149ji970pis.apps.googleusercontent.com</string>
+	<string>332164152617-8ec8pttlqk4aov9r31bj4s1lsibtr6vl.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.332164152617-tunfrp0ocjgeogh3ei71g149ji970pis</string>
+	<string>com.googleusercontent.apps.332164152617-8ec8pttlqk4aov9r31bj4s1lsibtr6vl</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBUzZt3tSi-vDWYZf6UoQ76DJqthfiCbCs</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,24 +17,26 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>1265759928</string>
+	<string>com.y2k.realtornote</string>
 	<key>PROJECT_ID</key>
 	<string>realtornote</string>
 	<key>STORAGE_BUCKET</key>
 	<string>realtornote.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:332164152617:ios:a21401a534d2d887</string>
+	<string>1:332164152617:ios:aac73b2c6548172c</string>
 	<key>DATABASE_URL</key>
 	<string>https://realtornote.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-9684378399371172~7124016405</string>
 </dict>
 </plist>

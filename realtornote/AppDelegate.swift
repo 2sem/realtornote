@@ -11,6 +11,7 @@ import Firebase
 import GoogleMobileAds
 import UserNotifications
 import LSExtensions
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate, UNUserNotificationCenterDelegate {
@@ -19,12 +20,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     var fullAd : GADInterstialManager?;
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
+    static var firebase : Messaging!;
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+
+        FirebaseApp.configure();
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~7124016405");
-        FirebaseApp.configure()
+        Messaging.messaging().delegate = self;
+
+        /*if let push_plist = Bundle.main.url(forResource: "GoogleService-Info-FCM", withExtension: "plist"),
+            let push_firebase = FirebaseOptions.init(contentsOfFile: push_plist.path){
+            FirebaseApp.configure(name: "FCM", options: push_firebase);
+            Messaging.messaging().retrieveFCMToken(forSenderID: "672853607165") { (token, error) in
+                print("plist fcm token[\(token)] error[\(error)]");
+            };
+        }*/
         
         self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 24); //
         self.rewardAd?.delegate = self;
@@ -37,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         self.fullAd?.delegate = self;
         self.fullAd?.canShowFirstTime = false;
         self.fullAd?.show();
-        
+
         UNUserNotificationCenter.current().delegate = self;
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
             guard result else{
@@ -63,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         }
          */
         if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
-            let noti = push["aps"] as! [String: AnyObject];
+            /*let noti = push["aps"] as! [String: AnyObject];
             let alert = noti["alert"] as! [String: AnyObject];
             let title = alert["title"] as? String ?? "";
             let body = alert["body"] as? String ?? "";
@@ -72,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             //let url = push["url"] as? String ?? "";
             
             self.performPushCommand(title, body: body, category: category, payload: push);
-            print("launching with push[\(push)]");
+            print("launching with push[\(push)]");*/
         }else if let launchUrl = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL{
             //self.openKakaoUrl(launchUrl);
         }
@@ -81,10 +92,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     }
     
     func performPushCommand(_ title : String, body : String, category : String, payload : [String : AnyObject]){
-        let category = RNPushController.Category(rawValue: category);
+        let cg = RNPushController.Category(rawValue: category);
         print("parse push command. category[\(category)] title[\(title)] body[\(body)]");
+        if let alert = self.window?.rootViewController?.presentedViewController as? UIAlertController{
+            alert.dismiss(animated: false){
+                self.performPushCommand(title, body: body, category: category, payload: payload);
+            }
+            return;
+        }
         
-        switch category{
+        switch cg{
         case .notice?, .news?, .quiz?, .update?:
             guard let url = URL(string: payload["url"] as? String ?? "") else{
                 return;
@@ -122,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             self.fullAd?.show();
             return;
         }
+        
         self.reviewManager?.show();
     }
 
@@ -206,6 +224,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
          print("launching with push[\(push)]");
          }*/
         completionHandler();
+    }
+}
+
+extension AppDelegate : MessagingDelegate{
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("fcm device[\(fcmToken)]");
+        let topic = "notice";
+        //let topic = "congress_2_9770881_law";
+        type(of: self).firebase = messaging;
+        messaging.subscribe(toTopic: topic) { (error) in
+            print("fcm messaging error - \(error)");
+        }
+        //messaging.unsubscribe(fromTopic: topic);
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        
     }
 }
 
