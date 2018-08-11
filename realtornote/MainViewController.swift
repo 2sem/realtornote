@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 class MainViewController: UIViewController {
 
@@ -32,6 +33,11 @@ class MainViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        //Crashlytics.sharedInstance().crash();
     }
     
     func openUrl(_ url : URL){
