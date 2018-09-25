@@ -22,7 +22,7 @@ extension RNModelController{
     
     func syncSubjects(_ excel : RNExcelController, controller: RNModelController = RNModelController.shared){
         print("[start] sync excel subjects to database");
-        var excelSubjects = RNExcelController.Default.subjects;
+        let excelSubjects = RNExcelController.Default.subjects;
         for excelSubject in excelSubjects{
             //load subjects from database
             //check if the Subject is already exist in database
@@ -34,7 +34,7 @@ extension RNModelController{
                 //update new Subject
                 modelSubject.name = excelSubject.name;
                 modelSubject.detail = excelSubject.detail;
-                print("update Subject. no[\(modelSubject.no)] name[\(modelSubject.name)]");
+                print("update Subject. no[\(modelSubject.no.description)] name[\(modelSubject.name ?? "")]");
             }
         
             modelSubject.syncChapters(excelSubject, controller: controller);

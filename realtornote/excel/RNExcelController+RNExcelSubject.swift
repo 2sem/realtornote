@@ -19,12 +19,12 @@ extension RNExcelController{
     func loadSubjects(_ expand : Bool = false) -> [RNExcelSubject]{
         var values : [RNExcelSubject] = [];
         var i = 3;
-        var map : [String : RNExcelSubject] = [:];
+        //var map : [String : RNExcelSubject] = [:];
         let columnLine = 2;
         let firstColumn = "B";
-        let firstRow = 3;
+        //let firstRow = 3;
         
-        var columns : [String : String] = self.loadColumns(sheet: self.subjectSheet!, line: columnLine, beginCell: firstColumn);
+        let columns : [String : String] = self.loadColumns(sheet: self.subjectSheet!, line: columnLine, beginCell: firstColumn);
         
         var chapters : [RNExcelChapter] = [];
         
@@ -35,17 +35,17 @@ extension RNExcelController{
         }
         
         while(true){
-            var subject = RNExcelSubject();
-            var id = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.id, line: i)?.value ?? "";
+            let subject = RNExcelSubject();
+            let id = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.id, line: i)?.value ?? "";
             
-            guard !(id ?? "").isEmpty else{
+            guard !id.isEmpty else{
                 print("finish loading groups.");
                 break;
             }
             
-            subject.id = Int(id ?? "") ?? 0;
-            var name = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.name, line: i)?.stringValue() ?? "";
-            var detail = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.detail, line: i)?.stringValue() ?? "";
+            subject.id = Int(id) ?? 0;
+            let name = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.name, line: i)?.stringValue() ?? "";
+            let detail = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.detail, line: i)?.stringValue() ?? "";
             
             subject.name = name;
             subject.detail = detail;

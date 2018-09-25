@@ -25,7 +25,7 @@ class RNModelController : NSObject{
     private static var _shared = RNModelController();
     static var shared : RNModelController{
         get{
-            let timeout = DispatchTime.now() + DispatchTimeInterval.seconds(3);
+            //let timeout = DispatchTime.now() + DispatchTimeInterval.seconds(3);
             //print("enter \(self) instance - \(self) - \(Thread.current)");
             let value = _shared;
             //            value.waitInit();

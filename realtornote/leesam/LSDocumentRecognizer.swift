@@ -18,7 +18,7 @@ class LSDocumentRecognizer : NSObject{
         var children : [LSDocumentParagraph] = [];
         var level : Int{
             get{
-                return self.parent == nil ? 0 : (1 + self.parent!.level ?? 0);
+                return self.parent == nil ? 0 : (1 + self.parent!.level);
             }
         }
         
@@ -82,7 +82,7 @@ class LSDocumentRecognizer : NSObject{
             case next = "⇒"
             
             var orderable : Bool{
-                var values : [LSDocumentParagraph.IndexType]
+                let values : [LSDocumentParagraph.IndexType]
                     = [.half_bracket_number, .brackets_number, .half_bracket_alpha];
                 
                 return values.contains(self);
@@ -159,7 +159,7 @@ class LSDocumentRecognizer : NSObject{
         
         init(_ string : String) {
             let parse = IndexType.parseType(string.trimmingCharacters(in: CharacterSet.whitespaces));
-            self.indexType = parse.0 ?? .none;
+            self.indexType = parse.0;
             self.index = parse.1
             self.text = parse.2;
         }
@@ -186,17 +186,17 @@ class LSDocumentRecognizer : NSObject{
     func recognize(doc : String, symbols : [LSDocumentParagraph.IndexType] = [.number, .brackets_number, .half_bracket_number, .dash, .term, .next]) -> [LSDocumentParagraph]{
         var values : [LSDocumentParagraph] = [];
         
-        var lines : [String] = doc.components(separatedBy: CharacterSet.newlines);
+        let lines : [String] = doc.components(separatedBy: CharacterSet.newlines);
         
         var before : LSDocumentParagraph!;
         
         for line in lines{
-            var string = line.trimmingCharacters(in: CharacterSet.whitespaces);
+            let string = line.trimmingCharacters(in: CharacterSet.whitespaces);
             guard !string.isEmpty else{
                 continue;
             }
             
-            var paragraph = LSDocumentParagraph(string);
+            let paragraph = LSDocumentParagraph(string);
             //print("doc recognize index[\(paragraph.indexType)] text[\(paragraph.text)]");
             
             //this paragraph is first paragraph
@@ -221,7 +221,7 @@ class LSDocumentRecognizer : NSObject{
                         && before.parent != nil{
                      
                  }*/else if paragraph.indexType == .term{
-                    var indexingParent = before.indexingParent;
+                    let indexingParent = before.indexingParent;
                     
                     if let sibil = before.findParent(paragraph.indexType){
                         sibil.parent?.children.append(paragraph);

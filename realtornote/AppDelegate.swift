@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             }
         }
          */
-        if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
+        if let _ = launchOptions?[.remoteNotification] as? [String: AnyObject]{
             /*let noti = push["aps"] as! [String: AnyObject];
             let alert = noti["alert"] as! [String: AnyObject];
             let title = alert["title"] as? String ?? "";
@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             
             self.performPushCommand(title, body: body, category: category, payload: push);
             print("launching with push[\(push)]");*/
-        }else if let launchUrl = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL{
+        }else if let _ = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL{
             //self.openKakaoUrl(launchUrl);
         }
         
@@ -215,7 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         print("receive push. title[\(response.notification.request.content.title)] body[\(response.notification.request.content.body)] userInfo[\(response.notification.request.content.userInfo)]");
         let userInfo = response.notification.request.content.userInfo;
         let category = userInfo["category"] as? String;
-        let item = userInfo["item"] as? String;
+        //let item = userInfo["item"] as? String;
         self.performPushCommand(response.notification.request.content.title, body: response.notification.request.content.body, category: category ?? "", payload: userInfo as? [String : AnyObject] ?? [:]);
         /*if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
          let noti = push["aps"] as! [String: AnyObject];
@@ -234,7 +234,7 @@ extension AppDelegate : MessagingDelegate{
         //let topic = "congress_2_9770881_law";
         type(of: self).firebase = messaging;
         messaging.subscribe(toTopic: topic) { (error) in
-            print("fcm messaging error - \(error)");
+            print("fcm messaging error[\(error?.localizedDescription ?? "")]");
         }
         //messaging.unsubscribe(fromTopic: topic);
     }

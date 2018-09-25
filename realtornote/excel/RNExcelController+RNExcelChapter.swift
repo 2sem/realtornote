@@ -27,12 +27,12 @@ extension RNExcelController{
     func loadChapters(_ expand : Bool = false) -> [RNExcelChapter]{
         var values : [RNExcelChapter] = [];
         var i = 3;
-        var map : [String : RNExcelChapter] = [:];
+        //var map : [String : RNExcelChapter] = [:];
         let columnLine = 2;
         let firstColumn = "B";
-        let firstRow = 3;
+        //let firstRow = 3;
         
-        var columns : [String : String] = self.loadColumns(sheet: self.chapterSheet!, line: columnLine, beginCell: firstColumn);
+        let columns : [String : String] = self.loadColumns(sheet: self.chapterSheet!, line: columnLine, beginCell: firstColumn);
         
         var parts : [RNExcelPart] = [];
 
@@ -43,22 +43,22 @@ extension RNExcelController{
         }
         
         while(true){
-            var chapter = RNExcelChapter();
-            var id = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.id, line: i)?.value ?? "";
+            let chapter = RNExcelChapter();
+            let id = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.id, line: i)?.value ?? "";
             
-            guard !(id ?? "").isEmpty else{
+            guard !id.isEmpty else{
                 print("finish loading groups.");
                 break;
             }
             
-            chapter.id = Int(id ?? "") ?? 0;
-            var seq = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.seq, line: i)?.value ?? "";
-            var name = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.name, line: i)?.stringValue() ?? "";
-            var subject = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.subject, line: i)?.value ?? "";
+            chapter.id = Int(id) ?? 0;
+            let seq = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.seq, line: i)?.value ?? "";
+            let name = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.name, line: i)?.stringValue() ?? "";
+            let subject = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.subject, line: i)?.value ?? "";
             
             chapter.name = name;
-            chapter.seq = Int(seq ?? "") ?? 0;
-            chapter.subject = Int(subject ?? "") ?? 0;
+            chapter.seq = Int(seq) ?? 0;
+            chapter.subject = Int(subject) ?? 0;
             
             print("add new chapter. id[\(chapter.id)] seq[\(chapter.seq)] subject[\(chapter.subject)] name[\(chapter.name)]");
             values.append(chapter);

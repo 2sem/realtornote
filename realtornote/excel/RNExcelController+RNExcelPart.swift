@@ -27,12 +27,12 @@ extension RNExcelController{
     func loadParts(_ expand : Bool = false) -> [RNExcelPart]{
         var values : [RNExcelPart] = [];
         var i = 3;
-        var map : [String : RNExcelPart] = [:];
+        //var map : [String : RNExcelPart] = [:];
         let columnLine = 2;
         let firstColumn = "B";
-        let firstRow = 3;
+        //let firstRow = 3;
         
-        var columns : [String : String] = self.loadColumns(sheet: self.partSheet!, line: columnLine, beginCell: firstColumn);
+        let columns : [String : String] = self.loadColumns(sheet: self.partSheet!, line: columnLine, beginCell: firstColumn);
         
         //var parts : [RNExcelPart] = [];
         
@@ -43,23 +43,23 @@ extension RNExcelController{
         }
         
         while(true){
-            var part = RNExcelPart();
-            var id = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.id, line: i)?.value ?? "";
+            let part = RNExcelPart();
+            let id = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.id, line: i)?.value ?? "";
             
-            guard !(id ?? "").isEmpty else{
+            guard !id.isEmpty else{
                 print("finish loading groups.");
                 break;
             }
             
-            part.id = Int(id ?? "") ?? 0;
-            var seq = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.seq, line: i)?.value ?? "";
-            var name = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.name, line: i)?.stringValue() ?? "";
-            var chapter = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.chapter, line: i)?.value ?? "";
-            var content = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.content, line: i)?.stringValue() ?? "";
+            part.id = Int(id) ?? 0;
+            let seq = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.seq, line: i)?.value ?? "";
+            let name = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.name, line: i)?.stringValue() ?? "";
+            let chapter = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.chapter, line: i)?.value ?? "";
+            let content = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.content, line: i)?.stringValue() ?? "";
             
             part.name = name;
-            part.seq = Int(seq ?? "") ?? 0;
-            part.chapter = Int(chapter ?? "") ?? 0;
+            part.seq = Int(seq) ?? 0;
+            part.chapter = Int(chapter) ?? 0;
             part.content = content;
             
             print("add new part. id[\(part.id)] seq[\(part.seq)] chapter[\(part.chapter)] name[\(part.name)]");

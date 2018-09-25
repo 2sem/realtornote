@@ -26,9 +26,9 @@ extension RNModelController{
         
         do{
             values = try self.context.fetch(requester) as! [RNFavoriteInfo];
-            print("fetch persons with predicate[\(predicate)] count[\(values.count)]");
+            print("fetch persons with predicate[\(predicate?.description ?? "")] count[\(values.count.description)]");
             completion?(values, nil);
-        } catch let error{
+        } catch{
             fatalError("Can not load persons from DB");
         }
         
@@ -37,28 +37,25 @@ extension RNModelController{
     
     func loadFavoritesByNo() -> [RNFavoriteInfo]{
         //var values : [RNFavoriteInfo] = [];
-        var i = 0;
+        _ = 0;
         
-        var favorites = self.loadFavorites(predicate: nil, sortWays: [NSSortDescriptor.init(key: "no", ascending: true)], completion: nil);
+        let favorites = self.loadFavorites(predicate: nil, sortWays: [NSSortDescriptor.init(key: "no", ascending: true)], completion: nil);
         
         return favorites;
     }
     
     func isExistFavorite(_ part : RNPartInfo) -> Bool{
-        var predicate = NSPredicate(format: "part == %@", part.objectID);
+        let predicate = NSPredicate(format: "part == %@", part.objectID);
         return !self.loadFavorites(predicate: predicate, sortWays: nil, onlyOne: true).isEmpty;
     }
     
     func findFavorite(_ part : RNPartInfo) -> RNFavoriteInfo?{
-        var predicate = NSPredicate(format: "part == %@", part.objectID);
+        let predicate = NSPredicate(format: "part == %@", part.objectID);
         return self.loadFavorites(predicate: predicate, sortWays: nil, onlyOne: true).first;
     }
     
     func maxFavoriteNo() -> Int32{
-        //var values : [RNFavoriteInfo] = [];
-        var i = 0;
-        
-        var favorites = self.loadFavorites(predicate: nil, sortWays: [NSSortDescriptor.init(key: "no", ascending: false)], completion: nil, onlyOne: true);
+        let favorites = self.loadFavorites(predicate: nil, sortWays: [NSSortDescriptor.init(key: "no", ascending: false)], completion: nil, onlyOne: true);
         
         return favorites.first?.no ?? 0;
     }

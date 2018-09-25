@@ -34,7 +34,7 @@ class RNDefaults{
     
     static var LastFullADShown : Date{
         get{
-            var seconds = Defaults.double(forKey: Keys.LastFullADShown);
+            let seconds = Defaults.double(forKey: Keys.LastFullADShown);
             return Date.init(timeIntervalSince1970: seconds);
         }
         
@@ -45,7 +45,7 @@ class RNDefaults{
     
     static var LastShareShown : Date{
         get{
-            var seconds = Defaults.double(forKey: Keys.LastShareShown);
+            let seconds = Defaults.double(forKey: Keys.LastShareShown);
             return Date.init(timeIntervalSince1970: seconds);
         }
         
@@ -56,7 +56,7 @@ class RNDefaults{
     
     static var LastNotice : Date{
         get{
-            var seconds = Defaults.double(forKey: Keys.LastNotice);
+            let seconds = Defaults.double(forKey: Keys.LastNotice);
             return Date.init(timeIntervalSince1970: seconds);
         }
         
@@ -79,7 +79,7 @@ class RNDefaults{
     static var ContentSize : Float{
         get{
             //UIApplication.shared.version
-            return Defaults.float(forKey: Keys.ContentSize) ?? 0.0;
+            return Defaults.float(forKey: Keys.ContentSize);
         }
         
         set(value){
@@ -90,7 +90,7 @@ class RNDefaults{
     static var LastSubject : Int{
         get{
             //UIApplication.shared.version
-            return Defaults.integer(forKey: Keys.LastSubject) ?? 0;
+            return Defaults.integer(forKey: Keys.LastSubject);
         }
         
         set(value){
@@ -155,7 +155,7 @@ class RNDefaults{
     
     static var LastRewardADShown : Date{
         get{
-            var seconds = Defaults.double(forKey: Keys.LastRewardADShown);
+            let seconds = Defaults.double(forKey: Keys.LastRewardADShown);
             return Date.init(timeIntervalSince1970: seconds);
         }
         

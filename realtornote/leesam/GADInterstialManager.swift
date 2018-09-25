@@ -139,7 +139,7 @@ class GADInterstialManager : NSObject, GADInterstitialDelegate{
             return;
         }
         
-        print("present full ad view[\(self.window.rootViewController)]");
+        print("present full ad view[\(self.window.rootViewController?.description ?? "")]");
         if rootViewController != nil{
             self.fullAd?.present(fromRootViewController: self.rootViewController);
         }else{

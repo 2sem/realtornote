@@ -23,12 +23,12 @@ extension RNModelController{
         
         do{
             values = try self.context.fetch(requester) as! [RNSubjectInfo];
-            print("fetch groups with predicate[\(predicate)] count[\(values.count)]");
+            print("fetch groups with predicate[\(predicate?.description ?? "")] count[\(values.count.description)]");
             /*values.forEach({ (group) in
              print("group name[\(group.name)] num[\(group.no)]");
              })*/
             completion?(values, nil);
-        } catch let error{
+        } catch{
             fatalError("Can not load groups from DB");
         }
         
@@ -36,7 +36,7 @@ extension RNModelController{
     }
     
     func isExistSubject(_ no : Int) -> Bool{
-        var predicate = NSPredicate(format: "#no == \"\(no)\"");
+        let predicate = NSPredicate(format: "#no == \"\(no)\"");
         return !self.loadSubjects(predicate: predicate, sortWays: nil).isEmpty;
     }
     
@@ -46,15 +46,15 @@ extension RNModelController{
         //var predicate = NSPredicate(format: "no == %@",  no.description);
         //var predicate = NSPredicate(format: "\(RNModelController.EntityNames.DAGroupInfo).no == \(no)");
         //var predicate = NSPredicate(format: "%K == \(no)",  "no");
-        var predicate = NSPredicate(format: "#no == \(no)");
+        let predicate = NSPredicate(format: "#no == \(no)");
         //var predicate = NSPredicate(format: "name == %@",  "자유한국당");
         return self.loadSubjects(predicate: predicate, sortWays: nil).first;
     }
     
     func loadSubjects(_ isAscending : Bool = true, name : String = "") -> [RNSubjectInfo]{
-        var values : [Int : RNSubjectInfo] = [:];
+        var _ : [Int : RNSubjectInfo] = [:];
         
-        var predicate : NSPredicate! = NSPredicate(format: "name == %@", name);
+        let predicate : NSPredicate! = NSPredicate(format: "name == %@", name);
         
         return self.loadSubjects(predicate: predicate, sortWays: [NSSortDescriptor.init(key: "name", ascending: isAscending)], completion: nil);
     }

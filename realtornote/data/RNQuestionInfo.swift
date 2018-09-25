@@ -180,7 +180,7 @@ class RNQuestionInfo : NSObject{
                     
                     for candidate in value.reference?.children.takeRandom(4) ?? []{
                         let answer = RNQuestionAnswerInfo();
-                        answer.title = candidate.text ?? "";
+                        answer.title = candidate.text;
                         
                         value.answers.append(answer);
                     }
@@ -208,7 +208,7 @@ class RNQuestionInfo : NSObject{
     }
     
     override func isEqual(_ object: Any?) -> Bool {
-        var question : RNQuestionInfo! = object as? RNQuestionInfo;
+        let question : RNQuestionInfo! = object as? RNQuestionInfo;
         var value = false;
         
         guard question != nil else{

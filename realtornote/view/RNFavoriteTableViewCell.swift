@@ -12,9 +12,9 @@ class RNFavoriteTableViewCell: UITableViewCell {
 
     var favor : RNFavoriteInfo!{
         didSet{
-            var subject = self.favor.part?.chapter?.subject;
-            var chapter = self.favor.part?.chapter;
-            var part = self.favor.part;
+            let subject = self.favor.part?.chapter?.subject;
+            let chapter = self.favor.part?.chapter;
+            let part = self.favor.part;
             
             self.chapterLabel.text = "\(subject?.name ?? "") 〉 \(chapter?.seq.roman ?? ""). \(chapter?.name ?? "")";
             self.partLabel.text = "\(part?.seq ?? 0). \(part?.name ?? "")";
