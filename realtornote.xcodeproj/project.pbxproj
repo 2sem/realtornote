@@ -30,7 +30,6 @@
 		2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938231F274D5F00E4BCFB /* RNExcelPart.swift */; };
 		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
 		2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */; };
-		2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */; };
 		2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */; };
 		2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */; };
 		2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BE1F27581E00644322 /* realtornote.xcdatamodeld */; };
@@ -636,6 +635,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/DownPicker/DownPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/LSCountDownLabel/LSCountDownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -649,6 +649,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DownPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSCountDownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -692,7 +693,6 @@
 				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
 				2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
-				2C1DC6491F45C1C6007A9D57 /* LSCountDownLabel.swift in Sources */,
 				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
 				2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */,
 				2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */,

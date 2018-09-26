@@ -10,27 +10,39 @@ import Foundation
 import UIKit
 
 class LSCountDownLabel : UILabel{
+    /// Max Counting seconds
     @IBInspectable var seconds : Int = 0;
-    var currentSecond = 0;
-    //var fontSizeBackup : CGFloat = 0.0;
     
+    /// minimum text scale to show counting animation
+    @IBInspectable var minimumScale : CGFloat = 0.25;
+    
+    /// current value of counting
+    var value = 0;
+    /// is the counting currently
     var isCounting = false;
     
     override func awakeFromNib() {
         super.awakeFromNib();
     }
     
+    /**
+        Start counting animation and triggers completion handler when the counting has been finished
+        - parameter completion: completion handler to trigger when the counting has been finished
+    */
     func start(_ completion: @escaping (Int) -> Void){
         guard !self.isCounting else{
             return;
         }
         
         self.isCounting = true;
-        self.currentSecond = self.seconds;
-        //self.fontSizeBackup = self.font.pointSize;
+        self.value = self.seconds;
+        
         self.count(completion);
     }
     
+    /**
+        Stop counting animation
+    */
     func stop(){
         guard self.isCounting else{
             return;
@@ -39,13 +51,15 @@ class LSCountDownLabel : UILabel{
         self.isCounting = false;
         self.layer.removeAllAnimations();
         self.transform = CGAffineTransform.identity;
-        //self.font = self.font.withSize(self.fontSizeBackup);
     }
     
+    /**
+        Start animation to show the counting
+        - parameter completion: completion handler for the finish of the counting
+    */
     private func count(_ completion: @escaping (Int) -> Void){
-        //self.font = self.font.withSize(self.fontSizeBackup / 2.0);
-        self.transform = CGAffineTransform.init(scaleX: 0.25, y: 0.25);
-        self.text = "\(self.currentSecond)";
+        self.transform = CGAffineTransform.init(scaleX: self.minimumScale, y: self.minimumScale);
+        self.text = "\(self.value)";
         
         guard self.isCounting  else{
             self.text = "";
@@ -53,14 +67,13 @@ class LSCountDownLabel : UILabel{
         }
         
         UIView.animate(withDuration: 1.0, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            //self.font = self.font.withSize(self.fontSizeBackup);
             self.transform = CGAffineTransform.identity;
         }) { [unowned self](result) in
-            self.currentSecond = self.currentSecond - 1;
+            self.value = self.value - 1;
             
-            guard self.currentSecond > 0 else{
+            guard self.value > 0 else{
                 self.isCounting = false;
-                completion(self.currentSecond);
+                completion(self.value);
                 return;
             }
             

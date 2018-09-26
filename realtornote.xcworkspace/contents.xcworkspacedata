@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../pods/LSCountDownLabel/src/LSCountDownLabel/LSCountDownLabel.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:realtornote.xcodeproj">
    </FileRef>
    <FileRef
