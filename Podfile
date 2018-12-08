@@ -8,7 +8,8 @@ target 'realtornote' do
 
   # Pods for realtornote
   pod 'XlsxReaderWriter'
-  pod 'DownPicker'
+  #pod 'DownPicker'
+  pod 'DropDown'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'

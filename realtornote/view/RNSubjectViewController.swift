@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import DownPicker
+//import DownPicker
+import DropDown
 
 class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, RNPartViewControllerDelegate {
 
@@ -47,8 +48,9 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                     return;
                 }
                 
-                self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.part.chapter!) ?? 0;
-                self.onChapterSelected(self.chapterPicker.downPicker);
+                //self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.part.chapter!) ?? 0;
+                self.chapterDropDown.selectRow(self.chapters.index(of: self.part.chapter!) ?? 0);
+                //self.onChapterSelected(self.chapterPicker.downPicker);
             }
             
             self.setViewControllers([partView!], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil);
@@ -57,7 +59,25 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     var partViewControllers : [Int : RNPartViewController] = [:];
     var partContentFontSize : CGFloat?;
     
-    var chapterPicker : UIDownPicker!;
+    //var chapterPicker : UIDownPicker!;
+    lazy var chapterDropDown : DropDown = {
+        var value = DropDown();
+        value.dataSource = chapters.map{ "\($0.seq.roman). \($0.name ?? "")" }
+        value.selectionAction = { [weak self](index, item) in
+            guard self?.chapter != self?.chapters[index] else{
+                return;
+            }
+            
+            guard let chapter = self?.chapters[index] else{
+                return;
+            }
+            
+            self?.chapter = chapter;
+            self?.select(chapter: chapter);
+        }
+        
+        return value;
+    }()
     
     var modelController : RNModelController{
         get{
@@ -82,12 +102,12 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         self.chapters = self.subject?.subjectChapters.sorted(by: { (left, right) -> Bool in
             return left.seq < right.seq;
         }) ?? [];
-        self.chapterPicker = UIDownPicker(data: chapters.map({ (chp) -> String in
+        /*self.chapterPicker = UIDownPicker(data: chapters.map({ (chp) -> String in
             return "\(chp.seq.roman). \(chp.name ?? "")";
-        }));
+        }));*/
         
-        self.chapterPicker.downPicker.setToolbarDoneButtonText("완료");
-        self.chapterPicker.downPicker.setToolbarCancelButtonText("취소");
+        //self.chapterPicker.downPicker.setToolbarDoneButtonText("완료");
+        //self.chapterPicker.downPicker.setToolbarCancelButtonText("취소");
         
         if self.chapter == nil{
             if self.part != nil{
@@ -103,12 +123,12 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
             self.chapter = self.chapters.first;
         }
         
-        self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.chapter!) ?? 0;
+        //self.chapterPicker.downPicker.selectedIndex = self.chapters.index(of: self.chapter!) ?? 0;
             
         
         self.chapterSelectButton.setTitle("\(self.chapter.seq.roman). \(self.chapter.name ?? "") ▼", for: .normal);
-        self.chapterPicker.downPicker.addTarget(self, action: #selector(onChapterSelected(_:)), for: .valueChanged);
-        self.view.addSubview(self.chapterPicker);
+        //self.chapterPicker.downPicker.addTarget(self, action: #selector(onChapterSelected(_:)), for: .valueChanged);
+        //self.view.addSubview(self.chapterPicker);
         self.chapterSelectButton.sizeToFit();
         
         self.delegate = self;
@@ -181,11 +201,21 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         RNDefaults.setLastChapter(subject: Int(self.subject?.no ?? 1), value: Int(self.chapter?.no ?? 1));
     }
     
-    @IBAction func onChangeChapter(_ sender: UIButton) {
-        self.chapterPicker.becomeFirstResponder();
+    func select(chapter: RNChapterInfo){
+        self.chapterSelectButton.setTitle("\(chapter.seq.roman). \(chapter.name ?? "") ▼", for: .normal);
+        self.chapterSelectButton.sizeToFit();
+        //refresh
+        self.updateParts();
+        print("selected \(chapter.name ?? "")");
     }
     
-    @objc func onChapterSelected(_ picker: DownPicker){
+    @IBAction func onChangeChapter(_ button: UIButton) {
+        //self.chapterPicker.becomeFirstResponder();
+        self.chapterDropDown.anchorView = button;
+        self.chapterDropDown.show();
+    }
+    
+    /*@objc func onChapterSelected(_ picker: DownPicker){
         guard self.chapter != self.chapters[picker.selectedIndex] else{
             return;
         }
@@ -196,7 +226,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         //refresh
         self.updateParts();
         print("selected \(self.chapter.name ?? "")");
-    }
+    }*/
     
     // MARK: UIPageViewControllerDataSource
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
