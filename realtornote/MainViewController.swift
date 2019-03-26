@@ -79,7 +79,7 @@ class MainViewController: UIViewController {
                     internetView.startingUrl = "http://andy3938.cafe24.com/gnu_house";
                     break;
                 case "quizwin":
-                    internetView.startingUrl = "http://quizwin.co.kr/studyroom/refexam.asp";
+                    internetView.startingUrl = "http://landquiz.com/bbs/gichul.php";
                     break;
                 default:
                     break;
