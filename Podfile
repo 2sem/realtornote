@@ -9,7 +9,7 @@ target 'realtornote' do
   # Pods for realtornote
   pod 'XlsxReaderWriter'
   #pod 'DownPicker'
-  pod 'DropDown'
+  pod 'DropDown', '2.3.4'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
@@ -21,6 +21,7 @@ target 'realtornote' do
   pod 'LSExtensions'
   #pod 'LSCountDownLabel', :path => '~/Projects/leesam/pods/LSCountDownLabel/src/LSCountDownLabel'
   pod 'LSCountDownLabel'
+  pod 'GADManager', :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
   pod 'Alamofire'
 
   target 'realtornoteTests' do

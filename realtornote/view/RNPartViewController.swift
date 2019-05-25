@@ -64,7 +64,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
             
         }*/
         
-        RNDefaults.setLastPart(chapter: Int(self.part.chapter?.no ?? 0), value: Int(self.part.seq));
+        LSDefaults.setLastPart(chapter: Int(self.part.chapter?.no ?? 0), value: Int(self.part.seq));
         
         /*var lastOffsets = RNDefaults.LastContentOffset;
         lastOffsets[Int(self.part.chapter?.no ?? 0)] = 0;
@@ -114,8 +114,8 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     
     override func viewDidAppear(_ animated: Bool) {
         //self.contentView.scrollRectToVisible(CGRect.zero, animated: false);
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(noti:)), name: .UIKeyboardWillShow, object: nil);
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(noti:)), name: .UIKeyboardWillHide, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(noti:)), name: UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(noti:)), name: UIResponder.keyboardWillHideNotification, object: nil);
         
         //GADInterstialManager.shared?.show();
     }
@@ -128,8 +128,8 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
             self.showSearchBar(false);
         }
         
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil);
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil);
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil);
     }
 
     override func didReceiveMemoryWarning() {
@@ -138,7 +138,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     }
     
     func loadOffset(){
-        let y = RNDefaults.getLastContentOffset(Int(self.part?.no ?? 0));
+        let y = LSDefaults.getLastContentOffset(Int(self.part?.no ?? 0));
         self.contentView.contentOffset = CGPoint(x: self.contentView.contentInset.left, y: CGFloat(y) + self.contentView.contentInset.top);
     }
     
@@ -176,6 +176,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     }
     @IBAction func onShowSearchBar(_ button: UIButton) {
         self.showSearchBar(true);
+        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     @IBAction func onFavor(_ sender: UIButton) {
@@ -229,10 +230,10 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
             };
             for (i, range) in self.searchRanges.enumerated(){
                 if i <= 0{
-                    self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.green, range: range);
+                    self.blockedContent?.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.green, range: range);
                     self.searchIndex = 0;
                 }else{
-                    self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.yellow, range: range);
+                    self.blockedContent?.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.yellow, range: range);
                 }
                 //self.contentView.attributedText.add
             }
@@ -246,7 +247,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
             return;
         }
         
-        self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.yellow, range: self.searchRanges[self.searchIndex]);
+        self.blockedContent?.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.yellow, range: self.searchRanges[self.searchIndex]);
         
         self.searchIndex = self.searchIndex + 1;
         if self.searchIndex >= self.searchRanges.count{
@@ -254,7 +255,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
         }
         
         let newRange = self.searchRanges[self.searchIndex];
-        self.blockedContent?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.green, range: newRange);
+        self.blockedContent?.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.green, range: newRange);
         self.contentView.attributedText = self.blockedContent;
         
         self.contentView.scrollRangeToVisible(newRange);
@@ -300,7 +301,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     // MARK: UITextViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("part scroll. part[\(Int(self.part.no))] offset[\(scrollView.contentOffset.y)]")
-        RNDefaults.setLastContentOffSet(part: Int(self.part.no), value: Float(self.contentView.contentOffset.y));
+        LSDefaults.setLastContentOffSet(part: Int(self.part.no), value: Float(self.contentView.contentOffset.y));
         // scrollView.contentOffset.y
     }
     

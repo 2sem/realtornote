@@ -42,7 +42,7 @@ class RNExcelController : NSObject{
     
     var needToUpdate : Bool{
         get{
-            return RNDefaults.DataVersion < self.version;
+            return LSDefaults.DataVersion < self.version;
         }
     }
     

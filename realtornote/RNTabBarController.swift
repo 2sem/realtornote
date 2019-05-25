@@ -35,7 +35,7 @@ class RNTabBarController: UITabBarController {
         }
         
         //Go to last subject user saw
-        self.selectedIndex = RNDefaults.LastSubject;
+        self.selectedIndex = LSDefaults.LastSubject;
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,7 +47,7 @@ class RNTabBarController: UITabBarController {
         let subject = part.chapter?.subject;
         
         self.selectedIndex = Int(subject?.no ?? 0) - 1;
-        RNDefaults.LastSubject = self.selectedIndex;
+        LSDefaults.LastSubject = self.selectedIndex;
 
         let nav = self.selectedViewController as? UINavigationController;
         let view = nav?.viewControllers.first as? RNSubjectViewController;
@@ -56,7 +56,8 @@ class RNTabBarController: UITabBarController {
 
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        RNDefaults.LastSubject = tabBar.items?.index(of: item) ?? 0;
+        LSDefaults.LastSubject = tabBar.items?.index(of: item) ?? 0;
+        AppDelegate.sharedGADManager?.show(unit: .full);
     }
 
     /*

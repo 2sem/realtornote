@@ -12,20 +12,27 @@ import GoogleMobileAds
 import UserNotifications
 import LSExtensions
 import FirebaseMessaging
+import StoreKit
+import GADManager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-    var fullAd : GADInterstialManager?;
+    enum GADUnitName : String{
+        case full = "FullAd"
+    }
+    static var sharedGADManager : GADManager<GADUnitName>?;
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
-    static var firebase : Messaging!;
+    let reviewInterval = 15;
+    static var firebase : Messaging?;
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         FirebaseApp.configure();
+        //GADMobileAds.sharedInstance().start(completionHandler: nil);
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~7124016405");
         Messaging.messaging().delegate = self;
 
@@ -44,10 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         self.reviewManager?.delegate = self;
         //self.reviewManager?.show();
         
-        self.fullAd = GADInterstialManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "FullAd") ?? "", interval: 60.0 * 60 * 6); //60.0 * 60 * 3
-        self.fullAd?.delegate = self;
-        self.fullAd?.canShowFirstTime = false;
-        self.fullAd?.show();
+        var adManager = GADManager<GADUnitName>.init(self.window!);
+        AppDelegate.sharedGADManager = adManager;
+        adManager.delegate = self;
+        adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60.0 * 6);
+        adManager.canShowFirstTime = true;
+        LSDefaults.increaseLaunchCount();
 
         UNUserNotificationCenter.current().delegate = self;
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
@@ -84,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             
             self.performPushCommand(title, body: body, category: category, payload: push);
             print("launching with push[\(push)]");*/
-        }else if let _ = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL{
+        }else if let _ = launchOptions?[UIApplication.LaunchOptionsKey.url] as? URL{
             //self.openKakaoUrl(launchUrl);
         }
         
@@ -124,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         guard url.scheme == "kakaod3be13c89a776659651eef478d4e4268" else {
             return false;
         }
@@ -135,8 +144,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        guard LSDefaults.LaunchCount % reviewInterval > 0 else{
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            }
+            LSDefaults.increaseLaunchCount();
+            return;
+        }
+        
         guard self.reviewManager?.canShow ?? false else{
-            self.fullAd?.show();
+            //self.fullAd?.show();
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                AppDelegate.sharedGADManager?.show(unit: .full);
+            }
             return;
         }
         
@@ -167,12 +187,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
 
     // MARK: GADInterstialManagerDelegate
     func GADInterstialGetLastShowTime() -> Date {
-        return RNDefaults.LastFullADShown;
+        return LSDefaults.LastFullADShown;
         //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
     }
     
     func GADInterstialUpdate(showTime: Date) {
-        RNDefaults.LastFullADShown = showTime;
+        LSDefaults.LastFullADShown = showTime;
     }
     
     func GADInterstialWillLoad() {
@@ -182,16 +202,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     
     // MARK: ReviewManagerDelegate
     func reviewGetLastShowTime() -> Date {
-        return RNDefaults.LastShareShown;
+        return LSDefaults.LastShareShown;
     }
     
     func reviewUpdate(showTime: Date) {
-        RNDefaults.LastShareShown = showTime;
+        LSDefaults.LastShareShown = showTime;
     }
     
     // MARK: GADRewardManagerDelegate
     func GADRewardGetLastShowTime() -> Date {
-        return RNDefaults.LastRewardADShown;
+        return LSDefaults.LastRewardADShown;
     }
     
     func GADRewardUpdate(showTime: Date) {
@@ -199,7 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     }
     
     func GADRewardUserCompleted() {
-        RNDefaults.LastRewardADShown = Date();
+        LSDefaults.LastRewardADShown = Date();
     }
     
     // MARK: UNUserNotificationCenterDelegate
@@ -240,6 +260,23 @@ extension AppDelegate : MessagingDelegate{
     }
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        
+    }
+}
+
+extension AppDelegate : GADManagerDelegate{
+    typealias E = GADUnitName
+    
+    func GAD<GADUnitName>(manager: GADManager<GADUnitName>, updatShownTimeForUnit unit: GADUnitName, showTime time: Date){
+        LSDefaults.LastFullADShown = time;
+        //GHStoreManager.shared.tokenPurchased(1);
+    }
+    
+    func GAD<GADUnitName>(manager: GADManager<GADUnitName>, lastShownTimeForUnit unit: GADUnitName) -> Date{
+        return LSDefaults.LastFullADShown;
+    }
+    
+    func GAD<GADUnitName>(manager: GADManager<GADUnitName>, willPresentADForUnit unit: GADUnitName){
         
     }
 }

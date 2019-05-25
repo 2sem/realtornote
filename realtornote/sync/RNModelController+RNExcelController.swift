@@ -16,7 +16,7 @@ extension RNModelController{
         self.syncSubjects(excel);
         
         RNModelController.shared.saveChanges();
-        RNDefaults.DataVersion = excel.version;
+        LSDefaults.DataVersion = excel.version;
         print("[end] sync excel to database");
     }
     

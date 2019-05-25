@@ -51,7 +51,7 @@ class MainViewController: UIViewController {
         
         if nav != nil{
             nav?.pushViewController(internetView, animated: true);
-        }else if let tabView = self.childViewControllers.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
+        }else if let tabView = self.children.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
             nav = tabView.viewControllers?[tabView.selectedIndex] as? UINavigationController;
             nav?.pushViewController(internetView, animated: true);
         }

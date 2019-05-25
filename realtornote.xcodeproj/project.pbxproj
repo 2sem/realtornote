@@ -22,7 +22,7 @@
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
 		2C155A69211EBA8F00028266 /* firebase_crash.json in Resources */ = {isa = PBXBuildFile; fileRef = 2C155A68211EBA8F00028266 /* firebase_crash.json */; };
 		2C1938081F272C0900E4BCFB /* RNExcelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938071F272C0900E4BCFB /* RNExcelController.swift */; };
-		2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* RNDefaults.swift */; };
+		2C19380F1F27300A00E4BCFB /* LSDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19380E1F27300A00E4BCFB /* LSDefaults.swift */; };
 		2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 2C1938101F2730D700E4BCFB /* realtornote.xlsx */; };
 		2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */; };
 		2C19381E1F273EFB00E4BCFB /* RNExcelSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */; };
@@ -103,7 +103,7 @@
 		2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C155A68211EBA8F00028266 /* firebase_crash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = firebase_crash.json; sourceTree = "<group>"; };
 		2C1938071F272C0900E4BCFB /* RNExcelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelController.swift; sourceTree = "<group>"; };
-		2C19380E1F27300A00E4BCFB /* RNDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNDefaults.swift; sourceTree = "<group>"; };
+		2C19380E1F27300A00E4BCFB /* LSDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSDefaults.swift; sourceTree = "<group>"; };
 		2C1938101F2730D700E4BCFB /* realtornote.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = realtornote.xlsx; sourceTree = "<group>"; };
 		2C1938191F273EFB00E4BCFB /* RNExcelChapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelChapter.swift; sourceTree = "<group>"; };
 		2C19381B1F273EFB00E4BCFB /* RNExcelSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNExcelSubject.swift; sourceTree = "<group>"; };
@@ -340,7 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				2C1938101F2730D700E4BCFB /* realtornote.xlsx */,
-				2C19380E1F27300A00E4BCFB /* RNDefaults.swift */,
+				2C19380E1F27300A00E4BCFB /* LSDefaults.swift */,
 				2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */,
 				2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */,
 			);
@@ -701,7 +701,7 @@
 				2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */,
 				2C4AE7C61F27631C00644322 /* RNModelController+RNSubjectInfo.swift in Sources */,
 				2C19381E1F273EFB00E4BCFB /* RNExcelSubject.swift in Sources */,
-				2C19380F1F27300A00E4BCFB /* RNDefaults.swift in Sources */,
+				2C19380F1F27300A00E4BCFB /* LSDefaults.swift in Sources */,
 				2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */,
 				2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */,
 				2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */,
@@ -896,7 +896,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -915,7 +915,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

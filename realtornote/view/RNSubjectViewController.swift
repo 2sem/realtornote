@@ -53,7 +53,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                 //self.onChapterSelected(self.chapterPicker.downPicker);
             }
             
-            self.setViewControllers([partView!], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil);
+            self.setViewControllers([partView!], direction: UIPageViewController.NavigationDirection.forward, animated: true, completion: nil);
         }
     }
     var partViewControllers : [Int : RNPartViewController] = [:];
@@ -93,8 +93,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
-        if RNDefaults.ContentSize > 0{
-            self.partContentFontSize = CGFloat(RNDefaults.ContentSize);
+        if LSDefaults.ContentSize > 0{
+            self.partContentFontSize = CGFloat(LSDefaults.ContentSize);
         }
         
         self.navigationItem.title = subject?.name;
@@ -114,7 +114,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                 self.chapter = self.part!.chapter;
             }else{
                 self.chapter = self.chapters.first(where: { (chapter) -> Bool in
-                    return Int(chapter.no) == RNDefaults.LastChapter[Int(self.subject?.no ?? 1).description];
+                    return Int(chapter.no) == LSDefaults.LastChapter[Int(self.subject?.no ?? 1).description];
                 });
             }
         }
@@ -135,7 +135,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         self.dataSource = self;
         
         if self.part != nil{
-            RNDefaults.LastPart[Int((self.part.chapter?.no)!).description] = Int(self.part?.seq ?? 1);
+            LSDefaults.LastPart[Int((self.part.chapter?.no)!).description] = Int(self.part?.seq ?? 1);
         }
         self.updateParts();
         
@@ -192,13 +192,13 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
             self.partViewControllers[Int(part.seq)] = self.createPartView(part);
         }
         
-        let storedPart = RNDefaults.LastPart[Int(self.chapter.no).description] ?? 1;
+        let storedPart = LSDefaults.LastPart[Int(self.chapter.no).description] ?? 1;
         let view : RNPartViewController! = self.partViewControllers[max(storedPart, 1)];
         //var view : RNPartViewController! = self.createPartView(self.parts.first!);
         //self.partViewControllers[Int(view.part.seq)] = view;
-        self.setViewControllers([view], direction: UIPageViewControllerNavigationDirection.forward, animated: true, completion: nil);
+        self.setViewControllers([view], direction: UIPageViewController.NavigationDirection.forward, animated: true, completion: nil);
         
-        RNDefaults.setLastChapter(subject: Int(self.subject?.no ?? 1), value: Int(self.chapter?.no ?? 1));
+        LSDefaults.setLastChapter(subject: Int(self.subject?.no ?? 1), value: Int(self.chapter?.no ?? 1));
     }
     
     func select(chapter: RNChapterInfo){
@@ -206,6 +206,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         self.chapterSelectButton.sizeToFit();
         //refresh
         self.updateParts();
+        AppDelegate.sharedGADManager?.show(unit: .full);
         print("selected \(chapter.name ?? "")");
     }
     
@@ -291,7 +292,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     
     // MARK: RNPartViewControllerDelegate
     func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat) {
-        RNDefaults.ContentSize = Float(size);
+        LSDefaults.ContentSize = Float(size);
     }
     
     // MARK: - Navigation

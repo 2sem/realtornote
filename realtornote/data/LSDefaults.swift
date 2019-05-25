@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class RNDefaults{
+class LSDefaults{
     static var Defaults : UserDefaults{
         get{
             return UserDefaults.standard;
@@ -30,6 +30,8 @@ class RNDefaults{
         static let LastChapter = "LastChapter";
         static let LastPart = "LastPart";
         static let LastContentOffset = "LastContentOffset";
+        
+        static let LaunchCount = "LaunchCount";
     }
     
     static var LastFullADShown : Date{
@@ -110,9 +112,9 @@ class RNDefaults{
     }
     
     static func setLastChapter(subject: Int, value : Int){
-        var lastChapters = RNDefaults.LastChapter;
+        var lastChapters = LSDefaults.LastChapter;
         lastChapters[subject.description] = value;
-        RNDefaults.LastChapter = lastChapters;
+        LSDefaults.LastChapter = lastChapters;
     }
     
     static var LastPart : [String : Int]{
@@ -127,9 +129,9 @@ class RNDefaults{
     }
     
     static func setLastPart(chapter: Int, value : Int){
-        var lastParts = RNDefaults.LastPart;
+        var lastParts = LSDefaults.LastPart;
         lastParts[chapter.description] = value;
-        RNDefaults.LastPart = lastParts;
+        LSDefaults.LastPart = lastParts;
     }
     
     static var LastContentOffset : [String : Float]{
@@ -144,13 +146,13 @@ class RNDefaults{
     }
     
     static func getLastContentOffset(_ part: Int) -> Float{
-        return RNDefaults.LastContentOffset[part.description] ?? 0.0;
+        return LSDefaults.LastContentOffset[part.description] ?? 0.0;
     }
     
     static func setLastContentOffSet(part: Int, value : Float){
-        var lastOffsets = RNDefaults.LastContentOffset;
+        var lastOffsets = LSDefaults.LastContentOffset;
         lastOffsets[part.description] = value;
-        RNDefaults.LastContentOffset = lastOffsets;
+        LSDefaults.LastContentOffset = lastOffsets;
     }
     
     static var LastRewardADShown : Date{
@@ -161,6 +163,20 @@ class RNDefaults{
         
         set(value){
             Defaults.set(value.timeIntervalSince1970, forKey: Keys.LastRewardADShown);
+        }
+    }
+    
+    static func increaseLaunchCount(){
+        self.LaunchCount = self.LaunchCount.advanced(by: 1);
+    }
+    static var LaunchCount : Int{
+        get{
+            //UIApplication.shared.version
+            return Defaults.integer(forKey: Keys.LaunchCount);
+        }
+        
+        set(value){
+            Defaults.set(value, forKey: Keys.LaunchCount);
         }
     }
 }
