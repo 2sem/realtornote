@@ -8,9 +8,16 @@
 
 import UIKit
 import Crashlytics
+import SafariServices
 
 class MainViewController: UIViewController {
 
+    class Urls{
+        static let qnet : URL! = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08");
+        static let realtornote : URL! = URL(string: "http://andy3938.cafe24.com/gnu_house");
+        static let quiz : URL! = URL(string: "http://landquiz.com/bbs/gichul.php");
+    }
+    
     static var startingUrl : URL!{
         didSet{
             guard let url = startingUrl else{
@@ -38,6 +45,18 @@ class MainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated);
         //Crashlytics.sharedInstance().crash();
+    }
+    
+    @IBAction func onOpenQnet(_ button: UIButton) {
+        self.openWithSafari(Urls.qnet, animated: true);
+    }
+    
+    @IBAction func onOpenHome(_ button: UIButton) {
+        self.openWithSafari(Urls.realtornote, animated: true);
+    }
+    
+    @IBAction func onOpenQuiz(_ sender: UIButton) {
+        self.openWithSafari(Urls.quiz, animated: true);
     }
     
     func openUrl(_ url : URL){
@@ -69,20 +88,6 @@ class MainViewController: UIViewController {
         if let nav = segue.destination as? UINavigationController{
             guard let internetView = nav.topViewController as? RNInternetViewController else{
                 return;
-            }
-            
-            switch segue.identifier ?? ""{
-                case "qnet":
-                    internetView.startingUrl = "http://www.q-net.or.kr/man001.do?gSite=L&gId=08";
-                    break;
-                case "realtornote":
-                    internetView.startingUrl = "http://andy3938.cafe24.com/gnu_house";
-                    break;
-                case "quizwin":
-                    internetView.startingUrl = "http://landquiz.com/bbs/gichul.php";
-                    break;
-                default:
-                    break;
             }
         }
     }

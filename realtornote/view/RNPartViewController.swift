@@ -300,7 +300,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     
     // MARK: UITextViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("part scroll. part[\(Int(self.part.no))] offset[\(scrollView.contentOffset.y)]")
+        //print("part scroll. part[\(Int(self.part.no))] offset[\(scrollView.contentOffset.y)]")
         LSDefaults.setLastContentOffSet(part: Int(self.part.no), value: Float(self.contentView.contentOffset.y));
         // scrollView.contentOffset.y
     }

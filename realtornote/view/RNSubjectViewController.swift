@@ -53,7 +53,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                 //self.onChapterSelected(self.chapterPicker.downPicker);
             }
             
-            self.setViewControllers([partView!], direction: UIPageViewController.NavigationDirection.forward, animated: true, completion: nil);
+            let hasViewControllers = self.viewControllers?.isEmpty ?? true;
+            self.setViewControllers([partView!], direction: UIPageViewController.NavigationDirection.forward, animated: !hasViewControllers, completion: nil);
         }
     }
     var partViewControllers : [Int : RNPartViewController] = [:];
@@ -197,7 +198,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         let view : RNPartViewController! = self.partViewControllers[max(storedPart, 1)];
         //var view : RNPartViewController! = self.createPartView(self.parts.first!);
         //self.partViewControllers[Int(view.part.seq)] = view;
-        self.setViewControllers([view], direction: UIPageViewController.NavigationDirection.forward, animated: true, completion: nil);
+        let hasViewControllers = self.viewControllers?.isEmpty ?? true;
+        self.setViewControllers([view], direction: UIPageViewController.NavigationDirection.forward, animated: !hasViewControllers, completion: nil);
         
         LSDefaults.setLastChapter(subject: Int(self.subject?.no ?? 1), value: Int(self.chapter?.no ?? 1));
     }
