@@ -99,7 +99,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         
         self.navigationItem.title = subject?.name;
         
-        self.chapters = self.subject?.subjectChapters.sorted(by: { (left, right) -> Bool in
+        let subjectChapters = [RNChapterInfo].init(self.subject?.subjectChapters.map{ $0 } ?? []);
+        self.chapters = subjectChapters.sorted(by: { (left, right) -> Bool in
             return left.seq < right.seq;
         }) ?? [];
         /*self.chapterPicker = UIDownPicker(data: chapters.map({ (chp) -> String in
