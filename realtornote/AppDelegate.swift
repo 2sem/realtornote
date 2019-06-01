@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         var adManager = GADManager<GADUnitName>.init(self.window!);
         AppDelegate.sharedGADManager = adManager;
         adManager.delegate = self;
-        adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60.0 * 6);
+        adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60.0 * 5.5);
         adManager.canShowFirstTime = true;
         LSDefaults.increaseLaunchCount();
 

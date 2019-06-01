@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Hvn-QG-hXa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Hvn-QG-hXa">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -76,10 +77,6 @@
         <scene sceneID="uAQ-CL-9Tg">
             <objects>
                 <viewController id="GHD-Vu-0Uu" customClass="RNQuestionViewController" customModule="realtornote" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kgx-J4-dHT"/>
-                        <viewControllerLayoutGuide type="bottom" id="ClL-wJ-Mvu"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FoH-5I-leX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="539"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -199,18 +196,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="div-iT-y8U" firstAttribute="trailing" secondItem="FoH-5I-leX" secondAttribute="trailing" constant="-15" id="016-ua-Cts"/>
+                            <constraint firstItem="div-iT-y8U" firstAttribute="trailing" secondItem="HIu-YM-Jn9" secondAttribute="trailing" constant="-15" id="016-ua-Cts"/>
                             <constraint firstItem="EMk-vL-BYL" firstAttribute="trailing" secondItem="FoH-5I-leX" secondAttribute="trailingMargin" constant="20" id="2he-C3-sSF"/>
-                            <constraint firstItem="div-iT-y8U" firstAttribute="leading" secondItem="FoH-5I-leX" secondAttribute="leading" constant="15" id="3wZ-9K-ebA"/>
-                            <constraint firstItem="zQz-hD-79c" firstAttribute="trailing" secondItem="FoH-5I-leX" secondAttribute="trailing" constant="-5" id="FfP-aA-O3G"/>
-                            <constraint firstItem="zQz-hD-79c" firstAttribute="leading" secondItem="FoH-5I-leX" secondAttribute="leading" constant="5" id="LSY-Mo-8ij"/>
-                            <constraint firstItem="div-iT-y8U" firstAttribute="bottom" secondItem="ClL-wJ-Mvu" secondAttribute="top" id="SLa-Op-LSr"/>
+                            <constraint firstItem="div-iT-y8U" firstAttribute="leading" secondItem="HIu-YM-Jn9" secondAttribute="leading" constant="15" id="3wZ-9K-ebA"/>
+                            <constraint firstItem="zQz-hD-79c" firstAttribute="trailing" secondItem="HIu-YM-Jn9" secondAttribute="trailing" constant="-5" id="FfP-aA-O3G"/>
+                            <constraint firstItem="zQz-hD-79c" firstAttribute="leading" secondItem="HIu-YM-Jn9" secondAttribute="leading" constant="5" id="LSY-Mo-8ij"/>
+                            <constraint firstItem="div-iT-y8U" firstAttribute="bottom" secondItem="HIu-YM-Jn9" secondAttribute="bottom" id="SLa-Op-LSr"/>
                             <constraint firstItem="zQz-hD-79c" firstAttribute="top" secondItem="EMk-vL-BYL" secondAttribute="bottom" id="Y95-Bz-FjX"/>
                             <constraint firstItem="div-iT-y8U" firstAttribute="height" secondItem="FoH-5I-leX" secondAttribute="height" multiplier="0.66" constant="-15" id="g86-wJ-Gth"/>
                             <constraint firstItem="EMk-vL-BYL" firstAttribute="leading" secondItem="FoH-5I-leX" secondAttribute="leadingMargin" constant="-20" id="p9A-Ee-Ts4"/>
                             <constraint firstItem="zQz-hD-79c" firstAttribute="bottom" secondItem="div-iT-y8U" secondAttribute="top" constant="-10" id="x7x-pd-LUx"/>
-                            <constraint firstItem="EMk-vL-BYL" firstAttribute="top" secondItem="kgx-J4-dHT" secondAttribute="bottom" id="xVf-H9-Nig"/>
+                            <constraint firstItem="EMk-vL-BYL" firstAttribute="top" secondItem="HIu-YM-Jn9" secondAttribute="top" id="xVf-H9-Nig"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="HIu-YM-Jn9"/>
                     </view>
                     <navigationItem key="navigationItem" id="tXP-ue-Bvp">
                         <barButtonItem key="leftBarButtonItem" enabled="NO" title="재시작" id="6ZD-IS-l1u">
@@ -243,10 +241,6 @@
         <scene sceneID="vhk-9P-lp6">
             <objects>
                 <viewController storyboardIdentifier="RNPartViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7pv-oX-bps" customClass="RNPartViewController" customModule="realtornote" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="e5w-Tv-fKk"/>
-                        <viewControllerLayoutGuide type="bottom" id="aGT-ip-ctW"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ur5-4w-ldH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -320,17 +314,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="9Xq-fZ-kjb" firstAttribute="leading" secondItem="Ur5-4w-ldH" secondAttribute="leadingMargin" constant="-20" id="476-kj-pbK"/>
-                            <constraint firstItem="3xH-mX-SrD" firstAttribute="bottom" secondItem="aGT-ip-ctW" secondAttribute="top" identifier="CONTENT_BOTTOM" id="EXc-hL-lcf"/>
-                            <constraint firstItem="FN6-3U-UR5" firstAttribute="top" secondItem="e5w-Tv-fKk" secondAttribute="bottom" id="HW0-Wg-aUL"/>
+                            <constraint firstItem="3xH-mX-SrD" firstAttribute="bottom" secondItem="GQ4-hg-5d3" secondAttribute="bottom" identifier="CONTENT_BOTTOM" id="EXc-hL-lcf"/>
+                            <constraint firstItem="FN6-3U-UR5" firstAttribute="top" secondItem="GQ4-hg-5d3" secondAttribute="top" id="HW0-Wg-aUL"/>
                             <constraint firstItem="FN6-3U-UR5" firstAttribute="height" secondItem="9Xq-fZ-kjb" secondAttribute="height" id="Z11-dV-Odb"/>
                             <constraint firstItem="FN6-3U-UR5" firstAttribute="leading" secondItem="9Xq-fZ-kjb" secondAttribute="leading" id="gby-EG-OPo"/>
-                            <constraint firstItem="3xH-mX-SrD" firstAttribute="trailing" secondItem="Ur5-4w-ldH" secondAttribute="trailing" id="nMg-c5-4Kj"/>
+                            <constraint firstItem="3xH-mX-SrD" firstAttribute="trailing" secondItem="GQ4-hg-5d3" secondAttribute="trailing" id="nMg-c5-4Kj"/>
                             <constraint firstItem="3xH-mX-SrD" firstAttribute="top" secondItem="9Xq-fZ-kjb" secondAttribute="bottom" id="oiA-ZT-Lg3"/>
                             <constraint firstItem="FN6-3U-UR5" firstAttribute="trailing" secondItem="9Xq-fZ-kjb" secondAttribute="trailing" id="pef-WE-ztx"/>
-                            <constraint firstItem="3xH-mX-SrD" firstAttribute="leading" secondItem="Ur5-4w-ldH" secondAttribute="leading" id="rwa-eh-ARb"/>
-                            <constraint firstItem="9Xq-fZ-kjb" firstAttribute="top" secondItem="e5w-Tv-fKk" secondAttribute="bottom" identifier="HIDE_SEARCH_BAR" id="s0Y-AJ-Mn2"/>
+                            <constraint firstItem="3xH-mX-SrD" firstAttribute="leading" secondItem="GQ4-hg-5d3" secondAttribute="leading" id="rwa-eh-ARb"/>
+                            <constraint firstItem="9Xq-fZ-kjb" firstAttribute="top" secondItem="GQ4-hg-5d3" secondAttribute="top" identifier="HIDE_SEARCH_BAR" id="s0Y-AJ-Mn2"/>
                             <constraint firstItem="9Xq-fZ-kjb" firstAttribute="trailing" secondItem="Ur5-4w-ldH" secondAttribute="trailingMargin" constant="20" id="xof-Yx-8VI"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="GQ4-hg-5d3"/>
                     </view>
                     <connections>
                         <outlet property="bookButton" destination="IxY-v0-6aN" id="qKl-d8-0OS"/>
@@ -540,10 +535,6 @@
         <scene sceneID="Pok-xO-K8M">
             <objects>
                 <viewController id="Hvn-QG-hXa" customClass="MainViewController" customModule="realtornote" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="SHb-QK-w7h"/>
-                        <viewControllerLayoutGuide type="bottom" id="Umx-C5-DWK"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UsH-ws-w03">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -606,16 +597,17 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.88235294117647056" green="0.96078431372549022" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="fYE-wM-tF5" firstAttribute="leading" secondItem="UsH-ws-w03" secondAttribute="leading" id="4yM-CU-Xp6"/>
-                            <constraint firstItem="mZf-5v-UM8" firstAttribute="bottom" secondItem="Umx-C5-DWK" secondAttribute="top" id="V1y-Kg-mkO"/>
+                            <constraint firstItem="fYE-wM-tF5" firstAttribute="leading" secondItem="wfv-Ik-kop" secondAttribute="leading" id="4yM-CU-Xp6"/>
+                            <constraint firstItem="mZf-5v-UM8" firstAttribute="bottom" secondItem="wfv-Ik-kop" secondAttribute="bottom" id="V1y-Kg-mkO"/>
                             <constraint firstItem="fYE-wM-tF5" firstAttribute="bottom" secondItem="mZf-5v-UM8" secondAttribute="top" id="Wap-XX-dA9"/>
                             <constraint firstItem="mZf-5v-UM8" firstAttribute="leading" secondItem="UsH-ws-w03" secondAttribute="leadingMargin" id="cg0-zo-j6i"/>
-                            <constraint firstItem="fYE-wM-tF5" firstAttribute="trailing" secondItem="UsH-ws-w03" secondAttribute="trailing" id="dIj-je-vu7"/>
+                            <constraint firstItem="fYE-wM-tF5" firstAttribute="trailing" secondItem="wfv-Ik-kop" secondAttribute="trailing" id="dIj-je-vu7"/>
                             <constraint firstItem="mZf-5v-UM8" firstAttribute="trailing" secondItem="UsH-ws-w03" secondAttribute="trailingMargin" id="k7P-FH-oXD"/>
-                            <constraint firstItem="fYE-wM-tF5" firstAttribute="top" secondItem="UsH-ws-w03" secondAttribute="top" constant="20" id="zHU-W5-Mjz"/>
+                            <constraint firstItem="fYE-wM-tF5" firstAttribute="top" secondItem="wfv-Ik-kop" secondAttribute="top" id="zHU-W5-Mjz"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="wfv-Ik-kop"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iHW-qV-C7x" userLabel="First Responder" sceneMemberID="firstResponder"/>
