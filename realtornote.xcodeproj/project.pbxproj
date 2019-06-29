@@ -17,6 +17,7 @@
 		2C0D80A41F25C7DA002F58A5 /* realtornoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80A31F25C7DA002F58A5 /* realtornoteTests.swift */; };
 		2C0D80AF1F25C7DA002F58A5 /* realtornoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */; };
 		2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80BE1F25C989002F58A5 /* MainViewController.swift */; };
+		2C129F8E22C64B6900091C19 /* Analytics+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C129F8D22C64B6900091C19 /* Analytics+.swift */; };
 		2C12B004208B87AB00242517 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C12B003208B87AB00242517 /* .gitignore */; };
 		2C13CB3E211B1F4500312C73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C13CB3D211B1F4500312C73 /* GoogleService-Info.plist */; };
 		2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */; };
@@ -97,6 +98,7 @@
 		2C0D80AE1F25C7DA002F58A5 /* realtornoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = realtornoteUITests.swift; sourceTree = "<group>"; };
 		2C0D80B01F25C7DA002F58A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C0D80BE1F25C989002F58A5 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2C129F8D22C64B6900091C19 /* Analytics+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Analytics+.swift"; sourceTree = "<group>"; };
 		2C12B003208B87AB00242517 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2C13CB3D211B1F4500312C73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C1468DA20C6234B00F81270 /* realtornote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = realtornote.entitlements; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */,
 				2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */,
 				2C14D2E61F5EAFE3000EDF9E /* GADRewardManager.swift */,
+				2C129F8D22C64B6900091C19 /* Analytics+.swift */,
 			);
 			path = leesam;
 			sourceTree = "<group>";
@@ -706,6 +709,7 @@
 				2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */,
 				2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */,
 				2C4AE7C81F27689D00644322 /* RNModelController+RNChapterInfo.swift in Sources */,
+				2C129F8E22C64B6900091C19 /* Analytics+.swift in Sources */,
 				2C4AE7D51F27812700644322 /* RNChapterInfo+.swift in Sources */,
 				2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */,
 				2CC9AB411F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift in Sources */,

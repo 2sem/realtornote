@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RNFavoriteTableViewController: UITableViewController {
     static let CellID = "RNFavoriteTableViewCell";
@@ -41,6 +42,7 @@ class RNFavoriteTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        Analytics.setScreenName(for: self);
         self.favorites = self.modelController.loadFavoritesByNo();
         self.refresh();
     }

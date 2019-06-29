@@ -10,6 +10,7 @@ import UIKit
 import ProgressWebViewController
 import KakaoLink
 import KakaoMessageTemplate
+import Firebase
 
 class RNInternetViewController: ProgressWebViewController {
     
@@ -45,6 +46,10 @@ class RNInternetViewController: ProgressWebViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        Analytics.setScreenName(for: self);
     }
     //        self.navigationController?.navigationBar.setBackgroundImage(UIImage, for: .default);
     

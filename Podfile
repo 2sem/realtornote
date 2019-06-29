@@ -13,6 +13,7 @@ target 'realtornote' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Analytics'
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'KakaoOpenSDK'

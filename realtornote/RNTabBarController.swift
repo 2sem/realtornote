@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RNTabBarController: UITabBarController {
 
@@ -57,6 +58,7 @@ class RNTabBarController: UITabBarController {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         LSDefaults.LastSubject = tabBar.items?.index(of: item) ?? 0;
+        Analytics.logLeesamEvent(.selectSubject, parameters: [:]);
         AppDelegate.sharedGADManager?.show(unit: .full);
     }
 

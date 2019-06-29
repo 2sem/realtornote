@@ -9,6 +9,7 @@
 import UIKit
 import Crashlytics
 import SafariServices
+import Firebase
 
 class MainViewController: UIViewController {
 
@@ -48,14 +49,17 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func onOpenQnet(_ button: UIButton) {
+        Analytics.logLeesamEvent(.openQNet, parameters: [:]);
         self.openWithSafari(Urls.qnet, animated: true);
     }
     
     @IBAction func onOpenHome(_ button: UIButton) {
+        Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
         self.openWithSafari(Urls.realtornote, animated: true);
     }
     
     @IBAction func onOpenQuiz(_ sender: UIButton) {
+        Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
         self.openWithSafari(Urls.quiz, animated: true);
     }
     
@@ -77,6 +81,7 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func onDonate(_ button: UIButton) {
+        Analytics.logLeesamEvent(.pressDonate, parameters: [:]);
         GADRewardManager.shared?.show(true);
     }
     // MARK: - Navigation

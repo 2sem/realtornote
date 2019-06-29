@@ -9,6 +9,7 @@
 import UIKit
 //import DownPicker
 import DropDown
+import Firebase
 
 class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, RNPartViewControllerDelegate {
 
@@ -73,6 +74,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                 return;
             }
             
+            Analytics.logLeesamEvent(.selectChapter, parameters: [:]);
             self?.chapter = chapter;
             self?.select(chapter: chapter);
         }
@@ -175,7 +177,12 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        Analytics.setScreenName(for: self);
+    }
+    
     @IBAction func onShare(_ button: UIBarButtonItem) {
+        Analytics.logLeesamEvent(.pressShare, parameters: [:]);
         ReviewManager.shared?.show(true);
     }
     
@@ -215,6 +222,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     
     @IBAction func onChangeChapter(_ button: UIButton) {
         //self.chapterPicker.becomeFirstResponder();
+        Analytics.logLeesamEvent(.openChapterList, parameters: [:]);
         self.chapterDropDown.anchorView = button;
         self.chapterDropDown.show();
     }
@@ -305,6 +313,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         //Set paragraphs of current part as paragraphs of RNQuestionViewController to create questions
         if let nav = segue.destination as? UINavigationController{
             if let view = nav.viewControllers.first as? RNQuestionViewController{
+                Analytics.logLeesamEvent(.startQuiz, parameters: [:]);
+                
                 let partView = self.viewControllers?.first as? RNPartViewController;
                 var paragraphs : [LSDocumentRecognizer.LSDocumentParagraph] = [];
                 for paragraph in partView!.paragraphs{

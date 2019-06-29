@@ -8,6 +8,7 @@
 
 import UIKit
 import LSCountDownLabel
+import Firebase
 
 class RNQuestionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -48,6 +49,10 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        Analytics.setScreenName(for: self);
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         GADInterstialManager.shared?.rootViewController = nil;
     }
@@ -80,6 +85,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         guard self.index < self.questions.count else{
             self.restartButton.isEnabled = true;
             self.answerTable.allowsSelection = false;
+            Analytics.logLeesamEvent(.finishQuiz, parameters: [:]);
             if self.presentingViewController != nil && GADRewardManager.shared?.canShow ?? false{
                 GADInterstialManager.shared?.show(true);
             }
@@ -89,6 +95,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     @IBAction func onRestart(_ sender: UIBarButtonItem) {
+        Analytics.logLeesamEvent(.restartQuiz, parameters: [:]);
         self.index = 0;
         self.loadQuestion(self.index);
         self.restartButton.isEnabled = false;

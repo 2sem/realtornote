@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol RNPartViewControllerDelegate : NSObjectProtocol{
     func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat);
@@ -113,6 +114,8 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        Analytics.setScreenName(for: self);
+        Analytics.logLeesamEvent(.selectPart, parameters: [:]);
         //self.contentView.scrollRectToVisible(CGRect.zero, animated: false);
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(noti:)), name: UIResponder.keyboardWillShowNotification, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(noti:)), name: UIResponder.keyboardWillHideNotification, object: nil);
@@ -175,6 +178,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
         }
     }
     @IBAction func onShowSearchBar(_ button: UIButton) {
+        Analytics.logLeesamEvent(.openSearch, parameters: [:]);
         self.showSearchBar(true);
         AppDelegate.sharedGADManager?.show(unit: .full);
     }
@@ -183,11 +187,13 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
         if let favor = self.modelController.findFavorite(self.part){
             self.modelController.removeFavorite(favor);
             self.toggleFavorite(false);
+            Analytics.logLeesamEvent(.offFavorite, parameters: [:]);
             //act.image = favOffImage;
         }
         else{
             self.modelController.createFavorite(self.part);
             self.toggleFavorite(true);
+            Analytics.logLeesamEvent(.onFavorite, parameters: [:]);
             //act.image = favOnImage;
         }
         
@@ -197,8 +203,10 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     @IBAction func onPinch(_ gesture: UIPinchGestureRecognizer) {
         var fontSize = self.contentView.font?.pointSize ?? 0.0;
         if gesture.velocity > 0{
+            Analytics.logLeesamEvent(.zoomIn, parameters: [:]);
             fontSize = min(self.maxFontSize, fontSize + 1);
         }else{
+            Analytics.logLeesamEvent(.zoomOut, parameters: [:]);
             fontSize = max(self.minFontSize, fontSize - 1);
         }
         
@@ -239,6 +247,7 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
             }
             
             self.contentView.attributedText = self.blockedContent;
+            Analytics.logLeesamEvent(.search, parameters: [:]);
         }catch{}
     }
     
