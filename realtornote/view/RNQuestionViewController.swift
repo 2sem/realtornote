@@ -96,9 +96,11 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     
     @IBAction func onRestart(_ sender: UIBarButtonItem) {
         Analytics.logLeesamEvent(.restartQuiz, parameters: [:]);
-        self.index = 0;
-        self.loadQuestion(self.index);
-        self.restartButton.isEnabled = false;
+        AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self) { [unowned self](unit, ad) in
+            self.index = 0;
+            self.loadQuestion(self.index);
+            self.restartButton.isEnabled = false;
+        }
     }
     
     @IBAction func onClose(_ sender: UIBarButtonItem) {

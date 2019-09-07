@@ -212,12 +212,13 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     func select(chapter: RNChapterInfo){
-        self.chapterSelectButton.setTitle("\(chapter.seq.roman). \(chapter.name ?? "") ▼", for: .normal);
-        self.chapterSelectButton.sizeToFit();
-        //refresh
-        self.updateParts();
-        AppDelegate.sharedGADManager?.show(unit: .full);
-        print("selected \(chapter.name ?? "")");
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.chapterSelectButton.setTitle("\(chapter.seq.roman). \(chapter.name ?? "") ▼", for: .normal);
+            self?.chapterSelectButton.sizeToFit();
+            //refresh
+            self?.updateParts();
+            print("selected \(chapter.name ?? "")");
+        }
     }
     
     @IBAction func onChangeChapter(_ button: UIButton) {
@@ -307,7 +308,14 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     // MARK: - Navigation
-
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.performSegue(withIdentifier: identifier, sender: sender);
+        }
+        
+        return false;
+    }
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //Set paragraphs of current part as paragraphs of RNQuestionViewController to create questions

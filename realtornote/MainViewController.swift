@@ -50,17 +50,23 @@ class MainViewController: UIViewController {
     
     @IBAction func onOpenQnet(_ button: UIButton) {
         Analytics.logLeesamEvent(.openQNet, parameters: [:]);
-        self.openWithSafari(Urls.qnet, animated: true);
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.openWithSafari(Urls.qnet, animated: true);
+        }
     }
     
     @IBAction func onOpenHome(_ button: UIButton) {
         Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
-        self.openWithSafari(Urls.realtornote, animated: true);
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.openWithSafari(Urls.realtornote, animated: true);
+        }
     }
     
     @IBAction func onOpenQuiz(_ sender: UIButton) {
         Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
-        self.openWithSafari(Urls.quiz, animated: true);
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.openWithSafari(Urls.quiz, animated: true);
+        }
     }
     
     func openUrl(_ url : URL){

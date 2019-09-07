@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     static var sharedGADManager : GADManager<GADUnitName>?;
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
-    let reviewInterval = 15;
+    let reviewInterval = 60;
     static var firebase : Messaging?;
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -151,12 +151,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         guard LSDefaults.LaunchCount % reviewInterval > 0 else{
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
+            }else{
+                self.reviewManager?.show();
             }
             LSDefaults.increaseLaunchCount();
             return;
         }
         
-        guard self.reviewManager?.canShow ?? false else{
+        /*guard self.reviewManager?.canShow ?? false else{
             //self.fullAd?.show();
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 AppDelegate.sharedGADManager?.show(unit: .full);
@@ -164,7 +166,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             return;
         }
         
-        self.reviewManager?.show();
+        self.reviewManager?.show();*/
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -240,7 +242,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         let userInfo = response.notification.request.content.userInfo;
         let category = userInfo["category"] as? String;
         //let item = userInfo["item"] as? String;
-        self.performPushCommand(response.notification.request.content.title, body: response.notification.request.content.body, category: category ?? "", payload: userInfo as? [String : AnyObject] ?? [:]);
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.performPushCommand(response.notification.request.content.title, body: response.notification.request.content.body, category: category ?? "", payload: userInfo as? [String : AnyObject] ?? [:]);
+        }
         /*if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
          let noti = push["aps"] as! [String: AnyObject];
          let alert = noti["alert"] as! [String: AnyObject];
@@ -272,6 +276,11 @@ extension AppDelegate : GADManagerDelegate{
     typealias E = GADUnitName
     
     func GAD<GADUnitName>(manager: GADManager<GADUnitName>, updatShownTimeForUnit unit: GADUnitName, showTime time: Date){
+        let now = Date();
+        if LSDefaults.LastFullADShown > now{
+            LSDefaults.LastFullADShown = now;
+        }
+        
         LSDefaults.LastFullADShown = time;
         //GHStoreManager.shared.tokenPurchased(1);
     }

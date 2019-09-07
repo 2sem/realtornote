@@ -486,8 +486,10 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 2C0D80801F25C7D9002F58A5;
 			productRefGroup = 2C0D808A1F25C7D9002F58A5 /* Products */;

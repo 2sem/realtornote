@@ -23,7 +23,7 @@ class RNFavoriteTableViewController: UITableViewController {
     var partToMove : RNPartInfo!;
     
     override func viewWillAppear(_ animated: Bool) {
-        AppDelegate.sharedGADManager?.show(unit: .full);
+        
     }
     
     override func viewDidLoad() {
@@ -118,7 +118,11 @@ class RNFavoriteTableViewController: UITableViewController {
         self.hidesBottomBarWhenPushed = false;
         let favorite = self.favorites[indexPath.row];
         self.partToMove = favorite.part;
-        self.navigationController?.popViewController(animated: true);
+        
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.navigationController?.popViewController(animated: true);
+        }
+        
         /*var main = self.tabBarController as? MainViewController;
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             main?.moveToPart(favorite.part!);

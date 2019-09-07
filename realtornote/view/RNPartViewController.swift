@@ -179,8 +179,9 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     }
     @IBAction func onShowSearchBar(_ button: UIButton) {
         Analytics.logLeesamEvent(.openSearch, parameters: [:]);
-        self.showSearchBar(true);
-        AppDelegate.sharedGADManager?.show(unit: .full);
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.showSearchBar(true);
+        }
     }
     
     @IBAction func onFavor(_ sender: UIButton) {
