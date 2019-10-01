@@ -35,7 +35,11 @@ class MainViewController: UIViewController {
         
         MainViewController.shared = self;
         if let url = MainViewController.startingUrl{
-            self.openUrl(url);
+            MainViewController.startingUrl = nil;
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.openUrl(url);
+            }
         }
     }
 
@@ -78,12 +82,16 @@ class MainViewController: UIViewController {
         internetView.startingUrl = url.absoluteString;
         internetView.hidesBottomBarWhenPushed = true;
         
-        if nav != nil{
-            nav?.pushViewController(internetView, animated: true);
-        }else if let tabView = self.children.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
-            nav = tabView.viewControllers?[tabView.selectedIndex] as? UINavigationController;
-            nav?.pushViewController(internetView, animated: true);
-        }
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+                if nav != nil{
+                    nav?.pushViewController(internetView, animated: true);
+                }else if let tabView = self?.children.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
+                    nav = tabView.viewControllers?[tabView.selectedIndex] as? UINavigationController;
+                    nav?.pushViewController(internetView, animated: true);
+                }
+            }
+        //}
     }
 
     @IBAction func onDonate(_ button: UIButton) {

@@ -242,9 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         let userInfo = response.notification.request.content.userInfo;
         let category = userInfo["category"] as? String;
         //let item = userInfo["item"] as? String;
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.performPushCommand(response.notification.request.content.title, body: response.notification.request.content.body, category: category ?? "", payload: userInfo as? [String : AnyObject] ?? [:]);
-        }
+        self.performPushCommand(response.notification.request.content.title, body: response.notification.request.content.body, category: category ?? "", payload: userInfo as? [String : AnyObject] ?? [:]);
         /*if let push = launchOptions?[.remoteNotification] as? [String: AnyObject]{
          let noti = push["aps"] as! [String: AnyObject];
          let alert = noti["alert"] as! [String: AnyObject];
