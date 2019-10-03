@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
         if let url = MainViewController.startingUrl{
             MainViewController.startingUrl = nil;
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
                 self?.openUrl(url);
             }
         }
