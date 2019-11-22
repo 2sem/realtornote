@@ -44,6 +44,15 @@ extension RNModelController{
         return favorites;
     }
     
+    func loadFavoritesBySubjectNo() -> [RNFavoriteInfo]{
+        //var values : [RNFavoriteInfo] = [];
+        _ = 0;
+        
+        let favorites = self.loadFavorites(predicate: nil, sortWays: [NSSortDescriptor.init(key: "part.chapter.subject.no", ascending: true), NSSortDescriptor.init(key: "part.chapter.no", ascending: true), NSSortDescriptor.init(key: "part.no", ascending: true)], completion: nil);
+        
+        return favorites;
+    }
+    
     func isExistFavorite(_ part : RNPartInfo) -> Bool{
         let predicate = NSPredicate(format: "part == %@", part.objectID);
         return !self.loadFavorites(predicate: predicate, sortWays: nil, onlyOne: true).isEmpty;

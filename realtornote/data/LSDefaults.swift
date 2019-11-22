@@ -32,6 +32,8 @@ class LSDefaults{
         static let LastContentOffset = "LastContentOffset";
         
         static let LaunchCount = "LaunchCount";
+        
+        static let FavoriteSortType = "FavoriteSortType";
     }
     
     static var LastFullADShown : Date{
@@ -177,6 +179,17 @@ class LSDefaults{
         
         set(value){
             Defaults.set(value, forKey: Keys.LaunchCount);
+        }
+    }
+    
+    static var FavoriteSortType : Int{
+        get{
+            //UIApplication.shared.version
+            return Defaults.integer(forKey: Keys.FavoriteSortType);
+        }
+        
+        set(value){
+            Defaults.set(value, forKey: Keys.FavoriteSortType);
         }
     }
 }

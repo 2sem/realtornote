@@ -12,6 +12,8 @@ import Firebase
 class RNFavoriteTableViewController: UITableViewController {
     static let CellID = "RNFavoriteTableViewCell";
 
+    var subjects : [RNSubjectInfo] = [];
+    var favoritesForSubjects : [[RNFavoriteInfo]] = [[]];
     var favorites : [RNFavoriteInfo] = [];
 
     var modelController : RNModelController{
@@ -21,6 +23,17 @@ class RNFavoriteTableViewController: UITableViewController {
     }
     
     var partToMove : RNPartInfo!;
+    
+    enum SortType : Int{
+        case no = 0
+        case subject = 1
+    }
+    
+    var sortType : SortType{
+        return SortType.init(rawValue: self.sortSegmentControl?.selectedSegmentIndex ?? 0) ?? .no;
+    }
+    
+    @IBOutlet weak var sortSegmentControl: UISegmentedControl!
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -34,6 +47,7 @@ class RNFavoriteTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.sortSegmentControl?.selectedSegmentIndex = LSDefaults.FavoriteSortType;
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +57,10 @@ class RNFavoriteTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         Analytics.setScreenName(for: self);
-        self.favorites = self.modelController.loadFavoritesByNo();
+        guard self.favorites.isEmpty else{
+            return;
+        }
+        
         self.refresh();
     }
     
@@ -63,28 +80,64 @@ class RNFavoriteTableViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true);
     }
     
-    func refresh(_ needToScrollTop : Bool = false){
+    func refresh(){
+        
+        
+        switch self.sortType {
+        case .no:
+            self.favorites = self.modelController.loadFavoritesByNo();
+            break;
+        case .subject:
+            self.subjects = [];
+            self.favoritesForSubjects = [];
+            self.modelController.loadFavoritesBySubjectNo().forEach { (fav) in
+                guard let subject = fav.part?.chapter?.subject else{
+                    return;
+                }
+                
+                var subjectIndex : Int = self.subjects.index(of: subject) ?? self.subjects.count;
+                
+                if !self.subjects.contains(subject){
+                    self.favoritesForSubjects.append([]);
+                    self.subjects.append(subject);
+                }
+                
+                
+                guard subjectIndex < self.favoritesForSubjects.count else{
+                    return;
+                }
+                self.favoritesForSubjects[subjectIndex].append(fav);
+                //favorites.append(<#T##newElement: RNFavoriteInfo##RNFavoriteInfo#>)
+            }
+            break;
+        }
+        
+        
         self.tableView.reloadData();
     }
 
+    @IBAction func onChangeSortType(_ segmentControl: UISegmentedControl) {
+        LSDefaults.FavoriteSortType = segmentControl.selectedSegmentIndex;
+        self.refresh();
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1;
+        return self.sortType == .no ? 1 : self.subjects.count;
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.favorites.count
+        return self.sortType == .no ? self.favorites.count : self.favoritesForSubjects[section].count;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RNFavoriteTableViewController.CellID, for: indexPath) as? RNFavoriteTableViewCell;
 
         // Configure the cell...
-        let favor = self.favorites[indexPath.row];
-        cell?.favor = favor;
+        cell?.sortType = self.sortType;
+        cell?.favor = self.sortType == .no ? self.favorites[indexPath.row] : self.favoritesForSubjects[indexPath.section][indexPath.row];
 
         return cell!
     }
@@ -105,18 +158,47 @@ class RNFavoriteTableViewController: UITableViewController {
                 return;
             }
             
-            self.favorites.remove(at: self.favorites.index(of: cell.favor)!);
-            self.modelController.removeFavorite(cell.favor);
-            self.modelController.saveChanges();
-            tableView.deleteRows(at: [indexPath], with: .fade);
+            tableView.beginUpdates();
+            switch self.sortType {
+            case .no:
+                if let favorite = cell.favor{
+                    self.favorites.remove(favorite, where: { $0 == $1 });
+                    self.modelController.removeFavorite(favorite);
+                }
+                self.modelController.saveChanges();
+                tableView.deleteRows(at: [indexPath], with: .fade);
+                break;
+            case .subject:
+                if let favorite = cell.favor{
+                    self.favoritesForSubjects[indexPath.section].remove(favorite, where: { $0 == $1 });
+                    self.modelController.removeFavorite(favorite);
+                }
+                
+                if self.favoritesForSubjects[indexPath.section].isEmpty{
+                    self.favoritesForSubjects.remove(at: indexPath.section);
+                    self.subjects.remove(at: indexPath.section);
+                    tableView.deleteSections([indexPath.section], with: .automatic);
+                }else{
+                    tableView.deleteRows(at: [indexPath], with: .fade);
+                }
+                self.modelController.saveChanges();
+                break;
+            }
+            
+            tableView.endUpdates();
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sortType == .no ? nil : self.subjects[section].name;
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.hidesBottomBarWhenPushed = false;
-        let favorite = self.favorites[indexPath.row];
+        let favorite : RNFavoriteInfo = self.sortType == .no ? self.favorites[indexPath.row] : self.favoritesForSubjects[indexPath.section][indexPath.row];
+        
         self.partToMove = favorite.part;
         
         AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in

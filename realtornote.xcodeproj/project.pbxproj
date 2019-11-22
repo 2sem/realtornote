@@ -32,6 +32,7 @@
 		2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1938251F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift */; };
 		2C1DBD8B2037F42B0009E531 /* RNInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */; };
 		2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */; };
+		2C2FB9852359DE7300CFD891 /* GoogleService-Info-FCM.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C2FB9842359DE7300CFD891 /* GoogleService-Info-FCM.plist */; };
 		2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */; };
 		2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7BE1F27581E00644322 /* realtornote.xcdatamodeld */; };
 		2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4AE7C31F275ED200644322 /* RNModelController.swift */; };
@@ -115,6 +116,7 @@
 		2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNInternetViewController.swift; sourceTree = "<group>"; };
 		2C1DC6481F45C1C6007A9D57 /* LSCountDownLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSCountDownLabel.swift; sourceTree = "<group>"; };
 		2C2140181F39C08F00BDF853 /* LSDocumentRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSDocumentRecognizer.swift; sourceTree = "<group>"; };
+		2C2FB9842359DE7300CFD891 /* GoogleService-Info-FCM.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-FCM.plist"; sourceTree = "<group>"; };
 		2C4AE7BC1F2751AD00644322 /* RNExcelController+RNExcelPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNExcelController+RNExcelPart.swift"; sourceTree = "<group>"; };
 		2C4AE7BF1F27581E00644322 /* realtornote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = realtornote.xcdatamodel; sourceTree = "<group>"; };
 		2C4AE7C31F275ED200644322 /* RNModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNModelController.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				2C0D80951F25C7D9002F58A5 /* Assets.xcassets */,
 				2C0D80971F25C7D9002F58A5 /* LaunchScreen.storyboard */,
 				2C13CB3D211B1F4500312C73 /* GoogleService-Info.plist */,
+				2C2FB9842359DE7300CFD891 /* GoogleService-Info-FCM.plist */,
 				2C0D809A1F25C7D9002F58A5 /* Info.plist */,
 				2C5C059020C6AFCA0064E4DB /* realtornote.plist */,
 				2C93E4451F2F71F900AFD09D /* Settings.bundle */,
@@ -390,7 +393,6 @@
 				2C0D80861F25C7D9002F58A5 /* Frameworks */,
 				2C0D80871F25C7D9002F58A5 /* Resources */,
 				9ECADFF9E7ACE763DBCCFDFF /* [CP] Embed Pods Frameworks */,
-				2C136F8E215A780F009F9311 /* ShellScript */,
 				2C20F28121491569000D13E0 /* ShellScript */,
 				2C155A6A211EBAD200028266 /* ShellScript */,
 			);
@@ -511,6 +513,7 @@
 				2C155A69211EBA8F00028266 /* firebase_crash.json in Resources */,
 				2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */,
 				2C13CB3E211B1F4500312C73 /* GoogleService-Info.plist in Resources */,
+				2C2FB9852359DE7300CFD891 /* GoogleService-Info-FCM.plist in Resources */,
 				2C12B004208B87AB00242517 /* .gitignore in Resources */,
 				2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
@@ -573,19 +576,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2C136F8E215A780F009F9311 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
-		};
 		2C155A6A211EBAD200028266 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -597,7 +587,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
 		};
 		2C20F28121491569000D13E0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -610,7 +600,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$PRODUCT_SETTINGS_PATH\")\necho \"/usr/libexec/PlistBuddy -c 'Print CFBundleVersion $PRODUCT_SETTINGS_PATH'\"\nif [ -z \"$buildNumber\" ] || [ \"$buildNumber\" = \"\\$(CURRENT_PROJECT_VERSION)\" ]\nthen\n        echo \"${PRODUCT_NAME} buildNumber is [empty]\"\n        buildNumber=1\nelse\n        echo \"${PRODUCT_NAME} buildnumber is $buildNumber\"\n        buildNumber=$((buildNumber + 1))\nfi\n\necho \"\\n${PRODUCT_NAME} new buildnumber = $buildNumber\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$PRODUCT_SETTINGS_PATH\"\n";
 		};
 		898C422087F29E8B54ECEE7B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -643,7 +633,7 @@
 				"${BUILT_PRODUCTS_DIR}/LSCountDownLabel/LSCountDownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/XMLDictionary/XMLDictionary.framework",
 				"${BUILT_PRODUCTS_DIR}/XlsxReaderWriter/XlsxReaderWriter.framework",
@@ -657,7 +647,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSCountDownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XMLDictionary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XlsxReaderWriter.framework",
@@ -899,7 +889,7 @@
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -922,7 +912,7 @@
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Hvn-QG-hXa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Hvn-QG-hXa">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -461,7 +461,7 @@
             </objects>
             <point key="canvasLocation" x="974" y="2776"/>
         </scene>
-        <!--책갈피-->
+        <!--Favorite Table View Controller-->
         <scene sceneID="h0v-25-2CM">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="2ZC-pQ-DTv" customClass="RNFavoriteTableViewController" customModule="realtornote" customModuleProvider="target" sceneMemberID="viewController">
@@ -514,10 +514,22 @@
                             <outlet property="delegate" destination="2ZC-pQ-DTv" id="5HE-rP-rBa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="책갈피" id="Mm6-sX-Kjo">
+                    <navigationItem key="navigationItem" id="Mm6-sX-Kjo">
+                        <nil key="title"/>
                         <barButtonItem key="backBarButtonItem" title=" " id="u2K-Il-5Fi">
                             <color key="tintColor" red="0.0039215686274509803" green="0.3411764705882353" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="v8G-1v-bzX">
+                            <rect key="frame" x="135" y="5.5" width="105" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="추가순"/>
+                                <segment title="과목순"/>
+                            </segments>
+                            <connections>
+                                <action selector="onChangeSortType:" destination="2ZC-pQ-DTv" eventType="valueChanged" id="DbI-VP-i8x"/>
+                            </connections>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="t27-GR-C4K">
                             <color key="tintColor" red="0.0039215686274509803" green="0.3411764705882353" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -525,6 +537,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="sortSegmentControl" destination="v8G-1v-bzX" id="SwC-mC-0sf"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lQv-qq-1US" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

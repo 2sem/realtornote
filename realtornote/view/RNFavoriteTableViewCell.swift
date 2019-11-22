@@ -16,10 +16,19 @@ class RNFavoriteTableViewCell: UITableViewCell {
             let chapter = self.favor.part?.chapter;
             let part = self.favor.part;
             
-            self.chapterLabel.text = "\(subject?.name ?? "") 〉 \(chapter?.seq.roman ?? ""). \(chapter?.name ?? "")";
+            switch self.sortType {
+            case .no:
+                self.chapterLabel.text = "\(subject?.name ?? "") 〉 \(chapter?.seq.roman ?? ""). \(chapter?.name ?? "")";
+                break;
+            case .subject:
+                self.chapterLabel.text = "\(chapter?.seq.roman ?? ""). \(chapter?.name ?? "")";
+                break
+            }
             self.partLabel.text = "\(part?.seq ?? 0). \(part?.name ?? "")";
         }
     }
+    
+    var sortType : RNFavoriteTableViewController.SortType = .no;
     
     @IBOutlet weak var chapterLabel: UILabel!
     @IBOutlet weak var partLabel: UILabel!
