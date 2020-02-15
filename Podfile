@@ -24,6 +24,7 @@ target 'realtornote' do
   pod 'LSCountDownLabel'
   pod 'GADManager', :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
   pod 'Alamofire'
+  #pod 'AnimatedGradientView'
 
   target 'realtornoteTests' do
     inherit! :search_paths

@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     var window: UIWindow?
     enum GADUnitName : String{
         case full = "FullAd"
+        case donate = "Donate";
     }
     static var sharedGADManager : GADManager<GADUnitName>?;
     var rewardAd : GADRewardManager?;
@@ -56,8 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         adManager.delegate = self;
         #if DEBUG
         adManager.prepare(interstitialUnit: .full, interval: 60.0);
+        adManager.prepare(interstitialUnit: .donate, interval: 60.0);
         #else
-        adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60.0 * 5.5);
+        adManager.prepare(interstitialUnit: .full, interval: 60.0); // * 60.0 * 1
+        adManager.prepare(interstitialUnit: .donate, interval: 60.0); // * 60.0 * 1
         #endif
         adManager.canShowFirstTime = true;
         LSDefaults.increaseLaunchCount();
@@ -179,7 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         //.reduce("", {$0 + String(format: "%02X", $1)});
-        RNPushController.shared.register(deviceToken.hexString);
+        //RNPushController.shared.register(deviceToken.hexString);
         
     }
     

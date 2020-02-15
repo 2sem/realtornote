@@ -11,6 +11,9 @@ import Firebase
 
 protocol RNPartViewControllerDelegate : NSObjectProtocol{
     func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat);
+    
+    func partViewControllerMoveLeft(_ partViewController: RNPartViewController);
+    func partViewControllerMoveRight(_ partViewController: RNPartViewController);
 }
 
 class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDelegate {
@@ -216,6 +219,21 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
         self.delegate?.partViewController(self, didChangeFontSize: RNPartViewController.contentFontSize!);
     }
     
+    @IBAction func onDoubleTap(_ gesture: UITapGestureRecognizer) {
+        guard let contentView = self.contentView else{
+            return;
+        }
+        
+        let pos = gesture.location(in: contentView);
+        if pos.x < contentView.frame.size.width/2{ //left
+            print("double tap left");
+            self.delegate?.partViewControllerMoveLeft(self);
+        }else{ //right
+            print("double tap right");
+            self.delegate?.partViewControllerMoveRight(self);
+        }
+    }
+    
     // MARK: UISearchBarDelegate
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.showSearchBar(false);
@@ -325,4 +343,10 @@ class RNPartViewController: UIViewController, UITextViewDelegate, UISearchBarDel
     }
     */
 
+}
+
+extension RNPartViewController : UIGestureRecognizerDelegate{
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true;
+    }
 }

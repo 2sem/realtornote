@@ -28,6 +28,8 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
 
     override func viewWillAppear(_ animated: Bool) {
         GADInterstialManager.shared?.rootViewController = self;
+        
+        //AppDelegate.sharedGADManager?.show(unit: .full, completion: nil);
     }
     
     override func viewDidLoad() {
@@ -41,7 +43,12 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
             return;
         }
         
-        self.loadQuestion(self.index);
+        let index = self.index;
+        self.loadQuestion(index, start: false);
+        AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self, completion: { [weak self](uni, ad) in
+            self?.start(index);
+        })
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,7 +64,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         GADInterstialManager.shared?.rootViewController = nil;
     }
     
-    func loadQuestion(_ index : Int){
+    func loadQuestion(_ index : Int, start: Bool = true){
         self.question = self.questions[index];
         self.questionLabel.text = self.question.text;
         self.titleLabel.text = self.question.title;
@@ -66,6 +73,12 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         self.answerTable.reloadData();
         self.answerTable.allowsSelection = true;
         
+        if(start){
+            self.start(index);
+        }
+    }
+    
+    func start(_ index : Int){
         self.countDownLabel.start { (remainSeconds) in
             let answer_idx = self.question.answers.enumerated().first(where: { (index, ans) -> Bool in
                 return ans.isCorrect;

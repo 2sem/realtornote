@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Hvn-QG-hXa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Hvn-QG-hXa">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -307,6 +307,7 @@
                                 <connections>
                                     <outlet property="delegate" destination="7pv-oX-bps" id="Hmw-Lg-HAD"/>
                                     <outletCollection property="gestureRecognizers" destination="eqA-zy-aq3" appends="YES" id="HqK-nh-DXD"/>
+                                    <outletCollection property="gestureRecognizers" destination="Ifr-rI-wbZ" appends="YES" id="A07-vu-nFE"/>
                                 </connections>
                             </textView>
                         </subviews>
@@ -343,6 +344,12 @@
                         <action selector="onPinch:" destination="7pv-oX-bps" id="fJb-DG-Tin"/>
                     </connections>
                 </pinchGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="Ifr-rI-wbZ">
+                    <connections>
+                        <action selector="onDoubleTap:" destination="7pv-oX-bps" id="uXB-wM-p7X"/>
+                        <outlet property="delegate" destination="7pv-oX-bps" id="QrY-Da-mOy"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="4420" y="1663"/>
         </scene>

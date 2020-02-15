@@ -10,9 +10,15 @@ import UIKit
 //import DownPicker
 import DropDown
 import Firebase
+//import AnimatedGradientView
 
-class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, RNPartViewControllerDelegate {
+class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
+    class Segues{
+        static let quiz = "quiz";
+        static let favorite = "favorite";
+    }
+    
     var subject : RNSubjectInfo?;
     var chapter : RNChapterInfo!;
     var chapters : [RNChapterInfo] = [];
@@ -55,9 +61,24 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
             }
             
             let hasViewControllers = self.viewControllers?.isEmpty ?? true;
-            self.setViewControllers([partView!], direction: UIPageViewController.NavigationDirection.forward, animated: !hasViewControllers, completion: nil);
+            self.setViewControllers([partView!], direction: .forward, animated: !hasViewControllers, completion: nil);
         }
     }
+    var currentPart : RNPartInfo?{
+        guard let partView = self.viewControllers?.first as? RNPartViewController else{
+            return nil;
+        }
+        
+        return partView.part;
+    }
+    var currentPartIndex : Int{
+        guard let part = self.currentPart else{
+            return 0;
+        }
+        
+        return self.parts.index(of: part) ?? 0;
+    }
+    var isTransitioning = false;
     var partViewControllers : [Int : RNPartViewController] = [:];
     var partContentFontSize : CGFloat?;
     
@@ -91,6 +112,20 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     @IBOutlet weak var chapterSelectButton: UIButton!
     var leftButton : UIButton!;
     var rightButton : UIButton!;
+    
+//    lazy var animatedLeftGradient : AnimatedGradientView = {
+//        var value = AnimatedGradientView.init(frame: self.view.bounds);
+//        let bg = "#81d4fa".toUIColor()!;
+//
+//        value.autoAnimate = false;
+//        value.colors = [[.clear, bg, .clear]] //, [black20, black50]
+//        value.direction = .left;
+//        value.animationDuration = 5.0;
+//
+//        self.view?.addSubview(value);
+//
+//        return value;
+//    }();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,6 +182,7 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         pageControl.backgroundColor = "#81d4fa".toUIColor();
         pageControl.tintColor = "#0288d1".toUIColor();
         
+        //self.animatedLeftGradient.startAnimating();
         return;
         /*self.leftButton = UIButton();
         self.leftButton.setImage(UIImage.init(named: "icon_left"), for: .normal);
@@ -212,13 +248,12 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     func select(chapter: RNChapterInfo){
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.chapterSelectButton.setTitle("\(chapter.seq.roman). \(chapter.name ?? "") ▼", for: .normal);
-            self?.chapterSelectButton.sizeToFit();
-            //refresh
-            self?.updateParts();
-            print("selected \(chapter.name ?? "")");
-        }
+        self.chapterSelectButton.setTitle("\(chapter.seq.roman). \(chapter.name ?? "") ▼", for: .normal);
+        self.chapterSelectButton.sizeToFit();
+        //refresh
+        self.updateParts();
+        print("selected \(chapter.name ?? "")");
+        AppDelegate.sharedGADManager?.show(unit: .full, completion: nil);
     }
     
     @IBAction func onChangeChapter(_ button: UIButton) {
@@ -301,16 +336,26 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     // MARK: UIPageViewControllerDelegate
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        self.isTransitioning = true;
+        print("begin transitioning");
+    }
     
-    // MARK: RNPartViewControllerDelegate
-    func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat) {
-        LSDefaults.ContentSize = Float(size);
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        self.isTransitioning = false;
+        print("end transitioning");
     }
     
     // MARK: - Navigation
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.performSegue(withIdentifier: identifier, sender: sender);
+        
+        switch identifier {
+        case Segues.quiz:
+            return true;
+        default:
+            self.performSegue(withIdentifier: identifier, sender: sender);
+            AppDelegate.sharedGADManager?.show(unit: .full, completion: nil)
+            break;
         }
         
         return false;
@@ -331,6 +376,55 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
                 }
                 
                 view.questions = RNQuestionInfo.createQuestions(paragraphs);
+            }
+        }
+    }
+}
+
+extension RNSubjectViewController : RNPartViewControllerDelegate{
+    // MARK: RNPartViewControllerDelegate
+    func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat) {
+        LSDefaults.ContentSize = Float(size);
+    }
+    
+    func partViewControllerMoveLeft(_ partViewController: RNPartViewController) {
+        let firstSeq = self.parts.first?.seq ?? 0;
+        let lastSeq = self.parts.last?.seq ?? 0;
+        guard !self.isTransitioning, let seq = partViewController.part?.seq.advanced(by: -1) else{
+            return;
+        }
+        
+        guard let partView = self.partViewControllers[Int(seq < firstSeq ? lastSeq : seq)] else{
+            return;
+        }
+        
+        self.isTransitioning = true;
+        self.view?.isUserInteractionEnabled = false;
+        DispatchQueue.main.async {[weak self] in
+            self?.setViewControllers([partView], direction: .reverse, animated: true){ [weak self](result) in
+                self?.view?.isUserInteractionEnabled = true;
+                self?.isTransitioning = false;
+            }
+        }
+    }
+    
+    func partViewControllerMoveRight(_ partViewController: RNPartViewController) {
+        let firstSeq = self.parts.first?.seq ?? 0;
+        let lastSeq = self.parts.last?.seq ?? 0;
+        guard !self.isTransitioning, let seq = partViewController.part?.seq.advanced(by: 1) else{
+            return;
+        }
+        
+        guard let partView = self.partViewControllers[Int(seq > lastSeq ? firstSeq : seq)] else{
+            return;
+        }
+        
+        self.isTransitioning = true;
+        self.view?.isUserInteractionEnabled = false;
+        DispatchQueue.main.async { [weak self] in
+            self?.setViewControllers([partView], direction: .forward, animated: true){ [weak self](result) in
+                self?.view?.isUserInteractionEnabled = true;
+                self?.isTransitioning = false;
             }
         }
     }

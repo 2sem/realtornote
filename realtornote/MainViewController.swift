@@ -54,23 +54,23 @@ class MainViewController: UIViewController {
     
     @IBAction func onOpenQnet(_ button: UIButton) {
         Analytics.logLeesamEvent(.openQNet, parameters: [:]);
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.openWithSafari(Urls.qnet, animated: true);
-        }
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.qnet, animated: true);
+        //}
     }
     
     @IBAction func onOpenHome(_ button: UIButton) {
         Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.openWithSafari(Urls.realtornote, animated: true);
-        }
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.realtornote, animated: true);
+        //}
     }
     
     @IBAction func onOpenQuiz(_ sender: UIButton) {
         Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.openWithSafari(Urls.quiz, animated: true);
-        }
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.quiz, animated: true);
+        //}
     }
     
     func openUrl(_ url : URL){
@@ -96,7 +96,8 @@ class MainViewController: UIViewController {
 
     @IBAction func onDonate(_ button: UIButton) {
         Analytics.logLeesamEvent(.pressDonate, parameters: [:]);
-        GADRewardManager.shared?.show(true);
+        //GADRewardManager.shared?.show(true);
+        AppDelegate.sharedGADManager?.show(unit: .donate, completion: nil);
     }
     // MARK: - Navigation
 

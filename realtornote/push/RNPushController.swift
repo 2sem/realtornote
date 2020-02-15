@@ -61,7 +61,7 @@ class RNPushController: NSObject {
         let params = ["type":"ios","device":device];
         self.deviceToken = device;
         print("APNs device[\(self.deviceToken ?? "")] => \(type(of: self).PushRegURL.absoluteString)");
-        Alamofire.request(type(of: self).PushRegURL, method: .post, parameters: params, encoding: JSONEncoding.default)
+        AF.request(type(of: self).PushRegURL, method: .post, parameters: params, encoding: JSONEncoding.default)
             .responseJSON { (res) in
                 guard res.error == nil else{
                     print("push reg. error[\(res.error.debugDescription)]");

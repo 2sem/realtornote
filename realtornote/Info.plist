@@ -30,11 +30,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>23</string>
+	<string>53</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9684378399371172~7124016405</string>
 	<key>GADUnitIdentifiers</key>
 	<dict>
+		<key>Donate</key>
+		<string>ca-app-pub-9684378399371172/9105067669</string>
 		<key>FullAd</key>
 		<string>ca-app-pub-9684378399371172/1235951829</string>
 	</dict>
