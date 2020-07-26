@@ -13,9 +13,13 @@ target 'realtornote' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  
+  # Add the pod for Firebase Crashlytics
+  pod 'Firebase/Crashlytics'
+
+  # Recommended: Add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
-  pod 'Fabric'
-  pod 'Crashlytics'
+  
   pod 'KakaoOpenSDK'
   pod 'ProgressWebViewController'
   #pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'

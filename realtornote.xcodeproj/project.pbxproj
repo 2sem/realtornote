@@ -54,6 +54,7 @@
 		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
 		2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4451F2F71F900AFD09D /* Settings.bundle */; };
 		2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C95BEC92038007A004DCD95 /* RNTabBarController.swift */; };
+		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
 		2CC9AB411F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */; };
 		2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */; };
 		2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */; };
@@ -138,6 +139,7 @@
 		2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
 		2C93E4451F2F71F900AFD09D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2C95BEC92038007A004DCD95 /* RNTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNTabBarController.swift; sourceTree = "<group>"; };
+		2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeTableViewCell.swift; sourceTree = "<group>"; };
 		2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNFavoriteInfo.swift"; sourceTree = "<group>"; };
 		2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewController.swift; sourceTree = "<group>"; };
 		2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewCell.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				2CDA890A1F41A5E40026C966 /* RNQuestionViewController.swift */,
 				2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */,
 				2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */,
+				2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -582,12 +585,13 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+			shellScript = "${PODS_ROOT}/FirebaseCrashlytics/run -gsp \"${PROJECT_DIR}/${PROJECT}/GoogleService-Info.plist\"\n";
 		};
 		2C20F28121491569000D13E0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -634,7 +638,7 @@
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/XMLDictionary/XMLDictionary.framework",
 				"${BUILT_PRODUCTS_DIR}/XlsxReaderWriter/XlsxReaderWriter.framework",
@@ -649,7 +653,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XMLDictionary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XlsxReaderWriter.framework",
@@ -674,6 +678,7 @@
 				2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */,
 				2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */,
 				2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */,
+				2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */,
 				2CDA89111F41B2B50026C966 /* RNQuestionAnswerInfo.swift in Sources */,
 				2C4AE7CF1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift in Sources */,
 				2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */,
@@ -891,7 +896,7 @@
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.10;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -914,7 +919,7 @@
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.10;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

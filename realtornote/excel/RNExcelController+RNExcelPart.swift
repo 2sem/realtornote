@@ -56,11 +56,13 @@ extension RNExcelController{
             let name = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.name, line: i)?.stringValue() ?? "";
             let chapter = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.chapter, line: i)?.value ?? "";
             let content = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.content, line: i)?.stringValue() ?? "";
+            let content2 = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.content, line: i)?.stringValue() ?? "";
+            let content3 = self.getPartCell(columns: columns, column: RNExcelPart.FieldNames.content, line: i)?.stringValue() ?? "";
             
             part.name = name;
             part.seq = Int(seq) ?? 0;
             part.chapter = Int(chapter) ?? 0;
-            part.content = content;
+            part.content = content + content2 + content3;
             
             print("add new part. id[\(part.id)] seq[\(part.seq)] chapter[\(part.chapter)] name[\(part.name)]");
             values.append(part);

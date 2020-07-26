@@ -15,6 +15,8 @@ class RNExcelPart : NSObject{
         static let name = "name";
         static let chapter = "chapter";
         static let content = "content";
+        static let content2 = "content2";
+        static let content3 = "content3";
     }
     
     var id : Int = 0;

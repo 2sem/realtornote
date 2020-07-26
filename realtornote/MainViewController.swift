@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Crashlytics
+import FirebaseCrashlytics
 import SafariServices
 import Firebase
 

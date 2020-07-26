@@ -10,7 +10,11 @@ import UIKit
 import Firebase
 
 class RNFavoriteTableViewController: UITableViewController {
-    static let CellID = "RNFavoriteTableViewCell";
+    class Cells{
+        static let `default` = "RNFavoriteTableViewCell";
+        static let ads = "ads";
+    }
+    
 
     var subjects : [RNSubjectInfo] = [];
     var favoritesForSubjects : [[RNFavoriteInfo]] = [[]];
@@ -31,6 +35,32 @@ class RNFavoriteTableViewController: UITableViewController {
     
     var sortType : SortType{
         return SortType.init(rawValue: self.sortSegmentControl?.selectedSegmentIndex ?? 0) ?? .no;
+    }
+    
+    func isAdsCell(_ indexPath: IndexPath) -> Bool{
+        return indexPath.section == 0;
+    }
+        
+    func isAdsSection(_ section: Int) -> Bool{
+        return section == 0;
+    }
+    
+    var needAdsCell : Bool{
+        get{
+            return true;
+        }
+    }
+    
+    func realSection(section: Int) -> Int{
+        return self.needAdsCell ? section.advanced(by: -1) : section;
+    }
+    
+    func realSubject(section: Int) -> RNSubjectInfo{
+        return self.needAdsCell ? self.subjects[section.advanced(by: -1)] : self.subjects[section];
+    }
+    
+    func realFavorites(section: Int) -> [RNFavoriteInfo]{
+        return self.needAdsCell ? self.favoritesForSubjects[section.advanced(by: -1)] : self.favoritesForSubjects[section];
     }
     
     @IBOutlet weak var sortSegmentControl: UISegmentedControl!
@@ -122,36 +152,60 @@ class RNFavoriteTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.sortType == .no ? 1 : self.subjects.count;
+        let value = self.sortType == .no ? 1 : self.subjects.count;
+        
+        return value.advanced(by: self.needAdsCell ? 1 : 0);
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        guard !self.isAdsSection(section) else{
+            return 1;
+        }
+        
         return self.sortType == .no ? self.favorites.count : self.favoritesForSubjects[section].count;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RNFavoriteTableViewController.CellID, for: indexPath) as? RNFavoriteTableViewCell;
+        var cell : UITableViewCell! = nil;
+        
+        guard !self.isAdsCell(indexPath) else{
+            if let adsCell = tableView.dequeueReusableCell(withIdentifier: Cells.ads, for: indexPath) as? GADNativeTableViewCell{
+                cell = adsCell;
+                adsCell.rootViewController = self;
+                adsCell.loadAds();
+            }
+            return cell;
+        }
+        
+        let favorCell : RNFavoriteTableViewCell!;
+        //let indexPath : IndexPath = .init(row: indexPath.row, section: indexPath.section.advanced(by: -1));
+        favorCell = tableView.dequeueReusableCell(withIdentifier: Cells.default, for: indexPath) as? RNFavoriteTableViewCell;
 
+        
         // Configure the cell...
-        cell?.sortType = self.sortType;
-        cell?.favor = self.sortType == .no ? self.favorites[indexPath.row] : self.favoritesForSubjects[indexPath.section][indexPath.row];
-
+        favorCell?.sortType = self.sortType;
+        favorCell?.favor = self.sortType == .no ? self.favorites[indexPath.row] : self.realFavorites(section: indexPath.section)[indexPath.row];
+        cell = favorCell;
+        
         return cell!
     }
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        return true
+        return !self.isAdsSection(indexPath.section);
     }
-    */
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard !self.isAdsSection(indexPath.section) else{
+            return;
+        }
+        
+        //let indexPath : IndexPath = .init(row: indexPath.row, section: indexPath.section.advanced(by: -1));
+        
         if editingStyle == .delete {
             // Delete the row from the data source
             guard let cell = tableView.cellForRow(at: indexPath) as? RNFavoriteTableViewCell else{
@@ -170,13 +224,13 @@ class RNFavoriteTableViewController: UITableViewController {
                 break;
             case .subject:
                 if let favorite = cell.favor{
-                    self.favoritesForSubjects[indexPath.section].remove(favorite, where: { $0 == $1 });
+                    self.favoritesForSubjects[self.realSection(section: indexPath.section)].remove(favorite, where: { $0 == $1 });
                     self.modelController.removeFavorite(favorite);
                 }
                 
-                if self.favoritesForSubjects[indexPath.section].isEmpty{
-                    self.favoritesForSubjects.remove(at: indexPath.section);
-                    self.subjects.remove(at: indexPath.section);
+                if self.favoritesForSubjects[self.realSection(section: indexPath.section)].isEmpty{
+                    self.favoritesForSubjects.remove(at: self.realSection(section: indexPath.section));
+                    self.subjects.remove(at: self.realSection(section: indexPath.section));
                     tableView.deleteSections([indexPath.section], with: .automatic);
                 }else{
                     tableView.deleteRows(at: [indexPath], with: .fade);
@@ -192,12 +246,20 @@ class RNFavoriteTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard !self.isAdsSection(section) else{
+            return nil;
+        }
+        
         return self.sortType == .no ? nil : self.subjects[section].name;
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !self.isAdsSection(indexPath.section) else{
+            return;
+        }
+        
         self.hidesBottomBarWhenPushed = false;
-        let favorite : RNFavoriteInfo = self.sortType == .no ? self.favorites[indexPath.row] : self.favoritesForSubjects[indexPath.section][indexPath.row];
+        let favorite : RNFavoriteInfo = self.sortType == .no ? self.favorites[indexPath.row] : self.realFavorites(section: indexPath.section)[indexPath.row];
         
         self.partToMove = favorite.part;
         
