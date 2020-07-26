@@ -71,14 +71,10 @@ class GADNativeTableViewCell: UITableViewCell {
             button.setTitle("ads action".localized(), for: .normal);
             button.isHidden = false;
         }
-        if let imageView = self.nativeAdView?.iconView as? UIImageView{
+        if let imageView = self.nativeAdView?.imageView as? UIImageView{
             imageView.image = #imageLiteral(resourceName: "othreapp");
         }
         self.nativeAdView?.iconView?.isHidden = false;
-        if let body = self.nativeAdView?.bodyView as? UILabel{
-            body.text = "ads description".localized();
-            body.isHidden = false;
-        }
         
         self.nativeAdView?.isUserInteractionEnabled = false;
         //self.nativeAdView.isHidden = true;
@@ -111,9 +107,6 @@ extension GADNativeTableViewCell : GADUnifiedNativeAdLoaderDelegate{
             button.setTitle(nativeAd.callToAction, for: .normal);
         }
         self.nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil;
-        if let imageView = nativeAdView.iconView as? UIImageView{
-            imageView.image = nativeAd.icon?.image;
-        }
         
         if let imageView = nativeAdView.iconView as? UIImageView, let icon = nativeAd.icon?.image{
             imageView.image = icon;
