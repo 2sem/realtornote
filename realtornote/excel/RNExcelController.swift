@@ -42,7 +42,10 @@ class RNExcelController : NSObject{
     
     var needToUpdate : Bool{
         get{
-            return LSDefaults.DataVersion < self.version;
+            let value = LSDefaults.DataVersion.compare(self.version, options: .numeric);
+            let candidates : [ComparisonResult] = [.orderedAscending];
+            
+            return candidates.contains(value);
         }
     }
     
