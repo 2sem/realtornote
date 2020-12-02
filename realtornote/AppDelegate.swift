@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     enum GADUnitName : String{
         case full = "FullAd"
         case donate = "Donate";
+        case launch = "Launch"
     }
     static var sharedGADManager : GADManager<GADUnitName>?;
     var rewardAd : GADRewardManager?;
@@ -58,9 +59,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         #if DEBUG
         adManager.prepare(interstitialUnit: .full, interval: 60.0);
         adManager.prepare(interstitialUnit: .donate, interval: 60.0);
+        adManager.prepare(openingUnit: .launch, isTest: true, interval: 60.0); //
         #else
         adManager.prepare(interstitialUnit: .full, interval: 60.0); // * 60.0 * 1
         adManager.prepare(interstitialUnit: .donate, interval: 60.0); // * 60.0 * 1
+        adManager.prepare(openingUnit: .launch, interval: 60.0 * 5); //
         #endif
         adManager.canShowFirstTime = true;
         LSDefaults.increaseLaunchCount();
@@ -174,6 +177,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("app become active");
+        #if DEBUG
+        let test = true;
+        #else
+        let test = false;
+        #endif
+        AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
+            
+        })
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -257,7 +269,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
 }
 
 extension AppDelegate : MessagingDelegate{
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("fcm device[\(fcmToken)]");
         let topic = "notice";
         //let topic = "congress_2_9770881_law";
@@ -267,14 +279,27 @@ extension AppDelegate : MessagingDelegate{
         }
         //messaging.unsubscribe(fromTopic: topic);
     }
-    
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        
-    }
 }
 
 extension AppDelegate : GADManagerDelegate{
     typealias E = GADUnitName
+    
+    func GAD<E>(manager: GADManager<E>, lastPreparedTimeForUnit unit: E) -> Date where E : Hashable, E : RawRepresentable, E.RawValue == String {
+        let now = Date();
+  //        if RSDefaults.LastOpeningAdPrepared > now{
+  //            RSDefaults.LastOpeningAdPrepared = now;
+  //        }
+
+          return LSDefaults.LastOpeningAdPrepared;
+          //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
+    }
+    
+    func GAD<E>(manager: GADManager<E>, updateLastPreparedTimeForUnit unit: E, preparedTime time: Date){
+        LSDefaults.LastOpeningAdPrepared = time;
+        
+        //RNInfoTableViewController.shared?.needAds = false;
+        //RNFavoriteTableViewController.shared?.needAds = false;
+    }
     
     func GAD<GADUnitName>(manager: GADManager<GADUnitName>, updatShownTimeForUnit unit: GADUnitName, showTime time: Date){
         let now = Date();

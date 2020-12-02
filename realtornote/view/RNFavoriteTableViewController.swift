@@ -263,9 +263,9 @@ class RNFavoriteTableViewController: UITableViewController {
         
         self.partToMove = favorite.part;
         
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.navigationController?.popViewController(animated: true);
-        }
+//        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad, result) in
+            self.navigationController?.popViewController(animated: true);
+//        }
         
         /*var main = self.tabBarController as? MainViewController;
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -289,6 +289,11 @@ class RNFavoriteTableViewController: UITableViewController {
     */
 
     // MARK: - Navigation
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        AppDelegate.sharedGADManager?.show(unit: .full, completion: nil)
+//
+//        return false;
+//    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>36</string>
+	<string>45</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9684378399371172~7124016405</string>
 	<key>GADUnitIdentifiers</key>
@@ -39,6 +39,8 @@
 		<string>ca-app-pub-9684378399371172/9105067669</string>
 		<key>FullAd</key>
 		<string>ca-app-pub-9684378399371172/1235951829</string>
+		<key>Launch</key>
+		<string>ca-app-pub-9684378399371172/8962601702</string>
 	</dict>
 	<key>GoogleADUnitID</key>
 	<dict>

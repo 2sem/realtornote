@@ -45,7 +45,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
         
         let index = self.index;
         self.loadQuestion(index, start: false);
-        AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self, completion: { [weak self](uni, ad) in
+        AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self, completion: { [weak self](uni, ad, result) in
             self?.start(index);
         })
         
@@ -109,7 +109,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     
     @IBAction func onRestart(_ sender: UIBarButtonItem) {
         Analytics.logLeesamEvent(.restartQuiz, parameters: [:]);
-        AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self) { [unowned self](unit, ad) in
+        AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self) { [unowned self](unit, ad, result) in
             self.index = 0;
             self.loadQuestion(self.index);
             self.restartButton.isEnabled = false;

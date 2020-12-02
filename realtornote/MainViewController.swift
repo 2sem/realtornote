@@ -83,7 +83,7 @@ class MainViewController: UIViewController {
         internetView.hidesBottomBarWhenPushed = true;
         
         //DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad, result) in
                 if nav != nil{
                     nav?.pushViewController(internetView, animated: true);
                 }else if let tabView = self?.children.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
