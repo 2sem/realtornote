@@ -19,6 +19,15 @@ import GADManager
 class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
+    /// to access AppDelegate.window
+    static var sharedWindow : UIWindow?{
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else{
+            return nil
+        }
+        
+        return delegate.window;
+    }
+    
     enum GADUnitName : String{
         case full = "FullAd"
         case donate = "Donate";
@@ -32,7 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
+        UIApplication.shared.windows.forEach { (win) in
+            if #available(iOS 13.0, *) {
+                win.overrideUserInterfaceStyle = .light
+            }
+        }
+        
         FirebaseApp.configure();
         //GADMobileAds.sharedInstance().start(completionHandler: nil);
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~7124016405");

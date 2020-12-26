@@ -179,9 +179,10 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         self.updateParts();
         
         let pageControl = UIPageControl.appearance();
+        
         pageControl.backgroundColor = "#81d4fa".toUIColor();
         pageControl.tintColor = "#0288d1".toUIColor();
-        
+        self.view.backgroundColor = pageControl.backgroundColor;
         //self.animatedLeftGradient.startAnimating();
         return;
         /*self.leftButton = UIButton();

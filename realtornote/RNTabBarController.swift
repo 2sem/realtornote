@@ -11,8 +11,51 @@ import Firebase
 
 class RNTabBarController: UITabBarController {
 
+    class Urls{
+        static let qnet : URL! = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08");
+        static let realtornote : URL! = URL(string: "http://andy3938.cafe24.com/gnu_house");
+        static let quiz : URL! = URL(string: "http://landquiz.com/bbs/gichul.php");
+    }
+    
+    static var startingUrl : URL!{
+        didSet{
+            guard let url = startingUrl else{
+                return;
+            }
+            
+            shared?.openUrl(url);
+        }
+    }
+    private(set) static var shared : RNTabBarController!;
+    
+    var tabBarHeight : CGFloat = 0;
+    var margin: UIEdgeInsets = .init(top: 0, left: 0, bottom: 44, right: 0);
+    @IBInspectable var leftMargin : CGFloat{
+        get{ self.margin.left }
+        set{ self.margin.left = newValue }
+    }
+    @IBInspectable var topMargin : CGFloat{
+        get{ self.margin.top }
+        set{ self.margin.top = newValue }
+    }
+    @IBInspectable var rightMargin : CGFloat{
+        get{ self.margin.right }
+        set{ self.margin.right = newValue }
+    }
+    @IBInspectable var bottomMargin : CGFloat{
+        get{ self.margin.bottom }
+        set{ self.margin.bottom = newValue }
+    }
+    
+    @IBOutlet var newsContainer: UIView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        type(of: self).shared = self;
+
+        self.tabBarHeight = self.tabBar.frame.height + self.margin.top + self.margin.bottom;
+        self.newsContainer.frame.size.height = self.margin.bottom;
         
         //Updates if excel file is new version
         if RNExcelController.Default.needToUpdate{
@@ -37,6 +80,16 @@ class RNTabBarController: UITabBarController {
         
         //Go to last subject user saw
         self.selectedIndex = LSDefaults.LastSubject;
+        
+        if let url = type(of: self).startingUrl{
+            type(of: self).startingUrl = nil;
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+                self?.openUrl(url);
+            }
+        }
+        
+        self.setupBottomBanner();
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,6 +97,32 @@ class RNTabBarController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        var bottomInset : CGFloat = 0;
+        if #available(iOS 11.0, *) {
+            bottomInset = self.view.safeAreaInsets.bottom;
+        }
+        self.tabBar.frame.size.height = self.tabBarHeight + bottomInset;
+        self.tabBar.frame.origin.y = self.view.frame.height - bottomInset - self.tabBarHeight;
+        
+        self.newsContainer.frame.origin.x = 20;
+        self.newsContainer.frame.size.width = self.tabBar.frame.size.width - 20 * 2;
+        self.newsContainer.frame.origin.y = self.tabBar.frame.size.height - self.newsContainer.frame.height - bottomInset;
+    }
+    
+    func setupBottomBanner(){
+        self.tabBar.items?.forEach({ (item) in
+            item.imageInsets.top = self.margin.top - self.margin.bottom;
+            item.imageInsets.bottom = 0; //self.margin.bottom;
+            item.titlePositionAdjustment.vertical = item.titlePositionAdjustment.vertical - self.margin.bottom;
+        })
+        
+        self.tabBar.addSubview(self.newsContainer);
+        //self.tabBar.bringSubviewToFront(self.newsContainer);
+        self.newsContainer.bringSubviewToFront(self.tabBar)
+    }
     func moveToPart(_ part : RNPartInfo){
         let subject = part.chapter?.subject;
         
@@ -51,8 +130,14 @@ class RNTabBarController: UITabBarController {
         LSDefaults.LastSubject = self.selectedIndex;
 
         let nav = self.selectedViewController as? UINavigationController;
-        let view = nav?.viewControllers.first as? RNSubjectViewController;
-        view?.part = part;
+        let subjectView = nav?.viewControllers.first as? RNSubjectViewController;
+        
+        if let chapter = part.chapter{
+            subjectView?.chapter = chapter;
+            subjectView?.select(chapter: chapter);
+        }
+        
+        subjectView?.part = part;
     }
 
     
@@ -61,7 +146,55 @@ class RNTabBarController: UITabBarController {
         Analytics.logLeesamEvent(.selectSubject, parameters: [:]);
         //AppDelegate.sharedGADManager?.show(unit: .full);
     }
+    
+    func openUrl(_ url : URL){
+        var nav = self.presentedViewController as? UINavigationController;
+        guard let internetView = self.storyboard?.instantiateViewController(withIdentifier: "internetView") as? RNInternetViewController else{
+            return;
+        }
+        
+        internetView.startingUrl = url.absoluteString;
+        internetView.hidesBottomBarWhenPushed = true;
+        
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad, result) in
+                if nav != nil{
+                    nav?.pushViewController(internetView, animated: true);
+                }else if let tabView = self?.children.first(where: {$0 is RNTabBarController }) as? RNTabBarController {
+                    nav = tabView.viewControllers?[tabView.selectedIndex] as? UINavigationController;
+                    nav?.pushViewController(internetView, animated: true);
+                }
+            }
+        //}
+    }
 
+    @IBAction func onOpenQnet(_ button: UIButton) {
+        Analytics.logLeesamEvent(.openQNet, parameters: [:]);
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.qnet, animated: true);
+        //}
+    }
+    
+    @IBAction func onOpenHome(_ button: UIButton) {
+        Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.realtornote, animated: true);
+        //}
+    }
+    
+    @IBAction func onOpenQuiz(_ sender: UIButton) {
+        Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.quiz, animated: true);
+        //}
+    }
+    
+    @IBAction func onDonate(_ button: UIButton) {
+        Analytics.logLeesamEvent(.pressDonate, parameters: [:]);
+        //GADRewardManager.shared?.show(true);
+        AppDelegate.sharedGADManager?.show(unit: .donate, completion: nil);
+    }
+    
     /*
     // MARK: - Navigation
 

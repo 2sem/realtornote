@@ -42,7 +42,7 @@ class RNFavoriteTableViewController: UITableViewController {
     }
         
     func isAdsSection(_ section: Int) -> Bool{
-        return section == 0;
+        return self.needAdsCell && section == 0;
     }
     
     var needAdsCell : Bool{
@@ -72,6 +72,7 @@ class RNFavoriteTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.hideExtraRows = true;
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -164,7 +165,7 @@ class RNFavoriteTableViewController: UITableViewController {
             return 1;
         }
         
-        return self.sortType == .no ? self.favorites.count : self.favoritesForSubjects[section].count;
+        return self.sortType == .no ? self.favorites.count : self.favoritesForSubjects[self.needAdsCell ? section.advanced(by: -1) : section].count;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -250,7 +251,7 @@ class RNFavoriteTableViewController: UITableViewController {
             return nil;
         }
         
-        return self.sortType == .no ? nil : self.subjects[section].name;
+        return self.sortType == .no ? nil : self.subjects[self.needAdsCell ? section.advanced(by: -1) : section].name;
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

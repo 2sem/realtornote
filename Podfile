@@ -29,6 +29,9 @@ target 'realtornote' do
   pod 'GADManager', :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
   pod 'Alamofire'
   #pod 'AnimatedGradientView'
+  
+  pod 'Toast-Swift'
+  pod 'SwiftGifOrigin' #https://cocoapods.org/pods/SwiftGifOrigin
 
   target 'realtornoteTests' do
     inherit! :search_paths
