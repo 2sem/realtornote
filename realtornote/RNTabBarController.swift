@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAnalytics
 
 class RNTabBarController: UITabBarController {
 
     class Urls{
         static let qnet : URL! = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08");
-        static let realtornote : URL! = URL(string: "http://andy3938.cafe24.com/gnu_house");
+        static let realtornote : URL! = URL(string: "http://andy1002.cafe24.com/gnu_house");
         static let quiz : URL! = URL(string: "http://landquiz.com/bbs/gichul.php");
     }
     
@@ -28,7 +28,7 @@ class RNTabBarController: UITabBarController {
     }
     private(set) static var shared : RNTabBarController!;
     
-    var tabBarHeight : CGFloat = 0;
+    var barHeight : CGFloat = 0;
     var margin: UIEdgeInsets = .init(top: 0, left: 0, bottom: 44, right: 0);
     @IBInspectable var leftMargin : CGFloat{
         get{ self.margin.left }
@@ -54,7 +54,7 @@ class RNTabBarController: UITabBarController {
         
         type(of: self).shared = self;
 
-        self.tabBarHeight = self.tabBar.frame.height + self.margin.top + self.margin.bottom;
+        self.barHeight = self.tabBar.frame.height + self.margin.top + self.margin.bottom;
         self.newsContainer.frame.size.height = self.margin.bottom;
         
         //Updates if excel file is new version
@@ -104,8 +104,8 @@ class RNTabBarController: UITabBarController {
         if #available(iOS 11.0, *) {
             bottomInset = self.view.safeAreaInsets.bottom;
         }
-        self.tabBar.frame.size.height = self.tabBarHeight + bottomInset;
-        self.tabBar.frame.origin.y = self.view.frame.height - bottomInset - self.tabBarHeight;
+        self.tabBar.frame.size.height = self.barHeight + bottomInset;
+        self.tabBar.frame.origin.y = self.view.frame.height - bottomInset - self.barHeight;
         
         self.newsContainer.frame.origin.x = 20;
         self.newsContainer.frame.size.width = self.tabBar.frame.size.width - 20 * 2;

@@ -9,12 +9,13 @@
 import UIKit
 //import DownPicker
 import DropDown
-import Firebase
+import FirebaseAnalytics
 //import AnimatedGradientView
 
 class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     class Segues{
+        static let alarm = "alarm";
         static let quiz = "quiz";
         static let favorite = "favorite";
     }
@@ -352,6 +353,8 @@ class RNSubjectViewController: UIPageViewController, UIPageViewControllerDataSou
         
         switch identifier {
         case Segues.quiz:
+            return true;
+        case Segues.alarm:
             return true;
         default:
             self.performSegue(withIdentifier: identifier, sender: sender);

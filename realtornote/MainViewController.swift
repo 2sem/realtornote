@@ -9,13 +9,13 @@
 import UIKit
 import FirebaseCrashlytics
 import SafariServices
-import Firebase
+import FirebaseAnalytics
 
 class MainViewController: UIViewController {
 
     class Urls{
         static let qnet : URL! = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08");
-        static let realtornote : URL! = URL(string: "http://andy3938.cafe24.com/gnu_house");
+        static let realtornote : URL! = URL(string: "http://andy1002.cafe24.com/gnu_house");
         static let quiz : URL! = URL(string: "http://landquiz.com/bbs/gichul.php");
     }
     

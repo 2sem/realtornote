@@ -20,7 +20,7 @@ class GADNativeTableViewCell: UITableViewCell {
     var gadLoader : GADAdLoader?;
     var tapGesture : UITapGestureRecognizer!;
     
-    @IBOutlet weak var nativeAdView: GADUnifiedNativeAdView!
+    @IBOutlet weak var nativeAdView: GADNativeAdView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,7 +39,7 @@ class GADNativeTableViewCell: UITableViewCell {
     func loadAds(){
         self.gadLoader = GADAdLoader(adUnitID: self.gadUnit,
                                      rootViewController: self.rootViewController,
-                                     adTypes: [ GADAdLoaderAdType.unifiedNative ],
+                                     adTypes: [ .native ],
                                      options: []);
         self.gadLoader?.delegate = self;
         
@@ -90,8 +90,9 @@ class GADNativeTableViewCell: UITableViewCell {
     }
 }
 
-extension GADNativeTableViewCell : GADUnifiedNativeAdLoaderDelegate{
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+extension GADNativeTableViewCell : GADNativeAdLoaderDelegate
+{
+    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         print("\(#function)");
         self.nativeAdView?.nativeAd = nativeAd;
         
@@ -132,11 +133,9 @@ extension GADNativeTableViewCell : GADUnifiedNativeAdLoaderDelegate{
         self.tapGesture.isEnabled = false;
     }
     
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         print("\(#function) \(error)");
         self.loadDeveloper();
         self.tapGesture.isEnabled = true;
     }
-    
-    
 }

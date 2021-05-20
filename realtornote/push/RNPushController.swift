@@ -55,6 +55,7 @@ class RNPushController: NSObject {
         case news = "news"
         case quiz = "quiz"
         case update = "update"
+        case alarm = "alarm"
     }
     
     func register(_ device : String){

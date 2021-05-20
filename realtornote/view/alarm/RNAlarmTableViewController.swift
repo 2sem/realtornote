@@ -7,102 +7,141 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class RNAlarmTableViewController: UIViewController {
-    var object : Any?;
+    
+    class Cells{
+        static let `default` = "alarm";
+    }
+    
+    var dispatchGroup = DispatchGroup();
+    
     var weekDays : DateComponents.DateWeekDay = DateComponents.DateWeekDay.All;
     var time : DateComponents = DateComponents.init(hour: 0, minute: 0);
     
-    @IBOutlet weak var weekdayScrollView: UIScrollView!
-    @IBOutlet weak var weekdayStackView: UIStackView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timePicker: UIDatePicker!
-        
-    override func viewWillAppear(_ animated: Bool) {
 
+    var viewModel : RNAlarmTableViewModel = .init();
+    var disposeBag : DisposeBag = .init();
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.weekdayScrollView.contentInset.left = 8;
-        self.weekdayScrollView.contentInset.right = 8;
-        changeTimepickerInterval()
+        self.tableView.contentInset.top = 16;
+        self.tableView.contentInset.bottom = 16;
+        
+        self.setupBindings();
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.timePicker.date = Calendar.current.date(from: self.time)!;
-        self.updateDayButtons();
+//        self.timePicker.date = Calendar.current.date(from: self.time)!;
+//        self.updateDayButtons();
     }
     
-    func changeTimepickerInterval() {
-        #if DEBUG
-        timePicker.minuteInterval = 1
-        #else
-        timePicker.minuteInterval = 5
-        #endif
-    }
-    
-    func updateDayButtons(){
-        let days = self.weekDays;
-        DateComponents.DateWeekDay.allWeekDays.forEach { (day) in
-            guard let button = self.weekdayStackView.viewWithTag(day.weekday) as? UIButton else{
-                return;
+    func setupBindings(){
+        self.viewModel.alarms
+            .observeOn(MainScheduler.instance)
+            .bindTableView(to: self.tableView, cellIdentifier: Cells.default, cellType: RNAlarmTableViewCell.self, disposeBag: self.disposeBag) { [weak self](index, row, cell) in
+                cell.info = row;
+                cell.isFirst = index == 0;
+                cell.setEnableHandler { (isOn, completion) in
+                    if isOn{
+                        RNAlarmManager.shared.enable(row) { (error, alarm) in
+                            guard error == nil else{
+                                return;
+                            }
+                            
+                            completion(true);
+                        }
+                    }else{
+                        RNAlarmManager.shared.disable(row) { (error, alarm) in
+                            guard error == nil else{
+                                return;
+                            }
+                            
+                            completion(true);
+                        }
+                    }
+                }
+                
+                cell.setDeleteHandler { [weak self](cell) in
+                    self?.showAlert(title: "알림 삭제", msg: "공부 알림을 삭제하시겠습니까?", actions: [.destructive("삭제", handler: { [weak self](act) in
+                        guard let self = self else{
+                            return;
+                        }
+                        
+                        self.viewModel.remove(cell.info) { (error, model) in
+                            guard error == nil else{
+                                return;
+                            }
+                            
+//                            self.tableView?.deleteRows(at: [IndexPath.init(row: index, section: 0)], with: .automatic);
+                        }
+                    }), .cancel("취소")], style: .alert);
+                }
             }
-            
-            button.isSelected = days.contains(day);
-            self.updateWeekButton(button);
-        }
-    }
-
-    @IBAction func onToggleWeekDay(_ button: UIButton) {
-        let day = DateComponents.DateWeekDay.allWeekDays[button.tag - 1];
-        button.isSelected = !button.isSelected;
-        self.updateWeekButton(button);
-        if button.isSelected{
-            self.weekDays.insert(day);
-        }else{
-            self.weekDays.subtract(day);
-        }
     }
     
-    @IBAction func onChangeTime(_ picker: UIDatePicker) {
-        self.time = Calendar.current.dateComponents([.hour, .minute], from: picker.date);
-        //self.helper.alarmTime = self.time;
-        print("study helper alarm time changed. time[\(self.time)] object[\(self.object.debugDescription)]");
+    func refresh(){
+        self.viewModel.load();
     }
     
-    @IBAction func onSelectAll(_ button: UIButton) {
-        if self.weekDays == .All{
-            self.weekDays = DateComponents.DateWeekDay.init(rawValue: 0);
-        }else{
-            self.weekDays = DateComponents.DateWeekDay.All;
-        }
-        
-        self.updateDayButtons();
-    }
-    
-    func updateWeekButton(_ button : UIButton){
-        button.backgroundColor = button.isSelected ? button.tintColor : UIColor.clear;
-    }
-    
-    @IBAction func onApply(_ button: UIButton) {
-        guard self.weekDays.days.any else{
-//            SWToast.make(SWStrings.Messages.pleaseSelectAnyHelperDay, position: .center);
+    @IBAction func onApply(_ unwindSegue: UIStoryboardSegue){
+        guard let settingsView = unwindSegue.source as? LSAlarmSettingsViewController else{
             return;
         }
         
-        self.dismiss(animated: true){ [unowned self] in
-//            self.delegate?.alarmSetting(self, weekday: self.weekDays, time: self.time, object: self.object);
+        switch settingsView.mode {
+        case .create:
+            RNAlarmManager.shared.create(weekDays: settingsView.weekDays, time: settingsView.time, enabled: true);
+            break
+        default:
+            let cell : RNAlarmTableViewCell! = self.tableView.visibleCells
+                .compactMap{ $0 as? RNAlarmTableViewCell }
+                .filter{ $0.info.isEqual(settingsView.object) ?? false }
+                .first;
+            
+            guard let alarm = cell.info else{
+                return;
+            }
+            
+            cell?.info.alarmWeekDays = settingsView.weekDays;
+            cell?.info.alarmTime = settingsView.time;
+            cell?.updateInfo();
+            RNAlarmManager.shared.update(alarm, weekday: settingsView.weekDays, time: settingsView.time) { (error, model) in
+                
+            }
+            break
         }
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if let settingsView = segue.destination as? LSAlarmSettingsViewController{
+            if let cell = sender as? RNAlarmTableViewCell, let alarm = cell.info{
+                settingsView.mode = .edit;
+                settingsView.object = alarm;
+                settingsView.weekDays = alarm.alarmWeekDays;
+                settingsView.time = alarm.alarmTime;
+            }else{
+                settingsView.mode = .create;
+                settingsView.weekDays = .init(rawValue: 0);
+                settingsView.time = Calendar.current.dateComponents([.hour, .minute, .second], from: Date());
+            }
+            
+        }
     }
-    */
+    
 
 }

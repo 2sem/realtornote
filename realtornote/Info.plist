@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>82</string>
+	<string>160</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9684378399371172~7124016405</string>
 	<key>GADUnitIdentifiers</key>
@@ -73,7 +73,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>andy3938.cafe24.com</key>
+			<key>andy1002.cafe24.com</key>
 			<string></string>
 			<key>www.q-net.or.kr</key>
 			<string></string>

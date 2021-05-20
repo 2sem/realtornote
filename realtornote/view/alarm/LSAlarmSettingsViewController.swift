@@ -9,6 +9,14 @@
 import UIKit
 
 class LSAlarmSettingsViewController: UIViewController {
+    
+    enum Mode{
+        case create
+        case edit
+    }
+    
+    var mode : Mode = .edit;
+    
     var object : Any?;
     var weekDays : DateComponents.DateWeekDay = DateComponents.DateWeekDay.All;
     var time : DateComponents = DateComponents.init(hour: 0, minute: 0);
@@ -95,7 +103,7 @@ class LSAlarmSettingsViewController: UIViewController {
     
     @IBAction func onApply(_ button: UIButton) {
         guard self.weekDays.days.any else{
-//            LSToast.make(SWStrings.Messages.pleaseSelectAnyHelperDay, position: .center);
+//            LSToast.make("적어도 하나 이상의 요일을 선택해야합니다", position: .center);
             return;
         }
         
@@ -103,6 +111,16 @@ class LSAlarmSettingsViewController: UIViewController {
 //            self.delegate?.alarmSetting(self, weekday: self.weekDays, time: self.time, object: self.object);
         }
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        guard self.weekDays.days.any else{
+            LSToast.make("적어도 하나 이상의 요일을 선택해야합니다", position: .center);
+            return false;
+        }
+        
+        return true;
+    }
+    
     /*
     // MARK: - Navigation
 

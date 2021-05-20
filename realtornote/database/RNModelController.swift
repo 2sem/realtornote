@@ -15,6 +15,7 @@ class RNModelController : NSObject{
         static let RNChapterInfo = "RNChapterInfo";
         static let RNPartInfo = "RNPartInfo";
         static let RNFavoriteInfo = "RNFavoriteInfo";
+        static let alarm = "RNAlarmModel";
     }
     
     static let ModelName = "realtornote";

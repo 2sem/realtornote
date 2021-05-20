@@ -35,6 +35,8 @@ class LSDefaults{
         static let LaunchCount = "LaunchCount";
         
         static let FavoriteSortType = "FavoriteSortType";
+        
+        static let alarmInitialized = "alarmInitialized";
     }
     
     static var LastFullADShown : Date{
@@ -202,6 +204,17 @@ class LSDefaults{
         
         set(value){
             Defaults.set(value, forKey: Keys.FavoriteSortType);
+        }
+    }
+    
+    static var alarmInitialized : Bool{
+        get{
+            //UIApplication.shared.version
+            return Defaults.bool(forKey: Keys.alarmInitialized);
+        }
+        
+        set(value){
+            Defaults.set(value, forKey: Keys.alarmInitialized);
         }
     }
 }

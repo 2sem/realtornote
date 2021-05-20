@@ -10,7 +10,7 @@ import UIKit
 import Toast_Swift
 import SwiftGifOrigin
 
-class SWToast : NSObject{
+class LSToast : NSObject{
     static func make(_ message: String?, view: UIView? = nil, duration: TimeInterval = ToastManager.shared.duration, delay: TimeInterval = 0, title: String? = nil, position: ToastPosition = ToastManager.shared.position){
         guard let msg = message, msg.any else{
             return;
@@ -153,8 +153,8 @@ extension UIView{
             return;
         }
         
-        SWToast.activityWindow?.resignKey();
-        SWToast.activityWindow?.removeFromSuperview();
+        LSToast.activityWindow?.resignKey();
+        LSToast.activityWindow?.removeFromSuperview();
         UIApplication.shared.windows.first?.makeKeyAndVisible();
         //self.isUserInteractionEnabled = true;
         self.siwonActivity?.superview?.isUserInteractionEnabled = true;

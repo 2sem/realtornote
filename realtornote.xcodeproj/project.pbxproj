@@ -48,7 +48,6 @@
 		2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */; };
 		2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5C059020C6AFCA0064E4DB /* realtornote.plist */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
-		2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */; };
 		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
 		2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */; };
 		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
@@ -57,6 +56,14 @@
 		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
 		2CB0F864258BA051004F6ED9 /* LSUserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */; };
 		2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */; };
+		2CB175CB25A5C75D00047833 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB175CA25A5C75D00047833 /* Date+.swift */; };
+		2CB228A9259CA37F0047DF32 /* Reactive+ObservableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */; };
+		2CB228AE259CB7AC0047DF32 /* RNAlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */; };
+		2CB6C860259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */; };
+		2CB6C865259B1EE2001BCBE4 /* RNAlarmModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */; };
+		2CB6C86C259B2005001BCBE4 /* RNAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */; };
+		2CB6C8A2259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C8A1259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift */; };
+		2CB6C8AE259B751D001BCBE4 /* RNAlarmTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C8AD259B751D001BCBE4 /* RNAlarmTableViewModel.swift */; };
 		2CBDDFC82596CE3C00039259 /* LSToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFC72596CE3C00039259 /* LSToast.swift */; };
 		2CBDDFEE2596D1D100039259 /* LSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFED2596D1D100039259 /* LSLabel.swift */; };
 		2CBDDFF32596D22B00039259 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFF22596D22B00039259 /* UIView+.swift */; };
@@ -68,6 +75,7 @@
 		2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */; };
 		2CDA890F1F41AE0D0026C966 /* RNQuestionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */; };
 		2CDA89111F41B2B50026C966 /* RNQuestionAnswerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */; };
+		2CDBD7F5265544650097A91B /* GADRewardedInterstitialAd+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBD7F4265544650097A91B /* GADRewardedInterstitialAd+.swift */; };
 		2CFEA1852593423000F56F69 /* LSAlarmSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFEA1842593423000F56F69 /* LSAlarmSettingsViewController.swift */; };
 		7293195834CBE6FD9113BC82 /* Pods_realtornoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F555FD2F0094A1E9CA4B6F4 /* Pods_realtornoteTests.framework */; };
 		DB09DF2F6B32F40CF0464F7F /* Pods_realtornoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E52052CF679A7259D1EB8B8 /* Pods_realtornoteUITests.framework */; };
@@ -140,7 +148,6 @@
 		2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNPushController.swift; sourceTree = "<group>"; };
 		2C5C059020C6AFCA0064E4DB /* realtornote.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = realtornote.plist; sourceTree = "<group>"; };
 		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
-		2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADInterstialManager.swift; sourceTree = "<group>"; };
 		2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
 		2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
 		2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
@@ -149,6 +156,14 @@
 		2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeTableViewCell.swift; sourceTree = "<group>"; };
 		2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSUserNotificationManager.swift; sourceTree = "<group>"; };
 		2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewController.swift; sourceTree = "<group>"; };
+		2CB175CA25A5C75D00047833 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+ObservableCollection.swift"; sourceTree = "<group>"; };
+		2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewCell.swift; sourceTree = "<group>"; };
+		2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNAlarmInfo.swift"; sourceTree = "<group>"; };
+		2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNAlarmModel+.swift"; sourceTree = "<group>"; };
+		2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmManager.swift; sourceTree = "<group>"; };
+		2CB6C8A1259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNAlarmModel+LSUserNotification.swift"; sourceTree = "<group>"; };
+		2CB6C8AD259B751D001BCBE4 /* RNAlarmTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewModel.swift; sourceTree = "<group>"; };
 		2CBDDFC72596CE3C00039259 /* LSToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSToast.swift; sourceTree = "<group>"; };
 		2CBDDFED2596D1D100039259 /* LSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSLabel.swift; sourceTree = "<group>"; };
 		2CBDDFF22596D22B00039259 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
@@ -162,6 +177,7 @@
 		2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionInfo.swift; sourceTree = "<group>"; };
 		2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNQuestionAnswerInfo.swift; sourceTree = "<group>"; };
+		2CDBD7F4265544650097A91B /* GADRewardedInterstitialAd+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GADRewardedInterstitialAd+.swift"; sourceTree = "<group>"; };
 		2CFEA1842593423000F56F69 /* LSAlarmSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSAlarmSettingsViewController.swift; sourceTree = "<group>"; };
 		4E52052CF679A7259D1EB8B8 /* Pods_realtornoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_realtornoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0D0A9B5FFBBCCD6E05E267 /* Pods-realtornoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-realtornoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-realtornoteUITests/Pods-realtornoteUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -273,10 +289,12 @@
 				2C19380A1F272DA200E4BCFB /* leesam */,
 				2C4AE7CB1F276F2F00644322 /* sync */,
 				2C0D80BD1F25C866002F58A5 /* database */,
+				2CB6C86A259B1FCF001BCBE4 /* alarm */,
 				2C5C058D20C6AE840064E4DB /* push */,
 				2C0D80BC1F25C847002F58A5 /* excel */,
 				2C19380D1F272F4300E4BCFB /* data */,
 				2C04BD1C1F286CF30010CD69 /* view */,
+				2CB6C8A9259B746B001BCBE4 /* viewModel */,
 				2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */,
 				2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */,
 				2C95BEC92038007A004DCD95 /* RNTabBarController.swift */,
@@ -332,8 +350,11 @@
 				2C4AE7C71F27689D00644322 /* RNModelController+RNChapterInfo.swift */,
 				2C4AE7C91F276DB000644322 /* RNModelController+RNPartInfo.swift */,
 				2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */,
+				2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */,
 				2C4AE7D21F277F2F00644322 /* RNSubjectInfo+.swift */,
 				2C4AE7D41F27812700644322 /* RNChapterInfo+.swift */,
+				2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */,
+				2CB6C8A1259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift */,
 			);
 			path = database;
 			sourceTree = "<group>";
@@ -349,7 +370,6 @@
 		2C19380A1F272DA200E4BCFB /* leesam */ = {
 			isa = PBXGroup;
 			children = (
-				2C93E4391F2F2B3A00AFD09D /* GADInterstialManager.swift */,
 				2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */,
 				2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */,
 				2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */,
@@ -407,6 +427,9 @@
 				2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */,
 				2CBDDFF22596D22B00039259 /* UIView+.swift */,
 				2CBDDFF72596D94700039259 /* CGRect+.swift */,
+				2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */,
+				2CB175CA25A5C75D00047833 /* Date+.swift */,
+				2CDBD7F4265544650097A91B /* GADRewardedInterstitialAd+.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -415,9 +438,26 @@
 			isa = PBXGroup;
 			children = (
 				2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */,
+				2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */,
 				2CFEA1842593423000F56F69 /* LSAlarmSettingsViewController.swift */,
 			);
 			path = alarm;
+			sourceTree = "<group>";
+		};
+		2CB6C86A259B1FCF001BCBE4 /* alarm */ = {
+			isa = PBXGroup;
+			children = (
+				2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */,
+			);
+			path = alarm;
+			sourceTree = "<group>";
+		};
+		2CB6C8A9259B746B001BCBE4 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2CB6C8AD259B751D001BCBE4 /* RNAlarmTableViewModel.swift */,
+			);
+			path = viewModel;
 			sourceTree = "<group>";
 		};
 		2CBDDFC62596CD3C00039259 /* common */ = {
@@ -677,12 +717,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-realtornote/Pods-realtornote-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseInstanceID/FirebaseInstanceID.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -690,7 +730,12 @@
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/StringLogger/StringLogger.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/XMLDictionary/XMLDictionary.framework",
@@ -700,12 +745,12 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstanceID.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -713,7 +758,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StringLogger.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XMLDictionary.framework",
@@ -739,10 +789,14 @@
 				2CBDDFEE2596D1D100039259 /* LSLabel.swift in Sources */,
 				2CDA890F1F41AE0D0026C966 /* RNQuestionInfo.swift in Sources */,
 				2C4AE7BD1F2751AD00644322 /* RNExcelController+RNExcelPart.swift in Sources */,
+				2CB6C8AE259B751D001BCBE4 /* RNAlarmTableViewModel.swift in Sources */,
 				2C14D2E71F5EAFE3000EDF9E /* GADRewardManager.swift in Sources */,
 				2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */,
 				2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */,
 				2CDA89111F41B2B50026C966 /* RNQuestionAnswerInfo.swift in Sources */,
+				2CB175CB25A5C75D00047833 /* Date+.swift in Sources */,
+				2CB6C8A2259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift in Sources */,
+				2CDBD7F5265544650097A91B /* GADRewardedInterstitialAd+.swift in Sources */,
 				2C4AE7CF1F27782100644322 /* RNSubjectInfo+RNExcelSubject.swift in Sources */,
 				2CBDDFF32596D22B00039259 /* UIView+.swift in Sources */,
 				2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */,
@@ -750,6 +804,8 @@
 				2C4AE7CA1F276DB000644322 /* RNModelController+RNPartInfo.swift in Sources */,
 				2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */,
 				2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */,
+				2CB228A9259CA37F0047DF32 /* Reactive+ObservableCollection.swift in Sources */,
+				2CB228AE259CB7AC0047DF32 /* RNAlarmTableViewCell.swift in Sources */,
 				2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */,
 				2C4AE7D71F27879400644322 /* RNChapterInfo+RNExcelChapter.swift in Sources */,
 				2C4AE7CD1F276F6400644322 /* RNModelController+RNExcelController.swift in Sources */,
@@ -759,16 +815,18 @@
 				2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */,
 				2C1938241F274D5F00E4BCFB /* RNExcelPart.swift in Sources */,
 				2C4AE7C41F275ED200644322 /* RNModelController.swift in Sources */,
+				2CB6C860259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift in Sources */,
 				2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
 				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
 				2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */,
-				2C93E43A1F2F2B3A00AFD09D /* GADInterstialManager.swift in Sources */,
+				2CB6C865259B1EE2001BCBE4 /* RNAlarmModel+.swift in Sources */,
 				2C1938261F274EA800E4BCFB /* RNExcelController+RNExcelChapter.swift in Sources */,
 				2C0D80BF1F25C989002F58A5 /* MainViewController.swift in Sources */,
 				2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */,
 				2C4AE7C61F27631C00644322 /* RNModelController+RNSubjectInfo.swift in Sources */,
 				2C19381E1F273EFB00E4BCFB /* RNExcelSubject.swift in Sources */,
+				2CB6C86C259B2005001BCBE4 /* RNAlarmManager.swift in Sources */,
 				2C19380F1F27300A00E4BCFB /* LSDefaults.swift in Sources */,
 				2C4AE7C01F27581E00644322 /* realtornote.xcdatamodeld in Sources */,
 				2C2140191F39C08F00BDF853 /* LSDocumentRecognizer.swift in Sources */,
@@ -964,7 +1022,7 @@
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.14;
+				MARKETING_VERSION = 1.1.17;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -987,7 +1045,7 @@
 				INFOPLIST_FILE = realtornote/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.14;
+				MARKETING_VERSION = 1.1.17;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

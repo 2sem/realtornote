@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16A323" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="RNAlarmModel" representedClassName="RNAlarmModel" syncable="YES" codeGenerationType="class">
+        <attribute name="enabled" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="time" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="weekdays" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="subject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNSubjectInfo"/>
+    </entity>
     <entity name="RNChapterInfo" representedClassName="RNChapterInfo" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="no" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="seq" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="parts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RNPartInfo" inverseName="chapter" inverseEntity="RNPartInfo" syncable="YES"/>
-        <relationship name="subject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNSubjectInfo" inverseName="chapters" inverseEntity="RNSubjectInfo" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="no" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="seq" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="parts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RNPartInfo" inverseName="chapter" inverseEntity="RNPartInfo"/>
+        <relationship name="subject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNSubjectInfo" inverseName="chapters" inverseEntity="RNSubjectInfo"/>
+        <fetchIndex name="byNoIndex">
+            <fetchIndexElement property="no" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="RNFavoriteInfo" representedClassName="RNFavoriteInfo" syncable="YES" codeGenerationType="class">
-        <attribute name="no" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <relationship name="part" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNPartInfo" syncable="YES"/>
+        <attribute name="no" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="part" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNPartInfo"/>
+        <fetchIndex name="byNoIndex">
+            <fetchIndexElement property="no" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="RNPartInfo" representedClassName="RNPartInfo" syncable="YES" codeGenerationType="class">
-        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="no" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <attribute name="seq" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="chapter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNChapterInfo" inverseName="parts" inverseEntity="RNChapterInfo" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="no" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="seq" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="chapter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RNChapterInfo" inverseName="parts" inverseEntity="RNChapterInfo"/>
+        <fetchIndex name="byNoIndex">
+            <fetchIndexElement property="no" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <entity name="RNSubjectInfo" representedClassName="RNSubjectInfo" syncable="YES" codeGenerationType="class">
-        <attribute name="detail" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="no" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <relationship name="chapters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RNChapterInfo" inverseName="subject" inverseEntity="RNChapterInfo" syncable="YES"/>
+        <attribute name="detail" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="no" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="chapters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RNChapterInfo" inverseName="subject" inverseEntity="RNChapterInfo"/>
+        <fetchIndex name="byNoIndex">
+            <fetchIndexElement property="no" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <elements>
+        <element name="RNAlarmModel" positionX="-54" positionY="63" width="128" height="133"/>
         <element name="RNChapterInfo" positionX="-54" positionY="18" width="128" height="120"/>
+        <element name="RNFavoriteInfo" positionX="-54" positionY="63" width="128" height="75"/>
         <element name="RNPartInfo" positionX="-36" positionY="54" width="128" height="120"/>
         <element name="RNSubjectInfo" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="RNFavoriteInfo" positionX="-54" positionY="63" width="128" height="75"/>
     </elements>
 </model>

@@ -16,7 +16,7 @@ import StoreKit
 import GADManager
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GADRewardManagerDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     /// to access AppDelegate.window
@@ -49,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         
         FirebaseApp.configure();
         //GADMobileAds.sharedInstance().start(completionHandler: nil);
-        GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~7124016405");
         Messaging.messaging().delegate = self;
 
         /*if let push_plist = Bundle.main.url(forResource: "GoogleService-Info-FCM", withExtension: "plist"),
@@ -60,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
             };
         }*/
         
-        self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 24); //
+        self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitialAd.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 24); //
         self.rewardAd?.delegate = self;
 
         self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 3); //
@@ -84,6 +83,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
 
         UNUserNotificationCenter.current().delegate = self;
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
+            defer{
+                RNAlarmManager.shared.sync();
+            }
+            
             guard result else{
                 return;
             }

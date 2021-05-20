@@ -8,7 +8,7 @@
 
 import UIKit
 import LSCountDownLabel
-import Firebase
+import FirebaseAnalytics
 
 class RNQuestionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -27,8 +27,6 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var restartButton: UIBarButtonItem!
 
     override func viewWillAppear(_ animated: Bool) {
-        GADInterstialManager.shared?.rootViewController = self;
-        
         //AppDelegate.sharedGADManager?.show(unit: .full, completion: nil);
     }
     
@@ -61,7 +59,7 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        GADInterstialManager.shared?.rootViewController = nil;
+        
     }
     
     func loadQuestion(_ index : Int, start: Bool = true){
@@ -100,7 +98,9 @@ class RNQuestionViewController: UIViewController, UITableViewDataSource, UITable
             self.answerTable.allowsSelection = false;
             Analytics.logLeesamEvent(.finishQuiz, parameters: [:]);
             if self.presentingViewController != nil && GADRewardManager.shared?.canShow ?? false{
-                GADInterstialManager.shared?.show(true);
+                AppDelegate.sharedGADManager?.show(unit: .full, force: true, viewController: self, completion: { (unit, ad, result) in
+                    
+                })
             }
             return;
         }

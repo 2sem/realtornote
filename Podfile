@@ -10,8 +10,8 @@ target 'realtornote' do
   pod 'XlsxReaderWriter'
   #pod 'DownPicker'
   pod 'DropDown', '2.3.4'
-  pod 'Google-Mobile-Ads-SDK'
-  pod 'Firebase/Core'
+#  pod 'Google-Mobile-Ads-SDK'
+#  pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   
   # Add the pod for Firebase Crashlytics
@@ -32,6 +32,12 @@ target 'realtornote' do
   
   pod 'Toast-Swift'
   pod 'SwiftGifOrigin' #https://cocoapods.org/pods/SwiftGifOrigin
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxDataSources'
+  
+  pod 'StringLogger'#, '0.4'
+#, :git => 'https://github.com/2sem/StringLogger'
 
   target 'realtornoteTests' do
     inherit! :search_paths

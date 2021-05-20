@@ -10,7 +10,7 @@ import UIKit
 import ProgressWebViewController
 import KakaoLink
 import KakaoMessageTemplate
-import Firebase
+import FirebaseAnalytics
 
 class RNInternetViewController: ProgressWebViewController {
     

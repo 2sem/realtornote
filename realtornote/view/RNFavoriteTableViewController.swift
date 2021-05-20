@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAnalytics
 
 class RNFavoriteTableViewController: UITableViewController {
     class Cells{

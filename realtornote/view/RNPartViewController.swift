@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAnalytics
 
 protocol RNPartViewControllerDelegate : NSObjectProtocol{
     func partViewController(_ partViewController: RNPartViewController, didChangeFontSize size: CGFloat);

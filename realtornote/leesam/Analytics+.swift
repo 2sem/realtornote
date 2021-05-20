@@ -7,13 +7,14 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAnalytics
 
-extension UIViewController{
-    func setAnalyticScreenName(){
-        Analytics.setScreenName(for: self);
-    }
-}
+//extension UIViewController{
+//    func setAnalyticScreenName(){
+//        FirebaseAnalytics.Analytics.logEvent(AnalyticsEventScreenView, parameters: <#T##[String : Any]?#>)
+////        Analytics.setScreenName(for: self);
+//    }
+//}
 
 extension Analytics{
     static func setScreenName(for viewController: UIViewController){
@@ -32,7 +33,14 @@ extension Analytics{
             name = "웹페이지";
         }
         
-        Analytics.setScreenName(name, screenClass: className);
+        var params : [String : Any] = [AnalyticsParameterScreenClass : type(of: self)];
+        
+        if let name = name{
+            params[AnalyticsParameterScreenName] = name;
+        }
+        
+        FirebaseAnalytics.Analytics.logEvent(AnalyticsEventScreenView,
+                                             parameters: params);
         print("[\(#function)] set scree name for firebase analytics. name[\(name ?? "")] screen[\(className ?? "")]");
     }
     
@@ -86,5 +94,13 @@ extension Analytics{
         }*/
         
         self.logEvent(event.rawValue, parameters: params);
+    }
+}
+
+public extension UIViewController{
+    public func setAnalytlicScreen(name: String? = nil){
+        
+        
+        
     }
 }
