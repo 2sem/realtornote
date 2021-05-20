@@ -38,6 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     var reviewManager : ReviewManager?;
     let reviewInterval = 60;
     static var firebase : Messaging?;
+    
+    override init() {
+        super.init();
+        String.Logger.console.level = .debug;
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -200,6 +205,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         #else
         let test = false;
         #endif
+        guard !LSDefaults.requestAppTrackingIfNeed() else{
+            return;
+        }
+        
         AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
             
         })
@@ -318,6 +327,10 @@ extension AppDelegate : GADManagerDelegate{
         //RNFavoriteTableViewController.shared?.needAds = false;
     }
     
+    func GAD<E>(manager: GADManager<E>, didDismissADForUnit unit: E) where E : Hashable, E : RawRepresentable, E.RawValue == String {
+        LSDefaults.increateAdsShownCount();
+    }
+    
     func GAD<GADUnitName>(manager: GADManager<GADUnitName>, updatShownTimeForUnit unit: GADUnitName, showTime time: Date){
         let now = Date();
         if LSDefaults.LastFullADShown > now{
@@ -325,6 +338,7 @@ extension AppDelegate : GADManagerDelegate{
         }
         
         LSDefaults.LastFullADShown = time;
+        //LSDefaults.increaseLaunchCount();
         //GHStoreManager.shared.tokenPurchased(1);
     }
     
