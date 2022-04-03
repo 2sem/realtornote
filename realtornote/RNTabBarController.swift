@@ -90,6 +90,8 @@ class RNTabBarController: UITabBarController {
         }
         
         self.setupBottomBanner();
+        
+        self.fixNavigationBar()
     }
 
     override func didReceiveMemoryWarning() {
@@ -110,6 +112,24 @@ class RNTabBarController: UITabBarController {
         self.newsContainer.frame.origin.x = 20;
         self.newsContainer.frame.size.width = self.tabBar.frame.size.width - 20 * 2;
         self.newsContainer.frame.origin.y = self.tabBar.frame.size.height - self.newsContainer.frame.height - bottomInset;
+    }
+    
+    func fixNavigationBar(){
+        guard #available(iOS 15, *) else { return }
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    func fixTabBar(){
+        guard #available(iOS 15, *) else { return }
+        
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
     
     func setupBottomBanner(){
