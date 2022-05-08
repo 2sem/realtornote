@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 target 'realtornote' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -26,7 +26,7 @@ target 'realtornote' do
   pod 'LSExtensions'
   #pod 'LSCountDownLabel', :path => '~/Projects/leesam/pods/LSCountDownLabel/src/LSCountDownLabel'
   pod 'LSCountDownLabel'
-  pod 'GADManager', :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
+  pod 'GADManager'#, :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
   pod 'Alamofire'
   #pod 'AnimatedGradientView'
   
