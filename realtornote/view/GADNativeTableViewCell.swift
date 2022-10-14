@@ -21,6 +21,7 @@ class GADNativeTableViewCell: UITableViewCell {
     var tapGesture : UITapGestureRecognizer!;
     
     @IBOutlet weak var nativeAdView: GADNativeAdView!
+    @IBOutlet weak var mediaView: GADMediaView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,8 +72,8 @@ class GADNativeTableViewCell: UITableViewCell {
             button.setTitle("ads action".localized(), for: .normal);
             button.isHidden = false;
         }
-        if let imageView = self.nativeAdView?.imageView as? UIImageView{
-            imageView.image = #imageLiteral(resourceName: "othreapp");
+        if let mediaView = self.nativeAdView?.mediaView as? GADMediaView{
+//            mediaView.mediaContent = #imageLiteral(resourceName: "othreapp");
         }
         self.nativeAdView?.iconView?.isHidden = false;
         
@@ -115,13 +116,17 @@ extension GADNativeTableViewCell : GADNativeAdLoaderDelegate
             imageView.isHidden = false;
         }
         
-        if let imageView = nativeAdView.imageView as? UIImageView, let images = nativeAd.images{
-            imageView.animationImages = images.compactMap{ $0.image };
-            imageView.animationDuration = 3;
-            imageView.animationRepeatCount = 0;
-            imageView.startAnimating();
-            print("[\(#function)] images[\(images)]")
-            imageView.isHidden = false;
+//        if let imageView = nativeAdView.imageView as? UIImageView, let images = nativeAd.images{
+//            imageView.animationImages = images.compactMap{ $0.image };
+//            imageView.animationDuration = 3;
+//            imageView.animationRepeatCount = 0;
+//            imageView.startAnimating();
+//            print("[\(#function)] images[\(images)]")
+//            imageView.isHidden = false;
+//        }
+        if let mediaView = nativeAdView.mediaView{
+            mediaView.mediaContent = nativeAd.mediaContent
+            mediaView.isHidden = false;
         }
         
         if let body = nativeAdView.bodyView as? UILabel{
