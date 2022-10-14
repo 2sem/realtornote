@@ -81,7 +81,7 @@ extension Analytics{
     }*/
     
     static func logLeesamEvent(_ event: LeesamEvent, parameters: [String : Any] = [:]){
-        var params : [String : Any] = [:];
+        let params : [String : Any] = [:];
         /*if let lecture = lecture{
             params[SiwonEventProperty.course] = lecture.course?.no ?? lecture.courseNo;
             params[SiwonEventProperty.lecture] = lecture.no;
@@ -98,7 +98,7 @@ extension Analytics{
 }
 
 public extension UIViewController{
-    public func setAnalytlicScreen(name: String? = nil){
+    func setAnalytlicScreen(name: String? = nil){
         
         
         

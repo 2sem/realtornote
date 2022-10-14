@@ -126,7 +126,7 @@ class RNFavoriteTableViewController: UITableViewController {
                     return;
                 }
                 
-                var subjectIndex : Int = self.subjects.index(of: subject) ?? self.subjects.count;
+                let subjectIndex : Int = self.subjects.index(of: subject) ?? self.subjects.count;
                 
                 if !self.subjects.contains(subject){
                     self.favoritesForSubjects.append([]);

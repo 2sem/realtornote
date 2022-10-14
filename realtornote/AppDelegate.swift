@@ -296,7 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
 
 extension AppDelegate : MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("fcm device[\(fcmToken)]");
+        print("fcm device[\(fcmToken ?? "")]");
         let topic = "notice";
         //let topic = "congress_2_9770881_law";
         type(of: self).firebase = messaging;
@@ -311,7 +311,7 @@ extension AppDelegate : GADManagerDelegate{
     typealias E = GADUnitName
     
     func GAD<E>(manager: GADManager<E>, lastPreparedTimeForUnit unit: E) -> Date where E : Hashable, E : RawRepresentable, E.RawValue == String {
-        let now = Date();
+//        let now = Date();
   //        if RSDefaults.LastOpeningAdPrepared > now{
   //            RSDefaults.LastOpeningAdPrepared = now;
   //        }

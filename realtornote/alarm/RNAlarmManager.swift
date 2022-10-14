@@ -35,7 +35,7 @@ class RNAlarmManager : NSObject{
 //            let defaultAlarm = self.modelController?.createAlarm(id: 0, weekdays: 0, time: 0, enabled: false);
 //            defaultAlarm?.alarmWeekDays = DateComponents.DateWeekDay.All;
 //            defaultAlarm?.alarmTime = dates;
-            let defaultAlarm = self.create(weekDays: DateComponents.DateWeekDay.All, time: time);
+            _ = self.create(weekDays: DateComponents.DateWeekDay.All, time: time);
             self.modelController.saveChanges();
             
             LSDefaults.alarmInitialized = true;

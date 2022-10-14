@@ -47,7 +47,7 @@ class RNAlarmTableViewController: UIViewController {
     
     func setupBindings(){
         self.viewModel.alarms
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .bindTableView(to: self.tableView, cellIdentifier: Cells.default, cellType: RNAlarmTableViewCell.self, disposeBag: self.disposeBag) { [weak self](index, row, cell) in
                 cell.info = row;
                 cell.isFirst = index == 0;
@@ -105,7 +105,7 @@ class RNAlarmTableViewController: UIViewController {
         default:
             let cell : RNAlarmTableViewCell! = self.tableView.visibleCells
                 .compactMap{ $0 as? RNAlarmTableViewCell }
-                .filter{ $0.info.isEqual(settingsView.object) ?? false }
+                .filter{ $0.info.isEqual(settingsView.object) }
                 .first;
             
             guard let alarm = cell.info else{

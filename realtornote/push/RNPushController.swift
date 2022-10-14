@@ -63,13 +63,13 @@ class RNPushController: NSObject {
         self.deviceToken = device;
         print("APNs device[\(self.deviceToken ?? "")] => \(type(of: self).PushRegURL.absoluteString)");
         AF.request(type(of: self).PushRegURL, method: .post, parameters: params, encoding: JSONEncoding.default)
-            .responseJSON { (res) in
+            .response(completionHandler: { res in
                 guard res.error == nil else{
                     print("push reg. error[\(res.error.debugDescription)]");
                     return;
                 }
                 
                 print("push reg. result[\(res.response?.description ?? "")]");
-        }
+            })
     }
 }

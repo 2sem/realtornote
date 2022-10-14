@@ -106,7 +106,7 @@ class MainViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let nav = segue.destination as? UINavigationController{
-            guard let internetView = nav.topViewController as? RNInternetViewController else{
+            guard nav.topViewController is RNInternetViewController else{
                 return;
             }
         }

@@ -96,9 +96,10 @@ class LSAlarmSettingsViewController: UIViewController {
     }
     
     @IBAction func onCancel(_ button: UIButton) {
-        self.dismiss(animated: true){ [unowned self] in
+        self.dismiss(animated: true)
+//        { [unowned self] in
 //            self.delegate?.alarmSettingDidCancel(self, object: self.object);
-        }
+//        }
     }
     
     @IBAction func onApply(_ button: UIButton) {
@@ -107,9 +108,10 @@ class LSAlarmSettingsViewController: UIViewController {
             return;
         }
         
-        self.dismiss(animated: true){ [unowned self] in
+        self.dismiss(animated: true)
+//        { [unowned self] in
 //            self.delegate?.alarmSetting(self, weekday: self.weekDays, time: self.time, object: self.object);
-        }
+//        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

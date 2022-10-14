@@ -129,7 +129,7 @@ class LSDocumentRecognizer : NSObject{
             static func parseType(_ string: String) -> (IndexType, Int, String){
                 var value = [IndexType.number, .brackets_number, .dash, .half_bracket_number, .half_bracket_alpha, .term, .next]
                     .map({ (indexType) -> (IndexType, Int, String) in
-                    var matchResults = indexType.parseMatched(string);
+                    let matchResults = indexType.parseMatched(string);
                     var text = matchResults[matchResults.keys.max() ?? 0];
                     var index = 0;
                     
