@@ -22,6 +22,11 @@ class GADNativeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nativeAdView: GADNativeAdView!
     @IBOutlet weak var mediaView: GADMediaView!
+    var mediaViewRatioConstraint: NSLayoutConstraint?
+    @IBOutlet var mediaViewLeadingConstraints: [NSLayoutConstraint]!
+    
+    @IBOutlet weak var defaultImageView: UIImageView!
+    @IBOutlet var imageViewLeadingConstraints: [NSLayoutConstraint]!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -72,8 +77,13 @@ class GADNativeTableViewCell: UITableViewCell {
             button.setTitle("ads action".localized(), for: .normal);
             button.isHidden = false;
         }
-        if let mediaView = self.nativeAdView?.mediaView as? GADMediaView{
-//            mediaView.mediaContent = #imageLiteral(resourceName: "othreapp");
+        if let imageView = self.defaultImageView{
+            imageView.image = #imageLiteral(resourceName: "othreapp");
+            self.defaultImageView.isHidden = false
+            self.mediaView.isHidden = true
+            
+            NSLayoutConstraint.deactivate(self.mediaViewLeadingConstraints)
+            NSLayoutConstraint.activate(self.imageViewLeadingConstraints)
         }
         self.nativeAdView?.iconView?.isHidden = false;
         
@@ -110,23 +120,20 @@ extension GADNativeTableViewCell : GADNativeAdLoaderDelegate
         }
         self.nativeAdView?.callToActionView?.isHidden = nativeAd.callToAction == nil;
         
-        if let imageView = nativeAdView.iconView as? UIImageView, let icon = nativeAd.icon?.image{
-            imageView.image = icon;
+        if let iconView = nativeAdView.iconView as? UIImageView, let icon = nativeAd.icon?.image{
+            iconView.image = icon;
             print("[\(#function)] icon[\(icon)]")
-            imageView.isHidden = false;
+            iconView.isHidden = false;
         }
         
-//        if let imageView = nativeAdView.imageView as? UIImageView, let images = nativeAd.images{
-//            imageView.animationImages = images.compactMap{ $0.image };
-//            imageView.animationDuration = 3;
-//            imageView.animationRepeatCount = 0;
-//            imageView.startAnimating();
-//            print("[\(#function)] images[\(images)]")
-//            imageView.isHidden = false;
-//        }
-        if let mediaView = nativeAdView.mediaView{
+        if let mediaView = self.mediaView{
             mediaView.mediaContent = nativeAd.mediaContent
+            mediaView.widthAnchor.constraint(equalTo: mediaView.heightAnchor, multiplier: nativeAd.mediaContent.aspectRatio).isActive = true
             mediaView.isHidden = false;
+            
+            self.defaultImageView.isHidden = true;
+            NSLayoutConstraint.deactivate(self.imageViewLeadingConstraints)
+            NSLayoutConstraint.activate(self.mediaViewLeadingConstraints)
         }
         
         if let body = nativeAdView.bodyView as? UILabel{
