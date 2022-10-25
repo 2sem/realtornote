@@ -64,10 +64,12 @@
 		2CB6C86C259B2005001BCBE4 /* RNAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */; };
 		2CB6C8A2259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C8A1259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift */; };
 		2CB6C8AE259B751D001BCBE4 /* RNAlarmTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C8AD259B751D001BCBE4 /* RNAlarmTableViewModel.swift */; };
+		2CBA44A32906DAB6001537CC /* .github in Resources */ = {isa = PBXBuildFile; fileRef = 2CBA44A22906DAB6001537CC /* .github */; };
 		2CBDDFC82596CE3C00039259 /* LSToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFC72596CE3C00039259 /* LSToast.swift */; };
 		2CBDDFEE2596D1D100039259 /* LSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFED2596D1D100039259 /* LSLabel.swift */; };
 		2CBDDFF32596D22B00039259 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFF22596D22B00039259 /* UIView+.swift */; };
 		2CBDDFF82596D94700039259 /* CGRect+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFF72596D94700039259 /* CGRect+.swift */; };
+		2CBFBF2529074DD30033DDC7 /* Fastfile in Resources */ = {isa = PBXBuildFile; fileRef = 2CBFBF2429074DD30033DDC7 /* Fastfile */; };
 		2CC9AB411F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */; };
 		2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */; };
 		2CC9AB451F2DDF9100C8357E /* RNFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */; };
@@ -164,10 +166,12 @@
 		2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmManager.swift; sourceTree = "<group>"; };
 		2CB6C8A1259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNAlarmModel+LSUserNotification.swift"; sourceTree = "<group>"; };
 		2CB6C8AD259B751D001BCBE4 /* RNAlarmTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewModel.swift; sourceTree = "<group>"; };
+		2CBA44A22906DAB6001537CC /* .github */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .github; sourceTree = "<group>"; };
 		2CBDDFC72596CE3C00039259 /* LSToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSToast.swift; sourceTree = "<group>"; };
 		2CBDDFED2596D1D100039259 /* LSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSLabel.swift; sourceTree = "<group>"; };
 		2CBDDFF22596D22B00039259 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		2CBDDFF72596D94700039259 /* CGRect+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+.swift"; sourceTree = "<group>"; };
+		2CBFBF2429074DD30033DDC7 /* Fastfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fastfile; sourceTree = "<group>"; };
 		2CC9AB401F2DD38700C8357E /* RNModelController+RNFavoriteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNFavoriteInfo.swift"; sourceTree = "<group>"; };
 		2CC9AB421F2DDC1300C8357E /* RNFavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewController.swift; sourceTree = "<group>"; };
 		2CC9AB441F2DDF9100C8357E /* RNFavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNFavoriteTableViewCell.swift; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 			isa = PBXGroup;
 			children = (
 				2C12B003208B87AB00242517 /* .gitignore */,
+				2CBFBF2129074D980033DDC7 /* fastlane */,
+				2CBA44A22906DAB6001537CC /* .github */,
 				2C0D808B1F25C7D9002F58A5 /* realtornote */,
 				2C0D80A21F25C7DA002F58A5 /* realtornoteTests */,
 				2C0D80AD1F25C7DA002F58A5 /* realtornoteUITests */,
@@ -469,6 +475,14 @@
 			path = common;
 			sourceTree = "<group>";
 		};
+		2CBFBF2129074D980033DDC7 /* fastlane */ = {
+			isa = PBXGroup;
+			children = (
+				2CBFBF2429074DD30033DDC7 /* Fastfile */,
+			);
+			path = fastlane;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -599,10 +613,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C155A69211EBA8F00028266 /* firebase_crash.json in Resources */,
+				2CBA44A32906DAB6001537CC /* .github in Resources */,
 				2C1938171F27393800E4BCFB /* realtornote.xlsx in Resources */,
 				2C13CB3E211B1F4500312C73 /* GoogleService-Info.plist in Resources */,
 				2C2FB9852359DE7300CFD891 /* GoogleService-Info-FCM.plist in Resources */,
 				2C12B004208B87AB00242517 /* .gitignore in Resources */,
+				2CBFBF2529074DD30033DDC7 /* Fastfile in Resources */,
 				2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,

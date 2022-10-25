@@ -1,4 +1,5 @@
 *.xlsx
+realtornote.plist
 # Created by https://www.gitignore.io/api/xcode,swift,cocoapods
 
 ### CocoaPods ###
