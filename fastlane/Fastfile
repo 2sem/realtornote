@@ -25,6 +25,7 @@ platform :ios do
     @team_id = ENV["APPLE_TEAM_ID"]
     @api_key_path = ENV["IOS_KEY_PATH"]
     @xcodeproj = "./#{@project_name}.xcodeproj"
+    @profile_name = @project_name
 
     puts "iOS 프로젝트: #{@project_name}]"
     puts "Fastlane 키파일 경로: #{@api_key_path}]"
