@@ -69,7 +69,7 @@ platform :ios do
       use_automatic_signing: false,
       path: @xcodeproj,
       team_id: @team_id,
-      code_sign_identity: "iPhone Distribution",
+      code_sign_identity: "Apple Distribution",
       profile_name: @profile_name
     )
     puts "Code Signing 수동으로 전환"
