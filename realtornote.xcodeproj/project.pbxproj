@@ -495,7 +495,6 @@
 				2C0D80861F25C7D9002F58A5 /* Frameworks */,
 				2C0D80871F25C7D9002F58A5 /* Resources */,
 				9ECADFF9E7ACE763DBCCFDFF /* [CP] Embed Pods Frameworks */,
-				2C20F28121491569000D13E0 /* ShellScript */,
 				2C155A6A211EBAD200028266 /* ShellScript */,
 			);
 			buildRules = (
@@ -693,19 +692,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/FirebaseCrashlytics/run -gsp \"${PROJECT_DIR}/${PROJECT}/GoogleService-Info.plist\"\n";
-		};
-		2C20F28121491569000D13E0 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$PRODUCT_SETTINGS_PATH\")\necho \"/usr/libexec/PlistBuddy -c 'Print CFBundleVersion $PRODUCT_SETTINGS_PATH'\"\nif [ -z \"$buildNumber\" ] || [ \"$buildNumber\" = \"\\$(CURRENT_PROJECT_VERSION)\" ]\nthen\n        echo \"${PRODUCT_NAME} buildNumber is [empty]\"\n        buildNumber=1\nelse\n        echo \"${PRODUCT_NAME} buildnumber is $buildNumber\"\n        buildNumber=$((buildNumber + 1))\nfi\n\necho \"\\n${PRODUCT_NAME} new buildnumber = $buildNumber\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$PRODUCT_SETTINGS_PATH\"\n";
 		};
 		898C422087F29E8B54ECEE7B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
