@@ -1,5 +1,6 @@
 *.xlsx
 realtornote.plist
+firebase_crash.json
 # Created by https://www.gitignore.io/api/xcode,swift,cocoapods
 
 ### CocoaPods ###
