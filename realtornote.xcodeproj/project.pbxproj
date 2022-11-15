@@ -59,6 +59,8 @@
 		2CB175CB25A5C75D00047833 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB175CA25A5C75D00047833 /* Date+.swift */; };
 		2CB228A9259CA37F0047DF32 /* Reactive+ObservableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */; };
 		2CB228AE259CB7AC0047DF32 /* RNAlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */; };
+		2CB5AD792923E643001420D1 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB5AD732923D435001420D1 /* Inter-Medium.ttf */; };
+		2CB5AD7A2923E645001420D1 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB5AD742923D678001420D1 /* Inter-Bold.ttf */; };
 		2CB6C860259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */; };
 		2CB6C865259B1EE2001BCBE4 /* RNAlarmModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */; };
 		2CB6C86C259B2005001BCBE4 /* RNAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */; };
@@ -161,6 +163,8 @@
 		2CB175CA25A5C75D00047833 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+ObservableCollection.swift"; sourceTree = "<group>"; };
 		2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewCell.swift; sourceTree = "<group>"; };
+		2CB5AD732923D435001420D1 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		2CB5AD742923D678001420D1 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNAlarmInfo.swift"; sourceTree = "<group>"; };
 		2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNAlarmModel+.swift"; sourceTree = "<group>"; };
 		2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmManager.swift; sourceTree = "<group>"; };
@@ -289,6 +293,7 @@
 		2C0D808B1F25C7D9002F58A5 /* realtornote */ = {
 			isa = PBXGroup;
 			children = (
+				2CB5AD702923D253001420D1 /* fonts */,
 				2C1468DA20C6234B00F81270 /* realtornote.entitlements */,
 				2CB0F862258BA00B004F6ED9 /* extensions */,
 				2C155A65211EB44B00028266 /* crash */,
@@ -448,6 +453,15 @@
 				2CFEA1842593423000F56F69 /* LSAlarmSettingsViewController.swift */,
 			);
 			path = alarm;
+			sourceTree = "<group>";
+		};
+		2CB5AD702923D253001420D1 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2CB5AD732923D435001420D1 /* Inter-Medium.ttf */,
+				2CB5AD742923D678001420D1 /* Inter-Bold.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		2CB6C86A259B1FCF001BCBE4 /* alarm */ = {
@@ -621,6 +635,8 @@
 				2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,
+				2CB5AD7A2923E645001420D1 /* Inter-Bold.ttf in Resources */,
+				2CB5AD792923E643001420D1 /* Inter-Medium.ttf in Resources */,
 				2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */,
 				2C0D80941F25C7D9002F58A5 /* Main.storyboard in Resources */,
 			);
@@ -1027,7 +1043,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.21;
+				MARKETING_VERSION = f;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1058,7 +1074,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.21;
+				MARKETING_VERSION = f;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
