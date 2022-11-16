@@ -108,13 +108,19 @@ class GADRewardManager : NSObject{
         let req = GADRequest();
         
         #if DEBUG
-        let unitId = "ca-app-pub-3940256099942544/1712485313"
+        let unitId = "ca-app-pub-3940256099942544/6978759866"
         #else
         let unitId = self.unitId;
         #endif
         
         self.delegate?.GADRewardWillLoad();
         GADRewardedInterstitialAd.load(withAdUnitID: unitId, request: req) { [weak self](newAd, error) in
+            if let error = error {
+                print("rewarded ad load failed. error[\(error)]");
+                return
+            }
+            
+            print("rewarded ad loaded");
             self?.rewardAd = newAd;
             self?.rewardAd?.fullScreenContentDelegate = self;
             self?._show();

@@ -469,12 +469,12 @@
         <!--Donate View Controller-->
         <scene sceneID="CgY-PP-cTT">
             <objects>
-                <viewController storyboardIdentifier="donate" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qNo-9I-EEW" userLabel="Donate View Controller" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="donate" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qNo-9I-EEW" userLabel="Donate View Controller" customClass="DonateViewController" customModule="realtornote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Ks-nk-czf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <visualEffectView opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="60S-K6-8GC">
+                            <visualEffectView hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="60S-K6-8GC">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="YAF-XB-das">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -482,7 +482,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <blurEffect style="regular"/>
+                                <blurEffect style="systemThinMaterialDark"/>
                             </visualEffectView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3aL-gO-Si3" userLabel="Popup View">
                                 <rect key="frame" x="47" y="133" width="281" height="401.5"/>
@@ -711,6 +711,9 @@ IAo
                                                         <real key="value" value="16"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="0Qa-jN-1Wa" kind="unwind" animates="NO" unwindAction="donate:" id="6Ka-66-Z0O"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkG-sC-ide" userLabel="Cancel Button">
                                                 <rect key="frame" x="0.0" y="66" width="241" height="54"/>
@@ -726,6 +729,9 @@ IAo
                                                         <real key="value" value="16"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="0Qa-jN-1Wa" kind="unwind" animates="NO" unwindAction="cancleDonation:" id="shb-uF-bIx"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -762,6 +768,9 @@ IAo
                             <constraint firstItem="60S-K6-8GC" firstAttribute="bottom" secondItem="0Ks-nk-czf" secondAttribute="bottom" id="wj8-zM-7GT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="BackgroundView" destination="60S-K6-8GC" id="DKa-fV-gUp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6b-6b-aj5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1039,6 +1048,7 @@ IAo
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+                <exit id="0Qa-jN-1Wa" userLabel="Exit" sceneMemberID="exit"/>
                 <view contentMode="scaleToFill" id="AO2-CO-x11" userLabel="BannerView">
                     <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
