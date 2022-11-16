@@ -168,10 +168,11 @@ class RNTabBarController: UITabBarController {
     }
     
     @IBAction func cancleDonation(_ segue: UIStoryboardSegue)  {
-        
+        Analytics.logLeesamEvent(.cancelDonation, parameters: [:]);
     }
     
     @IBAction func donate(_ segue: UIStoryboardSegue)  {
+        Analytics.logLeesamEvent(.donate, parameters: [:]);
         //AppDelegate.sharedGADManager?.show(unit: .donate, completion: nil);
         GADRewardManager.shared?.show(true)
     }
