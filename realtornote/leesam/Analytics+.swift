@@ -67,6 +67,7 @@ extension Analytics{
         case pressDonate = "개발자후원클릭"
         case cancelDonation = "후원_다음에하기"
         case donate = "후원하기"
+        case donationCompleted = "후원완료"
     }
     
     class SiwonEventProperty{
