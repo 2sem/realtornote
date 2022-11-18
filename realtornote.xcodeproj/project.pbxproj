@@ -54,6 +54,7 @@
 		2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4451F2F71F900AFD09D /* Settings.bundle */; };
 		2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C95BEC92038007A004DCD95 /* RNTabBarController.swift */; };
 		2CA4678D29252086000AD4F9 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4678C29252086000AD4F9 /* DonateViewController.swift */; };
+		2CA7A3D12927C63F00AB82F7 /* LSRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */; };
 		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
 		2CB0F864258BA051004F6ED9 /* LSUserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */; };
 		2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */; };
@@ -159,6 +160,7 @@
 		2C93E4451F2F71F900AFD09D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2C95BEC92038007A004DCD95 /* RNTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNTabBarController.swift; sourceTree = "<group>"; };
 		2CA4678C29252086000AD4F9 /* DonateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewController.swift; sourceTree = "<group>"; };
+		2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSRemoteConfig.swift; sourceTree = "<group>"; };
 		2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeTableViewCell.swift; sourceTree = "<group>"; };
 		2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSUserNotificationManager.swift; sourceTree = "<group>"; };
 		2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewController.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				2C19380E1F27300A00E4BCFB /* LSDefaults.swift */,
 				2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */,
 				2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */,
+				2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -740,11 +743,13 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/LSCountDownLabel/LSCountDownLabel.framework",
@@ -768,11 +773,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSCountDownLabel.framework",
@@ -803,6 +810,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CA7A3D12927C63F00AB82F7 /* LSRemoteConfig.swift in Sources */,
 				2C4AE7D31F277F2F00644322 /* RNSubjectInfo+.swift in Sources */,
 				2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */,
 				2CBDDFC82596CE3C00039259 /* LSToast.swift in Sources */,

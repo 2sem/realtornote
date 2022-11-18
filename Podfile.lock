@@ -15,6 +15,11 @@ PODS:
   - Firebase/Messaging (10.1.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.1.0)
+  - Firebase/RemoteConfig (10.1.0):
+    - Firebase/CoreOnly
+    - FirebaseRemoteConfig (~> 10.1.0)
+  - FirebaseABTesting (10.1.0):
+    - FirebaseCore (~> 10.0)
   - FirebaseAnalytics (10.1.0):
     - FirebaseAnalytics/AdIdSupport (= 10.1.0)
     - FirebaseCore (~> 10.0)
@@ -60,6 +65,12 @@ PODS:
     - GoogleUtilities/Reachability (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseRemoteConfig (10.1.0):
+    - FirebaseABTesting (~> 10.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - GADManager (1.2.24):
     - Google-Mobile-Ads-SDK
   - Google-Mobile-Ads-SDK (9.13.0):
@@ -161,6 +172,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Crashlytics
   - Firebase/Messaging
+  - Firebase/RemoteConfig
   - GADManager
   - KakaoOpenSDK
   - LSCountDownLabel
@@ -180,12 +192,14 @@ SPEC REPOS:
     - Differentiator
     - DropDown
     - Firebase
+    - FirebaseABTesting
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
     - FirebaseCrashlytics
     - FirebaseInstallations
     - FirebaseMessaging
+    - FirebaseRemoteConfig
     - GADManager
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
@@ -214,12 +228,14 @@ SPEC CHECKSUMS:
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: f225ff0fd09dde064d17aa03db7e4d4e4ff40b6b
   Firebase: 444b35a9c568a516666213c2f6cccd10cb12559f
+  FirebaseABTesting: 8404d743de561c73570c8dbb7810035ffec10053
   FirebaseAnalytics: 24cb27b52b2e11ad5013528195b4ca0755dec960
   FirebaseCore: 55e7ae35991ccca4db03ff8d8df6ed5f17a3e4c7
   FirebaseCoreInternal: 96d75228e10fd369564da51bd898414eb0f54df5
   FirebaseCrashlytics: 93906d7085eb3e4dd90d08fe42a15d4f0406b6ab
   FirebaseInstallations: 99d24bac0243cf8b0e96cf5426340d211f0bcc80
   FirebaseMessaging: 4487bbff9b9b927ba1dd3ea40d1ceb58e4ee3cb5
+  FirebaseRemoteConfig: 20a413ed3ffeb84c12888bff19d02464f0faed69
   GADManager: c9f11906c6416df1dec58c7ec96d544d5899e3e5
   Google-Mobile-Ads-SDK: 465532d33dfc878f2f9aca281fddbcd4bf9c0197
   GoogleAppMeasurement: e490e248af3da95afe8fa8e7baac232dc8d020b7
@@ -243,6 +259,6 @@ SPEC CHECKSUMS:
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: d591d71babd49d3eb0b26021d9a9a815fdd01074
+PODFILE CHECKSUM: 7ba9edb8b602bd5082b4e0a19029ac68d482dd36
 
 COCOAPODS: 1.11.3
