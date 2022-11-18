@@ -68,6 +68,7 @@ extension Analytics{
         case cancelDonation = "후원_다음에하기"
         case donate = "후원하기"
         case donationCompleted = "후원완료"
+        case reviewAfterDonation = "후원_후_평가하기"
     }
     
     class SiwonEventProperty{

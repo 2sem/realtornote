@@ -173,7 +173,10 @@ extension GADRewardManager : GADFullScreenContentDelegate{
     
         Analytics.logLeesamEvent(.donationCompleted, parameters: [:]);
         
-        self.window.rootViewController?.showAlert(title: "후원해주셔서 감사합니다.", msg: "불편하신 사항은 리뷰에 남겨주시면 반영하겠습니다.", actions: [UIAlertAction.init(title: "확인", style: .default, handler: nil), UIAlertAction.init(title: "평가하기", style: .default, handler: { (act) in
+        self.window.rootViewController?.showAlert(title: "후원해주셔서 감사합니다.", msg: "불편하신 사항은 리뷰에 남겨주시면 반영하겠습니다.", actions: [UIAlertAction.init(title: "확인", style: .default, handler: { _ in
+//            Analytics.logLeesamEvent(.donationCompleted, parameters: [:]);
+        }), UIAlertAction.init(title: "평가하기", style: .default, handler: { (act) in
+            Analytics.logLeesamEvent(.reviewAfterDonation, parameters: [:]);
             UIApplication.shared.openReview();
         })], style: .alert);
         self.delegate?.GADRewardUserCompleted();
