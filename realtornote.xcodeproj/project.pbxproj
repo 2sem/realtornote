@@ -47,14 +47,16 @@
 		2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */; };
 		2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */; };
 		2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5C059020C6AFCA0064E4DB /* realtornote.plist */; };
+		2C8669BD292A1641002A2EB7 /* LSRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */; };
+		2C8669BF292A6C0F002A2EB7 /* DonationMessgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8669BE292A6C0F002A2EB7 /* DonationMessgeType.swift */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
 		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
 		2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */; };
 		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
 		2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4451F2F71F900AFD09D /* Settings.bundle */; };
 		2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C95BEC92038007A004DCD95 /* RNTabBarController.swift */; };
+		2CA04762292E5856001B539E /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA04761292E5856001B539E /* UILabel+.swift */; };
 		2CA4678D29252086000AD4F9 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4678C29252086000AD4F9 /* DonateViewController.swift */; };
-		2CA7A3D12927C63F00AB82F7 /* LSRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */; };
 		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
 		2CB0F864258BA051004F6ED9 /* LSUserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */; };
 		2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */; };
@@ -153,12 +155,14 @@
 		2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNPartViewController.swift; sourceTree = "<group>"; };
 		2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNPushController.swift; sourceTree = "<group>"; };
 		2C5C059020C6AFCA0064E4DB /* realtornote.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = realtornote.plist; sourceTree = "<group>"; };
+		2C8669BE292A6C0F002A2EB7 /* DonationMessgeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationMessgeType.swift; sourceTree = "<group>"; };
 		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
 		2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
 		2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
 		2C93E4451F2F71F900AFD09D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2C95BEC92038007A004DCD95 /* RNTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNTabBarController.swift; sourceTree = "<group>"; };
+		2CA04761292E5856001B539E /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		2CA4678C29252086000AD4F9 /* DonateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewController.swift; sourceTree = "<group>"; };
 		2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSRemoteConfig.swift; sourceTree = "<group>"; };
 		2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeTableViewCell.swift; sourceTree = "<group>"; };
@@ -406,6 +410,7 @@
 				2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */,
 				2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */,
 				2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */,
+				2C8669BE292A6C0F002A2EB7 /* DonationMessgeType.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -447,6 +452,7 @@
 				2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */,
 				2CB175CA25A5C75D00047833 /* Date+.swift */,
 				2CDBD7F4265544650097A91B /* GADRewardedInterstitialAd+.swift */,
+				2CA04761292E5856001B539E /* UILabel+.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -810,7 +816,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CA7A3D12927C63F00AB82F7 /* LSRemoteConfig.swift in Sources */,
+				2C8669BD292A1641002A2EB7 /* LSRemoteConfig.swift in Sources */,
+				2C8669BF292A6C0F002A2EB7 /* DonationMessgeType.swift in Sources */,
 				2C4AE7D31F277F2F00644322 /* RNSubjectInfo+.swift in Sources */,
 				2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */,
 				2CBDDFC82596CE3C00039259 /* LSToast.swift in Sources */,
@@ -848,6 +855,7 @@
 				2CB6C860259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift in Sources */,
 				2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
+				2CA04762292E5856001B539E /* UILabel+.swift in Sources */,
 				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
 				2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */,
 				2CB6C865259B1EE2001BCBE4 /* RNAlarmModel+.swift in Sources */,
@@ -1046,7 +1054,7 @@
 				CODE_SIGN_ENTITLEMENTS = realtornote/realtornote.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 201;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
@@ -1076,7 +1084,7 @@
 				CODE_SIGN_ENTITLEMENTS = realtornote/realtornote.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 201;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = realtornote/Info.plist;
