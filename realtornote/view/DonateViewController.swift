@@ -26,6 +26,8 @@ class DonateViewController: UIViewController {
         self.messageLabels.enumerated().forEach { item in
             item.element.isVisible =  item.offset == msgIndex
         }
+        
+        GADRewardManager.shared?.prepare()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -91,10 +91,22 @@ class GADRewardManager : NSObject{
             return;
         }
         
-        self._show();
+        self.prepare { [weak self](error) in
+            if let _ = error {
+                self?.showNoAds()
+                return
+            }
+            
+            guard (self?.rewardAd?.isReady() ?? false) else {
+                self?.showNoAds()
+                return
+            }
+            
+            self?.__show()
+        }
     }
     
-    func _show(){
+    func prepare(_ completion: ((Error?) -> Void)? = nil){
         /*guard self.canShow else {
          return;
          }*/
@@ -108,23 +120,28 @@ class GADRewardManager : NSObject{
         print("create new reward ad");
         let req = GADRequest();
         
-        #if DEBUG
+#if DEBUG
+        //        let unitId = self.unitId;
         let unitId = "ca-app-pub-3940256099942544/6978759866"
-        #else
+#else
         let unitId = self.unitId;
-        #endif
+#endif
         
         self.delegate?.GADRewardWillLoad();
+        print("load rewarded ad[\(unitId)]");
         GADRewardedInterstitialAd.load(withAdUnitID: unitId, request: req) { [weak self](newAd, error) in
             if let error = error {
                 print("rewarded ad load failed. error[\(error)]");
+                completion?(error)
                 return
             }
             
             print("rewarded ad loaded");
+//            completion?(nil)
+//            return
             self?.rewardAd = newAd;
             self?.rewardAd?.fullScreenContentDelegate = self;
-            self?._show();
+            completion?(nil)
         }
     }
     
@@ -158,6 +175,15 @@ class GADRewardManager : NSObject{
         })
         self.delegate?.GADRewardUpdate(showTime: Date());
         //RSDefaults.LastFullADShown = Date();
+    }
+    
+    private func showNoAds(){
+        self.window.rootViewController?.showAlert(title: "준비된 광고가 없습니다.", msg: "관심 가져주셔서 감사합니다.\n현재 준비된 광고가 없습니다", actions: [UIAlertAction.init(title: "확인", style: .default, handler: { _ in
+//            Analytics.logLeesamEvent(.donationCompleted, parameters: [:]);
+        }), UIAlertAction.init(title: "평가하기", style: .default, handler: { (act) in
+            Analytics.logLeesamEvent(.reviewAfterDonation, parameters: [:]);
+            UIApplication.shared.openReview();
+        })], style: .alert);
     }
 }
 
