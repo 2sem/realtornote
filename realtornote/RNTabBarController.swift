@@ -92,6 +92,8 @@ class RNTabBarController: UITabBarController {
         self.setupBottomBanner();
         
         self.fixNavigationBar()
+        
+        LSRemoteConfig.shared.fetch()
     }
 
     override func didReceiveMemoryWarning() {

@@ -39,23 +39,26 @@ class LSRemoteConfig: NSObject {
         self.firebaseConfig.setDefaults([ConfigNames.isDonationIconVisible : false as NSObject]);
     }
     
-    func fetch(_ timeout: TimeInterval = 3.0, completion: @escaping (LSRemoteConfig, Error?) -> Void){
+    func fetch(_ timeout: TimeInterval = 3.0, completion: ((LSRemoteConfig, Error?) -> Void)? = nil){
         //SWToast.activity("버전 정보 확인 중");
         /*self.firebaseConfig.fetchAndActivate { [unowned self](status, error) in
          SWToast.hideActivity();
          completion(self, error);
          }*/
+        debugPrint("Start loading Remote Config")
         self.firebaseConfig.fetch(withExpirationDuration: timeout) { (status, error_fetch) in
             guard let rcerror = error_fetch else{
+                debugPrint("Remote Config Loaded")
                 self.firebaseConfig.activate{(result, errorAct) in
                     //SWToast.hideActivity();
-                    completion(self, errorAct);
+                    completion?(self, errorAct);
                 };
                 return;
             }
             
             //SWToast.hideActivity();
-            completion(self, rcerror);
+            debugPrint("Remote Config Error \(rcerror)")
+            completion?(self, rcerror);
         }
     }
 }

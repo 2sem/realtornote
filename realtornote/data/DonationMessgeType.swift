@@ -9,7 +9,7 @@
 import Foundation
 
 enum DonationMsgType: Int {
-    case msgWithGuide = 0
+    case msgWithGuide = 1
     case msgWithGreetingAndGuide
-    case msgWithGreeting = 4
+    case msgWithGreeting
 }

@@ -10,25 +10,34 @@ import UIKit
 
 class DonateViewController: UIViewController {
 
-    @IBOutlet weak var BackgroundView: UIVisualEffectView!
+    @IBOutlet weak var backgroundView: UIVisualEffectView!
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet var messageLabels: [UILabel]!
+    let config = LSRemoteConfig.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.iconImageView.isVisible = config.isDonationIconVisible
+        debugPrint("config isDonationIconVisible[\(config.isDonationIconVisible)]")
+        let msgIndex = config.donationMsgType.rawValue - 1
+        debugPrint("config donationMsgType[\(config.donationMsgType)]")
+        self.messageLabels.enumerated().forEach { item in
+            item.element.isVisible =  item.offset == msgIndex
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.BackgroundView.isVisible = true
+        self.backgroundView.isVisible = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.BackgroundView.isVisible = false
-
+        self.backgroundView.isVisible = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
