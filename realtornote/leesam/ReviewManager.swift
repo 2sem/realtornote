@@ -96,15 +96,16 @@ class ReviewManager : NSObject{
             }, UIAlertAction(title: String(format: "'%@' 추천".localized(), name), style: .default) { (act) in
                 //self.window.rootViewController?.share(["\(UIApplication.shared.urlForItunes.absoluteString)"]);
                 UIApplication.shared.shareByKakao();
-            }/*,UIAlertAction(title: "제보하기".localized(), style: .default, handler: { (act) in
+            },/*,UIAlertAction(title: "제보하기".localized(), style: .default, handler: { (act) in
              //do not gain today
              UIApplication.shared.open(URL(string: "https://open.kakao.com/o/g1jk9Xx")!, options: [:], completionHandler: nil);
              })*//*,UIAlertAction(title: "후원하기(전면광고)".localized(), style: .default, handler: { (act) in
                 GADInterstialManager.shared?.show(true);
-             })*/,UIAlertAction(title: "후원하기(동영상광고)".localized(), style: .default, handler: { (act) in
-                GADRewardManager.shared?.show(true);
-                
-             }),
+             })*/
+//             ,UIAlertAction(title: "후원하기(동영상광고)".localized(), style: .default, handler: { (act) in
+//                GADRewardManager.shared?.show(true);
+//
+//             }),
                 
                 UIAlertAction(title: "다음에 보기".localized(), style: .cancel, handler: { (act) in
                     //do not gain today

@@ -92,6 +92,8 @@ class RNTabBarController: UITabBarController {
         self.setupBottomBanner();
         
         self.fixNavigationBar()
+        
+        LSRemoteConfig.shared.fetch()
     }
 
     override func didReceiveMemoryWarning() {
@@ -167,6 +169,16 @@ class RNTabBarController: UITabBarController {
         //AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
+    @IBAction func cancleDonation(_ segue: UIStoryboardSegue)  {
+        Analytics.logLeesamEvent(.cancelDonation, parameters: [:]);
+    }
+    
+    @IBAction func donate(_ segue: UIStoryboardSegue)  {
+        Analytics.logLeesamEvent(.donate, parameters: [:]);
+        //AppDelegate.sharedGADManager?.show(unit: .donate, completion: nil);
+        GADRewardManager.shared?.show(true)
+    }
+    
     func openUrl(_ url : URL){
         var nav = self.presentedViewController as? UINavigationController;
         guard let internetView = self.storyboard?.instantiateViewController(withIdentifier: "internetView") as? RNInternetViewController else{
@@ -211,8 +223,6 @@ class RNTabBarController: UITabBarController {
     
     @IBAction func onDonate(_ button: UIButton) {
         Analytics.logLeesamEvent(.pressDonate, parameters: [:]);
-        //GADRewardManager.shared?.show(true);
-        AppDelegate.sharedGADManager?.show(unit: .donate, completion: nil);
     }
     
     /*

@@ -20,6 +20,8 @@ target 'realtornote' do
   # Recommended: Add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
   
+  pod 'Firebase/RemoteConfig'
+  
   pod 'KakaoOpenSDK'
   pod 'ProgressWebViewController'
   #pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'

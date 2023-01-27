@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
         <array key="NotoSansCJKkr-Bold.otf">
             <string>NotoSansCJKkr-Bold</string>
         </array>
@@ -463,6 +466,287 @@
             </objects>
             <point key="canvasLocation" x="974" y="2031"/>
         </scene>
+        <!--Donate View Controller-->
+        <scene sceneID="CgY-PP-cTT">
+            <objects>
+                <viewController storyboardIdentifier="donate" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qNo-9I-EEW" userLabel="Donate View Controller" customClass="DonateViewController" customModule="realtornote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Ks-nk-czf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView hidden="YES" opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="60S-K6-8GC">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="YAF-XB-das">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <blurEffect style="systemThinMaterialDark"/>
+                            </visualEffectView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3aL-gO-Si3" userLabel="Popup View">
+                                <rect key="frame" x="47" y="132" width="281" height="403"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="개발자 후원" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gou-8u-5he" userLabel="Title Label">
+                                        <rect key="frame" x="0.0" y="0.0" width="281" height="57"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="57" id="WUO-tL-mg7"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KUQ-ih-uzE" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="57" width="281" height="178"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="MmX-2Q-wg7" userLabel="Content Stack View">
+                                                <rect key="frame" x="20" y="24" width="241" height="130"/>
+                                                <subviews>
+                                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="yEn-hT-iDH">
+                                                        <rect key="frame" x="0.0" y="0.0" width="241" height="60"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="60" id="aKY-rI-6Ue"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNb-9c-pKh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="241" height="130"/>
+                                                        <attributedString key="attributedText">
+                                                            <fragment>
+                                                                <string key="content">광고 시청을 통해 후원이
+간편하게 진행 됩니다.
+
+앞으로도 </string>
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Medium"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                            <fragment content="공인중개사요약집">
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                            <fragment>
+                                                                <string key="content">은
+보다 나은 서비스를 제공하겠습니다.</string>
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Medium"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                        <nil key="highlightedColor"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isKorean" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </label>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="57M-t5-mRO">
+                                                        <rect key="frame" x="0.0" y="0.0" width="241" height="0.0"/>
+                                                        <attributedString key="attributedText">
+                                                            <fragment content="공인중개사요약집">
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                            <fragment>
+                                                                <string key="content">을 이용해주셔서
+감사합니다.
+
+광고 시청을 통해 개발자에게 
+후원이 가능하며, 앞으로도 보다 
+나은 서비스로 제공하겠습니다 :)</string>
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Medium"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                        <nil key="highlightedColor"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isKorean" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </label>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mwp-Tc-ZPg">
+                                                        <rect key="frame" x="0.0" y="0.0" width="241" height="0.0"/>
+                                                        <attributedString key="attributedText">
+                                                            <fragment content="공개중개사요약집">
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                            <fragment>
+                                                                <string key="content">은 이용하시는데 
+불편함이 없도록 끊임없이 개선하고 있습니다.
+
+[후원하기] 버튼을 선택하시면,
+광고 시청을 통해 후원이됩니다.
+
+후원금을 통해 앞으로도 보다 나은 
+서비스를 제공하겠습니다 :)</string>
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" size="18" name="AppleSDGothicNeo-Medium"/>
+                                                                    <real key="NSKern" value="0.0"/>
+                                                                    <font key="NSOriginalFont" size="18" name="AppleSDGothicNeo-Bold"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                                        <tabStops/>
+                                                                    </paragraphStyle>
+                                                                    <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <real key="NSStrokeWidth" value="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                        <nil key="highlightedColor"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isKorean" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="MmX-2Q-wg7" firstAttribute="top" secondItem="KUQ-ih-uzE" secondAttribute="top" constant="24" id="6cX-k1-zgb"/>
+                                            <constraint firstItem="MmX-2Q-wg7" firstAttribute="leading" secondItem="KUQ-ih-uzE" secondAttribute="leading" constant="20" id="hYv-wE-3RB"/>
+                                            <constraint firstAttribute="bottom" secondItem="MmX-2Q-wg7" secondAttribute="bottom" constant="24" id="pPa-6c-DzD"/>
+                                            <constraint firstAttribute="trailing" secondItem="MmX-2Q-wg7" secondAttribute="trailing" constant="20" id="rvE-HU-PPN"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Rvb-vb-GDI" userLabel="Button Stack View">
+                                        <rect key="frame" x="20" y="259" width="241" height="120"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vtv-Ca-HPT" userLabel="Donate Button">
+                                                <rect key="frame" x="0.0" y="0.0" width="241" height="54"/>
+                                                <color key="backgroundColor" red="0.2196078431372549" green="0.45490196078431372" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="54" id="qKL-Sb-9sv"/>
+                                                </constraints>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="후원하기">
+                                                    <fontDescription key="titleFontDescription" name="Inter-Medium" family="Inter" pointSize="18"/>
+                                                </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="0Qa-jN-1Wa" kind="unwind" animates="NO" unwindAction="donate:" id="6Ka-66-Z0O"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkG-sC-ide" userLabel="Cancel Button">
+                                                <rect key="frame" x="0.0" y="66" width="241" height="54"/>
+                                                <color key="backgroundColor" red="0.89803921568627454" green="0.95686274509803915" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="54" id="bTe-cc-2GA"/>
+                                                </constraints>
+                                                <color key="tintColor" red="0.2196078431372549" green="0.45490196078431372" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="다음에 하기">
+                                                    <fontDescription key="titleFontDescription" name="Inter-Medium" family="Inter" pointSize="18"/>
+                                                </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <segue destination="0Qa-jN-1Wa" kind="unwind" animates="NO" unwindAction="cancleDonation:" id="shb-uF-bIx"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.29411764705882354" green="0.65098039215686276" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Rvb-vb-GDI" firstAttribute="leading" secondItem="3aL-gO-Si3" secondAttribute="leading" constant="20" id="6hf-al-jKR"/>
+                                    <constraint firstItem="Rvb-vb-GDI" firstAttribute="top" secondItem="KUQ-ih-uzE" secondAttribute="bottom" constant="24" id="9zk-hu-Ow5"/>
+                                    <constraint firstItem="Gou-8u-5he" firstAttribute="top" secondItem="3aL-gO-Si3" secondAttribute="top" id="Dh8-ee-AHt"/>
+                                    <constraint firstAttribute="trailing" secondItem="KUQ-ih-uzE" secondAttribute="trailing" id="Jct-ds-XCi"/>
+                                    <constraint firstItem="Gou-8u-5he" firstAttribute="leading" secondItem="3aL-gO-Si3" secondAttribute="leading" id="PCG-cA-Yqg"/>
+                                    <constraint firstItem="Rvb-vb-GDI" firstAttribute="trailing" secondItem="3aL-gO-Si3" secondAttribute="trailing" constant="-20" id="Yao-GZ-5rF"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gou-8u-5he" secondAttribute="trailing" id="cIZ-es-r72"/>
+                                    <constraint firstItem="KUQ-ih-uzE" firstAttribute="leading" secondItem="3aL-gO-Si3" secondAttribute="leading" id="hTK-OX-r5r"/>
+                                    <constraint firstItem="Rvb-vb-GDI" firstAttribute="bottom" secondItem="3aL-gO-Si3" secondAttribute="bottom" constant="-24" id="ouO-Rt-00Z"/>
+                                    <constraint firstItem="KUQ-ih-uzE" firstAttribute="top" secondItem="Gou-8u-5he" secondAttribute="bottom" id="x92-nI-1dS"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="0jC-vH-sqk"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="60S-K6-8GC" firstAttribute="trailing" secondItem="0Ks-nk-czf" secondAttribute="trailing" id="9Od-IS-yDv"/>
+                            <constraint firstItem="60S-K6-8GC" firstAttribute="top" secondItem="0Ks-nk-czf" secondAttribute="top" id="ENZ-OJ-EvE"/>
+                            <constraint firstItem="3aL-gO-Si3" firstAttribute="centerY" secondItem="0jC-vH-sqk" secondAttribute="centerY" id="Imb-Km-gak"/>
+                            <constraint firstItem="3aL-gO-Si3" firstAttribute="leading" secondItem="0jC-vH-sqk" secondAttribute="leading" constant="47" id="iFi-uy-z9d"/>
+                            <constraint firstItem="0jC-vH-sqk" firstAttribute="trailing" secondItem="3aL-gO-Si3" secondAttribute="trailing" constant="47" id="iwl-pD-bcD"/>
+                            <constraint firstItem="60S-K6-8GC" firstAttribute="leading" secondItem="0Ks-nk-czf" secondAttribute="leading" id="pkw-UP-Yjv"/>
+                            <constraint firstItem="60S-K6-8GC" firstAttribute="bottom" secondItem="0Ks-nk-czf" secondAttribute="bottom" id="wj8-zM-7GT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="60S-K6-8GC" id="DKa-fV-gUp"/>
+                        <outlet property="iconImageView" destination="yEn-hT-iDH" id="ue7-ld-qaf"/>
+                        <outletCollection property="messageLabels" destination="KNb-9c-pKh" collectionClass="NSMutableArray" id="oR5-uY-Ola"/>
+                        <outletCollection property="messageLabels" destination="57M-t5-mRO" collectionClass="NSMutableArray" id="KQI-lW-QCM"/>
+                        <outletCollection property="messageLabels" destination="Mwp-Tc-ZPg" collectionClass="NSMutableArray" id="Cbh-4B-KKf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c6b-6b-aj5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5.5999999999999996" y="2775.562218890555"/>
+        </scene>
         <!--Item-->
         <scene sceneID="qEP-RG-WtE">
             <objects>
@@ -735,6 +1019,7 @@
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+                <exit id="0Qa-jN-1Wa" userLabel="Exit" sceneMemberID="exit"/>
                 <view contentMode="scaleToFill" id="AO2-CO-x11" userLabel="BannerView">
                     <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -743,7 +1028,7 @@
                             <rect key="frame" x="16" y="0.0" width="351" height="44"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="vZM-E5-oYy">
-                                    <rect key="frame" x="0.0" y="0.0" width="85" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="84.666666666666671" height="44"/>
                                     <color key="backgroundColor" red="0.25882352941176467" green="0.6470588235294118" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="  Q-Net 공인중개사">
@@ -754,7 +1039,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="HNc-A0-XYK">
-                                    <rect key="frame" x="89" y="0.0" width="84.5" height="44"/>
+                                    <rect key="frame" x="88.666666666666686" y="0.0" width="85" height="44"/>
                                     <color key="backgroundColor" red="0.098039215686274508" green="0.46274509803921571" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="공인중개사    요약집">
@@ -765,7 +1050,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dAX-sT-Wp6">
-                                    <rect key="frame" x="177.5" y="0.0" width="85" height="44"/>
+                                    <rect key="frame" x="177.66666666666666" y="0.0" width="84.666666666666657" height="44"/>
                                     <color key="backgroundColor" red="1" green="0.62745098039215685" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="QuizWin  기출문제">
@@ -776,7 +1061,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="vDY-RK-h5X">
-                                    <rect key="frame" x="266.5" y="0.0" width="84.5" height="44"/>
+                                    <rect key="frame" x="266.33333333333331" y="0.0" width="84.666666666666686" height="44"/>
                                     <color key="backgroundColor" red="1" green="0.75686274509803919" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <state key="normal" title="개발자  후원">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -784,6 +1069,7 @@
                                     <connections>
                                         <action selector="onDonate:" destination="49e-Tb-3d3" eventType="touchUpInside" id="gYo-ji-0Tt"/>
                                         <action selector="onDonate:" destination="Hvn-QG-hXa" eventType="touchUpInside" id="wvx-dW-4Zd"/>
+                                        <segue destination="qNo-9I-EEW" kind="presentation" modalPresentationStyle="overCurrentContext" id="jN8-j2-EUE"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -1395,6 +1681,7 @@
         <segue reference="Dft-DU-fyX"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="Icon" width="60" height="60"/>
         <image name="icon_1_off" width="50" height="50"/>
         <image name="icon_alarm" width="25" height="25"/>
         <image name="icon_book_list" width="25" height="25"/>

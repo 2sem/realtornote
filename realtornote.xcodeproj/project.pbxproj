@@ -47,18 +47,24 @@
 		2C542EA41F288EB9000C21E3 /* RNPartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */; };
 		2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */; };
 		2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C5C059020C6AFCA0064E4DB /* realtornote.plist */; };
+		2C8669BD292A1641002A2EB7 /* LSRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */; };
+		2C8669BF292A6C0F002A2EB7 /* DonationMessgeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8669BE292A6C0F002A2EB7 /* DonationMessgeType.swift */; };
 		2C93E4381F2F2AE500AFD09D /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */; };
 		2C93E4401F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */; };
 		2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */; };
 		2C93E4441F2F32EE00AFD09D /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */; };
 		2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C93E4451F2F71F900AFD09D /* Settings.bundle */; };
 		2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C95BEC92038007A004DCD95 /* RNTabBarController.swift */; };
+		2CA04762292E5856001B539E /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA04761292E5856001B539E /* UILabel+.swift */; };
+		2CA4678D29252086000AD4F9 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4678C29252086000AD4F9 /* DonateViewController.swift */; };
 		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
 		2CB0F864258BA051004F6ED9 /* LSUserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */; };
 		2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */; };
 		2CB175CB25A5C75D00047833 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB175CA25A5C75D00047833 /* Date+.swift */; };
 		2CB228A9259CA37F0047DF32 /* Reactive+ObservableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */; };
 		2CB228AE259CB7AC0047DF32 /* RNAlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */; };
+		2CB5AD792923E643001420D1 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB5AD732923D435001420D1 /* Inter-Medium.ttf */; };
+		2CB5AD7A2923E645001420D1 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CB5AD742923D678001420D1 /* Inter-Bold.ttf */; };
 		2CB6C860259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */; };
 		2CB6C865259B1EE2001BCBE4 /* RNAlarmModel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */; };
 		2CB6C86C259B2005001BCBE4 /* RNAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */; };
@@ -149,18 +155,24 @@
 		2C542EA31F288EB9000C21E3 /* RNPartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNPartViewController.swift; sourceTree = "<group>"; };
 		2C5C058E20C6AEBA0064E4DB /* RNPushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNPushController.swift; sourceTree = "<group>"; };
 		2C5C059020C6AFCA0064E4DB /* realtornote.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = realtornote.plist; sourceTree = "<group>"; };
+		2C8669BE292A6C0F002A2EB7 /* DonationMessgeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationMessgeType.swift; sourceTree = "<group>"; };
 		2C93E4371F2F2AE500AFD09D /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C93E43F1F2F2C2C00AFD09D /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
 		2C93E4411F2F32E000AFD09D /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
 		2C93E4431F2F32EE00AFD09D /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
 		2C93E4451F2F71F900AFD09D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2C95BEC92038007A004DCD95 /* RNTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNTabBarController.swift; sourceTree = "<group>"; };
+		2CA04761292E5856001B539E /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		2CA4678C29252086000AD4F9 /* DonateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewController.swift; sourceTree = "<group>"; };
+		2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSRemoteConfig.swift; sourceTree = "<group>"; };
 		2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeTableViewCell.swift; sourceTree = "<group>"; };
 		2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSUserNotificationManager.swift; sourceTree = "<group>"; };
 		2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewController.swift; sourceTree = "<group>"; };
 		2CB175CA25A5C75D00047833 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+ObservableCollection.swift"; sourceTree = "<group>"; };
 		2CB228AD259CB7AC0047DF32 /* RNAlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewCell.swift; sourceTree = "<group>"; };
+		2CB5AD732923D435001420D1 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		2CB5AD742923D678001420D1 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		2CB6C85F259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNModelController+RNAlarmInfo.swift"; sourceTree = "<group>"; };
 		2CB6C864259B1EE2001BCBE4 /* RNAlarmModel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RNAlarmModel+.swift"; sourceTree = "<group>"; };
 		2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmManager.swift; sourceTree = "<group>"; };
@@ -257,6 +269,7 @@
 				2CDA890C1F41A7290026C966 /* RNQuestionTableViewCell.swift */,
 				2C1DBD8A2037F42B0009E531 /* RNInternetViewController.swift */,
 				2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */,
+				2CA4678C29252086000AD4F9 /* DonateViewController.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -289,6 +302,7 @@
 		2C0D808B1F25C7D9002F58A5 /* realtornote */ = {
 			isa = PBXGroup;
 			children = (
+				2CB5AD702923D253001420D1 /* fonts */,
 				2C1468DA20C6234B00F81270 /* realtornote.entitlements */,
 				2CB0F862258BA00B004F6ED9 /* extensions */,
 				2C155A65211EB44B00028266 /* crash */,
@@ -395,6 +409,8 @@
 				2C19380E1F27300A00E4BCFB /* LSDefaults.swift */,
 				2CDA890E1F41AE0D0026C966 /* RNQuestionInfo.swift */,
 				2CDA89101F41B2B50026C966 /* RNQuestionAnswerInfo.swift */,
+				2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */,
+				2C8669BE292A6C0F002A2EB7 /* DonationMessgeType.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -436,6 +452,7 @@
 				2CB228A8259CA37F0047DF32 /* Reactive+ObservableCollection.swift */,
 				2CB175CA25A5C75D00047833 /* Date+.swift */,
 				2CDBD7F4265544650097A91B /* GADRewardedInterstitialAd+.swift */,
+				2CA04761292E5856001B539E /* UILabel+.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -448,6 +465,15 @@
 				2CFEA1842593423000F56F69 /* LSAlarmSettingsViewController.swift */,
 			);
 			path = alarm;
+			sourceTree = "<group>";
+		};
+		2CB5AD702923D253001420D1 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2CB5AD732923D435001420D1 /* Inter-Medium.ttf */,
+				2CB5AD742923D678001420D1 /* Inter-Bold.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		2CB6C86A259B1FCF001BCBE4 /* alarm */ = {
@@ -558,7 +584,7 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = M29A6H95KD;
 						LastSwiftMigration = 0930;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -621,6 +647,8 @@
 				2C5C059120C6AFCA0064E4DB /* realtornote.plist in Resources */,
 				2C0D80991F25C7D9002F58A5 /* LaunchScreen.storyboard in Resources */,
 				2C0D80961F25C7D9002F58A5 /* Assets.xcassets in Resources */,
+				2CB5AD7A2923E645001420D1 /* Inter-Bold.ttf in Resources */,
+				2CB5AD792923E643001420D1 /* Inter-Medium.ttf in Resources */,
 				2C93E4461F2F71F900AFD09D /* Settings.bundle in Resources */,
 				2C0D80941F25C7D9002F58A5 /* Main.storyboard in Resources */,
 			);
@@ -721,11 +749,13 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/LSCountDownLabel/LSCountDownLabel.framework",
@@ -749,11 +779,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSCountDownLabel.framework",
@@ -784,6 +816,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C8669BD292A1641002A2EB7 /* LSRemoteConfig.swift in Sources */,
+				2C8669BF292A6C0F002A2EB7 /* DonationMessgeType.swift in Sources */,
 				2C4AE7D31F277F2F00644322 /* RNSubjectInfo+.swift in Sources */,
 				2C19381C1F273EFB00E4BCFB /* RNExcelChapter.swift in Sources */,
 				2CBDDFC82596CE3C00039259 /* LSToast.swift in Sources */,
@@ -803,6 +837,7 @@
 				2CBDDFF32596D22B00039259 /* UIView+.swift in Sources */,
 				2C95BECA2038007A004DCD95 /* RNTabBarController.swift in Sources */,
 				2C93E4421F2F32E000AFD09D /* GADInterstitial+.swift in Sources */,
+				2CA4678D29252086000AD4F9 /* DonateViewController.swift in Sources */,
 				2C4AE7CA1F276DB000644322 /* RNModelController+RNPartInfo.swift in Sources */,
 				2CDA890B1F41A5E40026C966 /* RNQuestionViewController.swift in Sources */,
 				2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */,
@@ -820,6 +855,7 @@
 				2CB6C860259B1B2E001BCBE4 /* RNModelController+RNAlarmInfo.swift in Sources */,
 				2C5C058F20C6AEBA0064E4DB /* RNPushController.swift in Sources */,
 				2C1938201F27410400E4BCFB /* RNExcelController+RNExcelSubject.swift in Sources */,
+				2CA04762292E5856001B539E /* UILabel+.swift in Sources */,
 				2CC9AB431F2DDC1300C8357E /* RNFavoriteTableViewController.swift in Sources */,
 				2CDA890D1F41A7290026C966 /* RNQuestionTableViewCell.swift in Sources */,
 				2CB6C865259B1EE2001BCBE4 /* RNAlarmModel+.swift in Sources */,
@@ -1016,23 +1052,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = realtornote/realtornote.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 0;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 201;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M29A6H95KD;
+				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = realtornote/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.21;
+				MARKETING_VERSION = 1.1.22;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = realtornote;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1048,21 +1082,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = realtornote/realtornote.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 0;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M29A6H95KD;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 201;
+				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = realtornote/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.21;
+				MARKETING_VERSION = 1.1.22;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = realtornote;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

@@ -47,7 +47,7 @@
 		<key>FullAd</key>
 		<string>ca-app-pub-9684378399371172/1235951829</string>
 		<key>RewardAd</key>
-		<string>ca-app-pub-9684378399371172/1243565349</string>
+		<string>ca-app-pub-9684378399371172/9328042795</string>
 		<key>TableBanner</key>
 		<string>ca-app-pub-9684378399371172/3132800505</string>
 	</dict>
@@ -217,6 +217,11 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-Medium.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
