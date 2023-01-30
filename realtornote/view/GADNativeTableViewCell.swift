@@ -110,9 +110,6 @@ extension GADNativeTableViewCell : GADNativeAdLoaderDelegate
         if let header = nativeAdView.headlineView as? UILabel{
             header.text = nativeAd.headline;
         }
-        if let advertiser = nativeAdView.advertiserView as? UILabel{
-            advertiser.text = nativeAd.advertiser;
-        }
         self.nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil;
         //self.nativeAdView?.starRatingView?.isHidden = true;// nativeAd.starRating == nil;
         if let button = nativeAdView.callToActionView as? UIButton{

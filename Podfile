@@ -69,7 +69,6 @@ target 'realtornote' do
       #make new file appended public
       XMLDictionaryHeaderBuild.settings = { "ATTRIBUTES" => ["Public"] }
       puts "add #{XMLDictionaryHeader} into XlsxReaderWriter";
-      
 =begin
        installer.pods_project.targets.each do |target|
         case target.name
