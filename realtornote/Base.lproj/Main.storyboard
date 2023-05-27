@@ -1028,7 +1028,7 @@
                             <rect key="frame" x="16" y="0.0" width="351" height="44"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="vZM-E5-oYy">
-                                    <rect key="frame" x="0.0" y="0.0" width="84.666666666666671" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="85" height="44"/>
                                     <color key="backgroundColor" red="0.25882352941176467" green="0.6470588235294118" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="  Q-Net 공인중개사">
@@ -1039,7 +1039,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="HNc-A0-XYK">
-                                    <rect key="frame" x="88.666666666666686" y="0.0" width="85" height="44"/>
+                                    <rect key="frame" x="89" y="0.0" width="84.5" height="44"/>
                                     <color key="backgroundColor" red="0.098039215686274508" green="0.46274509803921571" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="공인중개사    요약집">
@@ -1050,7 +1050,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dAX-sT-Wp6">
-                                    <rect key="frame" x="177.66666666666666" y="0.0" width="84.666666666666657" height="44"/>
+                                    <rect key="frame" x="177.5" y="0.0" width="85" height="44"/>
                                     <color key="backgroundColor" red="1" green="0.62745098039215685" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <state key="normal" title="QuizWin  기출문제">
@@ -1061,15 +1061,15 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="vDY-RK-h5X">
-                                    <rect key="frame" x="266.33333333333331" y="0.0" width="84.666666666666686" height="44"/>
+                                    <rect key="frame" x="266.5" y="0.0" width="84.5" height="44"/>
                                     <color key="backgroundColor" red="1" green="0.75686274509803919" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <state key="normal" title="개발자  후원">
+                                    <state key="normal">
+                                        <string key="title">공인중개사
+   시행령</string>
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="onDonate:" destination="49e-Tb-3d3" eventType="touchUpInside" id="gYo-ji-0Tt"/>
-                                        <action selector="onDonate:" destination="Hvn-QG-hXa" eventType="touchUpInside" id="wvx-dW-4Zd"/>
-                                        <segue destination="qNo-9I-EEW" kind="presentation" modalPresentationStyle="overCurrentContext" id="jN8-j2-EUE"/>
+                                        <action selector="onOpenRealtorRaw:" destination="49e-Tb-3d3" eventType="touchUpInside" id="zmW-4i-uUb"/>
                                     </connections>
                                 </button>
                             </subviews>
