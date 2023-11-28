@@ -15,6 +15,7 @@ class RNTabBarController: UITabBarController {
         static let qnet : URL! = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08");
         static let realtornote : URL! = URL(string: "http://andy1002.cafe24.com/gnu_house");
         static let quiz : URL! = URL(string: "http://landquiz.com/bbs/gichul.php");
+        static let realtorRaw : URL! = URL(string: "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9");
     }
     
     static var startingUrl : URL!{
@@ -218,6 +219,13 @@ class RNTabBarController: UITabBarController {
         Analytics.logLeesamEvent(.openQuizWin, parameters: [:]);
         //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
             self.openWithSafari(Urls.quiz, animated: true);
+        //}
+    }
+    
+    @IBAction func onOpenRealtorRaw(_ button: UIButton) {
+        Analytics.logLeesamEvent(.openRealtorRaw, parameters: [:]);
+        //AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self.openWithSafari(Urls.realtorRaw, animated: true);
         //}
     }
     

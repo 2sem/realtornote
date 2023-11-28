@@ -64,6 +64,7 @@ extension Analytics{
         case openQNet = "Qnet열기"
         case openCommuinty = "커뮤니티열기"
         case openQuizWin = "QuizWin열기"
+        case openRealtorRaw = "공인중개사법열기"
         case pressDonate = "개발자후원클릭"
         case cancelDonation = "후원_다음에하기"
         case donate = "후원하기"
