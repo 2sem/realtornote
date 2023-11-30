@@ -1120,6 +1120,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1137,6 +1138,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1153,6 +1155,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1169,6 +1172,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
