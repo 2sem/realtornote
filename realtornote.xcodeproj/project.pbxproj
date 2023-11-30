@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -58,6 +58,9 @@
 		2CA04762292E5856001B539E /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA04761292E5856001B539E /* UILabel+.swift */; };
 		2CA4678D29252086000AD4F9 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4678C29252086000AD4F9 /* DonateViewController.swift */; };
 		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
+		2CAD75942B184FB000E1E345 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD75932B184FB000E1E345 /* UIView+.swift */; };
+		2CAD75972B1857C600E1E345 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = 2CAD75962B1857C600E1E345 /* Quick */; };
+		2CAD759A2B18591900E1E345 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 2CAD75992B18591900E1E345 /* Nimble */; };
 		2CB0F864258BA051004F6ED9 /* LSUserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */; };
 		2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */; };
 		2CB175CB25A5C75D00047833 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB175CA25A5C75D00047833 /* Date+.swift */; };
@@ -166,6 +169,7 @@
 		2CA4678C29252086000AD4F9 /* DonateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewController.swift; sourceTree = "<group>"; };
 		2CA7A3D02927C63F00AB82F7 /* LSRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSRemoteConfig.swift; sourceTree = "<group>"; };
 		2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeTableViewCell.swift; sourceTree = "<group>"; };
+		2CAD75932B184FB000E1E345 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSUserNotificationManager.swift; sourceTree = "<group>"; };
 		2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNAlarmTableViewController.swift; sourceTree = "<group>"; };
 		2CB175CA25A5C75D00047833 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CAD759A2B18591900E1E345 /* Nimble in Frameworks */,
+				2CAD75972B1857C600E1E345 /* Quick in Frameworks */,
 				0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +340,7 @@
 		2C0D80A21F25C7DA002F58A5 /* realtornoteTests */ = {
 			isa = PBXGroup;
 			children = (
+				2CAD75922B184F8C00E1E345 /* extensions */,
 				2C0D80A31F25C7DA002F58A5 /* realtornoteTests.swift */,
 				2C0D80A51F25C7DA002F58A5 /* Info.plist */,
 			);
@@ -443,6 +450,14 @@
 			path = push;
 			sourceTree = "<group>";
 		};
+		2CAD75922B184F8C00E1E345 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2CAD75932B184FB000E1E345 /* UIView+.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
 		2CB0F862258BA00B004F6ED9 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +543,10 @@
 			dependencies = (
 			);
 			name = realtornote;
+			packageProductDependencies = (
+				2CAD75962B1857C600E1E345 /* Quick */,
+				2CAD75992B18591900E1E345 /* Nimble */,
+			);
 			productName = realtornote;
 			productReference = 2C0D80891F25C7D9002F58A5 /* realtornote.app */;
 			productType = "com.apple.product-type.application";
@@ -621,6 +640,10 @@
 				ko,
 			);
 			mainGroup = 2C0D80801F25C7D9002F58A5;
+			packageReferences = (
+				2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */,
+				2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */,
+			);
 			productRefGroup = 2C0D808A1F25C7D9002F58A5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -892,6 +915,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CAD75942B184FB000E1E345 /* UIView+.swift in Sources */,
 				2C0D80A41F25C7DA002F58A5 /* realtornoteTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1048,7 +1072,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1066,10 +1091,14 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				INFOPLIST_FILE = realtornote/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.1.25;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1095,10 +1124,14 @@
 				CURRENT_PROJECT_VERSION = 201;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				INFOPLIST_FILE = realtornote/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.1.25;
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1121,7 +1154,11 @@
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -1139,7 +1176,11 @@
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -1156,7 +1197,11 @@
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -1173,7 +1218,11 @@
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = realtornoteUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.y2k.realtornoteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -1222,6 +1271,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Quick.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.0.0;
+			};
+		};
+		2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble.git";
+			requirement = {
+				kind = exactVersion;
+				version = 12.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2CAD75962B1857C600E1E345 /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */;
+			productName = Quick;
+		};
+		2CAD75992B18591900E1E345 /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2C4AE7BE1F27581E00644322 /* realtornote.xcdatamodeld */ = {
