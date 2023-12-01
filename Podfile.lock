@@ -133,24 +133,18 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
-  - KakaoOpenSDK (1.23.10):
-    - KakaoOpenSDK/KakaoCommon (= 1.23.10)
-    - KakaoOpenSDK/KakaoLink (= 1.23.10)
-    - KakaoOpenSDK/KakaoMessageTemplate (= 1.23.10)
-    - KakaoOpenSDK/KakaoNavi (= 1.23.10)
-    - KakaoOpenSDK/KakaoOpenSDK (= 1.23.10)
-    - KakaoOpenSDK/KakaoPlusFriend (= 1.23.10)
-  - KakaoOpenSDK/KakaoCommon (1.23.10)
-  - KakaoOpenSDK/KakaoLink (1.23.10):
-    - KakaoOpenSDK/KakaoCommon
-    - KakaoOpenSDK/KakaoMessageTemplate
-  - KakaoOpenSDK/KakaoMessageTemplate (1.23.10)
-  - KakaoOpenSDK/KakaoNavi (1.23.10):
-    - KakaoOpenSDK/KakaoCommon
-  - KakaoOpenSDK/KakaoOpenSDK (1.23.10):
-    - KakaoOpenSDK/KakaoMessageTemplate
-  - KakaoOpenSDK/KakaoPlusFriend (1.23.10):
-    - KakaoOpenSDK/KakaoCommon
+  - KakaoSDKCommon (2.19.0):
+    - KakaoSDKCommon/Common (= 2.19.0)
+    - KakaoSDKCommon/Network (= 2.19.0)
+  - KakaoSDKCommon/Common (2.19.0)
+  - KakaoSDKCommon/Network (2.19.0):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.19.0)
+  - KakaoSDKShare (2.19.0):
+    - KakaoSDKCommon (= 2.19.0)
+    - KakaoSDKTemplate (= 2.19.0)
+  - KakaoSDKTemplate (2.19.0):
+    - KakaoSDKCommon/Common (= 2.19.0)
   - LSCountDownLabel (0.0.3)
   - LSExtensions (0.1.20)
   - nanopb (2.30909.1):
@@ -189,7 +183,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/RemoteConfig
   - GADManager
-  - KakaoOpenSDK
+  - KakaoSDKShare
   - LSCountDownLabel
   - LSExtensions
   - ProgressWebViewController
@@ -224,7 +218,9 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUserMessagingPlatform
     - GoogleUtilities
-    - KakaoOpenSDK
+    - KakaoSDKCommon
+    - KakaoSDKShare
+    - KakaoSDKTemplate
     - LSCountDownLabel
     - LSExtensions
     - nanopb
@@ -264,7 +260,9 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleUserMessagingPlatform: dce302b8f1b84d6e945812ee7a15c3f65a102cbf
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
-  KakaoOpenSDK: 4ca85d4c8a50dd42d4713981dd249af9080d7563
+  KakaoSDKCommon: d642a52ccf618036478643694212c072d5eceea6
+  KakaoSDKShare: 07a70ea20cea3b1c507991eac600800a42609590
+  KakaoSDKTemplate: bb6cc31aec26a7f876fb66ee4c8882f9ce1ca2d5
   LSCountDownLabel: 28be4e980e0799fe9076b0610cda08a268537513
   LSExtensions: 6149f08a8970a5b38d05450b5eef570c6564fd8d
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
@@ -282,6 +280,6 @@ SPEC CHECKSUMS:
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: dc7ea596123585e7a20497b648efbb5239a387fb
+PODFILE CHECKSUM: 84c2f67d1b91bd6414ba9a047dd975a2d2e8b49d
 
 COCOAPODS: 1.14.2
