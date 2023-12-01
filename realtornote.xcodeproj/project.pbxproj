@@ -641,8 +641,8 @@
 			);
 			mainGroup = 2C0D80801F25C7D9002F58A5;
 			packageReferences = (
-				2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */,
-				2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */,
+				2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick.git" */,
+				2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble.git" */,
 			);
 			productRefGroup = 2C0D808A1F25C7D9002F58A5 /* Products */;
 			projectDirPath = "";
@@ -784,6 +784,9 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseSharedSwift/FirebaseSharedSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/KakaoSDKCommon/KakaoSDKCommon.framework",
+				"${BUILT_PRODUCTS_DIR}/KakaoSDKShare/KakaoSDKShare.framework",
+				"${BUILT_PRODUCTS_DIR}/KakaoSDKTemplate/KakaoSDKTemplate.framework",
 				"${BUILT_PRODUCTS_DIR}/LSCountDownLabel/LSCountDownLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
@@ -818,6 +821,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseSharedSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKCommon.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKTemplate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSCountDownLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
@@ -1273,7 +1279,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */ = {
+		2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Quick.git";
 			requirement = {
@@ -1281,7 +1287,7 @@
 				version = 7.0.0;
 			};
 		};
-		2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */ = {
+		2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Nimble.git";
 			requirement = {
@@ -1294,12 +1300,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		2CAD75962B1857C600E1E345 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */;
+			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick.git" */;
 			productName = Quick;
 		};
 		2CAD75992B18591900E1E345 /* Nimble */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */;
+			package = 2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble.git" */;
 			productName = Nimble;
 		};
 /* End XCSwiftPackageProductDependency section */

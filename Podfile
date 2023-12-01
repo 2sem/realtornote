@@ -22,7 +22,7 @@ target 'realtornote' do
   
   pod 'Firebase/RemoteConfig'
   
-  pod 'KakaoOpenSDK'
+  pod 'KakaoSDKShare'
   pod 'ProgressWebViewController'
   #pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
   pod 'LSExtensions'
