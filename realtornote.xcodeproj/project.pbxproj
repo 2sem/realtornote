@@ -641,8 +641,8 @@
 			);
 			mainGroup = 2C0D80801F25C7D9002F58A5;
 			packageReferences = (
-				2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick.git" */,
-				2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble.git" */,
+				2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */,
+				2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */,
 			);
 			productRefGroup = 2C0D808A1F25C7D9002F58A5 /* Products */;
 			projectDirPath = "";
@@ -1279,7 +1279,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick.git" */ = {
+		2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Quick.git";
 			requirement = {
@@ -1287,7 +1287,7 @@
 				version = 7.0.0;
 			};
 		};
-		2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble.git" */ = {
+		2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Nimble.git";
 			requirement = {
@@ -1300,12 +1300,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		2CAD75962B1857C600E1E345 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick.git" */;
+			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */;
 			productName = Quick;
 		};
 		2CAD75992B18591900E1E345 /* Nimble */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble.git" */;
+			package = 2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */;
 			productName = Nimble;
 		};
 /* End XCSwiftPackageProductDependency section */
