@@ -102,11 +102,26 @@ platform :ios do
 
     @full_app_verion = "#{@app_version}(#{@new_build_version})"
   end
+  
+  def installSPM
+    spm(
+      command: "resolve",
+      build_path: "./build",
+      configuration: "release"
+    )
+    
+    spm(
+      command: "build",
+      build_path: "./build",
+      configuration: "release"
+    )
+  end
 
   def buildiOS(changelog: 'build from fastlane', isReleasing: false)
     loadiOSConfigs()
     readySigning()
     setiOSVersions()
+    installSPM()
     
     puts "iOS 운영서버 빌드 시작: #{@full_app_verion}"
     build_app(
