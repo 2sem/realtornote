@@ -59,8 +59,6 @@
 		2CA4678D29252086000AD4F9 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4678C29252086000AD4F9 /* DonateViewController.swift */; };
 		2CAD5FE924CD246E002C61E4 /* GADNativeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD5FE824CD246E002C61E4 /* GADNativeTableViewCell.swift */; };
 		2CAD75942B184FB000E1E345 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAD75932B184FB000E1E345 /* UIView+.swift */; };
-		2CAD75972B1857C600E1E345 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = 2CAD75962B1857C600E1E345 /* Quick */; };
-		2CAD759A2B18591900E1E345 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 2CAD75992B18591900E1E345 /* Nimble */; };
 		2CB0F864258BA051004F6ED9 /* LSUserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F863258BA051004F6ED9 /* LSUserNotificationManager.swift */; };
 		2CB0F86E258BAC47004F6ED9 /* RNAlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB0F86D258BAC47004F6ED9 /* RNAlarmTableViewController.swift */; };
 		2CB175CB25A5C75D00047833 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB175CA25A5C75D00047833 /* Date+.swift */; };
@@ -73,6 +71,8 @@
 		2CB6C86C259B2005001BCBE4 /* RNAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C86B259B2005001BCBE4 /* RNAlarmManager.swift */; };
 		2CB6C8A2259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C8A1259B3D16001BCBE4 /* RNAlarmModel+LSUserNotification.swift */; };
 		2CB6C8AE259B751D001BCBE4 /* RNAlarmTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6C8AD259B751D001BCBE4 /* RNAlarmTableViewModel.swift */; };
+		2CB7CA062B1B7FAD00FAA451 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = 2CB7CA052B1B7FAD00FAA451 /* Quick */; };
+		2CB7CA082B1B7FB400FAA451 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 2CB7CA072B1B7FB400FAA451 /* Nimble */; };
 		2CBA44A32906DAB6001537CC /* .github in Resources */ = {isa = PBXBuildFile; fileRef = 2CBA44A22906DAB6001537CC /* .github */; };
 		2CBDDFC82596CE3C00039259 /* LSToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFC72596CE3C00039259 /* LSToast.swift */; };
 		2CBDDFEE2596D1D100039259 /* LSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBDDFED2596D1D100039259 /* LSLabel.swift */; };
@@ -214,8 +214,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CAD759A2B18591900E1E345 /* Nimble in Frameworks */,
-				2CAD75972B1857C600E1E345 /* Quick in Frameworks */,
 				0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,6 +222,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB7CA082B1B7FB400FAA451 /* Nimble in Frameworks */,
+				2CB7CA062B1B7FAD00FAA451 /* Quick in Frameworks */,
 				7293195834CBE6FD9113BC82 /* Pods_realtornoteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,8 +544,6 @@
 			);
 			name = realtornote;
 			packageProductDependencies = (
-				2CAD75962B1857C600E1E345 /* Quick */,
-				2CAD75992B18591900E1E345 /* Nimble */,
 			);
 			productName = realtornote;
 			productReference = 2C0D80891F25C7D9002F58A5 /* realtornote.app */;
@@ -566,6 +564,10 @@
 				2C0D80A11F25C7DA002F58A5 /* PBXTargetDependency */,
 			);
 			name = realtornoteTests;
+			packageProductDependencies = (
+				2CB7CA052B1B7FAD00FAA451 /* Quick */,
+				2CB7CA072B1B7FB400FAA451 /* Nimble */,
+			);
 			productName = realtornoteTests;
 			productReference = 2C0D809F1F25C7DA002F58A5 /* realtornoteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1298,12 +1300,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2CAD75962B1857C600E1E345 /* Quick */ = {
+		2CB7CA052B1B7FAD00FAA451 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */;
 			productName = Quick;
 		};
-		2CAD75992B18591900E1E345 /* Nimble */ = {
+		2CB7CA072B1B7FB400FAA451 /* Nimble */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */;
 			productName = Nimble;
