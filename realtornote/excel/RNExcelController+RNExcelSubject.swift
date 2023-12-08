@@ -43,7 +43,7 @@ extension RNExcelController{
                 break;
             }
             
-            subject.id = Int(id) ?? 0;
+            subject.id = Int(Double(id) ?? 0);
             let name = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.name, line: i)?.stringValue() ?? "";
             let detail = self.getSubjectCell(columns: columns, column: RNExcelSubject.FieldNames.detail, line: i)?.stringValue() ?? "";
             
