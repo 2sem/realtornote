@@ -51,14 +51,14 @@ extension RNExcelController{
                 break;
             }
             
-            chapter.id = Int(id) ?? 0;
+            chapter.id = Int(Double(id) ?? 0);
             let seq = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.seq, line: i)?.value ?? "";
             let name = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.name, line: i)?.stringValue() ?? "";
             let subject = self.getChapterCell(columns: columns, column: RNExcelChapter.FieldNames.subject, line: i)?.value ?? "";
             
             chapter.name = name;
-            chapter.seq = Int(seq) ?? 0;
-            chapter.subject = Int(subject) ?? 0;
+            chapter.seq = Int(Double(seq) ?? 0);
+            chapter.subject = Int(Double(subject) ?? 0);
             
             print("add new chapter. id[\(chapter.id)] seq[\(chapter.seq)] subject[\(chapter.subject)] name[\(chapter.name)]");
             values.append(chapter);
@@ -66,6 +66,7 @@ extension RNExcelController{
             if expand{
                 if expand{
                     parts.filter({ (part) -> Bool in
+                        debugPrint("parts.filter part.chapter[\(part.chapter)] chapter.id[\(chapter.id)]")
                         return part.chapter == chapter.id;
                     }).forEach({ (part) in
                         chapter.parts.append(part);
