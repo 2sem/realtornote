@@ -154,7 +154,6 @@ PODS:
   - KakaoSDKTemplate (2.21.0):
     - KakaoSDKCommon/Common (= 2.21.0)
   - LSCountDownLabel (0.0.3)
-  - LSExtensions (0.1.22)
   - nanopb (2.30910.0):
     - nanopb/decode (= 2.30910.0)
     - nanopb/encode (= 2.30910.0)
@@ -193,7 +192,6 @@ DEPENDENCIES:
   - GADManager
   - KakaoSDKShare
   - LSCountDownLabel
-  - LSExtensions
   - ProgressWebViewController
   - RxCocoa
   - RxDataSources
@@ -230,7 +228,6 @@ SPEC REPOS:
     - KakaoSDKShare
     - KakaoSDKTemplate
     - LSCountDownLabel
-    - LSExtensions
     - nanopb
     - ProgressWebViewController
     - PromisesObjC
@@ -272,7 +269,6 @@ SPEC CHECKSUMS:
   KakaoSDKShare: b6e6d6dc128716fc03d20d48d6bbc3b92cee7656
   KakaoSDKTemplate: ac5a0cdd4da9700eaf1cf7ddc5f30be5ec8cf2da
   LSCountDownLabel: 28be4e980e0799fe9076b0610cda08a268537513
-  LSExtensions: 1dd9722a0c0dfe67dd7dc3450c0244b7e2dfff0e
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   ProgressWebViewController: 0ce9222cfabaa07918d266c210c62255872820f4
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -288,6 +284,6 @@ SPEC CHECKSUMS:
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: 84c2f67d1b91bd6414ba9a047dd975a2d2e8b49d
+PODFILE CHECKSUM: 3bc325ad08f02a4cfe07711b877a221e3859c581
 
 COCOAPODS: 1.15.2

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB359B9258AE056390FB4C12 /* Pods_realtornote.framework */; };
+		2C0316932BA1A29200A5BF6F /* LSExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 2C0316922BA1A29200A5BF6F /* LSExtensions */; };
 		2C04BD1E1F286DE60010CD69 /* RNSubjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C04BD1D1F286DE60010CD69 /* RNSubjectViewController.swift */; };
 		2C0D808D1F25C7D9002F58A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D808C1F25C7D9002F58A5 /* AppDelegate.swift */; };
 		2C0D80911F25C7D9002F58A5 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D80901F25C7D9002F58A5 /* SecondViewController.swift */; };
@@ -215,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D7884B12B820EF3FBD64900 /* Pods_realtornote.framework in Frameworks */,
+				2C0316932BA1A29200A5BF6F /* LSExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,6 +546,7 @@
 			);
 			name = realtornote;
 			packageProductDependencies = (
+				2C0316922BA1A29200A5BF6F /* LSExtensions */,
 			);
 			productName = realtornote;
 			productReference = 2C0D80891F25C7D9002F58A5 /* realtornote.app */;
@@ -645,6 +648,7 @@
 			packageReferences = (
 				2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */,
 				2CAD75982B18591900E1E345 /* XCRemoteSwiftPackageReference "Nimble" */,
+				2C0316912BA1A29200A5BF6F /* XCRemoteSwiftPackageReference "LSExtensions" */,
 			);
 			productRefGroup = 2C0D808A1F25C7D9002F58A5 /* Products */;
 			projectDirPath = "";
@@ -790,7 +794,6 @@
 				"${BUILT_PRODUCTS_DIR}/KakaoSDKShare/KakaoSDKShare.framework",
 				"${BUILT_PRODUCTS_DIR}/KakaoSDKTemplate/KakaoSDKTemplate.framework",
 				"${BUILT_PRODUCTS_DIR}/LSCountDownLabel/LSCountDownLabel.framework",
-				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressWebViewController/ProgressWebViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
@@ -827,7 +830,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKTemplate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSCountDownLabel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressWebViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
@@ -1283,6 +1285,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2C0316912BA1A29200A5BF6F /* XCRemoteSwiftPackageReference "LSExtensions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/2sem/LSExtensions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.22;
+			};
+		};
 		2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Quick/Quick.git";
@@ -1302,6 +1312,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2C0316922BA1A29200A5BF6F /* LSExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C0316912BA1A29200A5BF6F /* XCRemoteSwiftPackageReference "LSExtensions" */;
+			productName = LSExtensions;
+		};
 		2CB7CA052B1B7FAD00FAA451 /* Quick */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2CAD75952B1857C600E1E345 /* XCRemoteSwiftPackageReference "Quick" */;
