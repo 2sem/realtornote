@@ -107,7 +107,6 @@ platform :ios do
     loadiOSConfigs()
     readySigning()
     setiOSVersions()
-    installSPM()
     
     puts "iOS 운영서버 빌드 시작: #{@full_app_verion}"
     build_app(
