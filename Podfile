@@ -25,7 +25,6 @@ target 'realtornote' do
   pod 'KakaoSDKShare'
   pod 'ProgressWebViewController'
   #pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
-  pod 'LSExtensions'
   #pod 'LSCountDownLabel', :path => '~/Projects/leesam/pods/LSCountDownLabel/src/LSCountDownLabel'
   pod 'LSCountDownLabel'
   pod 'GADManager'#, :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
