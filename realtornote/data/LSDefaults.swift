@@ -200,6 +200,8 @@ class LSDefaults{
         }
     }
     
+    static var isFirstLaunch: Bool { LaunchCount <= 1 }
+    
     static var FavoriteSortType : Int{
         get{
             //UIApplication.shared.version
