@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import StringLogger
+import AppTrackingTransparency
 
 class LSDefaults{
     static var Defaults : UserDefaults{
@@ -189,6 +190,7 @@ class LSDefaults{
     static func increaseLaunchCount(){
         self.LaunchCount = self.LaunchCount.advanced(by: 1);
     }
+    
     static var LaunchCount : Int{
         get{
             //UIApplication.shared.version
@@ -264,8 +266,8 @@ extension LSDefaults{
             return false;
         }
         
-        guard AdsShownCount >= 3 else{
-            AdsShownCount += 1;
+        guard LaunchCount > 2 else{
+//            AdsShownCount += 1;
             return false;
         }
         
@@ -273,6 +275,7 @@ extension LSDefaults{
             return false;
         }
         
+        debugPrint("ATTrackingManager.trackingAuthorizationStatus. \(ATTrackingManager.trackingAuthorizationStatus)")
         AppDelegate.sharedGADManager?.requestPermission(completion: { (result) in
             AdsTrackingRequested = true;
         })
