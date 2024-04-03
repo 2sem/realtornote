@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     var reviewManager : ReviewManager?;
     let reviewInterval = 60;
     static var firebase : Messaging?;
+    var appPermissionRequested = false
     
     override init() {
         super.init();
@@ -163,6 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("app enter background");
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -176,15 +178,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        print("app enter foreground");
+        
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("app become active");
+        
+        defer {
+            LSDefaults.increaseLaunchCount();
+        }
+        
         guard LSDefaults.LaunchCount % reviewInterval > 0 else{
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
             }else{
                 self.reviewManager?.show();
             }
-            LSDefaults.increaseLaunchCount();
             return;
         }
+        
+        #if DEBUG
+        let test = true;
+        #else
+        let test = false;
+        #endif
+        
+        appPermissionRequested = appPermissionRequested || LSDefaults.requestAppTrackingIfNeed()
+        guard appPermissionRequested else{
+            debugPrint("App doesn't allow launching Ads. appPermissionRequested[\(appPermissionRequested)]")
+            return;
+        }
+        
+        guard LSDefaults.AdsTrackingRequested else {
+            return
+        }
+        
+        AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
+            
+        })
         
         /*guard self.reviewManager?.canShow ?? false else{
             //self.fullAd?.show();
@@ -195,23 +228,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         }
         
         self.reviewManager?.show();*/
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        print("app become active");
-        #if DEBUG
-        let test = true;
-        #else
-        let test = false;
-        #endif
-        guard !LSDefaults.requestAppTrackingIfNeed() else{
-            return;
-        }
-        
-        AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
-            
-        })
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
