@@ -83,10 +83,6 @@ let project = Project(
                     "CFBundleURLTypes": .array([[
                         "CFBundleTypeRole": "Editor",
                         "CFBundleURLSchemes": .array(["kakaod3be13c89a776659651eef478d4e4268"])
-                    ], [
-                        "CFBundleTypeRole": "Editor",
-                        "CFBundleURLName": "com.credif.relatedstocks",
-                        "CFBundleURLSchemes": .array(["relatedstockslink"])
                     ]]),
                     "KAKAO_APP_KEY": "d3be13c89a776659651eef478d4e4268",
                     "LSApplicationQueriesSchemes": .array(["kakaotalk-5.9.7",

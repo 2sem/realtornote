@@ -8,5 +8,5 @@
 import Foundation
 
 public extension String {
-    static var appBundleId : String { "com.credif.relatedstocks" }
+    static var appBundleId : String { "com.y2k.realtornote" }
 }
