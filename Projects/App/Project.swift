@@ -80,18 +80,6 @@ let project = Project(
                             "www.quizwin.co.kr" : "",
                         ]
                     ],
-                    "CFBundleURLTypes": .array([[
-                        "CFBundleTypeRole": "Editor",
-                        "CFBundleURLSchemes": .array(["kakaod3be13c89a776659651eef478d4e4268"])
-                    ]]),
-                    "KAKAO_APP_KEY": "d3be13c89a776659651eef478d4e4268",
-                    "LSApplicationQueriesSchemes": .array(["kakaotalk-5.9.7",
-                                                          "kakaod3be13c89a776659651eef478d4e4268",
-                                                          "kakaolink",
-                                                          "fb",
-                                                          "fbapi",
-                                                          "fb-message-api",
-                                                          "fbauth2"]),
                     "UIViewControllerBasedStatusBarAppearance": true
                 ]
             ),

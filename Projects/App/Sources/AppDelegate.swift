@@ -127,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
             self.performPushCommand(title, body: body, category: category, payload: push);
             print("launching with push[\(push)]");*/
         }else if let _ = launchOptions?[UIApplication.LaunchOptionsKey.url] as? URL{
-            //self.openKakaoUrl(launchUrl);
+            //
         }
         
         return true
@@ -168,10 +168,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        guard url.scheme == "kakaod3be13c89a776659651eef478d4e4268" else {
-            return false;
-        }
-        
         //RNInfoTableViewController.startingQuery = url;
         return true;
     }
