@@ -84,7 +84,12 @@ let project = Project(
                 ]
             ),
             sources: ["Sources/**"],
-            resources: ["Resources/**"],
+            resources: [
+                .glob(
+                    pattern: "Resources/**",
+                    excluding: ["Resources/Databases/realtornote.xcdatamodeld/**"]
+                )
+            ],
             dependencies: [
                 .Projects.ThirdParty,
                 .Projects.DynamicThirdParty,
