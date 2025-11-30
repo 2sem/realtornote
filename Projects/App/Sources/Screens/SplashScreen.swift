@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SplashScreen: View {
     @StateObject private var migrationManager = DataMigrationManager()
+    @Binding var isDone: Bool
     
     var body: some View {
         ZStack {
@@ -115,6 +116,12 @@ struct SplashScreen: View {
     
     private func startMigrationProcess() {
         Task {
+            defer {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    isDone = true
+                }
+            }
+            
             guard await migrationManager.checkAndMigrateIfNeeded() else {
 //                let syncService = ExcelSyncService(context: modelContext)
                 return
@@ -126,5 +133,5 @@ struct SplashScreen: View {
 }
 
 #Preview {
-    SplashScreen()
+    SplashScreen(isDone: .constant(false))
 }
