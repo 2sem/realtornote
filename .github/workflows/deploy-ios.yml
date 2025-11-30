@@ -25,6 +25,7 @@ jobs:
         IOS_PROFILE_PATH: 'profile.mobileprovision'
         IOS_KEY_PATH: 'api-key.json'
         GPG_PRIVATE_KEY_PATH: 'private.gpg'
+        TUIST_CONFIG_TOKEN: ${{ secrets.TUIST_CONFIG_TOKEN }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
@@ -58,9 +59,13 @@ jobs:
         run: |
           mise x -- tuist install
 
+      - name: Set up Tuist Cache
+        run: |
+          mise x -- tuist setup cache
+
       - name: Build Tuist
         run: |
-            mise x -- tuist build
+          mise x -- tuist build
 
       - name: Import signing certificate
         env:
