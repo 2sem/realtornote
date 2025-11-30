@@ -42,6 +42,8 @@ class LSDefaults{
         
         static let AdsShownCount = "AdsShownCount";
         static let AdsTrackingRequested = "AdsTrackingRequested";
+
+        static let DataMigrationCompleted = "DataMigrationCompleted";
     }
     
     static var LastFullADShown : Date{
@@ -226,9 +228,15 @@ class LSDefaults{
         }
     }
     
-    
-    
-    
+    static var dataMigrationCompleted : Bool{
+        get{
+            return Defaults.bool(forKey: Keys.DataMigrationCompleted);
+        }
+        
+        set(value){
+            Defaults.set(value, forKey: Keys.DataMigrationCompleted);
+        }
+    }
 }
 
 extension LSDefaults{
