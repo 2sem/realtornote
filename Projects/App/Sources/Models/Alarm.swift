@@ -9,25 +9,14 @@ final class Alarm {
     var time: Int64
     var title: String
     var weekdays: Int16
-    var subjectId: String?
+    var subject: Subject?
     
-    init(id: Int64, enabled: Bool, time: Int64, title: String, weekdays: Int16, subjectId: String? = nil) {
+    init(id: Int64, enabled: Bool, time: Int64, title: String, weekdays: Int16, subject: Subject? = nil) {
         self.id = id
         self.enabled = enabled
         self.time = time
         self.title = title
         self.weekdays = weekdays
-        self.subjectId = subjectId
-    }
-    
-    convenience init(from coreDataAlarm: RNAlarmModel) {
-        self.init(
-            id: coreDataAlarm.id,
-            enabled: coreDataAlarm.enabled,
-            time: coreDataAlarm.time,
-            title: coreDataAlarm.title ?? "",
-            weekdays: coreDataAlarm.weekdays,
-            subjectId: coreDataAlarm.subject?.objectID.uriRepresentation().absoluteString
-        )
+        self.subject = subject
     }
 }

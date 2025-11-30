@@ -115,7 +115,10 @@ struct SplashScreen: View {
     
     private func startMigrationProcess() {
         Task {
-            _ = await migrationManager.checkAndMigrateIfNeeded()
+            guard await migrationManager.checkAndMigrateIfNeeded() else {
+//                let syncService = ExcelSyncService(context: modelContext)
+                return
+            }
             
             // TODO: Navigate to main app after migration completes
         }
