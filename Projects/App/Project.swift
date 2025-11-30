@@ -60,7 +60,6 @@ let project = Project(
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchStoryboardName": "LaunchScreen",
-                    "UIMainStoryboardFile": "Main",
                     "UIUserInterfaceStyle": "Dark",
                     "GADApplicationIdentifier": "ca-app-pub-9684378399371172~7124016405",
                     "GADUnitIdentifiers": ["Donate" : "ca-app-pub-9684378399371172/9105067669",
