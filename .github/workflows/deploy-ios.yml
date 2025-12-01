@@ -153,12 +153,12 @@ jobs:
 
       - name: Export IPA
         env:
-          ARCHIVE_PATH: './build/App.xcarchive'
-          EXPORT_PATH: './build'
+          ARCHIVE_PATH: ./build/App.xcarchive
+          EXPORT_PATH: ./build
         run: |
           mise x -- tuist xcodebuild -exportArchive \
-            -archivePath "$ARCHIVE_PATH" \
-            -exportPath "$EXPORT_PATH" \
+            -archivePath $ARCHIVE_PATH \
+            -exportPath $EXPORT_PATH \
             -exportOptionsPlist ./exportOptions.plist
             
       - name: Upload to TestFlight/App Store
