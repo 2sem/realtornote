@@ -38,19 +38,19 @@ jobs:
         run: |
           echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 -d -o $GPG_PRIVATE_KEY_PATH
           gpg --batch --no-tty --yes --import $GPG_PRIVATE_KEY_PATH
-            
+
       - name: Install Encrypter
         run: |
             brew install git-secret
-      
+
       - name: Decrypt Secret Data
         run: |
           git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
-      
+
       - name: Install Mise
         run: |
             brew install mise
-  
+
       - name: Install Tuist
         run: |
           mise install tuist
@@ -62,10 +62,6 @@ jobs:
       - name: Set up Tuist Cache
         run: |
           mise x -- tuist setup cache
-
-      - name: Build Tuist
-        run: |
-          mise x -- tuist build
 
       - name: Import signing certificate
         env:
@@ -81,15 +77,6 @@ jobs:
           echo "${{ secrets.IOS_PROFILE_DATA }}" > $IOS_PROFILE_PATH_BASE64
           base64 --decode -i $IOS_PROFILE_PATH_BASE64 -o $IOS_PROFILE_PATH
 
-      - name: Remove Network Security Exceptions
-        continue-on-error: true
-        run: |
-          /usr/libexec/PlistBuddy -c "delete :NSAppTransportSecurity:NSExceptionDomains" ./ios/$PRODUCT_NAME/Info.plist
-
-      - name: Upgrade fastlane
-        run: |
-          sudo gem install fastlane
-
       - name: Export Fastlane App Store Key
         env:
           API_KEY_PATH_BASE64: $IOS_KEY_PATH.base64
@@ -97,8 +84,16 @@ jobs:
           echo '${{ secrets.IOS_API_KEY }}' > $API_KEY_PATH_BASE64
           base64 --decode -i $API_KEY_PATH_BASE64 -o $IOS_KEY_PATH
           rm $API_KEY_PATH_BASE64
-          
-      - name: Build/Upload app
+
+      - name: Generate Xcode Project
+        run: |
+          mise x -- tuist generate
+
+      - name: Upgrade fastlane
+        run: |
+          sudo gem install fastlane
+
+      - name: Setup Certificates and Increment Version
         env:
           PACKAGE_NAME: 'com.y2k.realtornote'
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
@@ -106,4 +101,63 @@ jobs:
           IOS_KEYCHAIN: ${{ secrets.IOS_KEYCHAIN }}
           IOS_KEYCHAIN_PWD: ${{ secrets.IOS_KEYCHAIN_PWD }}
         run: |
-          fastlane ios release description:'${{ github.event.inputs.body }}' isReleasing:${{ github.event.inputs.isReleasing }}
+          fastlane ios setup
+
+      - name: Build and Archive App
+        env:
+          PACKAGE_NAME: 'com.y2k.realtornote'
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          WORKSPACE="./$PRODUCT_NAME.xcworkspace"
+          SCHEME="App"
+          ARCHIVE_PATH="./build/App.xcarchive"
+          EXPORT_PATH="./build"
+
+          # Build archive
+          mise x -- tuist xcodebuild -workspace "$WORKSPACE" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -archivePath "$ARCHIVE_PATH" \
+            -allowProvisioningUpdates \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="$PRODUCT_NAME" \
+            clean archive
+
+          # Create export options plist
+          cat > ./exportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>app-store</string>
+            <key>teamID</key>
+            <string>$TEAM_ID</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>$PACKAGE_NAME</key>
+              <string>$PRODUCT_NAME</string>
+            </dict>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>uploadSymbols</key>
+            <true/>
+            <key>compileBitcode</key>
+            <false/>
+          </dict>
+          </plist>
+          EOF
+
+          # Export IPA
+          mise x -- tuist xcodebuild -exportArchive \
+            -archivePath "$ARCHIVE_PATH" \
+            -exportPath "$EXPORT_PATH" \
+            -exportOptionsPlist ./exportOptions.plist
+
+      - name: Upload to TestFlight/App Store
+        env:
+          PACKAGE_NAME: 'com.y2k.realtornote'
+        run: |
+          fastlane ios upload description:'${{ github.event.inputs.body }}' isReleasing:${{ github.event.inputs.isReleasing }}
