@@ -135,7 +135,7 @@ jobs:
       - name: Build and Archive App
         env:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          WORKSPACE: ./$PRODUCT_NAME.xcworkspace
+          WORKSPACE: $PRODUCT_NAME.xcworkspace
           SCHEME: App
           ARCHIVE_PATH: ./build/App.xcarchive
         run: |
