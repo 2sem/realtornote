@@ -117,6 +117,93 @@ The app follows a unique content delivery architecture:
 
 **Reactive Pattern**: RxSwift/RxCocoa are available for reactive programming patterns, particularly in ViewModels.
 
+## SwiftUI Migration (In Progress)
+
+The app is being migrated from UIKit to SwiftUI with a hybrid approach:
+
+### Migration Architecture
+
+**App Entry Point** (`Projects/App/Sources/App.swift`):
+- SwiftUI `@main` with `@UIApplicationDelegateAdaptor` to retain existing AppDelegate
+- ModelContainer created for SwiftData models (Subject, Chapter, Part, Favorite, Alarm)
+- Splash screen overlays main screen using ZStack pattern
+- Configuration: not in memory, autosave disabled, undo enabled
+
+### Data Migration Strategy
+
+**Core Data → SwiftData Migration**:
+1. **ExcelSyncService** syncs Excel content to SwiftData first
+2. **DataMigrationManager** migrates Core Data favorites/alarms to SwiftData
+3. Migration runs once on first SwiftUI app launch (tracked in `LSDefaults.dataMigrationCompleted`)
+4. Core Data files cleaned up after successful migration
+
+**Excel Sync Logic**:
+- First sync: Direct creation (optimized, no lookups)
+- Update sync: Find-or-create pattern
+- Force parameter to sync even when Excel version unchanged
+- Uses `LSDefaults.DataVersion` to track Excel version
+
+### SwiftData Models
+
+Located in `Projects/App/Sources/Models/`:
+
+- **Subject**: Top-level entity with cascade relationship to chapters
+- **Chapter**: Belongs to Subject, cascade relationship to parts
+- **Part**: Leaf entity with content (seq, title, content)
+- **Favorite**: User bookmark, references Part
+- **Alarm**: Study reminder, references Subject
+
+All models have convenience initializers from RNExcel types for migration.
+
+### SwiftUI Screens
+
+**SplashScreen** (`Screens/SplashScreen.swift`):
+- Displays during migration with progress tracking
+- Binds to DataMigrationManager's published properties
+- Fades out when `isDone` binding set to true
+
+**MainScreen** (`Screens/MainScreen.swift`):
+- TabView replacing RNTabBarController
+- @Query fetches subjects from SwiftData
+- Last selected subject persisted via @AppStorage
+
+**SubjectScreen** (`Screens/SubjectScreen.swift`):
+- Replaces RNSubjectViewController
+- ChapterPicker (Menu component) replaces DropDown library
+- Shows chapter in Roman numerals (I, II, III, etc.)
+- Last selected chapter per subject via LSDefaults.LastChapter
+- References PartListScreen (TabView for parts)
+
+### Key Migration Patterns
+
+**UIKit → SwiftUI Equivalents**:
+- UITabBarController → TabView
+- UIPageViewController → TabView with .page style
+- DropDown library → Menu component
+- UINavigationController → NavigationStack
+- @IBOutlet/@IBAction → @State/@Binding
+- Core Data NSManagedObject → SwiftData @Model
+- RNModelController.shared → @Query / @Environment(\.modelContext)
+
+**Data Access**:
+- SwiftData @Query for reading data
+- ModelContext for mutations
+- FetchDescriptor with #Predicate for complex queries
+- LSDefaults still used for user preferences
+
+### Logging
+
+Both ExcelSyncService and DataMigrationManager use comprehensive `.trace()` logging via StringLogger for debugging migration issues.
+
+### Next Migration Steps
+
+Remaining UIKit components to migrate:
+- PartListScreen (content display)
+- Navigation bar items (share, alarm, favorite, quiz)
+- RNQuestionViewController (quiz functionality)
+- RNAlarmTableViewController (alarm management)
+- RNFavoriteViewController (bookmark list)
+
 ## Configuration Management
 
 ### Build Configurations
