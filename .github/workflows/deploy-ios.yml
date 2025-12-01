@@ -138,7 +138,7 @@ jobs:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           WORKSPACE: "./$PRODUCT_NAME.xcworkspace"
           SCHEME: "App"
-          ARCHIVE_PATH:"./build/App.xcarchive"
+          ARCHIVE_PATH: "./build/App.xcarchive"
         run: |
           # Build archive
           mise x -- tuist xcodebuild archive \
