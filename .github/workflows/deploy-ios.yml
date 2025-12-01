@@ -154,7 +154,7 @@ jobs:
 
       - name: Export IPA
         env:
-          ARCHIVE_PATH: "./build/App.xcarchive"
+          ARCHIVE_PATH: './build/App.xcarchive'
           EXPORT_PATH: "./build"
         run: |
           mise x -- tuist xcodebuild -exportArchive \
