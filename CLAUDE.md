@@ -4,27 +4,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an iOS educational app (공인중개사요약집) for Korean real estate agent certification exam preparation. The app is built using Tuist for project management, targets iOS 13.0+, and uses Swift 4.2.
+This is an iOS educational app (공인중개사요약집) for Korean real estate agent certification exam preparation. 
 
-**Bundle ID**: `com.y2k.realtornote`
-**Current Version**: 1.1.28
+## Build Environment
+Project: Generated Tuist
+Target: iOS 18.0+
+Swift: 5
 
 ## Essential Development Commands
 
 ### Setup and Dependencies
 
+## Install Tools
 ```bash
 # Install mise (if not installed)
 brew install mise
 
 # Install Tuist
 mise install tuist
+```
 
+## To use tuist without mise command
+```bash
+eval "$(mise activate bash)"
+```
+
+## Generate Project
+```bash
 # Install project dependencies
-mise x -- tuist install
+tuist install
 
 # Generate Xcode workspace and projects
-mise x -- tuist generate
+tuist generate
 
 # Generate and open in Xcode
 mise x -- tuist generate --open
@@ -34,10 +45,10 @@ mise x -- tuist generate --open
 
 ```bash
 # Build the project
-mise x -- tuist build
+tuist build
 
 # Clean build artifacts
-mise x -- tuist clean
+tuist clean
 ```
 
 ### Secret Management
