@@ -60,9 +60,9 @@ jobs:
         run: |
           mise x -- tuist install
 
-      - name: Set up Tuist Cache
-        run: |
-          mise x -- tuist setup cache
+      # - name: Set up Tuist Cache
+      #   run: |
+      #     mise x -- tuist setup cache
 
       - name: Import signing certificate
         env:
@@ -88,7 +88,7 @@ jobs:
 
       - name: Generate Xcode Project
         run: |
-          mise x -- tuist generate
+          mise x -- tuist generate --no-binary-cache
 
       - name: Upgrade fastlane
         run: |
