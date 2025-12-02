@@ -131,6 +131,7 @@ platform :ios do
     else
         puts "iOS TestFlight 업로드 시작"
         upload_to_testflight(
+          ipa: @ipa_path,
           api_key_path: @api_key_path,
           changelog: changelog,
           app_identifier: @package_name,
