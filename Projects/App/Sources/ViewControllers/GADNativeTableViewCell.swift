@@ -17,11 +17,11 @@ class GADNativeTableViewCell: UITableViewCell {
     #endif
     
     weak var rootViewController : UIViewController?;
-    var gadLoader : GADAdLoader?;
+    var gadLoader : AdLoader?;
     var tapGesture : UITapGestureRecognizer!;
     
-    @IBOutlet weak var nativeAdView: GADNativeAdView!
-    @IBOutlet weak var mediaView: GADMediaView!
+    @IBOutlet weak var nativeAdView: NativeAdView!
+    @IBOutlet weak var mediaView: MediaView!
     var mediaViewRatioConstraint: NSLayoutConstraint?
     @IBOutlet var mediaViewLeadingConstraints: [NSLayoutConstraint]!
     
@@ -43,16 +43,16 @@ class GADNativeTableViewCell: UITableViewCell {
     }
     
     func loadAds(){
-        self.gadLoader = GADAdLoader(adUnitID: self.gadUnit,
+        self.gadLoader = AdLoader(adUnitID: self.gadUnit,
                                      rootViewController: self.rootViewController,
                                      adTypes: [ .native ],
                                      options: []);
         self.gadLoader?.delegate = self;
         
-        let req = GADRequest();
+        let req = Request();
         
         // remove 'test'
-        let extras = GADExtras();
+        let extras = Extras();
         extras.additionalParameters = ["suppress_test_label" : "1"]
         req.register(extras)
         
@@ -101,9 +101,9 @@ class GADNativeTableViewCell: UITableViewCell {
     }
 }
 
-extension GADNativeTableViewCell : GADNativeAdLoaderDelegate
+extension GADNativeTableViewCell : NativeAdLoaderDelegate
 {
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+    func adLoader(_ adLoader: AdLoader, didReceive nativeAd: NativeAd) {
         print("\(#function)");
         self.nativeAdView?.nativeAd = nativeAd;
         
@@ -143,7 +143,7 @@ extension GADNativeTableViewCell : GADNativeAdLoaderDelegate
         self.tapGesture.isEnabled = false;
     }
     
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
+    func adLoader(_ adLoader: AdLoader, didFailToReceiveAdWithError error: Error) {
         print("\(#function) \(error)");
         self.loadDeveloper();
         self.tapGesture.isEnabled = true;

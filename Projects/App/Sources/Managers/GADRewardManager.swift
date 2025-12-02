@@ -55,7 +55,7 @@ class GADRewardManager : NSObject{
         self.delegate?.GADRewardUpdate(showTime: Date());
     }
     
-    var rewardAd : GADRewardedInterstitialAd?;
+    var rewardAd : RewardedInterstitialAd?;
     var canShow : Bool{
         get{
             var value = true;
@@ -118,7 +118,7 @@ class GADRewardManager : NSObject{
         }
         
         print("create new reward ad");
-        let req = GADRequest();
+        let req = Request();
         
 #if DEBUG
         //        let unitId = self.unitId;
@@ -129,7 +129,7 @@ class GADRewardManager : NSObject{
         
         self.delegate?.GADRewardWillLoad();
         print("load rewarded ad[\(unitId)]");
-        GADRewardedInterstitialAd.load(withAdUnitID: unitId, request: req) { [weak self](newAd, error) in
+        RewardedInterstitialAd.load(with: unitId, request: req) { [weak self](newAd, error) in
             if let error = error {
                 print("rewarded ad load failed. error[\(error)]");
                 completion?(error)
@@ -167,7 +167,7 @@ class GADRewardManager : NSObject{
         
         print("present full ad view[\(self.window.rootViewController?.description ?? "")]");
         self.rewarded = false;
-        self.rewardAd?.present(fromRootViewController: self.window.rootViewController!, userDidEarnRewardHandler: { [weak self] in
+        self.rewardAd?.present(from: self.window.rootViewController!, userDidEarnRewardHandler: { [weak self] in
             if let reward = self?.rewardAd?.adReward{
                 print("user reward. type[\(reward.type)] amount[\(reward.amount)]");
             }
@@ -187,8 +187,8 @@ class GADRewardManager : NSObject{
     }
 }
 
-extension GADRewardManager : GADFullScreenContentDelegate{
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+extension GADRewardManager : FullScreenContentDelegate{
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         print("reward has been compleated");
         
         self.rewardAd = nil;
@@ -208,7 +208,7 @@ extension GADRewardManager : GADFullScreenContentDelegate{
         self.delegate?.GADRewardUserCompleted();
     }
     
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("reward fail[\(error)]");
     }
 }

@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
             };
         }*/
         
-        self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitialAd.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 24); //
+        self.rewardAd = GADRewardManager(self.window!, unitId: InterstitialAd.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 24); //
         self.rewardAd?.delegate = self;
 
         self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 3); //
@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         #if DEBUG
         adManager.prepare(interstitialUnit: .full, interval: 60.0);
         adManager.prepare(interstitialUnit: .donate, interval: 60.0);
-        adManager.prepare(openingUnit: .launch, isTest: true, interval: 60.0); //
+        adManager.prepare(openingUnit: .launch, isTesting: true, interval: 60.0); //
         #else
         adManager.prepare(interstitialUnit: .full, interval: 60.0); // * 60.0 * 1
         adManager.prepare(interstitialUnit: .donate, interval: 60.0); // * 60.0 * 1
@@ -210,7 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
             return
         }
         
-        AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
+        AppDelegate.sharedGADManager?.show(unit: .launch, isTesting: test, completion: { (unit, ad, result) in
             
         })
         
