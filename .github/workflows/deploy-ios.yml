@@ -136,7 +136,7 @@ jobs:
         env:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           SCHEME: App
-          ARCHIVE_PATH: ./build/App.xcarchive
+          ARCHIVE_PATH: ./Output/Archive
         run: |
           WORKSPACE=${PRODUCT_NAME}.xcworkspace
 
@@ -158,8 +158,8 @@ jobs:
 
       - name: Export IPA
         run: |
-          ARCHIVE_PATH=./build/App.xcarchive
-          EXPORT_PATH=./build
+          ARCHIVE_PATH=./Output/Archive
+          EXPORT_PATH=./Output/IPA
           EXPORT_OPTIONS_PLIST=./exportOptions.plist
 
           echo "ARCHIVE_PATH: $ARCHIVE_PATH"
@@ -172,5 +172,7 @@ jobs:
             -exportOptionsPlist $EXPORT_OPTIONS_PLIST
             
       - name: Upload to TestFlight/App Store
+        env:
+          IOS_IPA_PATH: ./Output/IPA/App.ipa
         run: |
           fastlane ios upload description:'${{ github.event.inputs.body }}' isReleasing:${{ github.event.inputs.isReleasing }}

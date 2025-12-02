@@ -29,7 +29,8 @@ platform :ios do
     @api_key_path = ENV["IOS_KEY_PATH"]
     @xcodeproj = "./Projects/#{@project_name}/#{@project_name}.xcodeproj"
     @profile_name = @workspace_name
-
+    @ipa_path = ENV["IOS_IPA_PATH"]
+    
     puts "iOS 프로젝트: #{@project_name}]"
     puts "Fastlane 키파일 경로: #{@api_key_path}]"
   end
@@ -120,6 +121,7 @@ platform :ios do
     if isReleasing
         puts "iOS 심사 업로드 시작"
         upload_to_app_store(
+          ipa: @ipa_path,
           api_key_path: @api_key_path,
           release_notes: changelog,
           app_identifier: @package_name,
