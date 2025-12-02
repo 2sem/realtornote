@@ -79,7 +79,10 @@ let project = Project(
                             "www.quizwin.co.kr" : "",
                         ]
                     ],
-                    "UIViewControllerBasedStatusBarAppearance": true
+                    "UIViewControllerBasedStatusBarAppearance": true,
+                    "UISupportedInterfaceOrientations": [
+                        "UIInterfaceOrientationPortrait"
+                    ]
                 ]
             ),
             sources: ["Sources/**"],
