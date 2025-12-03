@@ -167,6 +167,9 @@ Located in `Projects/App/Sources/Models/`:
 All models have convenience initializers from RNExcel types for migration.
 
 ### SwiftUI Screens
+SwiftUIScreens role as UIViewController
+Thire name end with Screen, not View.
+Thir view models are not ViewModel, end with ScreenModel
 
 **SplashScreen** (`Screens/SplashScreen.swift`):
 - Displays during migration with progress tracking
