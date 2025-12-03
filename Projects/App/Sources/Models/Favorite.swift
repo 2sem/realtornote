@@ -4,11 +4,13 @@ import CoreData
 
 @Model
 final class Favorite {
-    var no: Int32
-    var part: Part?
+    @Attribute(.unique) var id: Int
+
+    @Relationship(deleteRule: .noAction, inverse: \Part.favorite)
+    var part: Part
     
-    init(no: Int32, part: Part? = nil) {
-        self.no = no
+    init(id: Int, part: Part) {
+        self.id = id
         self.part = part
     }
 }

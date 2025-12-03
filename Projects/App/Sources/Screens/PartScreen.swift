@@ -11,9 +11,10 @@ import SwiftData
 
 struct PartScreen: View {
     let part: Part
+    let viewModel: PartScreenModel
 
     @State private var scrollOffset: CGFloat = 0
-
+    
     // Format content using LSDocumentRecognizer (like UIKit version)
     private var formattedContent: String {
         let paragraphs = LSDocumentRecognizer.shared.recognize(doc: part.content)
@@ -27,13 +28,23 @@ struct PartScreen: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Title header
-            Text("\(part.seq). \(part.name)")
-                .font(.title2)
-                .fontWeight(.bold)
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(red: 0.506, green: 0.831, blue: 0.980))
+            // Title header with favorite button
+            HStack {
+                Text("\(part.seq). \(part.name)")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Button(action: viewModel.toggleFavorite) {
+                    Image(systemName: viewModel.isFavorited ? "bookmark.fill" : "bookmark")
+                        .foregroundColor(.accentColor)
+                        .font(.title2)
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color(red: 0.506, green: 0.831, blue: 0.980))
 
             // Content using UITextView wrapper for performance
             SwiftUITextView(

@@ -163,7 +163,7 @@ class DataMigrationManager: ObservableObject {
                 })
                 
                 if let parts = try? modelContext.fetch(descriptor), let part = parts.first {
-                    let swiftDataFavorite = Favorite(no: favorite.no, part: part)
+                    let swiftDataFavorite = Favorite(id: Int(favorite.no), part: part)
                     modelContext.insert(swiftDataFavorite)
                 } else {
                     "[DataMigration] Warning: Part not found for favorite with partId: \(partId)".trace()

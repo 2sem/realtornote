@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct PartListScreen: View {
+    @Environment(\.modelContext) private var modelContext
     let chapter: Chapter
 
     var sortedParts: [Part] {
@@ -19,7 +20,10 @@ struct PartListScreen: View {
     var body: some View {
         TabView {
             ForEach(sortedParts, id: \.seq) { part in
-                PartScreen(part: part)
+                PartScreen(
+                    part: part,
+                    viewModel: PartScreenModel(part: part, modelContext: modelContext)
+                )
             }
         }
         .tabViewStyle(.page)

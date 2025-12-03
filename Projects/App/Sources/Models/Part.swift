@@ -10,6 +10,8 @@ final class Part {
     
     var chapter: Chapter?
     
+    var favorite: Favorite?
+    
     init(id: Int, seq: Int, name: String, content: String, chapter: Chapter? = nil) {
         self.id = id
         self.seq = seq
