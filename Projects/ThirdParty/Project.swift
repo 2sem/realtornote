@@ -20,7 +20,7 @@ let project = Project(
         .remote(url: "https://github.com/alexiscreuzot/SwiftyGif",
                 requirement: .upToNextMajor(from: "5.4.5")),
         .remote(url: "https://github.com/2sem/LSExtensions",
-                requirement: .exact("0.1.22")),
+                requirement: .upToNextMajor(from: "0.1.23")),
         .remote(url: "https://github.com/ReactiveX/RxSwift",
                 requirement: .upToNextMajor(from: "5.1.0")),
         .remote(url: "https://github.com/2sem/LProgressWebViewController",
