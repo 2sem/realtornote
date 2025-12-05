@@ -16,12 +16,12 @@ struct ChapterPicker: View {
 
     var body: some View {
         Menu {
-            ForEach(chapters, id: \.id) { chapter in
+            ForEach(Array(chapters.enumerated()), id: \.element.id) { index, chapter in
                 Button(action: {
                     selectedChapter = chapter
                 }) {
                     HStack {
-                        Text("\(chapter.id.roman). \(chapter.name)")
+                        Text("\((index + 1).toRoman()). \(chapter.name)")
                         if selectedChapter?.id == chapter.id {
                             Image(systemName: "checkmark")
                         }
@@ -30,8 +30,9 @@ struct ChapterPicker: View {
             }
         } label: {
             HStack {
-                if let chapter = selectedChapter {
-                    Text("\(chapter.id.roman). \(chapter.name)")
+                if let chapter = selectedChapter,
+                   let index = chapters.firstIndex(where: { $0.id == chapter.id }) {
+                    Text("\((index + 1).toRoman()). \(chapter.name)")
                         .font(.headline)
                         .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                 } else {
