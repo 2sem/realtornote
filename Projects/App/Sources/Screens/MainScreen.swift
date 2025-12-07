@@ -8,6 +8,7 @@ struct MainScreen: View {
     @State private var selectedTab: Int = 0
     @State var isFirstAppear: Bool = true
     @State private var showFavorites: Bool = false
+    @State private var showQuiz: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     
     // Current subject based on selectedTab
@@ -80,11 +81,23 @@ struct MainScreen: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showFavorites = true
-                } label: {
-                    Image(systemName: "book")
-                        .foregroundColor(.accentColor)
+                HStack(spacing: 16) {
+                    // Quiz button
+                    Button {
+                        showQuiz = true
+                    } label: {
+                        Image(systemName: "questionmark.text.page")
+                            .foregroundColor(.accentColor)
+                    }
+                    .disabled(currentSelectedChapter.wrappedValue == nil)
+                    
+                    // Favorites button
+                    Button {
+                        showFavorites = true
+                    } label: {
+                        Image(systemName: "book")
+                            .foregroundColor(.accentColor)
+                    }
                 }
             }
         }
@@ -112,6 +125,11 @@ struct MainScreen: View {
         .sheet(isPresented: $showFavorites) {
             NavigationStack {
                 FavoritesScreen()
+            }
+        }
+        .sheet(isPresented: $showQuiz) {
+            if let chapter = currentSelectedChapter.wrappedValue {
+                QuizScreen(chapter: chapter)
             }
         }
     }
