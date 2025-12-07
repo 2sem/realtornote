@@ -1,0 +1,92 @@
+import SwiftUI
+import FirebaseAnalytics
+
+/// External links bar positioned above the tab bar
+/// Matches the UIKit RNTabBarController's newsContainer behavior
+struct ExternalLinksBar: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
+    // Adaptive spacing based on device size class
+    private var horizontalPadding: CGFloat {
+        horizontalSizeClass == .compact ? 16 : 20
+    }
+    
+    private var buttonSpacing: CGFloat {
+        horizontalSizeClass == .compact ? 4 : 8
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: buttonSpacing) {
+                // Q-Net 공인중개사
+                LinkButton(
+                    title: "Q-Net\n공인중개사",
+                    backgroundColor: Color(red: 0.259, green: 0.647, blue: 0.961),
+                    url: URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08")!,
+                    event: .openQNet
+                )
+                
+                // 공인중개사 요약집
+                LinkButton(
+                    title: "공인중개사\n요약집",
+                    backgroundColor: Color(red: 0.098, green: 0.463, blue: 0.824),
+                    url: URL(string: "http://andy1002.cafe24.com/gnu_house")!,
+                    event: .openQuizWin
+                )
+                
+                // QuizWin 기출문제
+                LinkButton(
+                    title: "QuizWin\n기출문제",
+                    backgroundColor: Color(red: 1.0, green: 0.627, blue: 0.0),
+                    url: URL(string: "http://landquiz.com/bbs/gichul.php")!,
+                    event: .openQuizWin
+                )
+                
+                // 공인중개사 시행령
+                LinkButton(
+                    title: "공인중개사\n시행령",
+                    backgroundColor: Color(red: 1.0, green: 0.757, blue: 0.027),
+                    url: URL(string: "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9")!,
+                    event: .openRealtorRaw
+                )
+            }
+            .frame(height: 44)
+            .padding(.horizontal, horizontalPadding)
+            .padding(.top, 8)
+            .padding(.bottom, 8)
+        }
+        .frame(maxWidth: .infinity)
+        .background(
+            Color(red: 0.506, green: 0.831, blue: 0.980)
+                .ignoresSafeArea(edges: .bottom)
+        )
+    }
+}
+
+struct LinkButton: View {
+    let title: String
+    let backgroundColor: Color
+    let url: URL
+    let event: Analytics.LeesamEvent
+    
+    var body: some View {
+        Button {
+            Analytics.logLeesamEvent(event, parameters: [:])
+            UIApplication.shared.open(url)
+        } label: {
+            Text(title)
+                .font(.system(size: 14))
+                .foregroundColor(.white)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(backgroundColor)
+                .cornerRadius(4)
+        }
+    }
+}
+
+#Preview {
+    ExternalLinksBar()
+        .background(Color.gray.opacity(0.2))
+}

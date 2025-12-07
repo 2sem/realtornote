@@ -29,5 +29,10 @@ struct PartListScreen: View {
         .tabViewStyle(.page)
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .background(Color(red: 0.506, green: 0.831, blue: 0.980))
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            // Spacer to account for ExternalLinksBar + Subject TabBar height
+            // ExternalLinksBar: ~60pt + Subject TabBar: ~49pt + padding: ~10pt
+            Color.clear.frame(height: 80)
+        }
     }
 }

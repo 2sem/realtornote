@@ -40,27 +40,34 @@ struct MainScreen: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            ForEach(Array(subjects.enumerated()), id: \.element.id) { index, subject in
-                SubjectScreen(
-                    subject: subject,
-                    selectedChapter: Binding(
-                        get: { selectedChapters[subject.id] },
-                        set: { 
-                            selectedChapters[subject.id] = $0
-                            if let chapter = $0 {
-                                LSDefaults.setLastChapter(subject: subject.id, value: chapter.id)
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                TabView(selection: $selectedTab) {
+                        ForEach(Array(subjects.enumerated()), id: \.element.id) { index, subject in
+                            SubjectScreen(
+                                subject: subject,
+                                selectedChapter: Binding(
+                                    get: { selectedChapters[subject.id] },
+                                    set: { 
+                                        selectedChapters[subject.id] = $0
+                                        if let chapter = $0 {
+                                            LSDefaults.setLastChapter(subject: subject.id, value: chapter.id)
+                                        }
+                                    }
+                                ),
+                                showFavorites: $showFavorites
+                            )
+                            .tabItem {
+                                Label(subject.name, systemImage: "book.closed.fill")
                             }
+                            .tag(index)
                         }
-                    ),
-                    showFavorites: $showFavorites
-                )
-                .tabItem {
-                    Label(subject.name, systemImage: "book.closed.fill")
+                    }
+                    
+                    // External links bar above tab bar
+                    ExternalLinksBar()
                 }
-                .tag(index)
             }
-        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -77,7 +84,7 @@ struct MainScreen: View {
                     showFavorites = true
                 } label: {
                     Image(systemName: "book")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.accentColor)
                 }
             }
         }
