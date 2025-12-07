@@ -49,7 +49,7 @@ struct FavoritesScreen: View {
                         }
                 }
                 .onDelete(perform: deleteFavorites)
-                
+
             case .bySubject:
                 ForEach(favoritesBySubject, id: \.0.id) { subject, subjectFavorites in
                     Section(header: Text(subject.name)) {
@@ -66,6 +66,11 @@ struct FavoritesScreen: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color(red: 0.506, green: 0.831, blue: 0.980))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(Color(red: 0.506, green: 0.831, blue: 0.980), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Picker("정렬", selection: $sortType) {
@@ -79,8 +84,24 @@ struct FavoritesScreen: View {
                 Button("완료") {
                     dismiss()
                 }
+                .foregroundColor(.white)
             }
         }
+        .onAppear {
+            configureNavigationBarAppearance()
+        }
+    }
+
+    private func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(red: 0.506, green: 0.831, blue: 0.980, alpha: 1.0)
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
     }
     
     private func deleteFavorites(at offsets: IndexSet) {
