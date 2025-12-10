@@ -6,7 +6,6 @@ struct MainScreen: View {
     @Query(sort: \Subject.id) private var subjects: [Subject]
     @AppStorage("LastSubject") private var lastSubject: Int = 0
     @State private var selectedTab: Int = 0
-    @State var isFirstAppear: Bool = true
     @State private var showFavorites: Bool = false
     @State private var showQuiz: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
@@ -101,26 +100,27 @@ struct MainScreen: View {
                 }
             }
         }
-        .onAppear {
-            guard isFirstAppear else {
+        .task {
+            guard !subjects.isEmpty else {
                 return
             }
             
             // 마지막으로 본 과목으로 이동
-            selectedTab = min(lastSubject, subjects.count - 1)
+            selectedTab = max(0, min(lastSubject, subjects.count - 1))
             
-            // 각 과목의 마지막 챕터 복원
-            for subject in subjects {
-                let sortedChapters = subject.chapters.sorted { $0.id < $1.id }
-                let lastChapterId = LSDefaults.LastChapter[subject.id.description] ?? sortedChapters.first?.id ?? 1
-                selectedChapters[subject.id] = sortedChapters.first { $0.id == lastChapterId } ?? sortedChapters.first
-            }
-            
-            isFirstAppear = false
+            // 현재 과목의 선택된 챕터 로드 (없는 경우만)
+            loadSelectedChapterForCurrentSubject()
         }
+        .onChange(of: !subjects.isEmpty, { _, newValue in
+            guard newValue else { return }
+            
+            loadSelectedChapterForCurrentSubject()
+        })
         .onChange(of: selectedTab) { oldValue, newValue in
             // 선택한 과목 저장
             lastSubject = newValue
+            // 현재 과목의 선택된 챕터 로드 (없는 경우만)
+            loadSelectedChapterForCurrentSubject()
         }
         .sheet(isPresented: $showFavorites) {
             NavigationStack {
@@ -132,6 +132,20 @@ struct MainScreen: View {
                 QuizScreen(chapter: chapter)
             }
         }
+    }
+    
+    func loadSelectedChapterForCurrentSubject() {
+        // Don't load if subjects are empty (still being inserted during migration)
+        guard !subjects.isEmpty else { return }
+        guard let subject = currentSubject else { return }
+        
+        // Only load if not already loaded
+        guard selectedChapters[subject.id] == nil else { return }
+        
+        let sortedChapters = subject.chapters.sorted { $0.id < $1.id }
+        let lastChapters = LSDefaults.LastChapter
+        let lastChapterId = lastChapters[subject.id.description] ?? sortedChapters.first?.id ?? 1
+        selectedChapters[subject.id] = sortedChapters.first { $0.id == lastChapterId } ?? sortedChapters.first
     }
 }
 

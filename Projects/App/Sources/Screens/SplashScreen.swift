@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SplashScreen: View {
+    @Environment(\.modelContext) private var modelContext
     @StateObject private var migrationManager = DataMigrationManager()
     @Binding var isDone: Bool
     
@@ -123,7 +124,8 @@ struct SplashScreen: View {
             }
             
             guard await migrationManager.checkAndMigrateIfNeeded() else {
-//                let syncService = ExcelSyncService(context: modelContext)
+                let syncService = ExcelSyncService(context: modelContext)
+                try await syncService.syncIfNeeded()
                 return
             }
             
