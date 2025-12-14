@@ -4,276 +4,135 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an iOS educational app (공인중개사요약집) for Korean real estate agent certification exam preparation. 
-
-## Build Environment
-Project: Generated Tuist
-Target: iOS 18.0+
-Swift: 5
+iOS educational app (공인중개사요약집) for Korean real estate agent certification exam preparation.
+- **Target**: iOS 18.0+
+- **Swift**: 5
+- **Project**: Tuist-generated workspace
 
 ## Essential Development Commands
 
-### Setup and Dependencies
+### Setup Tools
 
-## Install Tools
 ```bash
-# Install mise (if not installed)
+# Install mise and Tuist
 brew install mise
-
-# Install Tuist
 mise install tuist
-```
 
-## To use tuist without mise command
-```bash
+# Use tuist without mise prefix (optional)
 eval "$(mise activate bash)"
 ```
 
-## Generate Project
-```bash
-# Install project dependencies
-tuist install
+### Generate & Build
 
-# Generate Xcode workspace and projects
-tuist generate
+```bash
+# Generate Xcode workspace (without opening)
+tuist generate --no-open
 
 # Generate and open in Xcode
 mise x -- tuist generate --open
-```
 
-### Build and Clean
-
-```bash
-# Build the project
+# Build project
 tuist build
+
+# Test compilation (use generic iOS destination)
+xcodebuild build -scheme App -workspace realtornote.xcworkspace -destination 'generic/platform=iOS'
 
 # Clean build artifacts
 tuist clean
 ```
 
-### Secret Management
-
-This project uses git-secret to encrypt sensitive files (certificates, provisioning profiles, API keys).
+### Secrets & Deployment
 
 ```bash
-# Install git-secret (if not installed)
-brew install git-secret
-
-# Decrypt secrets (requires password)
+# Decrypt secrets (git-secret)
 git secret reveal -p <password>
-
-# Encrypt secrets after modification
-git secret hide
-```
-
-### Deployment
-
-```bash
-# Install/update Fastlane
-sudo gem install fastlane
 
 # Deploy to TestFlight
 fastlane ios release description:'변경사항 설명' isReleasing:false
 
-# Deploy to App Store for review
+# Deploy to App Store
 fastlane ios release description:'변경사항 설명' isReleasing:true
 ```
 
-## High-Level Architecture
+## Architecture
 
-### Multi-Project Workspace Structure
+### Workspace Structure
 
-The codebase is organized as a Tuist workspace with three separate projects:
+Three Tuist projects for clean dependency management:
+1. **App**: Main application (business logic & UI)
+2. **ThirdParty**: Static framework (RxSwift, KakaoSDK, CoreXLSX)
+3. **DynamicThirdParty**: Dynamic framework (Firebase)
 
-1. **App** (`Projects/App/`): Main application target containing all business logic and UI
-2. **ThirdParty** (`Projects/ThirdParty/`): Static framework bundling most third-party dependencies (RxSwift, KakaoSDK, CoreXLSX, etc.)
-3. **DynamicThirdParty** (`Projects/DynamicThirdParty/`): Dynamic framework specifically for Firebase dependencies (Crashlytics, Analytics, Messaging, RemoteConfig)
+### Data Flow (Legacy UIKit)
 
-This separation allows for cleaner dependency management and faster incremental builds.
+**Excel → Core Data → ViewModels → ViewControllers**
 
-### Data Flow Architecture
-
-The app follows a unique content delivery architecture:
-
-**Excel → Core Data-style Persistence → ViewModels → ViewControllers**
-
-1. **Excel-Based Content System** (`RNExcelController`):
-   - Study content is bundled as Excel files parsed using CoreXLSX
-   - `RNExcelController` reads versioned content and checks for updates
-   - Extensions handle different entity types: `+RNExcelSubject`, `+RNExcelPart`, `+RNExcelChapter`
-   - Content includes: subjects (과목), parts (편), chapters (장)
-
-2. **Persistence Layer** (`RNModelController`):
-   - Singleton pattern with lazy initialization and dispatch groups
-   - Acts as Core Data wrapper but uses a custom persistence mechanism
-   - Extensions organize entity-specific operations: `+RNSubjectInfo`, `+RNPartInfo`, `+RNChapterInfo`, `+RNAlarmInfo`, `+RNFavoriteInfo`
-   - Supports transactions, undo/rollback operations
-   - Must call `waitInit()` before first use to ensure initialization completes
-
-3. **Manager Layer**:
-   - `GADRewardManager`: Google AdMob rewarded ad lifecycle
-   - `RNAlarmManager`: Study alarm/notification scheduling
-   - `ReviewManager`: App review prompt logic
-
-4. **Presentation Layer**:
-   - Mix of MVVM (some screens use ViewModels like `RNAlarmTableViewModel`) and traditional MVC
-   - Main navigation: `RNTabBarController` → Subject → Part → Chapter → Question screens
-   - Custom table view cells for different content types
-
-### Key Patterns and Relationships
-
-**Extension-Based Organization**: Both `RNModelController` and `RNExcelController` use Swift extensions in separate files to organize functionality by entity type. When modifying database operations for a specific entity (e.g., Chapters), look for the corresponding extension file.
-
-**Singleton Pattern**: `RNModelController.shared` and `RNExcelController.Default` are singletons. Always use `RNModelController.shared.waitInit()` before accessing data to ensure initialization completes.
-
-**Reactive Pattern**: RxSwift/RxCocoa are available for reactive programming patterns, particularly in ViewModels.
+- **Content**: Excel files (CoreXLSX) → `RNExcelController` → versioned updates
+- **Persistence**: `RNModelController` (Core Data wrapper with extensions per entity type)
+  - Call `RNModelController.shared.waitInit()` before first use
+  - Extension-based organization: `+RNSubjectInfo`, `+RNPartInfo`, `+RNChapterInfo`, `+RNAlarmInfo`, `+RNFavoriteInfo`
+- **Managers**: `GADRewardManager`, `RNAlarmManager`, `ReviewManager`
+- **Presentation**: Mix of MVVM and MVC patterns, RxSwift/RxCocoa for reactive bindings
 
 ## SwiftUI Migration (In Progress)
 
-The app is being migrated from UIKit to SwiftUI with a hybrid approach:
+Hybrid approach migrating from UIKit to SwiftUI.
 
-### Migration Architecture
+### Migration Flow
 
-**App Entry Point** (`Projects/App/Sources/App.swift`):
-- SwiftUI `@main` with `@UIApplicationDelegateAdaptor` to retain existing AppDelegate
-- ModelContainer created for SwiftData models (Subject, Chapter, Part, Favorite, Alarm)
-- Splash screen overlays main screen using ZStack pattern
-- Configuration: not in memory, autosave disabled, undo enabled
+**Core Data → SwiftData** (one-time on first launch):
+1. `ExcelSyncService` syncs Excel → SwiftData
+2. `DataMigrationManager` migrates favorites/alarms
+3. Tracked via `LSDefaults.dataMigrationCompleted`
 
-### Data Migration Strategy
+### SwiftData Models (`Projects/App/Sources/Models/`)
 
-**Core Data → SwiftData Migration**:
-1. **ExcelSyncService** syncs Excel content to SwiftData first
-2. **DataMigrationManager** migrates Core Data favorites/alarms to SwiftData
-3. Migration runs once on first SwiftUI app launch (tracked in `LSDefaults.dataMigrationCompleted`)
-4. Core Data files cleaned up after successful migration
+- **Subject** → **Chapter** → **Part** (cascade relationships)
+- **Favorite** (references Part), **Alarm** (references Subject)
+- Property mapping: SwiftData uses `id`, Core Data uses `no`
 
-**Excel Sync Logic**:
-- First sync: Direct creation (optimized, no lookups)
-- Update sync: Find-or-create pattern
-- Force parameter to sync even when Excel version unchanged
-- Uses `LSDefaults.DataVersion` to track Excel version
+### Naming Conventions
 
-### SwiftData Models
+- Screens: End with `Screen` (e.g., `MainScreen`, not `MainView`)
+- ViewModels: End with `ScreenModel` (located in `ViewModels/`, not `Screens/`)
 
-Located in `Projects/App/Sources/Models/`:
+### Migrated Screens
 
-- **Subject**: Top-level entity with cascade relationship to chapters
-- **Chapter**: Belongs to Subject, cascade relationship to parts
-- **Part**: Leaf entity with content (seq, title, content)
-- **Favorite**: User bookmark, references Part
-- **Alarm**: Study reminder, references Subject
+- **SplashScreen**: Migration progress display
+- **MainScreen**: TabView with @Query for subjects
+- **SubjectScreen**: Chapter picker (Menu), Roman numerals
+- **AlarmListScreen**: Alarm management with notification registration
+- **AlarmSettingsScreen**: Create/edit alarms with weekday/time pickers
 
-All models have convenience initializers from RNExcel types for migration.
+### Key Patterns
 
-### SwiftUI Screens
-SwiftUIScreens role as UIViewController
-Thire name end with Screen, not View.
-Thir view models are not ViewModel, end with ScreenModel
+**UIKit → SwiftUI**:
+- `UITabBarController` → `TabView`
+- `UINavigationController` → `NavigationStack`
+- `@IBOutlet/@IBAction` → `@State/@Binding`
+- `RNModelController.shared` → `@Query` / `@Environment(\.modelContext)`
 
-**SplashScreen** (`Screens/SplashScreen.swift`):
-- Displays during migration with progress tracking
-- Binds to DataMigrationManager's published properties
-- Fades out when `isDone` binding set to true
+**Notifications** (`Alarm+.swift`):
+- `toNotification()` creates `LSUserNotification` from SwiftData Alarm
+- Registration via `UserNotificationManager.shared` (matches UIKit pattern)
 
-**MainScreen** (`Screens/MainScreen.swift`):
-- TabView replacing RNTabBarController
-- @Query fetches subjects from SwiftData
-- Last selected subject persisted via @AppStorage
+## Configuration & Integrations
 
-**SubjectScreen** (`Screens/SubjectScreen.swift`):
-- Replaces RNSubjectViewController
-- ChapterPicker (Menu component) replaces DropDown library
-- Shows chapter in Roman numerals (I, II, III, etc.)
-- Last selected chapter per subject via LSDefaults.LastChapter
-- References PartListScreen (TabView for parts)
+### Build Configs
+- Debug/Release: `Projects/App/Configs/{debug,release}.xcconfig`
+- Version: `MARKETING_VERSION` (user-facing), `CURRENT_PROJECT_VERSION` (build number)
 
-### Key Migration Patterns
+### Tuist Helpers (`Tuist/ProjectDescriptionHelpers/`)
+- `String+.swift`: `.appBundleId`
+- `Path+.swift`: `.projects()`
+- `TargetDependency+.swift`: `.Projects.ThirdParty`, `.Projects.DynamicThirdParty`
 
-**UIKit → SwiftUI Equivalents**:
-- UITabBarController → TabView
-- UIPageViewController → TabView with .page style
-- DropDown library → Menu component
-- UINavigationController → NavigationStack
-- @IBOutlet/@IBAction → @State/@Binding
-- Core Data NSManagedObject → SwiftData @Model
-- RNModelController.shared → @Query / @Environment(\.modelContext)
+### Third-Party Services
+- **Google AdMob**: 3 ad units (Donate, FullAd, Launch)
+- **KakaoTalk**: App key d3be13c89a776659651eef478d4e4268
+- **Firebase**: 11.8.1 SDK (Crashlytics, Analytics, Messaging, RemoteConfig)
 
-**Data Access**:
-- SwiftData @Query for reading data
-- ModelContext for mutations
-- FetchDescriptor with #Predicate for complex queries
-- LSDefaults still used for user preferences
-
-### Logging
-
-Both ExcelSyncService and DataMigrationManager use comprehensive `.trace()` logging via StringLogger for debugging migration issues.
-
-### Next Migration Steps
-
-Remaining UIKit components to migrate:
-- PartListScreen (content display)
-- Navigation bar items (share, alarm, favorite, quiz)
-- RNQuestionViewController (quiz functionality)
-- RNAlarmTableViewController (alarm management)
-- RNFavoriteViewController (bookmark list)
-
-## Configuration Management
-
-### Build Configurations
-
-- **Debug**: `Projects/App/Configs/debug.xcconfig`
-- **Release**: `Projects/App/Configs/release.xcconfig`
-
-Version management:
-- `MARKETING_VERSION`: User-facing version (currently 1.1.28)
-- `CURRENT_PROJECT_VERSION`: Build number (auto-incremented by Fastlane during deployment)
-
-### Tuist Helpers
-
-Custom helpers in `Tuist/ProjectDescriptionHelpers/`:
-- `String+.swift`: Defines `.appBundleId` constant
-- `Path+.swift`: Defines `.projects()` helper for referencing project paths
-- `TargetDependency+.swift`: Defines `.Projects.ThirdParty` and `.Projects.DynamicThirdParty` dependencies
-
-When adding new shared projects, update these helpers to maintain consistency.
-
-## Important Integration Details
-
-### Google AdMob
-Three ad unit types configured in `Info.plist`:
-- Donate: ca-app-pub-9684378399371172/9105067669
-- FullAd: ca-app-pub-9684378399371172/1235951829
-- Launch: ca-app-pub-9684378399371172/8962601702
-
-### KakaoTalk Integration
-App key: d3be13c89a776659651eef478d4e4268 (configured in `Info.plist`)
-
-### Firebase
-Uses 11.8.1 SDK with Crashlytics, Analytics, Messaging, and RemoteConfig modules.
-
-### Network Security
-App allows arbitrary loads with specific domain exceptions for:
-- andy1002.cafe24.com
-- www.q-net.or.kr
-- www.quizwin.co.kr
-
-## Code Style Notes
-
-- **Localization**: Mix of Korean and English. UI strings and comments often in Korean, technical code comments in English.
-- **No automated linting**: No SwiftLint or SwiftFormat configured. Follow existing code style manually.
-- **Swift 4.2**: Older Swift version due to project constraints. Use Swift 4.2 compatible syntax.
-- **Dark Mode**: App forces dark mode (`UIUserInterfaceStyle: Dark` in `Info.plist`).
-
-## CI/CD Pipeline
-
-GitHub Actions workflow (`.github/workflows/deploy-ios.yml`):
-- Runs on macOS 15 with Xcode 16.2
-- Decrypts secrets using GPG
-- Installs Tuist via mise
-- Runs `mise x -- tuist build` to verify compilation
-- Uses Fastlane for signing and uploading to TestFlight/App Store
-
-Manual trigger with options:
-- `isReleasing`: Submit for App Store review (true) or just TestFlight (false)
-- `body`: Changelog description
+### Code Style
+- Mix of Korean (UI strings) and English (technical comments)
+- No automated linting (follow existing style)
+- Dark mode enforced in `Info.plist`
