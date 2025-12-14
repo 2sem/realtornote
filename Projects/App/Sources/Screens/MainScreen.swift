@@ -8,6 +8,7 @@ struct MainScreen: View {
     @State private var selectedTab: Int = 0
     @State private var showFavorites: Bool = false
     @State private var showQuiz: Bool = false
+    @State private var showAlarmList: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     
     // Current subject based on selectedTab
@@ -70,6 +71,15 @@ struct MainScreen: View {
             }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showAlarmList = true
+                } label: {
+                    Image(systemName: "bell.fill")
+                        .foregroundColor(.accentColor)
+                }
+            }
+
             ToolbarItem(placement: .principal) {
                 if !currentChapters.isEmpty {
                     ChapterPicker(
@@ -78,7 +88,7 @@ struct MainScreen: View {
                     )
                 }
             }
-            
+
             ToolbarItem(placement: .topBarTrailing) {
                 HStack(spacing: 16) {
                     // Quiz button
@@ -130,6 +140,11 @@ struct MainScreen: View {
         .sheet(isPresented: $showQuiz) {
             if let chapter = currentSelectedChapter.wrappedValue {
                 QuizScreen(chapter: chapter)
+            }
+        }
+        .sheet(isPresented: $showAlarmList) {
+            NavigationStack {
+                AlarmListScreen()
             }
         }
     }
