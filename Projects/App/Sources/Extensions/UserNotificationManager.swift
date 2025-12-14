@@ -10,8 +10,8 @@ import UIKit
 import UserNotifications
 
 @available(iOS 10.0, *)
-class LSUserNotificationManager : NSObject, UNUserNotificationCenterDelegate{
-    static let shared = LSUserNotificationManager();
+class UserNotificationManager : NSObject, UNUserNotificationCenterDelegate{
+    static let shared = UserNotificationManager();
     private var notifications : [String : LSUserNotification] = [:];
     
     private var categories : [String:UNNotificationCategory] = [:];

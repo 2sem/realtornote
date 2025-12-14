@@ -14,7 +14,7 @@ extension RNAlarmModel{
     @available(iOS 10.0, *)
     func toNotification() -> LSUserNotification{
         let notificationId = "\(type(of: self).notificationId)\(self.id)";
-        var value : LSUserNotification! = LSUserNotificationManager.shared.getNotification(notificationId);
+        var value : LSUserNotification! = UserNotificationManager.shared.getNotification(notificationId);
         
         if value == nil{
             value = LSUserNotification();

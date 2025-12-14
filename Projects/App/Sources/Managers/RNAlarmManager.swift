@@ -67,19 +67,19 @@ class RNAlarmManager : NSObject{
     
     func applyNotifications(_ alarms: [RNAlarmModel], completion: @escaping RNAlarmManagerAlarmsCompletion){
         let notifications = alarms.filter{ $0.enabled }.map{ $0.toNotification() };
-        LSUserNotificationManager.shared.clear(options: [.alert, .sound], idPrefix: RNAlarmModel.notificationId, completion: { (result, error) in
+        UserNotificationManager.shared.clear(options: [.alert, .sound], idPrefix: RNAlarmModel.notificationId, completion: { (result, error) in
             guard error == nil else{
                 completion(nil, alarms);
                 return;
             }
             
-            LSUserNotificationManager.shared.register(notifications: notifications);
+            UserNotificationManager.shared.register(notifications: notifications);
             completion(error, alarms);
         })
     }
     
     func clear(completion: @escaping (Result<Bool, Error>) -> Void){
-        LSUserNotificationManager.shared.clear(options: [.alert, .sound], idPrefix: RNAlarmModel.notificationId, completion: { (result, error) in
+        UserNotificationManager.shared.clear(options: [.alert, .sound], idPrefix: RNAlarmModel.notificationId, completion: { (result, error) in
             if let error = error{
                 completion(.failure(error));
             }else{
@@ -107,13 +107,13 @@ class RNAlarmManager : NSObject{
     
     func register(_ alarm : RNAlarmModel){
         let notifications = [alarm.toNotification()];
-        LSUserNotificationManager.shared.unregister(notifications: notifications) { (result, notis, error) in
+        UserNotificationManager.shared.unregister(notifications: notifications) { (result, notis, error) in
             guard error == nil else{
                 return;
             }
             
             if alarm.enabled{
-                LSUserNotificationManager.shared.register(notifications: notifications);
+                UserNotificationManager.shared.register(notifications: notifications);
             }
         }
     }
@@ -144,7 +144,7 @@ class RNAlarmManager : NSObject{
     
     func remove(_ alarm : RNAlarmModel, dispatchGroup : DispatchGroup? = nil, completion: @escaping RNAlarmManagerAlarmCompletion){
         DispatchQueue.main.async{ [weak self] in
-            LSUserNotificationManager.shared.unregister(notifications: [alarm.toNotification()], completion: nil)
+            UserNotificationManager.shared.unregister(notifications: [alarm.toNotification()], completion: nil)
             
             //notify new items without removed alarm
             if let values = self?.currentAlarms {
@@ -161,7 +161,7 @@ class RNAlarmManager : NSObject{
         alarm.enabled = false;
         DispatchQueue.main.async {
             RNModelController.shared.saveChanges();
-            LSUserNotificationManager.shared.unregister(notifications: [alarm.toNotification()], completion: nil);
+            UserNotificationManager.shared.unregister(notifications: [alarm.toNotification()], completion: nil);
 //            SWToast.hideActivity();
             completion?(nil, alarm);
         }
@@ -171,7 +171,7 @@ class RNAlarmManager : NSObject{
         alarm.enabled = true;
         DispatchQueue.main.async {
             RNModelController.shared.saveChanges();
-            LSUserNotificationManager.shared.register(notifications: [alarm.toNotification()], completion: nil);
+            UserNotificationManager.shared.register(notifications: [alarm.toNotification()], completion: nil);
 //            SWToast.hideActivity();
             completion?(nil, alarm);
         }

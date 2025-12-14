@@ -28,14 +28,14 @@ final class AlarmListScreenModel {
     
     func toggleAlarm(_ alarm: Alarm, enabled: Bool) {
         alarm.enabled = enabled
-        
+
         do {
             try modelContext.save()
-            // TODO: Register/unregister notification via RNAlarmManager
+            // Register/unregister notification following RNAlarmManager pattern
             if enabled {
-                // RNAlarmManager.shared.enable(alarm) { error, _ in }
+                registerNotification(for: alarm)
             } else {
-                // RNAlarmManager.shared.disable(alarm) { error, _ in }
+                unregisterNotification(for: alarm)
             }
         } catch {
             print("Failed to toggle alarm: \(error)")
@@ -50,16 +50,17 @@ final class AlarmListScreenModel {
     }
     
     func deleteAlarm(_ alarm: Alarm) {
+        // Unregister notification before deleting
+        unregisterNotification(for: alarm)
+
         modelContext.delete(alarm)
-        
+
         do {
             try modelContext.save()
-            // TODO: Unregister notification via RNAlarmManager
-            // RNAlarmManager.shared.remove(alarm) { error, _ in }
         } catch {
             print("Failed to delete alarm: \(error)")
         }
-        
+
         alarmToDelete = nil
     }
     
@@ -74,13 +75,13 @@ final class AlarmListScreenModel {
         )
         newAlarm.alarmWeekDays = weekDays
         newAlarm.alarmTime = time
-        
+
         modelContext.insert(newAlarm)
-        
+
         do {
             try modelContext.save()
-            // TODO: Register notification via RNAlarmManager
-            // RNAlarmManager.shared.create(weekDays: weekDays, time: time, enabled: true)
+            // Register notification following RNAlarmManager.create pattern
+            registerNotification(for: newAlarm)
         } catch {
             print("Failed to create alarm: \(error)")
         }
@@ -89,13 +90,33 @@ final class AlarmListScreenModel {
     func updateAlarm(_ alarm: Alarm, weekDays: DateComponents.DateWeekDay, time: DateComponents) {
         alarm.alarmWeekDays = weekDays
         alarm.alarmTime = time
-        
+
         do {
             try modelContext.save()
-            // TODO: Update notification via RNAlarmManager
-            // RNAlarmManager.shared.update(alarm, weekday: weekDays, time: time) { error, _ in }
+            // Update notification following RNAlarmManager.update pattern
+            registerNotification(for: alarm)
         } catch {
             print("Failed to update alarm: \(error)")
         }
+    }
+
+    // MARK: - Notification Management
+
+    private func registerNotification(for alarm: Alarm) {
+        let notifications = [alarm.toNotification()]
+        UserNotificationManager.shared.unregister(notifications: notifications) { (result, notis, error) in
+            guard error == nil else {
+                return
+            }
+
+            if alarm.enabled {
+                UserNotificationManager.shared.register(notifications: notifications)
+            }
+        }
+    }
+
+    private func unregisterNotification(for alarm: Alarm) {
+        let notifications = [alarm.toNotification()]
+        UserNotificationManager.shared.unregister(notifications: notifications, completion: nil)
     }
 }

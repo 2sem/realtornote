@@ -75,10 +75,11 @@ final class AlarmSettingsScreenModel {
             // Update existing alarm (legacy path)
             alarm.alarmWeekDays = selectedWeekDays
             alarm.alarmTime = selectedTime
-            
+
             do {
                 try modelContext.save()
-                // TODO: Register notification via RNAlarmManager
+                // Register notification following RNAlarmManager.register pattern
+                registerNotification(for: alarm)
             } catch {
                 print("Failed to save alarm: \(error)")
                 return false
@@ -97,16 +98,32 @@ final class AlarmSettingsScreenModel {
             newAlarm.alarmTime = selectedTime
             
             modelContext.insert(newAlarm)
-            
+
             do {
                 try modelContext.save()
-                // TODO: Register notification via RNAlarmManager
+                // Register notification following RNAlarmManager.register pattern
+                registerNotification(for: newAlarm)
             } catch {
                 print("Failed to create alarm: \(error)")
                 return false
             }
         }
-        
+
         return true
+    }
+
+    // MARK: - Notification Registration
+
+    private func registerNotification(for alarm: Alarm) {
+        let notifications = [alarm.toNotification()]
+        UserNotificationManager.shared.unregister(notifications: notifications) { (result, notis, error) in
+            guard error == nil else {
+                return
+            }
+
+            if alarm.enabled {
+                UserNotificationManager.shared.register(notifications: notifications)
+            }
+        }
     }
 }
