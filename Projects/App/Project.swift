@@ -67,6 +67,7 @@ let project = Project(
                                            "Launch" : "ca-app-pub-9684378399371172/8962601702"],
                     "Itunes App Id": "1265759928",
                     "NSUserTrackingUsageDescription": "맞춤형 광고 허용을 통해 개발자에게 더  많이 후원할 수 있습니다",
+                    "NSAlarmKitUsageDescription": "공부 시간 알림을 위해 알람 설정 권한이 필요합니다",
                     "SKAdNetworkItems": .array(skAdNetworks),
                     "ITSAppUsesNonExemptEncryption": "NO",
                     "CFBundleShortVersionString": "${MARKETING_VERSION}",

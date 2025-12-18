@@ -87,17 +87,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         LSDefaults.increaseLaunchCount();
 
         UNUserNotificationCenter.current().delegate = self;
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
-            defer{
-                RNAlarmManager.shared.sync();
-            }
-            
-            guard result else{
-                return;
-            }
-            
-            DispatchQueue.main.syncInMain {
-                application.registerForRemoteNotifications();
+
+        // Only request UserNotifications permission on iOS < 26
+        // On iOS 26+, AlarmKit will be used and permission will be requested when needed
+        if #unavailable(iOS 26.0) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
+                defer{
+                    RNAlarmManager.shared.sync();
+                }
+
+                guard result else{
+                    return;
+                }
+
+                DispatchQueue.main.syncInMain {
+                    application.registerForRemoteNotifications();
+                }
             }
         }
         

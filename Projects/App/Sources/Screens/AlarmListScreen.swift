@@ -62,20 +62,22 @@ struct AlarmListScreen: View {
                         subject: nil,
                         modelContext: modelContext,
                         onSave: { weekDays, time in
-                            model?.createAlarm(weekDays: weekDays, time: time)
-                            navigationPath.removeLast()
+                            Task {
+                                await model?.createAlarm(weekDays: weekDays, time: time)
+                            }
                         }
                     )
                     AlarmSettingsScreen(model: settingsModel)
-                    
+
                 case .edit(let alarm):
                     let settingsModel = AlarmSettingsScreenModel(
                         alarm: alarm,
                         subject: nil,
                         modelContext: modelContext,
                         onSave: { weekDays, time in
-                            model?.updateAlarm(alarm, weekDays: weekDays, time: time)
-                            navigationPath.removeLast()
+                            Task {
+                                await model?.updateAlarm(alarm, weekDays: weekDays, time: time)
+                            }
                         }
                     )
                     AlarmSettingsScreen(model: settingsModel)

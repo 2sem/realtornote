@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 import LSExtensions
+import UserNotifications
 
 @Observable
 final class AlarmListScreenModel {
@@ -27,15 +28,15 @@ final class AlarmListScreenModel {
     }
     
     func toggleAlarm(_ alarm: Alarm, enabled: Bool) {
-        alarm.enabled = enabled
-
         do {
             try modelContext.save()
-            // Register/unregister notification following RNAlarmManager pattern
-            if enabled {
-                registerNotification(for: alarm)
-            } else {
-                unregisterNotification(for: alarm)
+            // AlarmManager handles both iOS 26+ (AlarmKit) and iOS 18-25 (UserNotifications)
+            Task {
+                if enabled {
+                    await AlarmManager.shared.enable(alarm)
+                } else {
+                    await AlarmManager.shared.disable(alarm)
+                }
             }
         } catch {
             print("Failed to toggle alarm: \(error)")
@@ -50,8 +51,10 @@ final class AlarmListScreenModel {
     }
     
     func deleteAlarm(_ alarm: Alarm) {
-        // Unregister notification before deleting
-        unregisterNotification(for: alarm)
+        // Unregister alarm before deleting
+        Task {
+            await AlarmManager.shared.unregister(alarm)
+        }
 
         modelContext.delete(alarm)
 
@@ -64,7 +67,16 @@ final class AlarmListScreenModel {
         alarmToDelete = nil
     }
     
-    func createAlarm(weekDays: DateComponents.DateWeekDay, time: DateComponents) {
+    func createAlarm(weekDays: DateComponents.DateWeekDay, time: DateComponents) async {
+        // Request appropriate permission before creating first alarm
+        if #available(iOS 26.0, *) {
+            // Request AlarmKit authorization on iOS 26+
+            _ = await AlarmManager.shared.requestAlarmKitAuthorization()
+        } else {
+            // Request UserNotifications permission on iOS < 26
+            await requestUserNotificationsPermission()
+        }
+
         let newAlarm = Alarm(
             id: Int64(Date().timeIntervalSince1970),
             enabled: true,
@@ -80,43 +92,34 @@ final class AlarmListScreenModel {
 
         do {
             try modelContext.save()
-            // Register notification following RNAlarmManager.create pattern
-            registerNotification(for: newAlarm)
+            // Register alarm
+            await AlarmManager.shared.register(newAlarm)
         } catch {
             print("Failed to create alarm: \(error)")
         }
     }
     
-    func updateAlarm(_ alarm: Alarm, weekDays: DateComponents.DateWeekDay, time: DateComponents) {
+    func updateAlarm(_ alarm: Alarm, weekDays: DateComponents.DateWeekDay, time: DateComponents) async {
         alarm.alarmWeekDays = weekDays
         alarm.alarmTime = time
 
         do {
             try modelContext.save()
-            // Update notification following RNAlarmManager.update pattern
-            registerNotification(for: alarm)
+            // Re-register alarm with new settings
+            await AlarmManager.shared.register(alarm)
         } catch {
             print("Failed to update alarm: \(error)")
         }
     }
 
-    // MARK: - Notification Management
-
-    private func registerNotification(for alarm: Alarm) {
-        let notifications = [alarm.toNotification()]
-        UserNotificationManager.shared.unregister(notifications: notifications) { (result, notis, error) in
-            guard error == nil else {
-                return
-            }
-
-            if alarm.enabled {
-                UserNotificationManager.shared.register(notifications: notifications)
+    private func requestUserNotificationsPermission() async {
+        await withCheckedContinuation { continuation in
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+                if let error = error {
+                    print("UserNotifications authorization failed: \(error)")
+                }
+                continuation.resume()
             }
         }
-    }
-
-    private func unregisterNotification(for alarm: Alarm) {
-        let notifications = [alarm.toNotification()]
-        UserNotificationManager.shared.unregister(notifications: notifications, completion: nil)
     }
 }

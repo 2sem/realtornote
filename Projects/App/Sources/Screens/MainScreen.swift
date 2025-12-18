@@ -114,10 +114,10 @@ struct MainScreen: View {
             guard !subjects.isEmpty else {
                 return
             }
-            
+
             // 마지막으로 본 과목으로 이동
             selectedTab = max(0, min(lastSubject, subjects.count - 1))
-            
+
             // 현재 과목의 선택된 챕터 로드 (없는 경우만)
             loadSelectedChapterForCurrentSubject()
         }

@@ -79,8 +79,10 @@ struct AlarmSettingsScreen: View {
                     backgroundColor: backgroundColor,
                     onCancel: { dismiss() },
                     onApply: {
-                        if model.applySettings() {
-                            dismiss()
+                        Task {
+                            if await model.applySettings() {
+                                dismiss()
+                            }
                         }
                     }
                 )

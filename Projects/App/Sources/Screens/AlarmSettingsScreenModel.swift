@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 import LSExtensions
+import UserNotifications
 
 @Observable
 final class AlarmSettingsScreenModel {
@@ -61,12 +62,21 @@ final class AlarmSettingsScreenModel {
         }
     }
     
-    func applySettings() -> Bool {
+    func applySettings() async -> Bool {
         guard selectedWeekDays.days.count > 0 else {
             showError = true
             return false
         }
-        
+
+        // Request appropriate permission before saving
+        if #available(iOS 26.0, *) {
+            // Request AlarmKit authorization on iOS 26+
+            _ = await AlarmManager.shared.requestAlarmKitAuthorization()
+        } else {
+            // Request UserNotifications permission on iOS < 26
+            await requestUserNotificationsPermission()
+        }
+
         if let onSave = onSave {
             // Use the callback for custom behavior (e.g., from AlarmListScreen)
             onSave(selectedWeekDays, selectedTime)
@@ -78,8 +88,8 @@ final class AlarmSettingsScreenModel {
 
             do {
                 try modelContext.save()
-                // Register notification following RNAlarmManager.register pattern
-                registerNotification(for: alarm)
+                // Register alarm using AlarmManager
+                await AlarmManager.shared.register(alarm)
             } catch {
                 print("Failed to save alarm: \(error)")
                 return false
@@ -96,13 +106,13 @@ final class AlarmSettingsScreenModel {
             )
             newAlarm.alarmWeekDays = selectedWeekDays
             newAlarm.alarmTime = selectedTime
-            
+
             modelContext.insert(newAlarm)
 
             do {
                 try modelContext.save()
-                // Register notification following RNAlarmManager.register pattern
-                registerNotification(for: newAlarm)
+                // Register alarm using AlarmManager
+                await AlarmManager.shared.register(newAlarm)
             } catch {
                 print("Failed to create alarm: \(error)")
                 return false
@@ -112,17 +122,13 @@ final class AlarmSettingsScreenModel {
         return true
     }
 
-    // MARK: - Notification Registration
-
-    private func registerNotification(for alarm: Alarm) {
-        let notifications = [alarm.toNotification()]
-        UserNotificationManager.shared.unregister(notifications: notifications) { (result, notis, error) in
-            guard error == nil else {
-                return
-            }
-
-            if alarm.enabled {
-                UserNotificationManager.shared.register(notifications: notifications)
+    private func requestUserNotificationsPermission() async {
+        await withCheckedContinuation { continuation in
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+                if let error = error {
+                    print("UserNotifications authorization failed: \(error)")
+                }
+                continuation.resume()
             }
         }
     }
