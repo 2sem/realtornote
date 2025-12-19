@@ -10,6 +10,7 @@ import Foundation
 import SwiftData
 import AlarmKit
 import SwiftUI
+import AppIntents
 
 /// Manager for scheduling alarms using AlarmKit (iOS 26+) or UserNotifications (iOS 18-25)
 @available(iOS 26.0, *)
@@ -79,24 +80,32 @@ final class AlarmKitManager {
             subtitle: "공인중개사 공부하실 시간입니다"
         )
 
-        // Create presentation with alert
+        // Create presentation with alert and secondary button
         let alertContent = AlarmKit.AlarmPresentation.Alert(
             title: "공부시간 알림",
             stopButton: AlarmKit.AlarmButton(
                 text: "확인",
                 textColor: .white,
                 systemImageName: "checkmark.circle"
-            )
+            ),
+            secondaryButton: AlarmKit.AlarmButton(
+                text: "공부하기",
+                textColor: .black,
+                systemImageName: "book.fill"
+            ),
+            secondaryButtonBehavior: .custom
         )
 
-        // Create alarm configuration with attributes inline
+        // Create alarm configuration with attributes and intents
         let configuration = AlarmKit.AlarmManager.AlarmConfiguration(
             schedule: schedule,
             attributes: .init(
                 presentation: .init(alert: alertContent),
                 metadata: metadata,
                 tintColor: Color(red: 0.506, green: 0.831, blue: 0.980)
-            )
+            ),
+            stopIntent: StopStudyAlarmIntent(alarmID: alarmID.uuidString),
+            secondaryIntent: OpenStudyAppIntent(alarmID: alarmID.uuidString)
         )
 
         do {
