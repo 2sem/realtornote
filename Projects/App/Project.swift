@@ -86,7 +86,10 @@ let project = Project(
                     ]
                 ]
             ),
-            sources: ["Sources/**"],
+            sources: [
+                "Sources/**",
+                "Extensions/Widget/Sources/StudyAlarmMetadata.swift"
+            ],
             resources: [
                 .glob(
                     pattern: "Resources/**",
@@ -98,6 +101,30 @@ let project = Project(
                 .Projects.DynamicThirdParty,
                 .package(product: "GADManager", type: .runtime)
             ]
+        ),
+        .target(
+            name: "Widget",
+            destinations: .iOS,
+            product: .appExtension,
+            bundleId: .appBundleId.appending(".widget"),
+            infoPlist: .extendingDefault(
+                with: [
+                    "NSExtension": [
+                        "NSExtensionPointIdentifier": "com.apple.widgetkit-extension"
+                    ]
+                ]
+            ),
+            sources: .extensions.widget + "/Sources/**",
+            resources: .extensions.widget + "/Resources/**",
+            dependencies: [],
+            settings: .settings(configurations: [
+                .debug(
+                    name: "Debug",
+                    xcconfig: .extensions.widget + "/Configs/debug.xcconfig"),
+                .release(
+                    name: "Release",
+                    xcconfig: .extensions.widget + "/Configs/release.xcconfig")
+            ])
         ),
         .target(
             name: "AppTests",

@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 iOS educational app (공인중개사요약집) for Korean real estate agent certification exam preparation.
-- **Target**: iOS 18.0+
+- **Target**: iOS 18.0+ (Widget extension requires iOS 26.0+)
 - **Swift**: 5
 - **Project**: Tuist-generated workspace
 
@@ -60,6 +60,7 @@ fastlane ios release description:'변경사항 설명' isReleasing:true
 
 Three Tuist projects for clean dependency management:
 1. **App**: Main application (business logic & UI)
+   - **Widget** extension: AlarmKit Live Activities (iOS 26.0+)
 2. **ThirdParty**: Static framework (RxSwift, KakaoSDK, CoreXLSX)
 3. **DynamicThirdParty**: Dynamic framework (Firebase)
 
@@ -116,6 +117,44 @@ Hybrid approach migrating from UIKit to SwiftUI.
 - `toNotification()` creates `LSUserNotification` from SwiftData Alarm
 - Registration via `UserNotificationManager.shared` (matches UIKit pattern)
 
+## Widget Extension (iOS 26.0+)
+
+### AlarmKit Integration
+
+Live Activity support for study alarms using iOS 26's AlarmKit framework.
+
+**Location**: `Projects/App/Extensions/Widget/`
+
+**Structure**:
+```
+Widget/
+├── Sources/
+│   ├── LiveActivityWidget.swift      # Main widget configuration
+│   ├── AppWidgetBundle.swift         # Widget bundle
+│   ├── StudyAlarmMetadata.swift      # Shared metadata model
+│   └── Intents/
+│       ├── PauseIntent.swift         # Pause alarm intent
+│       ├── ResumeIntent.swift        # Resume alarm intent
+│       └── StopIntent.swift          # Stop alarm intent
+├── Resources/
+│   └── Assets.xcassets/
+└── Configs/
+    ├── debug.xcconfig                # IPHONEOS_DEPLOYMENT_TARGET=26.0
+    └── release.xcconfig              # IPHONEOS_DEPLOYMENT_TARGET=26.0
+```
+
+**Shared Code Pattern**:
+- `StudyAlarmMetadata.swift` lives in Widget's sources
+- App target explicitly includes it via `Project.swift` sources array
+- Single source of truth, no duplication
+- Future refactor: move to shared AlarmFeature module
+
+**Key Components**:
+- `AlarmAttributes<StudyAlarmMetadata>`: Live Activity attributes
+- Dynamic Island + Lock Screen presentations
+- AlarmKit intents: Pause, Resume, Stop (uses `LiveActivityIntent`)
+- `AlarmKitManager` (App only): Schedules/unschedules alarms with fallback to UserNotifications for iOS 18-25
+
 ## Configuration & Integrations
 
 ### Build Configs
@@ -131,6 +170,7 @@ Hybrid approach migrating from UIKit to SwiftUI.
 - **Google AdMob**: 3 ad units (Donate, FullAd, Launch)
 - **KakaoTalk**: App key d3be13c89a776659651eef478d4e4268
 - **Firebase**: 11.8.1 SDK (Crashlytics, Analytics, Messaging, RemoteConfig)
+- **AlarmKit**: iOS 26.0+ framework for Live Activities and alarm scheduling (Widget extension only)
 
 ### Code Style
 - Mix of Korean (UI strings) and English (technical comments)
