@@ -99,7 +99,8 @@ let project = Project(
             dependencies: [
                 .Projects.ThirdParty,
                 .Projects.DynamicThirdParty,
-                .package(product: "GADManager", type: .runtime)
+                .package(product: "GADManager", type: .runtime),
+                .target(name: "Widget")
             ]
         ),
         .target(
