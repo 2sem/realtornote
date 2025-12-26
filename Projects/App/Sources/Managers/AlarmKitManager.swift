@@ -16,6 +16,14 @@ import AppIntents
 @available(iOS 26.0, *)
 final class AlarmKitManager {
     static let shared = AlarmKitManager()
+    
+#if DEBUG
+    private let pretimerDuration: TimeInterval = 30
+    private let postponeDuration: TimeInterval = 30
+#else
+    private let pretimerDuration: TimeInterval = 60 * 5
+    private let postponeDuration: TimeInterval = 60 * 15
+#endif
 
     private init() {}
 
@@ -82,30 +90,37 @@ final class AlarmKitManager {
 
         // Create presentation with alert and secondary button
         let alertContent = AlarmKit.AlarmPresentation.Alert(
-            title: "공부시간 알림",
+            title: "공부시간",
             stopButton: AlarmKit.AlarmButton(
                 text: "확인",
                 textColor: .white,
                 systemImageName: "checkmark.circle"
             ),
             secondaryButton: AlarmKit.AlarmButton(
-                text: "공부하기",
+                text: "15분 연기",
                 textColor: .black,
-                systemImageName: "book.fill"
+                systemImageName: "repeat"
             ),
-            secondaryButtonBehavior: .custom
+            secondaryButtonBehavior: .countdown
         )
 
         // Create alarm configuration with attributes and intents
         let configuration = AlarmKit.AlarmManager.AlarmConfiguration(
+            countdownDuration: .init(
+                preAlert: pretimerDuration,
+                postAlert: postponeDuration),
             schedule: schedule,
             attributes: .init(
-                presentation: .init(alert: alertContent),
+                presentation: .init(
+                    alert: alertContent,
+//                    countdown: countdownContent,
+//                    paused: pausedContent
+                ),
                 metadata: metadata,
-                tintColor: Color(red: 0.506, green: 0.831, blue: 0.980)
+                tintColor: .yellow,//Color(red: 0.506, green: 0.831, blue: 0.980)
             ),
-            stopIntent: StopStudyAlarmIntent(alarmID: alarmID.uuidString),
-            secondaryIntent: OpenStudyAppIntent(alarmID: alarmID.uuidString)
+//            stopIntent: StopStudyAlarmIntent(alarmID: alarmID.uuidString),
+//            secondaryIntent: OpenStudyAppIntent(alarmID: alarmID.uuidString)
         )
 
         do {
@@ -193,12 +208,4 @@ final class AlarmKitManager {
         let notifications = [alarm.toNotification()]
         UserNotificationManager.shared.unregister(notifications: notifications, completion: nil)
     }
-}
-
-// MARK: - AlarmMetadata Implementation
-
-@available(iOS 26.0, *)
-struct StudyAlarmMetadata: AlarmKit.AlarmMetadata {
-    let title: String
-    let subtitle: String
 }

@@ -48,9 +48,9 @@ struct LiveActivityWidget: Widget {
                 AlarmProgressView(mode: context.state.mode,
                                   tint: context.attributes.tintColor)
             } minimal: {
-                // The minimal presentation.
-//                AlarmProgressView(mode: context.state.mode,
-//                                  tint: context.attributes.tintColor)
+//                 The minimal presentation.
+                AlarmProgressView(mode: context.state.mode,
+                                  tint: context.attributes.tintColor)
             }
             .keylineTint(context.attributes.tintColor)
         }
@@ -172,8 +172,6 @@ struct AlarmControls: View {
     var body: some View {
         HStack(spacing: 4) {
             switch state.mode {
-            case .countdown:
-                ButtonView(config: presentation.countdown?.pauseButton, intent: PauseIntent(alarmID: state.alarmID.uuidString), tint: .orange)
             case .paused:
                 ButtonView(config: presentation.paused?.resumeButton, intent: ResumeIntent(alarmID: state.alarmID.uuidString), tint: .orange)
             default:

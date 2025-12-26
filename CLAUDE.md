@@ -102,8 +102,16 @@ Hybrid approach migrating from UIKit to SwiftUI.
 - **SplashScreen**: Migration progress display
 - **MainScreen**: TabView with @Query for subjects
 - **SubjectScreen**: Chapter picker (Menu), Roman numerals
-- **AlarmListScreen**: Alarm management with notification registration
+- **AlarmListScreen**: Alarm management with notification/AlarmKit registration
 - **AlarmSettingsScreen**: Create/edit alarms with weekday/time pickers
+
+### App Intents (iOS 26.0+)
+
+**Location**: `Projects/App/Sources/Intents/`
+
+- `OpenStudyAppIntent`: Opens app and triggers alarm countdown via `AlarmManager.shared.countdown()`
+  - Used as secondary action from alarm notifications
+  - Implements `LiveActivityIntent` protocol
 
 ### Key Patterns
 
@@ -129,13 +137,13 @@ Live Activity support for study alarms using iOS 26's AlarmKit framework.
 ```
 Widget/
 ├── Sources/
-│   ├── LiveActivityWidget.swift      # Main widget configuration
+│   ├── LiveActivityWidget.swift      # Main widget with Dynamic Island + Lock Screen
 │   ├── AppWidgetBundle.swift         # Widget bundle
 │   ├── StudyAlarmMetadata.swift      # Shared metadata model
 │   └── Intents/
-│       ├── PauseIntent.swift         # Pause alarm intent
-│       ├── ResumeIntent.swift        # Resume alarm intent
-│       └── StopIntent.swift          # Stop alarm intent
+│       ├── PauseIntent.swift         # Pause alarm (LiveActivityIntent)
+│       ├── ResumeIntent.swift        # Resume alarm (LiveActivityIntent)
+│       └── StopIntent.swift          # Stop alarm (LiveActivityIntent)
 ├── Resources/
 │   └── Assets.xcassets/
 └── Configs/
@@ -150,10 +158,27 @@ Widget/
 - Future refactor: move to shared AlarmFeature module
 
 **Key Components**:
+
+*LiveActivityWidget.swift*:
 - `AlarmAttributes<StudyAlarmMetadata>`: Live Activity attributes
-- Dynamic Island + Lock Screen presentations
-- AlarmKit intents: Pause, Resume, Stop (uses `LiveActivityIntent`)
-- `AlarmKitManager` (App only): Schedules/unschedules alarms with fallback to UserNotifications for iOS 18-25
+- **Dynamic Island**: Compact (countdown + progress), expanded (title, subtitle, countdown, controls)
+- **Lock Screen**: Full-width view with countdown timer and alarm controls
+- `AlarmProgressView`: Circular progress with book icon, handles countdown/paused states
+- `AlarmControls`: Resume button (paused state) + Stop button with `LiveActivityIntent`
+
+*Widget Intents* (all use `LiveActivityIntent`):
+- `PauseIntent`: Calls `AlarmManager.shared.pause()`
+- `ResumeIntent`: Calls `AlarmManager.shared.resume()`
+- `StopIntent`: Calls `AlarmManager.shared.stop()`
+
+*AlarmKitManager* (App target only, iOS 26.0+):
+- **Authorization**: `requestAuthorization()`, `isAlarmKitAvailable`
+- **Scheduling**: Converts SwiftData `Alarm` → AlarmKit configuration
+  - Schedule: One-time or weekly recurring based on weekdays
+  - Countdown: 5min pre-alert, 15min postpone (30s in DEBUG)
+  - Presentation: Alert with stop/secondary buttons (countdown behavior)
+  - Tint: Yellow color
+- **Fallback**: Uses `UserNotificationManager` for iOS 18-25 when AlarmKit unavailable
 
 ## Configuration & Integrations
 
@@ -163,7 +188,8 @@ Widget/
 
 ### Tuist Helpers (`Tuist/ProjectDescriptionHelpers/`)
 - `String+.swift`: `.appBundleId`
-- `Path+.swift`: `.projects()`
+- `Path+.swift`: `.projects()`, `.extensions.widget` (path to Widget extension)
+- `SourceFileGlob+.swift`: `.extensions.widget` (for source file globs)
 - `TargetDependency+.swift`: `.Projects.ThirdParty`, `.Projects.DynamicThirdParty`
 
 ### Third-Party Services
@@ -176,3 +202,4 @@ Widget/
 - Mix of Korean (UI strings) and English (technical comments)
 - No automated linting (follow existing style)
 - Dark mode enforced in `Info.plist`
+- AlarmKit.AlarmManager - https://developer.apple.com/documentation/alarmkit/alarmmanager

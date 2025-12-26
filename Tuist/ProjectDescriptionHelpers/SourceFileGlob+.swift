@@ -8,9 +8,7 @@
 import Foundation
 import ProjectDescription
 
-public extension Path {
-    static func projects(_ path: String) -> Path { .relativeToRoot("Projects/\(path)") }
-    
+public extension SourceFileGlob {
     static var extensions: Extensions { Extensions() }
     
     struct Extensions {
