@@ -26,7 +26,7 @@ eval "$(mise activate bash)"
 
 ```bash
 # Generate Xcode workspace (without opening)
-tuist generate --no-open
+mise x -- tuist generate --no-open
 
 # Generate and open in Xcode
 mise x -- tuist generate --open
@@ -40,6 +40,12 @@ xcodebuild build -scheme App -workspace realtornote.xcworkspace -destination 'ge
 # Clean build artifacts
 tuist clean
 ```
+
+**IMPORTANT**: Always regenerate after file changes:
+- ✅ Created new file → `mise x -- tuist generate --no-open`
+- ✅ Deleted file → `mise x -- tuist generate --no-open`
+- ✅ Renamed file → `mise x -- tuist generate --no-open`
+- ❌ Skip regeneration → Build errors ("cannot find in scope")
 
 ### Secrets & Deployment
 
@@ -102,6 +108,12 @@ Hybrid approach migrating from UIKit to SwiftUI.
 - **SplashScreen**: Migration progress display
 - **MainScreen**: TabView with @Query for subjects
 - **SubjectScreen**: Chapter picker (Menu), Roman numerals
+- **PartScreen**: Content viewer with search, favorites, and scroll position tracking
+  - Custom SearchBar component (regex-based, live highlighting)
+  - Green highlight for current match, yellow for others
+  - Previous/Next navigation buttons
+  - Keyboard auto-hides on Return key
+  - Uses SwiftUITextView wrapper for performance
 - **AlarmListScreen**: Alarm management with notification/AlarmKit registration
 - **AlarmSettingsScreen**: Create/edit alarms with weekday/time pickers
 
@@ -113,6 +125,22 @@ Hybrid approach migrating from UIKit to SwiftUI.
   - Used as secondary action from alarm notifications
   - Implements `LiveActivityIntent` protocol
 
+### Reusable Components (`Projects/App/Sources/Controls/`)
+
+**SearchBar.swift**:
+- Custom search bar with semi-transparent background (iOS-style)
+- TextField with clear button (X), Previous/Next navigation (chevrons)
+- Auto-hides keyboard on Return key submission
+- Shows navigation buttons only when results exist
+- Used in PartScreen (can be reused elsewhere)
+
+**SwiftUITextView.swift**:
+- UIViewRepresentable wrapper around UITextView
+- Performance optimization for large text content
+- Supports plain text and attributed text (for search highlighting)
+- Scroll position tracking and programmatic scrolling to ranges
+- Used in PartScreen for content display
+
 ### Key Patterns
 
 **UIKit → SwiftUI**:
@@ -120,6 +148,14 @@ Hybrid approach migrating from UIKit to SwiftUI.
 - `UINavigationController` → `NavigationStack`
 - `@IBOutlet/@IBAction` → `@State/@Binding`
 - `RNModelController.shared` → `@Query` / `@Environment(\.modelContext)`
+- `UISearchBar` → Custom `SearchBar` component (works inside TabView)
+
+**Search Implementation** (PartScreen):
+- Regex-based search (case-insensitive) like UIKit `RNPartViewController`
+- NSAttributedString for highlighting (green = current, yellow = others)
+- Keyboard management via `@FocusState`
+- Previous/Next navigation with wrapping (first ↔ last)
+- Return key cycles to next match and hides keyboard
 
 **Notifications** (`Alarm+.swift`):
 - `toNotification()` creates `LSUserNotification` from SwiftData Alarm
@@ -203,3 +239,4 @@ Widget/
 - No automated linting (follow existing style)
 - Dark mode enforced in `Info.plist`
 - AlarmKit.AlarmManager - https://developer.apple.com/documentation/alarmkit/alarmmanager
+- generate project if you insert new file or rename using tuist
