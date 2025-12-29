@@ -29,6 +29,11 @@ struct PartScreen: View {
         LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(offset))
     }
 
+    // Handle search dismissal
+    private func handleSearchDismissed() {
+        isSearching = false
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Title header with search and favorite buttons
@@ -69,7 +74,8 @@ struct PartScreen: View {
                 isScrollEnabled: true,
                 scrollOffset: $scrollOffset,
                 onScroll: handleScroll,
-                showSearchBar: isSearching
+                showSearchBar: isSearching,
+                onSearchDismissed: handleSearchDismissed
             )
         }
         .onChange(of: isSearching) { oldValue, newValue in
