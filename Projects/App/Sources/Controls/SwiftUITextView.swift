@@ -21,7 +21,8 @@ struct SwiftUITextView: UIViewRepresentable {
     @Binding var scrollOffset: CGFloat
     let onScroll: ((CGFloat) -> Void)?
     let scrollToRange: NSRange?
-    
+    let showSearchBar: Bool
+
     init(
         text: String,
         attributedText: NSAttributedString? = nil,
@@ -32,7 +33,8 @@ struct SwiftUITextView: UIViewRepresentable {
         isScrollEnabled: Bool = true,
         scrollOffset: Binding<CGFloat> = .constant(0),
         onScroll: ((CGFloat) -> Void)? = nil,
-        scrollToRange: NSRange? = nil
+        scrollToRange: NSRange? = nil,
+        showSearchBar: Bool = false
     ) {
         self.text = text
         self.attributedText = attributedText
@@ -44,6 +46,7 @@ struct SwiftUITextView: UIViewRepresentable {
         self._scrollOffset = scrollOffset
         self.onScroll = onScroll
         self.scrollToRange = scrollToRange
+        self.showSearchBar = showSearchBar
     }
     
     func makeCoordinator() -> Coordinator {
@@ -60,7 +63,10 @@ struct SwiftUITextView: UIViewRepresentable {
         textView.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         textView.textContainer.lineFragmentPadding = 0
         textView.delegate = context.coordinator
-        
+
+        // Enable native iOS Find interaction
+        textView.isFindInteractionEnabled = true
+
         // Performance optimizations
         textView.layoutManager.allowsNonContiguousLayout = true
         
@@ -106,6 +112,15 @@ struct SwiftUITextView: UIViewRepresentable {
         
         if uiView.backgroundColor != backgroundColor {
             uiView.backgroundColor = backgroundColor
+        }
+        
+        // Show/hide search bar
+        if showSearchBar, let findInteraction = uiView.findInteraction {
+            // Present find navigator with keyboard
+            findInteraction.presentFindNavigator(showingReplace: false)
+        } else if !showSearchBar, let findInteraction = uiView.findInteraction {
+            // Dismiss find navigator
+            findInteraction.dismissFindNavigator()
         }
     }
     

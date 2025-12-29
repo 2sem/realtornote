@@ -10,6 +10,7 @@ struct MainScreen: View {
     @State private var showQuiz: Bool = false
     @State private var showAlarmList: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
+    @State private var keyboardState = KeyboardState() // Keyboard visibility state
     
     // Current subject based on selectedTab
     private var currentSubject: Subject? {
@@ -64,11 +65,17 @@ struct MainScreen: View {
                             .tag(index)
                         }
                     }
-                    
-                    // External links bar above tab bar
-                    ExternalLinksBar()
+                    .toolbar(keyboardState.isVisible ? .hidden : .visible, for: .tabBar)
+
+                    // External links bar above tab bar (hidden when keyboard visible)
+                    if !keyboardState.isVisible {
+                        ExternalLinksBar()
+                    }
                 }
             }
+        .environment(keyboardState)
+//        .toolbar(isKeyboardVisible ? .hidden : .visible)
+//            .animation(.linear(duration: 0.5), value: isKeyboardVisible)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

@@ -11,10 +11,22 @@ import SwiftData
 
 struct PartListScreen: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(KeyboardState.self) private var keyboardState
     let chapter: Chapter
+    
+    @State private var viewModels: [Int: PartScreenModel] = [:]
 
     var sortedParts: [Part] {
         (chapter.parts ?? []).sorted { $0.seq < $1.seq }
+    }
+    
+    private func getViewModel(for part: Part) -> PartScreenModel {
+        if let existing = viewModels[part.seq] {
+            return existing
+        }
+        let newModel = PartScreenModel(part: part, modelContext: modelContext)
+        viewModels[part.seq] = newModel
+        return newModel
     }
 
     var body: some View {
@@ -22,7 +34,7 @@ struct PartListScreen: View {
             ForEach(sortedParts, id: \.seq) { part in
                 PartScreen(
                     part: part,
-                    viewModel: PartScreenModel(part: part, modelContext: modelContext)
+                    viewModel: getViewModel(for: part)
                 )
             }
         }
@@ -30,9 +42,11 @@ struct PartListScreen: View {
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .background(Color(red: 0.506, green: 0.831, blue: 0.980))
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            // Spacer to account for ExternalLinksBar + Subject TabBar height
+            // Spacer to account for ExternalLinksBar + Subject TabBar height (only when keyboard hidden)
             // ExternalLinksBar: ~60pt + Subject TabBar: ~49pt + padding: ~10pt
-            Color.clear.frame(height: 80)
+            if !keyboardState.isVisible {
+                Color.clear.frame(height: 80)
+            }
         }
     }
 }
