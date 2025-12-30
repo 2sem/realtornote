@@ -85,6 +85,7 @@ struct MainScreen: View {
                     Image(systemName: "bell.fill")
                         .foregroundColor(.accentColor)
                 }
+                .buttonStyle(.plain)
             }
 
             ToolbarItem(placement: .principal) {
@@ -105,6 +106,7 @@ struct MainScreen: View {
                         Image(systemName: "questionmark.text.page")
                             .foregroundColor(.accentColor)
                     }
+                    .buttonStyle(.plain)
                     .disabled(currentSelectedChapter.wrappedValue == nil)
                     
                     // Favorites button
@@ -114,9 +116,12 @@ struct MainScreen: View {
                         Image(systemName: "book")
                             .foregroundColor(.accentColor)
                     }
+                    .buttonStyle(.plain)
                 }
             }
         }
+        .toolbarBackground(.automatic, for: .navigationBar)
+        .toolbarColorScheme(.light, for: .navigationBar)
         .task {
             guard !subjects.isEmpty else {
                 return

@@ -44,9 +44,12 @@ struct QuizScreen: View {
                     Button("닫기") {
                         dismiss()
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(.accentColor)
+                    .buttonStyle(.plain)
                 }
             }
+            .toolbarBackground(.automatic, for: .navigationBar)
+            .toolbarColorScheme(.light, for: .navigationBar)
             .onAppear {
                 if !viewModel.isQuizActive && !viewModel.isQuizComplete {
                     viewModel.startQuiz()
