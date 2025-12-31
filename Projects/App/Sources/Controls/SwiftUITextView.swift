@@ -21,8 +21,7 @@ struct SwiftUITextView: UIViewRepresentable {
     @Binding var scrollOffset: CGFloat
     let onScroll: ((CGFloat) -> Void)?
     let scrollToRange: NSRange?
-    let showSearchBar: Bool
-    let onSearchDismissed: (() -> Void)?
+    @Binding var showSearchBar: Bool
 
     init(
         text: String,
@@ -35,8 +34,7 @@ struct SwiftUITextView: UIViewRepresentable {
         scrollOffset: Binding<CGFloat> = .constant(0),
         onScroll: ((CGFloat) -> Void)? = nil,
         scrollToRange: NSRange? = nil,
-        showSearchBar: Bool = false,
-        onSearchDismissed: (() -> Void)? = nil
+        showSearchBar: Binding<Bool> = .constant(false)
     ) {
         self.text = text
         self.attributedText = attributedText
@@ -48,12 +46,11 @@ struct SwiftUITextView: UIViewRepresentable {
         self._scrollOffset = scrollOffset
         self.onScroll = onScroll
         self.scrollToRange = scrollToRange
-        self.showSearchBar = showSearchBar
-        self.onSearchDismissed = onSearchDismissed
+        self._showSearchBar = showSearchBar
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(onScroll: onScroll, onSearchDismissed: onSearchDismissed)
+        Coordinator(onScroll: onScroll)
     }
     
     func makeUIView(context: Context) -> UITextView {
@@ -118,63 +115,32 @@ struct SwiftUITextView: UIViewRepresentable {
         }
         
         // Show/hide search bar
-        if showSearchBar, let findInteraction = uiView.findInteraction {
-            // Present find navigator with keyboard
-            if !findInteraction.isFindNavigatorVisible {
-                findInteraction.presentFindNavigator(showingReplace: false)
+        if let findInteraction = uiView.findInteraction {
+            if showSearchBar {
+                // Present find navigator with keyboard
+                if !findInteraction.isFindNavigatorVisible {
+                    findInteraction.presentFindNavigator(showingReplace: false)
+                }
+            } else {
+                // Dismiss find navigator
+                if findInteraction.isFindNavigatorVisible {
+                    findInteraction.dismissFindNavigator()
+                }
             }
-            // Start monitoring for manual dismissal
-            context.coordinator.startMonitoringFindInteraction(findInteraction)
-        } else if !showSearchBar, let findInteraction = uiView.findInteraction {
-            // Dismiss find navigator
-            if findInteraction.isFindNavigatorVisible {
-                findInteraction.dismissFindNavigator()
-            }
-            // Stop monitoring
-            context.coordinator.stopMonitoringFindInteraction()
         }
     }
     
     // MARK: - Coordinator
     class Coordinator: NSObject, UITextViewDelegate {
         let onScroll: ((CGFloat) -> Void)?
-        let onSearchDismissed: (() -> Void)?
-        private var findInteractionTimer: Timer?
 
-        init(onScroll: ((CGFloat) -> Void)?, onSearchDismissed: (() -> Void)?) {
+        init(onScroll: ((CGFloat) -> Void)?) {
             self.onScroll = onScroll
-            self.onSearchDismissed = onSearchDismissed
         }
 
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             // Only call callback, don't update binding to avoid cycle
             onScroll?(scrollView.contentOffset.y)
-        }
-        
-        func startMonitoringFindInteraction(_ findInteraction: UIFindInteraction?) {
-            // Stop any existing timer
-            stopMonitoringFindInteraction()
-            
-            guard let findInteraction = findInteraction else { return }
-            
-            // Poll every 0.1 seconds to check if find navigator is still visible
-            findInteractionTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self, weak findInteraction] _ in
-                guard let self = self, let findInteraction = findInteraction else {
-                    self?.stopMonitoringFindInteraction()
-                    return
-                }
-                
-                // If find navigator became invisible, user dismissed it
-                if !findInteraction.isFindNavigatorVisible {
-                    self.onSearchDismissed?()
-                    self.stopMonitoringFindInteraction()
-                }
-            }
-        }
-        
-        func stopMonitoringFindInteraction() {
-            findInteractionTimer?.invalidate()
-            findInteractionTimer = nil
         }
     }
 }

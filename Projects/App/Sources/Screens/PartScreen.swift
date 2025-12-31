@@ -16,6 +16,7 @@ struct PartScreen: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var scrollToRange: NSRange? = nil
     @State private var isSearching: Bool = false
+    @State private var keyboardPadding: CGFloat = 0
     @Environment(KeyboardState.self) private var keyboardState
     
     // Format content using LSDocumentRecognizer (like UIKit version)
@@ -27,11 +28,6 @@ struct PartScreen: View {
     // Handle scroll position changes
     private func handleScroll(_ offset: CGFloat) {
         LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(offset))
-    }
-
-    // Handle search dismissal
-    private func handleSearchDismissed() {
-        isSearching = false
     }
 
     var body: some View {
@@ -65,19 +61,53 @@ struct PartScreen: View {
             .background(Color(red: 0.506, green: 0.831, blue: 0.980))
 
             // Content using UITextView wrapper with native Find
-            SwiftUITextView(
-                text: formattedContent,
-                font: .systemFont(ofSize: 17),
-                textColor: .label,
-                backgroundColor: .clear,
-                isEditable: false,
-                isScrollEnabled: true,
-                scrollOffset: $scrollOffset,
-                onScroll: handleScroll,
-                showSearchBar: isSearching,
-                onSearchDismissed: handleSearchDismissed
-            )
+            GeometryReader { geometry in
+                SwiftUITextView(
+                    text: formattedContent,
+                    font: .systemFont(ofSize: 17),
+                    textColor: .label,
+                    backgroundColor: .clear,
+                    isEditable: false,
+                    isScrollEnabled: true,
+                    scrollOffset: $scrollOffset,
+                    onScroll: handleScroll,
+                    showSearchBar: $isSearching
+                )
+                .padding(.bottom, keyboardPadding)
+                .keyboardWillShow { notification in
+                    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+                          let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+                        return
+                    }
+                    
+                    // Calculate overlap: text view bottom - keyboard top
+                    let viewBottom = geometry.frame(in: .global).maxY
+                    let keyboardTop = keyboardFrame.minY
+                    let overlap = max(0, viewBottom - keyboardTop)
+                    
+                    withAnimation(.easeOut(duration: animationDuration)) {
+                        keyboardPadding = overlap
+                    }
+                }
+                .keyboardWillHide { notification in
+                    guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+                        keyboardPadding = 0
+                        return
+                    }
+                    
+                    // Reset padding
+                    withAnimation(.easeOut(duration: animationDuration)) {
+                        keyboardPadding = 0
+                    }
+                    
+                    // Dismiss search when keyboard hides
+                    if isSearching {
+                        isSearching = false
+                    }
+                }
+            }
         }
+        .scrollDismissesKeyboard(.interactively)
         .onChange(of: isSearching) { oldValue, newValue in
             // Update keyboard visibility when find navigator changes
             keyboardState.isVisible = newValue
