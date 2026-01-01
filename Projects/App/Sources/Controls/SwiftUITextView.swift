@@ -22,6 +22,8 @@ struct SwiftUITextView: UIViewRepresentable {
     let onScroll: ((CGFloat) -> Void)?
     let scrollToRange: NSRange?
     @Binding var showSearchBar: Bool
+    let contentBottomInset: CGFloat
+    @Binding var searchBarHeight: CGFloat
 
     init(
         text: String,
@@ -34,7 +36,9 @@ struct SwiftUITextView: UIViewRepresentable {
         scrollOffset: Binding<CGFloat> = .constant(0),
         onScroll: ((CGFloat) -> Void)? = nil,
         scrollToRange: NSRange? = nil,
-        showSearchBar: Binding<Bool> = .constant(false)
+        showSearchBar: Binding<Bool> = .constant(false),
+        contentBottomInset: CGFloat = 0,
+        searchBarHeight: Binding<CGFloat> = .constant(0)
     ) {
         self.text = text
         self.attributedText = attributedText
@@ -47,6 +51,8 @@ struct SwiftUITextView: UIViewRepresentable {
         self.onScroll = onScroll
         self.scrollToRange = scrollToRange
         self._showSearchBar = showSearchBar
+        self.contentBottomInset = contentBottomInset
+        self._searchBarHeight = searchBarHeight
     }
     
     func makeCoordinator() -> Coordinator {
@@ -114,6 +120,17 @@ struct SwiftUITextView: UIViewRepresentable {
             uiView.backgroundColor = backgroundColor
         }
         
+        // Adjust content inset for bottom padding (allows content to scroll under overlays)
+        var contentInset = uiView.contentInset
+        contentInset.bottom = contentBottomInset
+        if uiView.contentInset.bottom != contentInset.bottom {
+            uiView.contentInset = contentInset
+            
+            var scrollIndicatorInsets = uiView.scrollIndicatorInsets
+            scrollIndicatorInsets.bottom = contentBottomInset
+            uiView.scrollIndicatorInsets = scrollIndicatorInsets
+        }
+        
         // Show/hide search bar
         if let findInteraction = uiView.findInteraction {
             if showSearchBar {
@@ -121,6 +138,9 @@ struct SwiftUITextView: UIViewRepresentable {
                 if !findInteraction.isFindNavigatorVisible {
                     findInteraction.presentFindNavigator(showingReplace: false)
                 }
+                
+                // Detect FindNavigator height if not already known
+                detectSearchBarHeightIfNeeded(in: uiView)
             } else {
                 // Dismiss find navigator
                 if findInteraction.isFindNavigatorVisible {
@@ -142,6 +162,57 @@ struct SwiftUITextView: UIViewRepresentable {
             // Only call callback, don't update binding to avoid cycle
             onScroll?(scrollView.contentOffset.y)
         }
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension SwiftUITextView {
+    /// Detects the FindNavigator height by searching the view hierarchy if not already set
+    func detectSearchBarHeightIfNeeded(in textView: UITextView) {
+        guard searchBarHeight == 0 else { return }
+        
+        // Height not set yet, search for it
+        Task { @MainActor in
+            // Wait for view layout
+            try? await Task.sleep(for: .milliseconds(300))
+            
+            guard let windowScene = textView.window?.windowScene else { return }
+            
+            let allWindows = windowScene.windows
+            let searchPattern = "FindNavigator"
+            
+            for window in allWindows {
+                if let findNavigatorView = window.findViewContaining(name: searchPattern) {
+                    let height = findNavigatorView.frame.height
+                    // Update binding directly
+                    self.searchBarHeight = height
+                    return
+                }
+            }
+        }
+    }
+}
+
+// MARK: - UIView Helpers
+
+private extension UIView {
+    /// Recursively searches the view hierarchy for a view whose class name contains the given string
+    func findViewContaining(name: String) -> UIView? {
+        // Check current view's class name
+        let className = String(describing: type(of: self))
+        if className.contains(name) {
+            return self
+        }
+        
+        // Recursively search subviews
+        for subview in subviews {
+            if let found = subview.findViewContaining(name: name) {
+                return found
+            }
+        }
+        
+        return nil
     }
 }
 

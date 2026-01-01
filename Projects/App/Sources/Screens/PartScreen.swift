@@ -17,6 +17,7 @@ struct PartScreen: View {
     @State private var scrollToRange: NSRange? = nil
     @State private var isSearching: Bool = false
     @State private var keyboardPadding: CGFloat = 0
+    @State private var searchBarHeight: CGFloat = 0
     @Environment(KeyboardState.self) private var keyboardState
     
     // Format content using LSDocumentRecognizer (like UIKit version)
@@ -71,7 +72,9 @@ struct PartScreen: View {
                     isScrollEnabled: true,
                     scrollOffset: $scrollOffset,
                     onScroll: handleScroll,
-                    showSearchBar: $isSearching
+                    showSearchBar: $isSearching,
+                    contentBottomInset: searchBarHeight,
+                    searchBarHeight: $searchBarHeight
                 )
                 .padding(.bottom, keyboardPadding)
                 .keyboardWillShow { notification in
@@ -85,8 +88,11 @@ struct PartScreen: View {
                     let keyboardTop = keyboardFrame.minY
                     let overlap = max(0, viewBottom - keyboardTop)
                     
+                    // Subtract find bar height from padding (content can scroll under transparent bar)
+                    let adjustedPadding = max(0, overlap - searchBarHeight)
+                    
                     withAnimation(.easeOut(duration: animationDuration)) {
-                        keyboardPadding = overlap
+                        keyboardPadding = adjustedPadding
                     }
                 }
                 .keyboardWillHide { notification in
@@ -95,7 +101,7 @@ struct PartScreen: View {
                         return
                     }
                     
-                    // Reset padding
+                    // Reset padding and search bar height
                     withAnimation(.easeOut(duration: animationDuration)) {
                         keyboardPadding = 0
                     }
