@@ -45,7 +45,6 @@ struct QuizScreen: View {
                         dismiss()
                     }
                     .foregroundColor(.accentColor)
-                    .buttonStyle(.plain)
                 }
             }
             .toolbarBackground(.automatic, for: .navigationBar)

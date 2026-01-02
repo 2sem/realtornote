@@ -33,15 +33,13 @@ struct AlarmListScreen: View {
             .background(backgroundColor.ignoresSafeArea())
             .navigationTitle("공부시간 알림")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(backgroundColor, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .foregroundColor(.white)
                     }
                 }
                 
@@ -50,7 +48,6 @@ struct AlarmListScreen: View {
                         navigationPath.append(AlarmEditMode.create)
                     } label: {
                         Image(systemName: "plus")
-                            .foregroundColor(.white)
                     }
                 }
             }
@@ -87,7 +84,6 @@ struct AlarmListScreen: View {
                 if model == nil {
                     model = AlarmListScreenModel(modelContext: modelContext, alarms: alarms)
                 }
-                configureNavigationBarAppearance()
             }
             .onChange(of: alarms) { _, newAlarms in
                 model?.updateAlarms(newAlarms)
@@ -95,21 +91,9 @@ struct AlarmListScreen: View {
         }
     }
     
-    private func configureNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 0.506, green: 0.831, blue: 0.980, alpha: 1.0)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-    }
-    
     @ViewBuilder
     private func content(model: AlarmListScreenModel) -> some View {
-        if alarms.isEmpty {
+        ZStack {
             VStack(spacing: 16) {
                 Spacer()
                 Image(systemName: "bell.slash")
@@ -123,9 +107,7 @@ struct AlarmListScreen: View {
                     .foregroundColor(.white.opacity(0.8))
                 Spacer()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
-        } else {
+            
             List {
                 ForEach(Array(alarms.enumerated()), id: \.element.id) { index, alarm in
                     AlarmListCell(

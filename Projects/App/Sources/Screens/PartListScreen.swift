@@ -15,9 +15,12 @@ struct PartListScreen: View {
     let chapter: Chapter
     
     @State private var viewModels: [Int: PartScreenModel] = [:]
+    
+    // Theme colors matching app
+    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
 
     var sortedParts: [Part] {
-        (chapter.parts ?? []).sorted { $0.seq < $1.seq }
+        chapter.parts.sorted { $0.seq < $1.seq }
     }
     
     private func getViewModel(for part: Part) -> PartScreenModel {
@@ -40,7 +43,10 @@ struct PartListScreen: View {
         }
         .tabViewStyle(.page)
         .indexViewStyle(.page(backgroundDisplayMode: .always))
-        .background(Color(red: 0.506, green: 0.831, blue: 0.980))
+        .scrollContentBackground(.hidden)
+        .background(backgroundColor.ignoresSafeArea())
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             // Spacer to account for ExternalLinksBar + Subject TabBar height (only when keyboard hidden)
             // ExternalLinksBar: ~60pt + Subject TabBar: ~49pt + padding: ~10pt

@@ -20,6 +20,7 @@ struct SubjectScreen: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
+        .toolbarBackground(.hidden, for: .navigationBar)
     }
 }
 

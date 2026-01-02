@@ -87,21 +87,6 @@ struct FavoritesScreen: View {
                 .foregroundColor(.white)
             }
         }
-        .onAppear {
-            configureNavigationBarAppearance()
-        }
-    }
-
-    private func configureNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 0.506, green: 0.831, blue: 0.980, alpha: 1.0)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
     }
     
     private func deleteFavorites(at offsets: IndexSet) {

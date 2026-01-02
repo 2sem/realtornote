@@ -12,6 +12,8 @@ struct MainScreen: View {
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
     
+    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    
     // Current subject based on selectedTab
     private var currentSubject: Subject? {
         guard selectedTab < subjects.count else { return nil }
@@ -45,47 +47,46 @@ struct MainScreen: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 TabView(selection: $selectedTab) {
-                        ForEach(Array(subjects.enumerated()), id: \.element.id) { index, subject in
-                            SubjectScreen(
-                                subject: subject,
-                                selectedChapter: Binding(
-                                    get: { selectedChapters[subject.id] },
-                                    set: { 
-                                        selectedChapters[subject.id] = $0
-                                        if let chapter = $0 {
-                                            LSDefaults.setLastChapter(subject: subject.id, value: chapter.id)
-                                        }
+                    ForEach(Array(subjects.enumerated()), id: \.element.id) { index, subject in
+                        SubjectScreen(
+                            subject: subject,
+                            selectedChapter: Binding(
+                                get: { selectedChapters[subject.id] },
+                                set: {
+                                    selectedChapters[subject.id] = $0
+                                    if let chapter = $0 {
+                                        LSDefaults.setLastChapter(subject: subject.id, value: chapter.id)
                                     }
-                                ),
-                                showFavorites: $showFavorites
-                            )
-                            .tabItem {
-                                Label(subject.name, systemImage: "book.closed.fill")
-                            }
-                            .tag(index)
+                                }
+                            ),
+                            showFavorites: $showFavorites
+                        )
+                        .tabItem {
+                            Label(subject.name, systemImage: "book.closed.fill")
                         }
-                    }
-                    .toolbar(keyboardState.isVisible ? .hidden : .visible, for: .tabBar)
-
-                    // External links bar above tab bar (hidden when keyboard visible)
-                    if !keyboardState.isVisible {
-                        ExternalLinksBar()
+                        .tag(index)
                     }
                 }
+                
+                // External links bar above tab bar (hidden when keyboard visible)
+                if !keyboardState.isVisible {
+                    ExternalLinksBar()
+                }
             }
+        }
         .environment(keyboardState)
-//        .toolbar(isKeyboardVisible ? .hidden : .visible)
-//            .animation(.linear(duration: 0.5), value: isKeyboardVisible)
+        .scrollContentBackground(.hidden)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .toolbarColorScheme(.light, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     showAlarmList = true
                 } label: {
                     Image(systemName: "bell.fill")
-                        .foregroundColor(.accentColor)
+                        .foregroundStyle(Color.accentColor)
                 }
-                .buttonStyle(.plain)
             }
 
             ToolbarItem(placement: .principal) {
@@ -104,9 +105,8 @@ struct MainScreen: View {
                         showQuiz = true
                     } label: {
                         Image(systemName: "questionmark.text.page")
-                            .foregroundColor(.accentColor)
+                            .foregroundStyle(Color.accentColor)
                     }
-                    .buttonStyle(.plain)
                     .disabled(currentSelectedChapter.wrappedValue == nil)
                     
                     // Favorites button
@@ -114,14 +114,11 @@ struct MainScreen: View {
                         showFavorites = true
                     } label: {
                         Image(systemName: "book")
-                            .foregroundColor(.accentColor)
+                            .foregroundStyle(Color.accentColor)
                     }
-                    .buttonStyle(.plain)
                 }
             }
         }
-        .toolbarBackground(.automatic, for: .navigationBar)
-        .toolbarColorScheme(.light, for: .navigationBar)
         .task {
             guard !subjects.isEmpty else {
                 return
@@ -155,9 +152,7 @@ struct MainScreen: View {
             }
         }
         .sheet(isPresented: $showAlarmList) {
-            NavigationStack {
-                AlarmListScreen()
-            }
+            AlarmListScreen()
         }
     }
     
