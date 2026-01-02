@@ -61,13 +61,13 @@ struct MainScreen: View {
                             ),
                             showFavorites: $showFavorites
                         )
-                        .tabItem {
-                            Label(subject.name, systemImage: "book.closed.fill")
-                        }
                         .tag(index)
+                        .tabItem {
+                            Label(subject.name, systemImage: selectedTab == index ? "book" : "text.book.closed.fill")
+                        }
                     }
                 }
-                
+
                 // External links bar above tab bar (hidden when keyboard visible)
                 if !keyboardState.isVisible {
                     ExternalLinksBar()
