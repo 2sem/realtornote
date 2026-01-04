@@ -126,9 +126,9 @@ struct SwiftUITextView: UIViewRepresentable {
         if uiView.contentInset.bottom != contentInset.bottom {
             uiView.contentInset = contentInset
             
-            var scrollIndicatorInsets = uiView.scrollIndicatorInsets
+            var scrollIndicatorInsets = uiView.verticalScrollIndicatorInsets
             scrollIndicatorInsets.bottom = contentBottomInset
-            uiView.scrollIndicatorInsets = scrollIndicatorInsets
+            uiView.verticalScrollIndicatorInsets = scrollIndicatorInsets
         }
         
         // Show/hide search bar

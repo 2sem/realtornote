@@ -18,7 +18,13 @@ struct PartScreen: View {
     @State private var isSearching: Bool = false
     @State private var keyboardPadding: CGFloat = 0
     @State private var searchBarHeight: CGFloat = 0
+    @State private var fontSize: CGFloat = 17
+    @State private var lastMagnification: CGFloat = 1.0
     @Environment(KeyboardState.self) private var keyboardState
+    
+    // Font size constraints matching UIKit implementation
+    private let minFontSize: CGFloat = 14
+    private let maxFontSize: CGFloat = 30
     
     // Format content using LSDocumentRecognizer (like UIKit version)
     private var formattedContent: String {
@@ -61,11 +67,11 @@ struct PartScreen: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color(red: 0.506, green: 0.831, blue: 0.980))
 
-            // Content using UITextView wrapper with native Find
+            // Content using UITextView wrapper with pinch-to-zoom
             GeometryReader { geometry in
                 SwiftUITextView(
                     text: formattedContent,
-                    font: .systemFont(ofSize: 17),
+                    font: .systemFont(ofSize: fontSize),
                     textColor: .label,
                     backgroundColor: .clear,
                     isEditable: false,
@@ -77,6 +83,28 @@ struct PartScreen: View {
                     searchBarHeight: $searchBarHeight
                 )
                 .padding(.bottom, keyboardPadding)
+                .simultaneousGesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            // Calculate font size change based on magnification delta
+                            let delta = value - lastMagnification
+                            let increment: CGFloat = delta > 0 ? 1 : -1
+                            
+                            // Only update if magnification changed significantly (threshold to prevent jitter)
+                            if abs(delta) > 0.1 {
+                                let newSize = fontSize + increment
+                                fontSize = min(maxFontSize, max(minFontSize, newSize))
+                                lastMagnification = value
+                                
+                                // Save to persistent storage
+                                LSDefaults.ContentSize = Float(fontSize)
+                            }
+                        }
+                        .onEnded { _ in
+                            // Reset magnification tracking
+                            lastMagnification = 1.0
+                        }
+                )
                 .keyboardWillShow { notification in
                     guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
                           let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
@@ -119,6 +147,12 @@ struct PartScreen: View {
             keyboardState.isVisible = newValue
         }
         .task {
+            // Load saved font size
+            let savedSize = LSDefaults.ContentSize
+            if savedSize > 0 {
+                fontSize = CGFloat(savedSize)
+            }
+            
             // Load saved scroll position when view appears
             let savedOffset = LSDefaults.getLastContentOffset(Int(part.id))
             scrollOffset = CGFloat(savedOffset)
