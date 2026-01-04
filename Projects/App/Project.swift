@@ -42,6 +42,8 @@ let project = Project(
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
                 requirement: .upToNextMajor(from: "1.3.6")),
+        .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
+                requirement: .upToNextMajor(from: "1.12.0")),
     ],
     settings: .settings(configurations: [
         .debug(
@@ -133,9 +135,12 @@ let project = Project(
             product: .unitTests,
             bundleId: .appBundleId.appending(".tests"),
             infoPlist: .default,
-            sources: [], //"Tests/**"
+            sources: "Tests/**",
             resources: [],
-            dependencies: [.target(name: "App")]
+            dependencies: [
+                .target(name: "App"),
+                .package(product: "SnapshotTesting", type: .runtime)
+            ]
         ),
     ]
 )

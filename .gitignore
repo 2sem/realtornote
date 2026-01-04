@@ -71,3 +71,9 @@ Tuist/.build
 .gitsecret/keys/random_seed
 !*.secret
 Projects/App/Resources/Excel/realtornote.xlsx
+
+### Test artifacts ###
+TestArtifacts/
+
+# Temporary UI debugging snapshots (UIIssueTests is for temporary debugging only)
+Projects/App/Tests/__Snapshots__/UIIssueTests/
