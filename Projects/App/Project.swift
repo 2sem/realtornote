@@ -39,6 +39,8 @@ let skAdNetworks: [Plist.Value] = ["cstr6suwn9",
 
 let project = Project(
     name: "App",
+    options: .options(defaultKnownRegions: ["ko"],
+                         developmentRegion: "ko"),
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
                 requirement: .upToNextMajor(from: "1.3.6")),
@@ -66,9 +68,9 @@ let project = Project(
                     "UILaunchStoryboardName": "LaunchScreen",
                     "UIUserInterfaceStyle": "Dark",
                     "GADApplicationIdentifier": "ca-app-pub-9684378399371172~7124016405",
-                    "GADUnitIdentifiers": ["Donate" : "ca-app-pub-9684378399371172/9105067669",
-                                           "FullAd" : "ca-app-pub-9684378399371172/1235951829",
-                                           "Launch" : "ca-app-pub-9684378399371172/8962601702"],
+                    "GADUnitIdentifiers": ["QuizReward" : "ca-app-pub-9684378399371172/9328042795",
+                                           "FavoriteNative" : "ca-app-pub-9684378399371172/5214599479",
+                                           "AppLaunch" : "ca-app-pub-9684378399371172/8962601702"],
                     "Itunes App Id": "1265759928",
                     "NSUserTrackingUsageDescription": "맞춤형 광고 허용을 통해 개발자에게 더  많이 후원할 수 있습니다",
                     "NSAlarmKitUsageDescription": "공부 시간 알림을 위해 알람 설정 권한이 필요합니다",
@@ -114,6 +116,7 @@ let project = Project(
             bundleId: .appBundleId.appending(".widget"),
             infoPlist: .extendingDefault(
                 with: [
+                    "CFBundleDisplayName": "공인중개사요약집 타이머",
                     "NSExtension": [
                         "NSExtensionPointIdentifier": "com.apple.widgetkit-extension"
                     ]
