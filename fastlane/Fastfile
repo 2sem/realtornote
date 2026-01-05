@@ -25,12 +25,14 @@ platform :ios do
     @certificate_path = ENV["IOS_CERT_PATH"]
     @certificate_password = ENV["IOS_CERT_PWD"]
     @provisioning_profile_path = ENV["IOS_PROFILE_PATH"]
+    @widget_provisioning_profile_path = ENV["IOS_WIDGET_PROFILE_PATH"]
     @team_id = ENV["APPLE_TEAM_ID"]
     @api_key_path = ENV["IOS_KEY_PATH"]
     @xcodeproj = "./Projects/#{@project_name}/#{@project_name}.xcodeproj"
     @profile_name = @workspace_name
+    @widget_profile_name = "#{@workspace_name} widget"
     @ipa_path = ENV["IOS_IPA_PATH"]
-    
+
     puts "iOS 프로젝트: #{@project_name}]"
     puts "Fastlane 키파일 경로: #{@api_key_path}]"
   end
@@ -57,18 +59,23 @@ platform :ios do
 
   def readySigning
     installCert()
-    
+
     install_provisioning_profile(
       path: @provisioning_profile_path
     )
     puts "Provisioning Profile 설치"
-    
+
+    install_provisioning_profile(
+      path: @widget_provisioning_profile_path
+    )
+    puts "Widget Provisioning Profile 설치"
+
     #update_project_provisioning(
     #  xcodeproj: @xcodeproj,
     #  profile: @provisioning_profile_path
     #)
     #puts "Provisioning Profile 설정"
-    
+
     update_code_signing_settings(
       use_automatic_signing: false,
       path: @xcodeproj,
@@ -77,6 +84,16 @@ platform :ios do
       profile_name: @profile_name
     )
     puts "Code Signing 수동으로 전환"
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: @xcodeproj,
+      targets: "Widget",
+      team_id: @team_id,
+      code_sign_identity: "Apple Distribution",
+      profile_name: @widget_profile_name
+    )
+    puts "Widget Code Signing 수동으로 전환"
 
   end
 
