@@ -49,16 +49,20 @@ jobs:
           git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
 
       - name: Install Mise
-        run: |
-            brew install mise
+        uses: jdx/mise-action@v2
 
-      - name: Install Tuist
-        run: |
-          mise install tuist
+      # - name: Install Mise
+      #   run: |
+      #       brew install mise
+
+      # - name: Install Tuist
+      #   run: |
+      #     mise install tuist
 
       - name: Install Dependencies
         run: |
-          mise x -- tuist install
+          tuist install
+          # mise x -- tuist install
 
       # - name: Set up Tuist Cache
       #   run: |
@@ -88,7 +92,8 @@ jobs:
 
       - name: Generate Xcode Project
         run: |
-          mise x -- tuist generate --no-binary-cache
+          tuist generate --no-binary-cache
+          # mise x -- tuist generate --no-binary-cache
 
       - name: Upgrade fastlane
         run: |
@@ -145,7 +150,7 @@ jobs:
           echo "ARCHIVE_PATH: $ARCHIVE_PATH"
 
           # Build archive
-          mise x -- tuist xcodebuild archive \
+          tuist xcodebuild archive \
             -workspace $WORKSPACE \
             -scheme "$SCHEME" \
             -configuration Release \
