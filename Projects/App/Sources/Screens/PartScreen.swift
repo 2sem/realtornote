@@ -25,6 +25,9 @@ struct PartScreen: View {
     // Font size constraints matching UIKit implementation
     private let minFontSize: CGFloat = 14
     private let maxFontSize: CGFloat = 30
+
+    // Page indicator height (dots at bottom in PartListScreen's TabView)
+    private let pageIndicatorHeight: CGFloat = 22
     
     // Format content using LSDocumentRecognizer (like UIKit version)
     private var formattedContent: String {
@@ -79,7 +82,7 @@ struct PartScreen: View {
                     scrollOffset: $scrollOffset,
                     onScroll: handleScroll,
                     showSearchBar: $isSearching,
-                    contentBottomInset: searchBarHeight,
+                    contentBottomInset: pageIndicatorHeight + (isSearching ? searchBarHeight : 0),
                     searchBarHeight: $searchBarHeight
                 )
                 .padding(.bottom, keyboardPadding)
