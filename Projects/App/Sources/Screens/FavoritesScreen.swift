@@ -81,10 +81,16 @@ struct FavoritesScreen: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Button("완료") {
-                    dismiss()
+                if #available(iOS 26.0, *) {
+                    Button(role: .close) {
+                        dismiss()
+                    }
+                } else {
+                    Button("완료") {
+                        dismiss()
+                    }
+                    .foregroundColor(.white)
                 }
-                .foregroundColor(.white)
             }
         }
     }

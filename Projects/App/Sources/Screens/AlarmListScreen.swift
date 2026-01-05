@@ -36,10 +36,16 @@ struct AlarmListScreen: View {
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
+                    if #available(iOS 26.0, *) {
+                        Button(role: .close) {
+                            dismiss()
+                        }.tint(.accentColor)
+                    } else {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
                     }
                 }
                 

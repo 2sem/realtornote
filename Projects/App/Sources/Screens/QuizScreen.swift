@@ -40,11 +40,17 @@ struct QuizScreen: View {
             .navigationTitle(viewModel.progressText)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("닫기") {
-                        dismiss()
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if #available(iOS 26.0, *) {
+                        Button(role: .close) {
+                            dismiss()
+                        }.tint(.accentColor)
+                    } else {
+                        Button("닫기") {
+                            dismiss()
+                        }
+                        .foregroundColor(.accentColor)
                     }
-                    .foregroundColor(.accentColor)
                 }
             }
             .toolbarBackground(.automatic, for: .navigationBar)
