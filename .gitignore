@@ -76,4 +76,4 @@ Projects/App/Resources/Excel/realtornote.xlsx
 TestArtifacts/
 
 # Temporary UI debugging snapshots (UIIssueTests is for temporary debugging only)
-Projects/App/Tests/__Snapshots__/UIIssueTests/
+Projects/App/Tests/UI/__Snapshots__/
