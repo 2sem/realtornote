@@ -5,6 +5,7 @@ Workflow to fix and confirm UI Issues
 - **Log**: .claude/workflow/progress/log.md
 - **Plan**: .claude/workflow/progress/plan.md
 - **TODO**: .claude/workflow/progress/todo.md
+- **Samples**: .claude/workflow/swiftui-migration/admob-migration/
 
 ## Rules
 - **Avoid Duplication**: Before performing any modification or addition, always check if code is already same to the result. If it exists or is already in the desired state, skip the corresponding step and proceed to the next, logging the skipped action.
@@ -28,7 +29,7 @@ Before using this workflow for the first time, ensure:
 ## Ensure User Defaults Definition
 
 Open `Projects/App/Sources/Add/Datas/LSDefaults.swift` or `Data/LSDefaults.swift`
-Refer `.claude/workflows/swiftui-migration/samples/LSDefaults.swift`
+Refer `LSDefaults.swift` in Samples
 
 1. **Add User Defaults for Ad Permission**:
     - Purpose: Define User Defaults Names for checking whether to show Ads and to request tracking permission
@@ -48,7 +49,7 @@ Refer `.claude/workflows/swiftui-migration/samples/LSDefaults.swift`
     - Purpose: Create AdManager for SwiftUI 
     - Result: `SwiftUIAdManager` class exists
     - Create `Projects/App/Sources/Managers/SwiftUIAdManager.swift`
-    - Refer `.claude/workflows/swiftui-migration/samples/SwiftUIAdManager.swift`
+    - Refer `SwiftUIAdManager.swift` in Samples
 
 ## Migrate Google Ad Unit Names for SwiftUI
 
@@ -56,7 +57,7 @@ Refer `.claude/workflows/swiftui-migration/samples/LSDefaults.swift`
     - Purpose: Define Enum for accessing Google Ad Units
     - Result: `GADUnitName.swift` file exists
     - Create `Projects/App/Sources/Extensions/Ad/GADUnitName.swift`
-    - Refer `.claude/workflows/swiftui-migration/samples/GADUnitName.swift`
+    - Refer `GADUnitName.swift` in Samples
     - Add GADUnitName `cases` from `Projects/App/Sources/AppDelegate.swift`
 
 ## Migrate Admob Manager Intialization
@@ -99,20 +100,20 @@ Refer `.claude/workflows/swiftui-migration/sameples/App.swift`
     - Result: The screen has `adManager` EnvironmentObject
     - Open the screen file `Projects/App/Sources/.../...Screen.swift`
     - Add EnvironmentObject `adManager`
-    - Refer `.claude/workflows/swiftui-migration/sameples/MigratedScreen.swift`
+    - Refer `MigratedScreen.swift` in Samples
 
 4. **Add LaunchCount User Defaults Property**
     - Purpose: To request Ads permission and Ads since second Launch 
     - Result: The screen has `LaunchCount` AppStorage property
     - Open the screen file `Projects/App/Sources/.../...Screen.swift`
-    - Refer `.claude/workflows/swiftui-migration/sameples/MigratedScreen.swift`
+    - Refer `MigratedScreen.swift` in Samples
 
 5. **Add a Method to wrap the behavior with Ads**
     - Purpose: Extract the code invoking Ads as a method
     - Result: The screen has `presentFullAdThen` method
     - Open the screen file `Projects/App/Sources/.../...Screen.swift`
     - Add Method `presentFullAdThen`
-    - Refer `.claude/workflows/swiftui-migration/sameples/MigratedScreen.swift`
+    - Refer `MigratedScreen.swift` in Samples
 
 6. **Find the Code migrated from ViewController**
     - Purpose: To determine where to wrap with Ads
