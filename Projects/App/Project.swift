@@ -44,6 +44,7 @@ let project = Project(
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
                 requirement: .upToNextMajor(from: "1.3.6")),
+        // .local(path: "../../../../../pods/GADManager/src/GADManager"),
         .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
                 requirement: .upToNextMajor(from:"1.18.5")),
         .remote(url: "https://github.com/swiftlang/swift-testing",
@@ -68,9 +69,11 @@ let project = Project(
                     "UILaunchStoryboardName": "LaunchScreen",
                     "UIUserInterfaceStyle": "Dark",
                     "GADApplicationIdentifier": "ca-app-pub-9684378399371172~7124016405",
-                    "GADUnitIdentifiers": ["QuizReward" : "ca-app-pub-9684378399371172/9328042795",
-                                           "FavoriteNative" : "ca-app-pub-9684378399371172/5214599479",
-                                           "AppLaunch" : "ca-app-pub-9684378399371172/8962601702"],
+                    "GADUnitIdentifiers": [
+                                            "FullAd": "ca-app-pub-9684378399371172/1235951829",
+                                            "QuizReward" : "ca-app-pub-9684378399371172/9328042795",
+                                            "FavoriteNative" : "ca-app-pub-9684378399371172/5214599479",
+                                            "AppLaunch" : "ca-app-pub-9684378399371172/8962601702"],
                     "Itunes App Id": "1265759928",
                     "NSUserTrackingUsageDescription": "맞춤형 광고 허용을 통해 개발자에게 더  많이 후원할 수 있습니다",
                     "NSAlarmKitUsageDescription": "공부 시간 알림을 위해 알람 설정 권한이 필요합니다",

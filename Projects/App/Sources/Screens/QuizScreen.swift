@@ -9,9 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct QuizScreen: View {
+    @EnvironmentObject private var adManager: SwiftUIAdManager
+    @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
     @State private var viewModel: QuizScreenModel
+    @State private var hasShownAd = false
     
     init(chapter: Chapter) {
         _viewModel = State(initialValue: QuizScreenModel(chapter: chapter))
@@ -55,11 +59,6 @@ struct QuizScreen: View {
             }
             .toolbarBackground(.automatic, for: .navigationBar)
             .toolbarColorScheme(.light, for: .navigationBar)
-            .onAppear {
-                if !viewModel.isQuizActive && !viewModel.isQuizComplete {
-                    viewModel.startQuiz()
-                }
-            }
             .onDisappear {
                 viewModel.cleanup()
             }

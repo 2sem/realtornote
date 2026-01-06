@@ -7,17 +7,19 @@
 
 extension SwiftUIAdManager {
     enum GADUnitName: String {
-        case quizReward = "QuizReward"
-        case favoriteNative = "FavoriteNative"
-        case appLaunch = "AppLaunch"
+        case full = "FullAd"
+        case reward = "QuizReward"
+        case native = "FavoriteNative"
+        case launch = "AppLaunch"
     }
     
 #if DEBUG
     var testUnits: [GADUnitName] {
         [
-            .quizReward,
-            .favoriteNative,
-            .appLaunch,
+            .full,
+            .reward,
+            .native,
+            .launch,
         ]
     }
 #else

@@ -12,6 +12,9 @@ struct MainScreen: View {
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
     
+    @EnvironmentObject private var adManager: SwiftUIAdManager
+    @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
+    
     private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
     
     // Current subject based on selectedTab
@@ -102,7 +105,9 @@ struct MainScreen: View {
                 HStack(spacing: 16) {
                     // Quiz button
                     Button {
-                        showQuiz = true
+                        presentFullAdThen {
+                            showQuiz = true
+                        }
                     } label: {
                         Image(systemName: "questionmark.text.page")
                             .foregroundStyle(Color.accentColor)
@@ -168,6 +173,19 @@ struct MainScreen: View {
         let lastChapters = LSDefaults.LastChapter
         let lastChapterId = lastChapters[subject.id.description] ?? sortedChapters.first?.id ?? 1
         selectedChapters[subject.id] = sortedChapters.first { $0.id == lastChapterId } ?? sortedChapters.first
+    }
+    
+    private func presentFullAdThen(_ action: @escaping () -> Void) {
+        guard launchCount > 1 else {
+            action()
+            return
+        }
+        
+        Task {
+            await adManager.requestAppTrackingIfNeed()
+            await adManager.show(unit: .full)
+            action()
+        }
     }
 }
 

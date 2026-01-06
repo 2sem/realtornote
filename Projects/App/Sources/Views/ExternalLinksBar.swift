@@ -4,6 +4,8 @@ import FirebaseAnalytics
 /// External links bar positioned above the tab bar
 /// Matches the UIKit RNTabBarController's newsContainer behavior
 struct ExternalLinksBar: View {
+    @EnvironmentObject private var adManager: SwiftUIAdManager
+    @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     // Adaptive spacing based on device size class
@@ -23,7 +25,14 @@ struct ExternalLinksBar: View {
                     title: "Q-Net\n공인중개사",
                     backgroundColor: Color(red: 0.259, green: 0.647, blue: 0.961),
                     url: URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08")!,
-                    event: .openQNet
+                    event: .openQNet,
+                    action: {
+                        presentFullAdThen {
+                            if let url = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }
                 )
                 
                 // 공인중개사 요약집
@@ -31,7 +40,14 @@ struct ExternalLinksBar: View {
                     title: "공인중개사\n요약집",
                     backgroundColor: Color(red: 0.098, green: 0.463, blue: 0.824),
                     url: URL(string: "http://andy1002.cafe24.com/gnu_house")!,
-                    event: .openQuizWin
+                    event: .openQuizWin,
+                    action: {
+                        presentFullAdThen {
+                            if let url = URL(string: "http://andy1002.cafe24.com/gnu_house") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }
                 )
                 
                 // QuizWin 기출문제
@@ -39,7 +55,14 @@ struct ExternalLinksBar: View {
                     title: "QuizWin\n기출문제",
                     backgroundColor: Color(red: 1.0, green: 0.627, blue: 0.0),
                     url: URL(string: "http://landquiz.com/bbs/gichul.php")!,
-                    event: .openQuizWin
+                    event: .openQuizWin,
+                    action: {
+                        presentFullAdThen {
+                            if let url = URL(string: "http://landquiz.com/bbs/gichul.php") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }
                 )
                 
                 // 공인중개사 시행령
@@ -47,7 +70,14 @@ struct ExternalLinksBar: View {
                     title: "공인중개사\n시행령",
                     backgroundColor: Color(red: 1.0, green: 0.757, blue: 0.027),
                     url: URL(string: "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9")!,
-                    event: .openRealtorRaw
+                    event: .openRealtorRaw,
+                    action: {
+                        presentFullAdThen {
+                            if let url = URL(string: "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }
                 )
             }
             .frame(height: 44)
@@ -61,6 +91,19 @@ struct ExternalLinksBar: View {
                 .ignoresSafeArea(edges: .bottom)
         )
     }
+    
+    private func presentFullAdThen(_ action: @escaping () -> Void) {
+        guard launchCount > 1 else {
+            action()
+            return
+        }
+        
+        Task {
+            await adManager.requestAppTrackingIfNeed()
+            await adManager.show(unit: .full)
+            action()
+        }
+    }
 }
 
 struct LinkButton: View {
@@ -68,11 +111,16 @@ struct LinkButton: View {
     let backgroundColor: Color
     let url: URL
     let event: Analytics.LeesamEvent
+    var action: (() -> Void)? = nil
     
     var body: some View {
         Button {
             Analytics.logLeesamEvent(event, parameters: [:])
-            UIApplication.shared.open(url)
+            if let action = action {
+                action()
+            } else {
+                UIApplication.shared.open(url)
+            }
         } label: {
             Text(title)
                 .font(.system(size: 14))
