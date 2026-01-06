@@ -58,7 +58,7 @@ Refer `LSDefaults.swift` in Samples
     - Result: `GADUnitName.swift` file exists
     - Create `Projects/App/Sources/Extensions/Ad/GADUnitName.swift`
     - Refer `GADUnitName.swift` in Samples
-    - Add GADUnitName `cases` from `Projects/App/Sources/AppDelegate.swift`
+    - Add GADUnitName `cases` from `GADUnitIdentifiers` of `Projects/App/Project.swift`
 
 ## Migrate Admob Manager Intialization
 
