@@ -45,11 +45,17 @@ Refer `LSDefaults.swift` in Samples
 
 ## Create AdManager for SwiftUI
 
-1. **Create SwiftUIAdManager.swift**:
+1. **Create SwiftUIAdManager**:
     - Purpose: Create AdManager for SwiftUI 
     - Result: `SwiftUIAdManager` class exists
     - Create `Projects/App/Sources/Managers/SwiftUIAdManager.swift`
     - Refer `SwiftUIAdManager.swift` in Samples
+
+2. **Conform SwiftUIAdManager to GADManagerDelegate**
+    - Purpose: Store/Restore Last Ad Shown/Prepared Time
+    - Result: `SwiftUIAdManager` is conformed to `GADManagerDelegate` and implemented all methods from `Projects/App/Sources/AppDelegate.swift`
+    - Open `Projects/App/Sources/Managers/SwiftUIAdManager.swift`
+    - Add Methods to implement `GADManagerDelegate` from `Projects/App/Sources/AppDelegate.swift`
 
 ## Migrate Google Ad Unit Names for SwiftUI
 
