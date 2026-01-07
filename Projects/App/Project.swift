@@ -43,8 +43,8 @@ let project = Project(
                          developmentRegion: "ko"),
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
-                requirement: .upToNextMajor(from: "1.3.7")),
-        // .local(path: "../../../../../pods/GADManager/src/GADManager"),
+                requirement: .upToNextMajor(from: "1.3.8")),
+        .local(path: "../../../../../pods/GADManager/src/GADManager"),
         .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
                 requirement: .upToNextMajor(from:"1.18.5")),
         .remote(url: "https://github.com/swiftlang/swift-testing",

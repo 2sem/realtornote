@@ -1,5 +1,5 @@
 {
-  "originHash" : "38099dd0a5a615503f973117ca20aac59b85eabe233fe23adad4fac9c29eb893",
+  "originHash" : "4f9e92046f1a73d22aa6769e50d4503086dfc56c724ccbe4322427e7a131f8b0",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -53,15 +53,6 @@
       "state" : {
         "revision" : "fdc352fabaf5916e7faa1f96ad02b1957e93e5a5",
         "version" : "11.15.0"
-      }
-    },
-    {
-      "identity" : "gadmanager",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/2sem/GADManager",
-      "state" : {
-        "revision" : "a6b8aabc23eebea14c4b4c9df5f5e4eea431be48",
-        "version" : "1.3.7"
       }
     },
     {
