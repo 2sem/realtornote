@@ -57,6 +57,7 @@ struct RealtorNoteApp: App {
             adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60)
             adManager.prepare(openingUnit: .launch, interval: 60.0 * 5)
             #endif
+            adManager.prepare(rewardUnit: .reward)
             adManager.canShowFirstTime = true
         }
         

@@ -135,6 +135,24 @@ struct QuizScreen: View {
                 .font(.body)
                 .foregroundColor(textColor.opacity(0.7))
                 .multilineTextAlignment(.center)
+
+            Button {
+                presentRewardAdThen {
+                    viewModel.restartQuiz()
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "arrow.clockwise")
+                    Text("재도전하기")
+                }
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.accentColor)
+                .cornerRadius(12)
+            }
+            .padding(.top, 8)
         }
         .padding(32)
         .background(
@@ -280,6 +298,21 @@ struct QuizScreen: View {
             return .red
         }
         return Color.clear
+    }
+
+    private func presentRewardAdThen(_ action: @escaping () -> Void) {
+        guard launchCount > 1 else {
+            action()
+            return
+        }
+
+        Task {
+            guard await adManager.show(unit: .reward) else {
+                return
+            }
+            
+            action()
+        }
     }
 }
 

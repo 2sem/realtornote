@@ -39,6 +39,10 @@ class SwiftUIAdManager: NSObject, ObservableObject {
         gadManager?.prepare(openingUnit: unit, isTesting: self.isTesting(unit: unit), interval: interval)
     }
     
+    func prepare(rewardUnit unit: GADUnitName) {
+        gadManager?.prepare(rewardUnit: unit, isTesting: self.isTesting(unit: unit))
+    }
+    
     /// Shows an ad for the specified unit.
     ///
     /// Note: This method may cause undo/transaction issues in SwiftUI.
@@ -52,7 +56,8 @@ class SwiftUIAdManager: NSObject, ObservableObject {
                 return
             }
             
-            gadManager.show(unit: unit, isTesting: self.isTesting(unit: unit) ){ unit, _,result  in
+            gadManager.show(unit: unit, isTesting: self.isTesting(unit: unit),
+                            viewController: UIApplication.shared.keyRootViewController?.presentedViewController ) { unit, _,result  in
                 continuation.resume(returning: result)
             }
         }
