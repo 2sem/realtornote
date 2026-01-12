@@ -219,9 +219,9 @@ struct MainScreen: View {
         targetPartSeq = navigation.partSeq
         
         // Clear pending intent and reset flag on next run loop so onChange can observe the flag
-        DispatchQueue.main.async {
-            self.pendingFavoriteNavigation = nil
-            self.isNavigatingFromFavorite = false
+        Task { @MainActor in
+            pendingFavoriteNavigation = nil
+            isNavigatingFromFavorite = false
         }
     }
     
