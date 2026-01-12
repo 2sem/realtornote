@@ -13,6 +13,7 @@ struct MainScreen: View {
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
     @State private var targetPartSeq: Int? = nil // Part to navigate to from favorites
     @State private var isNavigatingFromFavorite: Bool = false // Flag to prevent premature clearing
+    @State private var pendingFavoriteNavigation: FavoriteNavigationResult? = nil
     
     private let favoriteNavigator: FavoriteNavigating = FavoriteNavigator()
     
@@ -159,7 +160,7 @@ struct MainScreen: View {
                 targetPartSeq = nil
             }
         }
-        .sheet(isPresented: $showFavorites) {
+        .sheet(isPresented: $showFavorites, onDismiss: applyPendingFavoriteNavigation) {
             NavigationStack {
                 FavoritesScreen(onSelectFavorite: handleFavoriteSelection)
             }
@@ -191,41 +192,44 @@ struct MainScreen: View {
     private func handleFavoriteSelection(_ favorite: Favorite) {
         print("🔍 handleFavoriteSelection called for favorite id: \(favorite.id)")
         
-        // Resolve navigation target from favorite
         guard let navigation = favoriteNavigator.navigationInfo(for: favorite, in: subjects) else {
             print("❌ Failed to resolve navigation info for favorite id: \(favorite.id)")
             return
         }
         
-        // Set navigation flag
+        // Store navigation intent and set flag
+        pendingFavoriteNavigation = navigation
         isNavigatingFromFavorite = true
         
-        // Dismiss favorites sheet
         print("🔍 Dismissing favorites sheet")
         showFavorites = false
+    }
+    
+    private func applyPendingFavoriteNavigation() {
+        guard let navigation = pendingFavoriteNavigation else {
+            isNavigatingFromFavorite = false
+            return
+        }
         
-        // Navigate to the correct subject, chapter, and part
-        print("🔍 Scheduling navigation after 0.3s delay")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            print("🔍 Navigating to subject \(navigation.subjectIndex), chapter \(navigation.chapter.id), part \(navigation.partSeq)")
-            
-            // Switch to correct subject tab
-            self.selectedTab = navigation.subjectIndex
-            
-            // Set the chapter
-            self.selectedChapters[navigation.subjectId] = navigation.chapter
-            
-            // Set target part for navigation
-            self.targetPartSeq = navigation.partSeq
-            
-            print("✅ Navigation state set: tab=\(self.selectedTab), chapter=\(navigation.chapter.id), targetPart=\(navigation.partSeq)")
-            
-            // Clear navigation flag and targetPartSeq after views have had time to react
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                print("🧹 Clearing navigation state")
-                self.isNavigatingFromFavorite = false
-                self.targetPartSeq = nil
-            }
+        guard navigation.subjectIndex < subjects.count else {
+            print("❌ Pending navigation subject index out of bounds: \(navigation.subjectIndex)")
+            pendingFavoriteNavigation = nil
+            isNavigatingFromFavorite = false
+            return
+        }
+        
+        print("🔍 Applying pending navigation to subject \(navigation.subjectIndex), chapter \(navigation.chapter.id), part \(navigation.partSeq)")
+        
+        // Apply navigation state
+        selectedTab = navigation.subjectIndex
+        selectedChapters[navigation.subjectId] = navigation.chapter
+        targetPartSeq = navigation.partSeq
+        
+        // Clear pending intent and reset flag on next run loop so onChange can observe the flag
+        DispatchQueue.main.async {
+            print("🧹 Clearing pending navigation state")
+            self.pendingFavoriteNavigation = nil
+            self.isNavigatingFromFavorite = false
         }
     }
     
