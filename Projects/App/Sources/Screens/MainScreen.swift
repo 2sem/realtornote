@@ -11,6 +11,8 @@ struct MainScreen: View {
     @State private var showAlarmList: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
+    
+    // Favorites navigation state
     @State private var targetPartSeq: Int? = nil // Part to navigate to from favorites
     @State private var isNavigatingFromFavorite: Bool = false // Flag to prevent premature clearing
     @State private var pendingFavoriteNavigation: FavoriteNavigationResult? = nil
@@ -147,8 +149,6 @@ struct MainScreen: View {
             loadSelectedChapterForCurrentSubject()
         })
         .onChange(of: selectedTab) { oldValue, newValue in
-            print("📱 MainScreen.onChange(selectedTab): \(oldValue) -> \(newValue), isNavigatingFromFavorite: \(isNavigatingFromFavorite)")
-            
             // 선택한 과목 저장
             lastSubject = newValue
             // 현재 과목의 선택된 챕터 로드 (없는 경우만)
@@ -156,7 +156,6 @@ struct MainScreen: View {
             
             // Clear target part only when switching tabs manually (not from favorite navigation)
             if oldValue != newValue && !isNavigatingFromFavorite {
-                print("📱 Clearing targetPartSeq (manual tab switch)")
                 targetPartSeq = nil
             }
         }
@@ -190,8 +189,6 @@ struct MainScreen: View {
     }
     
     private func handleFavoriteSelection(_ favorite: Favorite) {
-        print("🔍 handleFavoriteSelection called for favorite id: \(favorite.id)")
-        
         guard let navigation = favoriteNavigator.navigationInfo(for: favorite, in: subjects) else {
             print("❌ Failed to resolve navigation info for favorite id: \(favorite.id)")
             return
@@ -200,8 +197,6 @@ struct MainScreen: View {
         // Store navigation intent and set flag
         pendingFavoriteNavigation = navigation
         isNavigatingFromFavorite = true
-        
-        print("🔍 Dismissing favorites sheet")
         showFavorites = false
     }
     
@@ -218,8 +213,6 @@ struct MainScreen: View {
             return
         }
         
-        print("🔍 Applying pending navigation to subject \(navigation.subjectIndex), chapter \(navigation.chapter.id), part \(navigation.partSeq)")
-        
         // Apply navigation state
         selectedTab = navigation.subjectIndex
         selectedChapters[navigation.subjectId] = navigation.chapter
@@ -227,7 +220,6 @@ struct MainScreen: View {
         
         // Clear pending intent and reset flag on next run loop so onChange can observe the flag
         DispatchQueue.main.async {
-            print("🧹 Clearing pending navigation state")
             self.pendingFavoriteNavigation = nil
             self.isNavigatingFromFavorite = false
         }
