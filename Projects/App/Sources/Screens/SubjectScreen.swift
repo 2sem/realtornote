@@ -8,12 +8,15 @@ struct SubjectScreen: View {
     let subject: Subject
     @Binding var selectedChapter: Chapter?
     @Binding var showFavorites: Bool
+    let initialPartSeq: Int?
+    
     @State private var previousChapterId: Int? = nil
 
     var body: some View {
         Group {
             if let chapter = selectedChapter {
-                PartListScreen(chapter: chapter)
+                PartListScreen(chapter: chapter, initialPartSeq: initialPartSeq)
+                    .id("\(chapter.id)-\(initialPartSeq ?? 0)") // Force recreation when initialPartSeq changes
             } else {
                 VStack {
                     Spacer()
@@ -41,6 +44,9 @@ struct SubjectScreen: View {
                 previousChapterId = newValue
             }
         }
+        .onChange(of: initialPartSeq) { oldValue, newValue in
+            print("📗 SubjectScreen.onChange - initialPartSeq changed from \(oldValue ?? -1) to \(newValue ?? -1)")
+        }
     }
     
     private func presentFullAdThen(_ action: @escaping () -> Void) {
@@ -62,7 +68,8 @@ struct SubjectScreen: View {
         SubjectScreen(
             subject: Subject(id: 1, name: "민법 및 민사특별법", detail: "Test"),
             selectedChapter: .constant(nil),
-            showFavorites: .constant(false)
+            showFavorites: .constant(false),
+            initialPartSeq: nil
         )
     }
 }

@@ -11,6 +11,8 @@ struct MainScreen: View {
     @State private var showAlarmList: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
+    @State private var targetPartSeq: Int? = nil // Part to navigate to from favorites
+    @State private var isNavigatingFromFavorite: Bool = false // Flag to prevent premature clearing
     
     @EnvironmentObject private var adManager: SwiftUIAdManager
     @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
@@ -62,7 +64,8 @@ struct MainScreen: View {
                                     }
                                 }
                             ),
-                            showFavorites: $showFavorites
+                            showFavorites: $showFavorites,
+                            initialPartSeq: selectedTab == index ? targetPartSeq : nil
                         )
                         .tag(index)
                         .tabItem {
@@ -141,14 +144,22 @@ struct MainScreen: View {
             loadSelectedChapterForCurrentSubject()
         })
         .onChange(of: selectedTab) { oldValue, newValue in
+            print("📱 MainScreen.onChange(selectedTab): \(oldValue) -> \(newValue), isNavigatingFromFavorite: \(isNavigatingFromFavorite)")
+            
             // 선택한 과목 저장
             lastSubject = newValue
             // 현재 과목의 선택된 챕터 로드 (없는 경우만)
             loadSelectedChapterForCurrentSubject()
+            
+            // Clear target part only when switching tabs manually (not from favorite navigation)
+            if oldValue != newValue && !isNavigatingFromFavorite {
+                print("📱 Clearing targetPartSeq (manual tab switch)")
+                targetPartSeq = nil
+            }
         }
         .sheet(isPresented: $showFavorites) {
             NavigationStack {
-                FavoritesScreen()
+                FavoritesScreen(onSelectFavorite: handleFavoriteSelection)
             }
         }
         .sheet(isPresented: $showQuiz) {
@@ -173,6 +184,64 @@ struct MainScreen: View {
         let lastChapters = LSDefaults.LastChapter
         let lastChapterId = lastChapters[subject.id.description] ?? sortedChapters.first?.id ?? 1
         selectedChapters[subject.id] = sortedChapters.first { $0.id == lastChapterId } ?? sortedChapters.first
+    }
+    
+    private func handleFavoriteSelection(_ favorite: Favorite) {
+        print("🔍 handleFavoriteSelection called for favorite id: \(favorite.id)")
+        
+        // Get the part, chapter, and subject from the favorite
+        let part = favorite.part
+        print("🔍 Part: id=\(part.id), seq=\(part.seq), name=\(part.name)")
+        
+        guard let chapter = part.chapter else {
+            print("❌ Chapter is nil for part \(part.id)")
+            return
+        }
+        print("🔍 Chapter: id=\(chapter.id), seq=\(chapter.seq), name=\(chapter.name)")
+        
+        guard let subject = chapter.subject else {
+            print("❌ Subject is nil for chapter \(chapter.id)")
+            return
+        }
+        print("🔍 Subject: id=\(subject.id), name=\(subject.name)")
+        
+        // Find the subject index
+        guard let subjectIndex = subjects.firstIndex(where: { $0.id == subject.id }) else {
+            print("❌ Could not find subject index for subject id: \(subject.id)")
+            return
+        }
+        print("🔍 Subject index: \(subjectIndex)")
+        
+        // Set navigation flag
+        isNavigatingFromFavorite = true
+        
+        // Dismiss favorites sheet
+        print("🔍 Dismissing favorites sheet")
+        showFavorites = false
+        
+        // Navigate to the correct subject, chapter, and part
+        print("🔍 Scheduling navigation after 0.3s delay")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            print("🔍 Navigating to subject \(subjectIndex), chapter \(chapter.id), part \(part.seq)")
+            
+            // Switch to correct subject tab
+            self.selectedTab = subjectIndex
+            
+            // Set the chapter
+            self.selectedChapters[subject.id] = chapter
+            
+            // Set target part for navigation
+            self.targetPartSeq = part.seq
+            
+            print("✅ Navigation state set: tab=\(self.selectedTab), chapter=\(chapter.id), targetPart=\(part.seq)")
+            
+            // Clear navigation flag and targetPartSeq after views have had time to react
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                print("🧹 Clearing navigation state")
+                self.isNavigatingFromFavorite = false
+                self.targetPartSeq = nil
+            }
+        }
     }
     
     private func presentFullAdThen(_ action: @escaping () -> Void) {

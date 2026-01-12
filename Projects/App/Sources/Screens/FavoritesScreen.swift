@@ -13,6 +13,8 @@ struct FavoritesScreen: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Favorite.id) private var favorites: [Favorite]
     
+    let onSelectFavorite: ((Favorite) -> Void)?
+    
     @AppStorage("FavoriteSortType") private var sortType: Int = 0
     
     enum SortType: Int {
@@ -43,10 +45,13 @@ struct FavoritesScreen: View {
             switch currentSortType {
             case .byNumber:
                 ForEach(favorites) { favorite in
-                    FavoriteRow(favorite: favorite, showSubject: true)
-                        .onTapGesture {
-                            // Navigate to part (will be handled by parent)
-                        }
+                    Button {
+                        print("🟢 Button tapped for favorite: \(favorite.id)")
+                        onSelectFavorite?(favorite)
+                    } label: {
+                        FavoriteRow(favorite: favorite, showSubject: true)
+                    }
+                    .buttonStyle(.plain)
                 }
                 .onDelete(perform: deleteFavorites)
 
@@ -54,10 +59,13 @@ struct FavoritesScreen: View {
                 ForEach(favoritesBySubject, id: \.0.id) { subject, subjectFavorites in
                     Section(header: Text(subject.name)) {
                         ForEach(subjectFavorites) { favorite in
-                            FavoriteRow(favorite: favorite, showSubject: false)
-                                .onTapGesture {
-                                    // Navigate to part (will be handled by parent)
-                                }
+                            Button {
+                                print("🟢 Button tapped for favorite: \(favorite.id)")
+                                onSelectFavorite?(favorite)
+                            } label: {
+                                FavoriteRow(favorite: favorite, showSubject: false)
+                            }
+                            .buttonStyle(.plain)
                         }
                         .onDelete { indexSet in
                             deleteFavoritesInSection(subjectFavorites, at: indexSet)
@@ -143,6 +151,8 @@ struct FavoriteRow: View {
             Text("\(part.seq). \(part.name)")
                 .font(.body)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
         .padding(.vertical, 4)
     }
 }

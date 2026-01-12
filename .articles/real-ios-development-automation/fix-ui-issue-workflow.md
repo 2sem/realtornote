@@ -231,6 +231,35 @@ element.tap()
 ### ❌ Expecting Visual Information in Snapshots
 Snapshots show element metadata, not visual appearance. If you need to verify colors/fonts, expose them via accessibility properties.
 
+## Troubleshooting
+
+### idb-companion Installation Issues
+
+If you encounter issues with `idb-companion` (iOS Debug Bridge) installation or communication with simulators:
+
+**Problem:**
+- `idb-companion` fails to install or connect to simulators
+- Command Line Tools corruption preventing proper iOS tooling
+
+**Solution:**
+```bash
+# Remove corrupted Command Line Tools
+rm -rf /Library/Developer/CommandLineTools
+
+# Reinstall Command Line Tools
+sudo xcode-select --install
+```
+
+**Why this works:**
+- Corrupted Command Line Tools can break iOS debugging tools like idb
+- Clean reinstallation ensures all tooling dependencies are properly configured
+- Fixes common issues with simulator communication and device bridging
+
+**After reinstalling:**
+- Retry `idb-companion` installation
+- Verify simulator connectivity with `xcrun simctl list`
+- Re-run your UI tests
+
 ## Related Documentation
 
 - `testing-pinch-gesture-automation-journey.md` - Complete testing journey example
