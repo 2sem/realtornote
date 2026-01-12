@@ -14,6 +14,8 @@ struct MainScreen: View {
     @State private var targetPartSeq: Int? = nil // Part to navigate to from favorites
     @State private var isNavigatingFromFavorite: Bool = false // Flag to prevent premature clearing
     
+    private let favoriteNavigator: FavoriteNavigating = FavoriteNavigator()
+    
     @EnvironmentObject private var adManager: SwiftUIAdManager
     @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
     
@@ -189,28 +191,11 @@ struct MainScreen: View {
     private func handleFavoriteSelection(_ favorite: Favorite) {
         print("🔍 handleFavoriteSelection called for favorite id: \(favorite.id)")
         
-        // Get the part, chapter, and subject from the favorite
-        let part = favorite.part
-        print("🔍 Part: id=\(part.id), seq=\(part.seq), name=\(part.name)")
-        
-        guard let chapter = part.chapter else {
-            print("❌ Chapter is nil for part \(part.id)")
+        // Resolve navigation target from favorite
+        guard let navigation = favoriteNavigator.navigationInfo(for: favorite, in: subjects) else {
+            print("❌ Failed to resolve navigation info for favorite id: \(favorite.id)")
             return
         }
-        print("🔍 Chapter: id=\(chapter.id), seq=\(chapter.seq), name=\(chapter.name)")
-        
-        guard let subject = chapter.subject else {
-            print("❌ Subject is nil for chapter \(chapter.id)")
-            return
-        }
-        print("🔍 Subject: id=\(subject.id), name=\(subject.name)")
-        
-        // Find the subject index
-        guard let subjectIndex = subjects.firstIndex(where: { $0.id == subject.id }) else {
-            print("❌ Could not find subject index for subject id: \(subject.id)")
-            return
-        }
-        print("🔍 Subject index: \(subjectIndex)")
         
         // Set navigation flag
         isNavigatingFromFavorite = true
@@ -222,18 +207,18 @@ struct MainScreen: View {
         // Navigate to the correct subject, chapter, and part
         print("🔍 Scheduling navigation after 0.3s delay")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            print("🔍 Navigating to subject \(subjectIndex), chapter \(chapter.id), part \(part.seq)")
+            print("🔍 Navigating to subject \(navigation.subjectIndex), chapter \(navigation.chapter.id), part \(navigation.partSeq)")
             
             // Switch to correct subject tab
-            self.selectedTab = subjectIndex
+            self.selectedTab = navigation.subjectIndex
             
             // Set the chapter
-            self.selectedChapters[subject.id] = chapter
+            self.selectedChapters[navigation.subjectId] = navigation.chapter
             
             // Set target part for navigation
-            self.targetPartSeq = part.seq
+            self.targetPartSeq = navigation.partSeq
             
-            print("✅ Navigation state set: tab=\(self.selectedTab), chapter=\(chapter.id), targetPart=\(part.seq)")
+            print("✅ Navigation state set: tab=\(self.selectedTab), chapter=\(navigation.chapter.id), targetPart=\(navigation.partSeq)")
             
             // Clear navigation flag and targetPartSeq after views have had time to react
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
