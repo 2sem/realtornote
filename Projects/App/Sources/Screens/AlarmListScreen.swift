@@ -99,26 +99,13 @@ struct AlarmListScreen: View {
     
     @ViewBuilder
     private func content(model: AlarmListScreenModel) -> some View {
-        ZStack {
-            VStack(spacing: 16) {
-                Spacer()
-                Image(systemName: "bell.slash")
-                    .font(.system(size: 60))
-                    .foregroundColor(.white.opacity(0.6))
-                Text("설정된 알림이 없습니다")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                Text("+ 버튼을 눌러 알림을 추가하세요")
-                    .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
-                Spacer()
-            }
-            
+        if alarms.isEmpty {
+            AlarmListEmptyView()
+        } else {
             List {
                 ForEach(Array(alarms.enumerated()), id: \.element.id) { index, alarm in
                     AlarmListCell(
                         alarm: alarm,
-                        isFirst: index == 0,
                         onToggle: { isOn in
                             model.toggleAlarm(alarm, enabled: isOn)
                         },
@@ -152,6 +139,24 @@ struct AlarmListScreen: View {
     }
 }
 
+struct AlarmListEmptyView: View {
+    var body: some View {
+        VStack(spacing: 16) {
+            Spacer()
+            Image(systemName: "bell.slash")
+                .font(.system(size: 60))
+                .foregroundColor(.white.opacity(0.6))
+            Text("설정된 알림이 없습니다")
+                .font(.headline)
+                .foregroundColor(.white)
+            Text("+ 버튼을 눌러 알림을 추가하세요")
+                .font(.subheadline)
+                .foregroundColor(.white.opacity(0.8))
+            Spacer()
+        }
+    }
+}
+
 // Navigation mode for alarm editing
 enum AlarmEditMode: Hashable {
     case create
@@ -160,7 +165,6 @@ enum AlarmEditMode: Hashable {
 
 struct AlarmListCell: View {
     let alarm: Alarm
-    let isFirst: Bool
     let onToggle: (Bool) -> Void
     let onDelete: () -> Void
     let onEdit: () -> Void
@@ -189,8 +193,7 @@ struct AlarmListCell: View {
                 Spacer()
                 
                 HStack(spacing: 12) {
-                    if !isFirst {
-                        Button {
+                    Button {
                             onDelete()
                         } label: {
                             Image(systemName: "trash")
@@ -198,7 +201,6 @@ struct AlarmListCell: View {
                                 .frame(width: 44, height: 44)
                         }
                         .buttonStyle(.plain)
-                    }
                     
                     Toggle("", isOn: Binding(
                         get: { alarm.enabled },
