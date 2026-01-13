@@ -94,47 +94,50 @@ struct AlarmListScreen: View {
             .onChange(of: alarms) { _, newAlarms in
                 model?.updateAlarms(newAlarms)
             }
+            .animation(.default, value: alarms.isEmpty)
         }
     }
     
     @ViewBuilder
     private func content(model: AlarmListScreenModel) -> some View {
-        if alarms.isEmpty {
-            AlarmListEmptyView()
-        } else {
-            List {
-                ForEach(Array(alarms.enumerated()), id: \.element.id) { index, alarm in
-                    AlarmListCell(
-                        alarm: alarm,
-                        onToggle: { isOn in
-                            model.toggleAlarm(alarm, enabled: isOn)
-                        },
-                        onDelete: {
-                            model.showDeleteConfirmation(for: alarm)
-                        },
-                        onEdit: {
-                            navigationPath.append(AlarmEditMode.edit(alarm))
-                        }
-                    )
-                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                }
-            }
-            .listStyle(.plain)
-            .alert("알림 삭제", isPresented: Binding(
-                get: { model.showDeleteAlert },
-                set: { model.showDeleteAlert = $0 }
-            )) {
-                Button("삭제", role: .destructive) {
-                    if let alarmToDelete = model.alarmToDelete {
-                        model.deleteAlarm(alarmToDelete)
+        Group {
+            if alarms.isEmpty {
+                AlarmListEmptyView()
+            } else {
+                List {
+                    ForEach(alarms, id: \.id) { alarm in
+                        AlarmListCell(
+                            alarm: alarm,
+                            onToggle: { isOn in
+                                model.toggleAlarm(alarm, enabled: isOn)
+                            },
+                            onDelete: {
+                                model.showDeleteConfirmation(for: alarm)
+                            },
+                            onEdit: {
+                                navigationPath.append(AlarmEditMode.edit(alarm))
+                            }
+                        )
+                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
                     }
                 }
-                Button("취소", role: .cancel) {}
-            } message: {
-                Text("공부 알림을 삭제하시겠습니까?")
+                .listStyle(.plain)
             }
+        }
+        .alert("알림 삭제", isPresented: Binding(
+            get: { model.showDeleteAlert },
+            set: { model.showDeleteAlert = $0 }
+        )) {
+            Button("삭제", role: .destructive) {
+                if let alarmToDelete = model.alarmToDelete {
+                    model.deleteAlarm(alarmToDelete)
+                }
+            }
+            Button("취소", role: .cancel) {}
+        } message: {
+            Text("공부 알림을 삭제하시겠습니까?")
         }
     }
 }
@@ -154,6 +157,7 @@ struct AlarmListEmptyView: View {
                 .foregroundColor(.white.opacity(0.8))
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
