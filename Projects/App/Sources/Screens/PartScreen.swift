@@ -40,7 +40,10 @@ struct PartScreen: View {
     private func handleScroll(_ offset: CGFloat) {
         // Avoid clobbering the saved offset during initial restore/layout
         guard canPersistScrollOffset else { return }
-        LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(offset))
+        let adjustedOffset = max(0, offset)
+        guard abs(adjustedOffset - scrollOffset) > 0.5 else { return }
+        scrollOffset = adjustedOffset
+        LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(adjustedOffset))
     }
     
     // Restore scroll position with retries until UITextView is ready
