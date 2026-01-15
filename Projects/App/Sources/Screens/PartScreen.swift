@@ -14,6 +14,7 @@ struct PartScreen: View {
     @Bindable var viewModel: PartScreenModel
 
     @State private var scrollOffset: CGFloat = 0
+    @State private var canPersistScrollOffset: Bool = false
     @State private var scrollToRange: NSRange? = nil
     @State private var isSearching: Bool = false
     @State private var keyboardPadding: CGFloat = 0
@@ -37,7 +38,33 @@ struct PartScreen: View {
 
     // Handle scroll position changes
     private func handleScroll(_ offset: CGFloat) {
+        // Avoid clobbering the saved offset during initial restore/layout
+        guard canPersistScrollOffset else { return }
         LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(offset))
+    }
+    
+    // Restore scroll position with retries until UITextView is ready
+    private func restoreScrollPosition(savedOffset: CGFloat, attempt: Int) {
+        Task { @MainActor in
+            // Progressive delays: 200ms, 400ms to give UITextView time to lay out
+            let delays: [Int] = [200, 400]
+            let delay = attempt <= delays.count ? delays[attempt - 1] : delays.last ?? 400
+            
+            try? await Task.sleep(for: .milliseconds(delay))
+            
+            // Set scroll offset - SwiftUITextView.updateUIView will apply it when ready
+            scrollOffset = savedOffset
+            
+            // Enable persistence after first attempt
+            if attempt == 1 {
+                canPersistScrollOffset = true
+            }
+            
+            // Retry once more if this is the first attempt (UITextView might need more time)
+            if attempt == 1 {
+                restoreScrollPosition(savedOffset: savedOffset, attempt: 2)
+            }
+        }
     }
 
     var body: some View {
@@ -155,10 +182,17 @@ struct PartScreen: View {
             if savedSize > 0 {
                 fontSize = CGFloat(savedSize)
             }
-            
-            // Load saved scroll position when view appears
+        }
+        .onAppear {
+            // Load saved scroll position after view has appeared and UITextView is laid out
             let savedOffset = LSDefaults.getLastContentOffset(Int(part.id))
-            scrollOffset = CGFloat(savedOffset)
+            if savedOffset > 0 {
+                // Use retry mechanism to ensure UITextView is ready
+                restoreScrollPosition(savedOffset: CGFloat(savedOffset), attempt: 1)
+            } else {
+                // Enable persistence immediately if no saved offset
+                canPersistScrollOffset = true
+            }
         }
     }
 }

@@ -25,6 +25,17 @@ struct PartListScreen: View {
         chapter.parts.sorted { $0.seq < $1.seq }
     }
     
+    private func applySelection(preferredSeq: Int?) {
+        if let seq = preferredSeq,
+           sortedParts.contains(where: { $0.seq == seq }) {
+            selectedPartSeq = seq
+        } else if let firstSeq = sortedParts.first?.seq {
+            selectedPartSeq = firstSeq
+        } else {
+            selectedPartSeq = 0
+        }
+    }
+
     private func getViewModel(for part: Part) -> PartScreenModel {
         if let existing = viewModels[part.seq] {
             return existing
@@ -58,22 +69,14 @@ struct PartListScreen: View {
             }
         }
         .onAppear {
-            print("📄 PartListScreen.onAppear - initialPartSeq: \(initialPartSeq ?? -1), selectedPartSeq: \(selectedPartSeq)")
-            // Set initial selection if provided, otherwise use first part
-            if let initialSeq = initialPartSeq {
-                print("📄 Setting selectedPartSeq to initialPartSeq: \(initialSeq)")
-                selectedPartSeq = initialSeq
-            } else if selectedPartSeq == 0, let firstPart = sortedParts.first {
-                print("📄 Setting selectedPartSeq to first part: \(firstPart.seq)")
-                selectedPartSeq = firstPart.seq
-            }
+            applySelection(preferredSeq: initialPartSeq)
         }
-        .onChange(of: initialPartSeq) { oldValue, newValue in
-            print("📄 PartListScreen.onChange - initialPartSeq changed from \(oldValue ?? -1) to \(newValue ?? -1)")
-            if let newSeq = newValue {
-                print("📄 Updating selectedPartSeq to: \(newSeq)")
-                selectedPartSeq = newSeq
-            }
+        .onChange(of: initialPartSeq) { _, newValue in
+            applySelection(preferredSeq: newValue)
+        }
+        .onChange(of: chapter.id) { _, _ in
+            applySelection(preferredSeq: initialPartSeq)
         }
     }
 }
+

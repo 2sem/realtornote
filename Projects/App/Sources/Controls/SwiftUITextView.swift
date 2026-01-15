@@ -98,12 +98,16 @@ struct SwiftUITextView: UIViewRepresentable {
         }
         
         // Set scroll position when scrollOffset binding changes (one-way: binding → view)
-        if scrollToRange == nil {
+        // Only set if contentSize is ready (height > 0) to ensure scroll position can be applied
+        if scrollToRange == nil && uiView.contentSize.height > 0 {
             let currentOffset = uiView.contentOffset.y - uiView.contentInset.top
             if abs(currentOffset - scrollOffset) > 1.0 {
+                // Ensure scroll offset doesn't exceed content bounds
+                let maxOffset = max(0, uiView.contentSize.height - uiView.bounds.height + uiView.contentInset.top + uiView.contentInset.bottom)
+                let clampedOffset = min(scrollOffset, maxOffset)
                 uiView.contentOffset = CGPoint(
                     x: uiView.contentInset.left,
-                    y: scrollOffset + uiView.contentInset.top
+                    y: clampedOffset + uiView.contentInset.top
                 )
             }
         }
