@@ -77,3 +77,6 @@ TestArtifacts/
 
 # Temporary UI debugging snapshots (UIIssueTests is for temporary debugging only)
 Projects/App/Tests/UI/__Snapshots__/
+
+# Ignore Skills
+.windsurf/skills/skill-bridge
