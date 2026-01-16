@@ -60,7 +60,9 @@ struct FavoritesScreen: View {
 
             case .bySubject:
                 ForEach(favoritesBySubject, id: \.0.id) { subject, subjectFavorites in
-                    Section(header: Text(subject.name)) {
+                    Section(header: Text(subject.name)
+                        .font(.headline)
+                        .foregroundColor(.white)) {
                         ForEach(subjectFavorites) { favorite in
                             FavoriteRow(
                                 favorite: favorite,
