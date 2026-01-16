@@ -15,6 +15,9 @@ struct PartScreen: View {
 
     @State private var scrollOffset: CGFloat = 0
     @State private var canPersistScrollOffset: Bool = false
+    @State private var pendingRestoreOffset: CGFloat? = nil
+    @State private var restoreAttemptCount: Int = 0
+    @State private var lastPersistedOffset: CGFloat = 0
     @State private var scrollToRange: NSRange? = nil
     @State private var isSearching: Bool = false
     @State private var keyboardPadding: CGFloat = 0
@@ -29,6 +32,7 @@ struct PartScreen: View {
 
     // Page indicator height (dots at bottom in PartListScreen's TabView)
     private let pageIndicatorHeight: CGFloat = 22
+    private static let restoreDelays: [Int] = [0, 200, 400, 800]
     
     // Format content using LSDocumentRecognizer (like UIKit version)
     private var formattedContent: String {
@@ -38,34 +42,45 @@ struct PartScreen: View {
 
     // Handle scroll position changes
     private func handleScroll(_ offset: CGFloat) {
-        // Avoid clobbering the saved offset during initial restore/layout
-        guard canPersistScrollOffset else { return }
         let adjustedOffset = max(0, offset)
-        guard abs(adjustedOffset - scrollOffset) > 0.5 else { return }
         scrollOffset = adjustedOffset
+
+        if let target = pendingRestoreOffset {
+            let isCloseEnough = abs(target - adjustedOffset) <= 1
+            let maxAttemptsReached = restoreAttemptCount >= Self.restoreDelays.count - 1
+            if isCloseEnough || maxAttemptsReached {
+                pendingRestoreOffset = nil
+                canPersistScrollOffset = true
+                lastPersistedOffset = adjustedOffset
+                LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(adjustedOffset))
+                return
+            }
+        }
+
+        guard canPersistScrollOffset else { return }
+        guard abs(adjustedOffset - lastPersistedOffset) > 0.5 else { return }
+
+        lastPersistedOffset = adjustedOffset
         LSDefaults.setLastContentOffSet(part: Int(part.id), value: Float(adjustedOffset))
     }
     
     // Restore scroll position with retries until UITextView is ready
-    private func restoreScrollPosition(savedOffset: CGFloat, attempt: Int) {
+    private func restoreScrollPosition(to offset: CGFloat, attempt: Int = 0) {
         Task { @MainActor in
-            // Progressive delays: 200ms, 400ms to give UITextView time to lay out
-            let delays: [Int] = [200, 400]
-            let delay = attempt <= delays.count ? delays[attempt - 1] : delays.last ?? 400
-            
-            try? await Task.sleep(for: .milliseconds(delay))
-            
-            // Set scroll offset - SwiftUITextView.updateUIView will apply it when ready
-            scrollOffset = savedOffset
-            
-            // Enable persistence after first attempt
-            if attempt == 1 {
-                canPersistScrollOffset = true
+            guard pendingRestoreOffset == offset else { return }
+            restoreAttemptCount = attempt
+
+            let delays = Self.restoreDelays
+            let delay = delays[min(attempt, delays.count - 1)]
+            if delay > 0 {
+                try? await Task.sleep(for: .milliseconds(delay))
             }
-            
-            // Retry once more if this is the first attempt (UITextView might need more time)
-            if attempt == 1 {
-                restoreScrollPosition(savedOffset: savedOffset, attempt: 2)
+
+            guard pendingRestoreOffset == offset else { return }
+            scrollOffset = offset
+
+            if attempt < delays.count - 1 {
+                restoreScrollPosition(to: offset, attempt: attempt + 1)
             }
         }
     }
@@ -187,13 +202,18 @@ struct PartScreen: View {
             }
         }
         .onAppear {
-            // Load saved scroll position after view has appeared and UITextView is laid out
-            let savedOffset = LSDefaults.getLastContentOffset(Int(part.id))
+            canPersistScrollOffset = false
+            pendingRestoreOffset = nil
+
+            let savedOffset = max(0, CGFloat(LSDefaults.getLastContentOffset(Int(part.id))))
+            lastPersistedOffset = savedOffset
+            restoreAttemptCount = 0
+
             if savedOffset > 0 {
-                // Use retry mechanism to ensure UITextView is ready
-                restoreScrollPosition(savedOffset: CGFloat(savedOffset), attempt: 1)
+                pendingRestoreOffset = savedOffset
+                restoreScrollPosition(to: savedOffset)
             } else {
-                // Enable persistence immediately if no saved offset
+                scrollOffset = 0
                 canPersistScrollOffset = true
             }
         }
