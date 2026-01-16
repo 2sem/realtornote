@@ -106,8 +106,7 @@ jobs:
 
       - name: Generate Xcode Project
         run: |
-          tuist generate --no-binary-cache
-          # mise x -- tuist generate --no-binary-cache
+          tuist generate --cache-profile none
 
       - name: Upgrade fastlane
         run: |
