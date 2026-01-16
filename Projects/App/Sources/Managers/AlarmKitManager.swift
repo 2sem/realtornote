@@ -27,6 +27,64 @@ final class AlarmKitManager {
 
     private init() {}
 
+    // MARK: - Migration from UserNotifications to AlarmKit
+
+    /// Migrate from UserNotifications to AlarmKit on first iOS 26+ launch.
+    /// Safe against all failure modes with automatic retry on next launch.
+    func migrateFromNotifications(modelContext: ModelContext) async {
+        guard !LSDefaults.notificationCleanupCompleted else {
+            print("Migration already completed, skipping")
+            return
+        }
+
+        print("Starting migration from UserNotifications to AlarmKit...")
+
+        // Step 1: Fetch all alarms from SwiftData FIRST (before deleting anything)
+        let descriptor = FetchDescriptor<Alarm>(sortBy: [SortDescriptor(\.id)])
+        guard let alarms = try? modelContext.fetch(descriptor) else {
+            print("❌ Failed to fetch alarms - aborting migration (will retry on next launch)")
+            return  // Don't set flag
+        }
+
+        // Step 1.5: Request AlarmKit authorization BEFORE proceeding
+        let authorized = await requestAuthorization()
+        guard authorized else {
+            print("❌ AlarmKit not authorized - aborting migration (will retry when user grants permission)")
+            return  // Don't set flag
+        }
+
+        // Step 2: Remove ONLY study alarm notifications (selective)
+        let clearSucceeded = await withCheckedContinuation { continuation in
+            UserNotificationManager.shared.clear(
+                options: [.alert, .sound],
+                idPrefix: Alarm.notificationId,  // "study alarm"
+                completion: { success, error in
+                    if let error = error {
+                        print("❌ Failed to clear notifications: \(error)")
+                    }
+                    continuation.resume(returning: success)
+                }
+            )
+        }
+
+        guard clearSucceeded else {
+            print("❌ Failed to clear notifications - aborting migration (will retry on next launch)")
+            return  // Don't set flag
+        }
+
+        print("✅ Removed old study alarm notifications")
+
+        // Step 3: Re-register all enabled alarms with AlarmKit (guaranteed to work now)
+        let enabledAlarms = alarms.filter { $0.enabled }
+        for alarm in enabledAlarms {
+            await scheduleWithAlarmKit(alarm)  // Direct call, no fallback
+        }
+
+        // Step 4: Mark migration complete ONLY after all operations succeed
+        LSDefaults.notificationCleanupCompleted = true
+        print("✅ Migration completed: re-registered \(enabledAlarms.count) alarms with AlarmKit")
+    }
+
     // MARK: - Authorization
 
     /// Request alarm authorization

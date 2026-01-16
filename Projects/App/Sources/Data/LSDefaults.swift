@@ -44,6 +44,7 @@ class LSDefaults{
         static let AdsTrackingRequested = "AdsTrackingRequested";
 
         static let DataMigrationCompleted = "DataMigrationCompleted";
+        static let NotificationCleanupCompleted = "NotificationCleanupCompleted";
     }
     
     static var LastFullADShown : Date{
@@ -235,6 +236,16 @@ class LSDefaults{
         
         set(value){
             Defaults.set(value, forKey: Keys.DataMigrationCompleted);
+        }
+    }
+    
+    static var notificationCleanupCompleted : Bool{
+        get{
+            return Defaults.bool(forKey: Keys.NotificationCleanupCompleted);
+        }
+        
+        set(value){
+            Defaults.set(value, forKey: Keys.NotificationCleanupCompleted);
         }
     }
 }

@@ -123,7 +123,7 @@ struct SplashScreen: View {
                 }
             }
             
-            guard await migrationManager.checkAndMigrateIfNeeded() else {
+            guard await migrationManager.checkAndMigrateIfNeeded(modelContext: modelContext) else {
                 let syncService = ExcelSyncService(context: modelContext)
                 try await syncService.syncIfNeeded()
                 return

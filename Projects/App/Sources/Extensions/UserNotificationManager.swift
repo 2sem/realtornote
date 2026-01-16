@@ -63,7 +63,7 @@ class UserNotificationManager : NSObject, UNUserNotificationCenterDelegate{
             }
         }
     }
-    
+
     func register(options : UNAuthorizationOptions = [.alert, .sound], notifications : [LSUserNotification], completion: ((Bool, [LSUserNotification], Error?) -> Void)? = nil){
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (authorized, error) in
             guard authorized else {

@@ -24,34 +24,42 @@ class DataMigrationManager: ObservableObject {
         set { LSDefaults.dataMigrationCompleted = newValue }
     }
     
-    func checkAndMigrateIfNeeded() async -> Bool {
+    func checkAndMigrateIfNeeded(modelContext: ModelContext) async -> Bool {
         "[DataMigration] checkAndMigrateIfNeeded started".trace()
-        
+
         if isMigrationCompleted {
             "[DataMigration] Migration already completed".trace()
             migrationStatus = .completed
             currentStep = "마이그레이션이 이미 완료되었습니다."
+
+            // Still check for notification migration even if data migration completed
+            await checkAndMigrateNotificationsIfNeeded(with: modelContext)
+
             return false
         }
-        
+
         migrationStatus = .checking
         currentStep = "Core Data를 확인하는 중..."
         "[DataMigration] Checking for Core Data".trace()
-        
+
         guard await hasCoreData() else {
             "[DataMigration] No Core Data found, migration not needed".trace()
             migrationStatus = .completed
             currentStep = "마이그레이션이 필요하지 않습니다."
             isMigrationCompleted = true
+
+            // Check for notification migration even without Core Data migration
+            await checkAndMigrateNotificationsIfNeeded(with: modelContext)
+
             return false
         }
-        
+
         migrationStatus = .migrating
         currentStep = "마이그레이션을 시작합니다..."
         "[DataMigration] Core Data found, starting migration".trace()
-        
+
         do {
-            try await performMigration()
+            try await performMigration(modelContext: modelContext)
             "[DataMigration] Migration completed successfully".trace()
             migrationStatus = .completed
             currentStep = "마이그레이션이 완료되었습니다."
@@ -90,16 +98,8 @@ class DataMigrationManager: ObservableObject {
         }
     }
     
-    private func performMigration() async throws {
+    private func performMigration(modelContext: ModelContext) async throws {
         "[DataMigration] performMigration started".trace()
-        
-        guard let modelContainer = try? ModelContainer(for: Subject.self, Chapter.self, Part.self, Favorite.self, Alarm.self) else {
-            "[DataMigration] Failed to create ModelContainer".trace()
-            throw MigrationError.modelContainerCreationFailed
-        }
-        
-        "[DataMigration] ModelContainer created successfully".trace()
-        let modelContext = modelContainer.mainContext
         
         currentStep = "엑셀 데이터를 SwiftData로 동기화하는 중..."
         migrationProgress = 0.1
@@ -121,6 +121,13 @@ class DataMigrationManager: ObservableObject {
         
         try await migrateAlarms(with: modelContext)
         "[DataMigration] Alarms migration completed".trace()
+
+        currentStep = "알람을 AlarmKit으로 마이그레이션하는 중..."
+        migrationProgress = 0.7
+        "[DataMigration] Starting notification to AlarmKit migration".trace()
+        
+        await migrateNotificationsToAlarmKit(with: modelContext)
+        "[DataMigration] Notification to AlarmKit migration completed".trace()
 
         currentStep = "마이그레이션을 완료하는 중..."
         migrationProgress = 0.9
@@ -240,6 +247,43 @@ class DataMigrationManager: ObservableObject {
         
         try modelContext.save()
         "[DataMigration] Saved \(totalItems) alarms to SwiftData".trace()
+    }
+
+    private func migrateNotificationsToAlarmKit(with modelContext: ModelContext) async {
+        guard #available(iOS 26.0, *) else {
+            "[DataMigration] iOS 26+ not available, skipping notification migration".trace()
+            return
+        }
+        
+        "[DataMigration] Starting notification to AlarmKit migration".trace()
+        
+        // Check if there are any enabled alarms to migrate
+        let descriptor = FetchDescriptor<Alarm>(predicate: #Predicate { $0.enabled })
+        guard let enabledAlarms = try? modelContext.fetch(descriptor),
+              !enabledAlarms.isEmpty else {
+            "[DataMigration] No enabled alarms found, skipping notification migration".trace()
+            return
+        }
+        
+        "[DataMigration] Found \(enabledAlarms.count) enabled alarms, migrating to AlarmKit".trace()
+        await AlarmKitManager.shared.migrateFromNotifications(modelContext: modelContext)
+    }
+
+    /// Check and migrate notifications to AlarmKit if needed (iOS 26+)
+    /// Call this when no Core Data migration is needed but AlarmKit migration may be required
+    func checkAndMigrateNotificationsIfNeeded(with modelContext: ModelContext) async {
+        guard #available(iOS 26.0, *) else {
+            "[DataMigration] iOS 26+ not available, skipping notification migration".trace()
+            return
+        }
+        
+        guard !LSDefaults.notificationCleanupCompleted else {
+            "[DataMigration] Notification migration already completed".trace()
+            return
+        }
+        
+        "[DataMigration] Checking for notification migration".trace()
+        await AlarmKitManager.shared.migrateFromNotifications(modelContext: modelContext)
     }
     
     private func cleanupCoreDataFiles() async {
