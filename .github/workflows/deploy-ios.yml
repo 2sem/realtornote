@@ -12,6 +12,10 @@ on:
             required: false
             default: '수정사항'
 
+permissions:
+    id-token: write
+    contents: read
+
 concurrency:
   group: ${{ github.ref }}/ios/deploy
   cancel-in-progress: true
@@ -63,11 +67,14 @@ jobs:
       - name: Install Dependencies
         run: |
           tuist install
-          # mise x -- tuist install
 
-      # - name: Set up Tuist Cache
-      #   run: |
-      #     mise x -- tuist setup cache
+      - name: Log in Tuist
+        run: |
+          tuist auth login
+
+      - name: Set up Tuist Cache
+        run: |
+          tuist setup cache
 
       - name: Import signing certificate
         env:
