@@ -78,6 +78,27 @@ struct MainScreen: View {
                         }
                     }
                 }
+                .onAppear {
+                    if #unavailable(iOS 26.0) {
+                        let appearance = UITabBarAppearance()
+                        appearance.configureWithDefaultBackground()
+                        appearance.backgroundColor = UIColor(Color(red: 0.506, green: 0.831, blue: 0.980))
+
+                        // Darker colors for better visibility on sky blue background (iOS 18-25 only)
+                        let itemAppearance = UITabBarItemAppearance()
+                        itemAppearance.normal.iconColor = .white.withAlphaComponent(0.8)
+                        itemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white.withAlphaComponent(0.8)]
+                        itemAppearance.selected.iconColor = .blue.withAlphaComponent(0.4)
+                        itemAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.blue.withAlphaComponent(0.5)]
+
+                        appearance.stackedLayoutAppearance = itemAppearance
+                        appearance.inlineLayoutAppearance = itemAppearance
+                        appearance.compactInlineLayoutAppearance = itemAppearance
+
+                        UITabBar.appearance().standardAppearance = appearance
+                        UITabBar.appearance().scrollEdgeAppearance = appearance
+                    }
+                }
 
                 // External links bar above tab bar (hidden when keyboard visible)
                 if !keyboardState.isVisible {
