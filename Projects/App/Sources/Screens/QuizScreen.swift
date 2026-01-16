@@ -41,9 +41,33 @@ struct QuizScreen: View {
                     }
                 }
             }
+            .task {
+                // Start quiz automatically when screen loads
+                if !viewModel.questions.isEmpty && !viewModel.isQuizActive {
+                    viewModel.startQuiz()
+                }
+            }
             .navigationTitle(viewModel.progressText)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    if viewModel.isQuizActive && !viewModel.showCorrectAnswer {
+                        HStack(spacing: 4) {
+                            Image(systemName: "timer")
+                                .font(.body)
+                                .foregroundColor(viewModel.remainingSeconds <= 10 ? .red : .accentColor)
+                                .padding(.leading, 4)
+                            Text("\(viewModel.remainingSeconds)")
+                                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                .foregroundColor(viewModel.remainingSeconds <= 10 ? .red : .accentColor)
+                                .fixedSize()
+                            Spacer()
+                        }
+                        .frame(minWidth: 70)
+                        .allowsHitTesting(false)
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if #available(iOS 26.0, *) {
                         Button(role: .close) {
@@ -172,18 +196,6 @@ struct QuizScreen: View {
                     .font(.headline)
                     .foregroundColor(textColor)
                     .fixedSize(horizontal: false, vertical: true)
-                
-                // Countdown timer
-                if viewModel.isQuizActive && !viewModel.showCorrectAnswer {
-                    HStack {
-                        Spacer()
-                        Text("\(viewModel.remainingSeconds)")
-                            .font(.system(size: 40, weight: .bold, design: .rounded))
-                            .foregroundColor(viewModel.remainingSeconds <= 10 ? .red : timerColor)
-                        Spacer()
-                    }
-                    .padding(.vertical, 8)
-                }
 
                 // Question text
                 Text(question.text)
