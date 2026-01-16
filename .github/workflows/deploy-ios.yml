@@ -31,7 +31,6 @@ jobs:
         IOS_WIDGET_PROFILE_PATH: 'widget-profile.mobileprovision'
         IOS_KEY_PATH: 'api-key.json'
         GPG_PRIVATE_KEY_PATH: 'private.gpg'
-        TUIST_CONFIG_TOKEN: ${{ secrets.TUIST_CONFIG_TOKEN }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
