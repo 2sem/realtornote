@@ -45,30 +45,34 @@ struct FavoritesScreen: View {
             switch currentSortType {
             case .byNumber:
                 ForEach(favorites) { favorite in
-                    Button {
-                        print("🟢 Button tapped for favorite: \(favorite.id)")
-                        onSelectFavorite?(favorite)
-                    } label: {
-                        FavoriteRow(favorite: favorite, showSubject: true)
-                    }
-                    .buttonStyle(.plain)
+                    FavoriteRow(
+                        favorite: favorite,
+                        showSubject: true,
+                        onTap: {
+                            onSelectFavorite?(favorite)
+                        },
+                        onDelete: deleteFavorite
+                    )
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                 }
-                .onDelete(perform: deleteFavorites)
 
             case .bySubject:
                 ForEach(favoritesBySubject, id: \.0.id) { subject, subjectFavorites in
                     Section(header: Text(subject.name)) {
                         ForEach(subjectFavorites) { favorite in
-                            Button {
-                                print("🟢 Button tapped for favorite: \(favorite.id)")
-                                onSelectFavorite?(favorite)
-                            } label: {
-                                FavoriteRow(favorite: favorite, showSubject: false)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .onDelete { indexSet in
-                            deleteFavoritesInSection(subjectFavorites, at: indexSet)
+                            FavoriteRow(
+                                favorite: favorite,
+                                showSubject: false,
+                                onTap: {
+                                    onSelectFavorite?(favorite)
+                                },
+                                onDelete: deleteFavorite
+                            )
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                         }
                     }
                 }
@@ -87,7 +91,7 @@ struct FavoritesScreen: View {
                 }
                 .pickerStyle(.segmented)
             }
-            
+
             ToolbarItem(placement: .topBarTrailing) {
                 if #available(iOS 26.0, *) {
                     Button(role: .close) {
@@ -102,18 +106,9 @@ struct FavoritesScreen: View {
             }
         }
     }
-    
-    private func deleteFavorites(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(favorites[index])
-        }
-        try? modelContext.save()
-    }
-    
-    private func deleteFavoritesInSection(_ subjectFavorites: [Favorite], at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(subjectFavorites[index])
-        }
+
+    private func deleteFavorite(_ favorite: Favorite) {
+        modelContext.delete(favorite)
         try? modelContext.save()
     }
 }
@@ -121,39 +116,66 @@ struct FavoritesScreen: View {
 struct FavoriteRow: View {
     let favorite: Favorite
     let showSubject: Bool
-    
+    let onTap: () -> Void
+    let onDelete: (Favorite) -> Void
+
     var part: Part {
         favorite.part
     }
-    
+
     var chapter: Chapter? {
         part.chapter
     }
-    
+
     var subject: Subject? {
         chapter?.subject
     }
-    
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Chapter info
-            if showSubject {
-                Text("\(subject?.name ?? "") 〉 \(chapter?.seq.toRoman() ?? ""). \(chapter?.name ?? "")")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            } else {
-                Text("\(chapter?.seq.toRoman() ?? ""). \(chapter?.name ?? "")")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+        HStack {
+            // Left side: Content (tap to navigate)
+            Button {
+                onTap()
+            } label: {
+                VStack(alignment: .leading, spacing: 4) {
+                    // Chapter info
+                    if showSubject {
+                        Text("\(subject?.name ?? "") 〉 \(chapter?.seq.toRoman() ?? ""). \(chapter?.name ?? "")")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    } else {
+                        Text("\(chapter?.seq.toRoman() ?? ""). \(chapter?.name ?? "")")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+
+                    // Part info
+                    Text("\(part.seq). \(part.name)")
+                        .font(.body)
+                        .foregroundColor(.black)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
-            // Part info
-            Text("\(part.seq). \(part.name)")
-                .font(.body)
+            .buttonStyle(.plain)
+
+            Spacer()
+
+            // Right side: Delete button
+            Button {
+                onDelete(favorite)
+            } label: {
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+            }
+            .buttonStyle(.plain)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .contentShape(Rectangle())
-        .padding(.vertical, 4)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.white)
+        )
+        .padding(.horizontal, 12)
     }
 }
 
