@@ -25,15 +25,24 @@ struct PartListScreen: View {
         chapter.parts.sorted { $0.seq < $1.seq }
     }
     
+    private func savedPartSeq() -> Int? {
+        LSDefaults.LastPart[chapter.id.description]
+    }
+
     private func applySelection(preferredSeq: Int?) {
-        if let seq = preferredSeq,
+        let candidateSeq = preferredSeq ?? savedPartSeq()
+        if let seq = candidateSeq,
            sortedParts.contains(where: { $0.seq == seq }) {
             selectedPartSeq = seq
-        } else if let firstSeq = sortedParts.first?.seq {
-            selectedPartSeq = firstSeq
-        } else {
-            selectedPartSeq = 0
+            return
         }
+
+        guard let firstSeq = sortedParts.first?.seq else {
+            selectedPartSeq = 0
+            return
+        }
+
+        selectedPartSeq = firstSeq
     }
 
     private func getViewModel(for part: Part) -> PartScreenModel {
@@ -76,6 +85,10 @@ struct PartListScreen: View {
         }
         .onChange(of: chapter.id) { _, _ in
             applySelection(preferredSeq: initialPartSeq)
+        }
+        .onChange(of: selectedPartSeq) { _, newValue in
+            guard newValue > 0 else { return }
+            LSDefaults.setLastPart(chapter: chapter.id, value: newValue)
         }
     }
 }
