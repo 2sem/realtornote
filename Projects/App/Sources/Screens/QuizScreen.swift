@@ -11,9 +11,8 @@ import SwiftData
 struct QuizScreen: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
     @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
-    
+
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) private var colorScheme
     @State private var viewModel: QuizScreenModel
     @State private var hasShownAd = false
     
@@ -92,9 +91,9 @@ struct QuizScreen: View {
     private var backgroundColor: Color {
         Color(red: 0.506, green: 0.831, blue: 0.980)
     }
-    
+
     private var cardBackgroundColor: Color {
-        colorScheme == .dark ? Color(white: 0.15) : Color.white
+        Color.white
     }
     
     private var emptyState: some View {
@@ -121,7 +120,7 @@ struct QuizScreen: View {
             VStack(spacing: 12) {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 60))
-                    .foregroundColor(.green)
+                    .foregroundColor(correctAnswerColor)
 
                 Text("퀴즈 완료!")
                     .font(.title)
@@ -134,7 +133,7 @@ struct QuizScreen: View {
                     VStack(spacing: 4) {
                         Text("\(viewModel.correctCount)")
                             .font(.system(size: 48, weight: .bold))
-                            .foregroundColor(.green)
+                            .foregroundColor(correctAnswerColor)
                         Text("정답")
                             .font(.headline)
                             .foregroundColor(textColor.opacity(0.8))
@@ -225,11 +224,11 @@ struct QuizScreen: View {
     }
     
     private var textColor: Color {
-        colorScheme == .dark ? .white : .black
+        .black
     }
-    
-    private var timerColor: Color {
-        colorScheme == .dark ? Color(red: 0.3, green: 0.7, blue: 1.0) : Color(red: 0.0, green: 0.5, blue: 0.9)
+
+    private var correctAnswerColor: Color {
+        Color(red: 0.0, green: 0.3, blue: 0.6)
     }
     
     private func answerButton(answer: RNQuestionAnswerInfo, index: Int) -> some View {
@@ -257,7 +256,7 @@ struct QuizScreen: View {
                 // Checkmark for correct answer when revealed
                 if viewModel.showCorrectAnswer && answer.isCorrect {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
+                        .foregroundColor(correctAnswerColor)
                         .font(.title2)
                 } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
                     Image(systemName: "xmark.circle.fill")
@@ -278,7 +277,7 @@ struct QuizScreen: View {
     
     private func numberCircleColor(answer: RNQuestionAnswerInfo, index: Int) -> Color {
         if viewModel.showCorrectAnswer && answer.isCorrect {
-            return .green
+            return correctAnswerColor
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
             return .red
         }
@@ -287,25 +286,25 @@ struct QuizScreen: View {
     
     private func answerTextColor(answer: RNQuestionAnswerInfo, index: Int) -> Color {
         if viewModel.showCorrectAnswer && answer.isCorrect {
-            return .green
+            return correctAnswerColor
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
             return .red
         }
-        return colorScheme == .dark ? .white : .black
+        return .black
     }
     
     private func answerBackground(answer: RNQuestionAnswerInfo, index: Int) -> Color {
         if viewModel.showCorrectAnswer && answer.isCorrect {
-            return Color.green.opacity(colorScheme == .dark ? 0.2 : 0.1)
+            return correctAnswerColor.opacity(0.1)
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
-            return Color.red.opacity(colorScheme == .dark ? 0.2 : 0.1)
+            return Color.red.opacity(0.1)
         }
-        return colorScheme == .dark ? Color(white: 0.15) : Color.white
+        return Color.white
     }
     
     private func answerBorderColor(answer: RNQuestionAnswerInfo, index: Int) -> Color {
         if viewModel.showCorrectAnswer && answer.isCorrect {
-            return .green
+            return correctAnswerColor
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
             return .red
         }
