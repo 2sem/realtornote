@@ -279,26 +279,4 @@ extension LSDefaults{
             Defaults.set(newValue, forKey: Keys.AdsTrackingRequested);
         }
     }
-    
-    static func requestAppTrackingIfNeed() -> Bool{
-        guard !AdsTrackingRequested else{
-            return false;
-        }
-        
-        guard LaunchCount > 2 else{
-//            AdsShownCount += 1;
-            return false;
-        }
-        
-        guard #available(iOS 14.0, *) else{
-            return false;
-        }
-        
-        debugPrint("ATTrackingManager.trackingAuthorizationStatus. \(ATTrackingManager.trackingAuthorizationStatus)")
-        AppDelegate.sharedGADManager?.requestPermission(completion: { (result) in
-            AdsTrackingRequested = true;
-        })
-        
-        return true;
-    }
 }
