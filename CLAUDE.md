@@ -240,3 +240,4 @@ Widget/
 - Dark mode enforced in `Info.plist`
 - AlarmKit.AlarmManager - https://developer.apple.com/documentation/alarmkit/alarmmanager
 - generate project if you insert new file or rename using tuist
+- you should not run tuist generate, it took too much token
