@@ -2,11 +2,11 @@ import SwiftUI
 import FirebaseAnalytics
 
 /// External links bar positioned above the tab bar
-/// Matches the UIKit RNTabBarController's newsContainer behavior
 struct ExternalLinksBar: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
     @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @State private var safariURL: SafariURL?
     
     // Adaptive spacing based on device size class
     private var horizontalPadding: CGFloat {
@@ -28,9 +28,7 @@ struct ExternalLinksBar: View {
                     event: .openQNet,
                     action: {
                         presentFullAdThen {
-                            if let url = URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08") {
-                                UIApplication.shared.open(url)
-                            }
+                            safariURL = .init(url: URL(string: "http://www.q-net.or.kr/man001.do?gSite=L&gId=08")!)
                         }
                     }
                 )
@@ -43,9 +41,7 @@ struct ExternalLinksBar: View {
                     event: .openQuizWin,
                     action: {
                         presentFullAdThen {
-                            if let url = URL(string: "http://andy1002.cafe24.com/gnu_house") {
-                                UIApplication.shared.open(url)
-                            }
+                            safariURL = .init(url: URL(string: "http://andy1002.cafe24.com/gnu_house")!)
                         }
                     }
                 )
@@ -58,9 +54,7 @@ struct ExternalLinksBar: View {
                     event: .openQuizWin,
                     action: {
                         presentFullAdThen {
-                            if let url = URL(string: "http://landquiz.com/bbs/gichul.php") {
-                                UIApplication.shared.open(url)
-                            }
+                            safariURL = .init(url: URL(string: "http://landquiz.com/bbs/gichul.php")!)
                         }
                     }
                 )
@@ -73,9 +67,7 @@ struct ExternalLinksBar: View {
                     event: .openRealtorRaw,
                     action: {
                         presentFullAdThen {
-                            if let url = URL(string: "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9") {
-                                UIApplication.shared.open(url)
-                            }
+                            safariURL = .init(url: URL(string: "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9")!)
                         }
                     }
                 )
@@ -90,6 +82,10 @@ struct ExternalLinksBar: View {
             Color(red: 0.506, green: 0.831, blue: 0.980)
                 .ignoresSafeArea(edges: .bottom)
         )
+        .sheet(item: $safariURL) { url in
+            SafariView(url: url)
+                .ignoresSafeArea()
+        }
     }
     
     private func presentFullAdThen(_ action: @escaping () -> Void) {
@@ -112,15 +108,11 @@ struct LinkButton: View {
     let url: URL
     let event: Analytics.LeesamEvent
     var action: (() -> Void)? = nil
-    
+
     var body: some View {
         Button {
             Analytics.logLeesamEvent(event, parameters: [:])
-            if let action = action {
-                action()
-            } else {
-                UIApplication.shared.open(url)
-            }
+            action?()
         } label: {
             Text(title)
                 .font(.system(size: 14))
