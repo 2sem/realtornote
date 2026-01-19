@@ -105,16 +105,16 @@ struct PartScreen: View {
                         .font(.title2)
                 }
                 
-                // Favorite button
-                Button(action: viewModel.toggleFavorite) {
-                    Image(systemName: viewModel.isFavorited ? "bookmark.fill" : "bookmark")
-                        .foregroundColor(.white)
-                        .font(.title2)
-                }
-
                 // Settings button
                 Button(action: { showSettings = true }) {
                     Image(systemName: "gearshape")
+                        .foregroundColor(.white)
+                        .font(.title2)
+                }
+                
+                // Favorite button
+                Button(action: viewModel.toggleFavorite) {
+                    Image(systemName: viewModel.isFavorited ? "bookmark.fill" : "bookmark")
                         .foregroundColor(.white)
                         .font(.title2)
                 }
