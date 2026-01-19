@@ -206,7 +206,6 @@ struct PartScreen: View {
             PartSettingsScreen(fontSize: $fontSize)
                 .presentationDetents([.height(180)])
                 .presentationDragIndicator(.visible)
-                .presentationBackgroundInteraction(.enabled)
         }
         .task {
             // Load saved font size
