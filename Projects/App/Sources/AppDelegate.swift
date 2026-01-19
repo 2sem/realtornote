@@ -40,6 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     application.registerForRemoteNotifications()
                 }
             }
+        } else {
+            // iOS 26+: Register for remote notifications to support FCM
+            application.registerForRemoteNotifications()
         }
 
         return true
@@ -107,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("fcm device[\(fcmToken ?? "")]")
+        print("Firebase registration token: \(fcmToken ?? "")")
         let topic = "notice"
 
         messaging.subscribe(toTopic: topic) { (error) in
