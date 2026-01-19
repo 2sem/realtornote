@@ -73,7 +73,7 @@ struct PartListScreen: View {
         .safeAreaInset(edge: .bottom, spacing: 0) {
             // Spacer to account for ExternalLinksBar + Subject TabBar height (only when keyboard hidden)
             // ExternalLinksBar: ~60pt + Subject TabBar: ~49pt + padding: ~10pt
-            if !keyboardState.isVisible {
+            if !keyboardState.isVisible && UIDevice.current.userInterfaceIdiom != .pad {
                 Color.clear.frame(height: 80)
             }
         }
@@ -92,4 +92,3 @@ struct PartListScreen: View {
         }
     }
 }
-

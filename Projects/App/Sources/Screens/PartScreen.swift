@@ -8,6 +8,8 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
+import Foundation
 
 struct PartScreen: View {
     let part: Part
@@ -22,6 +24,7 @@ struct PartScreen: View {
     @State private var isSearching: Bool = false
     @State private var keyboardPadding: CGFloat = 0
     @State private var searchBarHeight: CGFloat = 0
+    @State private var keyboardHeight: CGFloat = 0
     @State private var fontSize: CGFloat = 17
     @State private var lastMagnification: CGFloat = 1.0
     @State private var showSettings: Bool = false
@@ -170,24 +173,19 @@ struct PartScreen: View {
                     // Calculate overlap: text view bottom - keyboard top
                     let viewBottom = geometry.frame(in: .global).maxY
                     let keyboardTop = keyboardFrame.minY
-                    let overlap = max(0, viewBottom - keyboardTop)
-                    
-                    // Subtract find bar height from padding (content can scroll under transparent bar)
-                    let adjustedPadding = max(0, overlap - searchBarHeight)
-                    
-                    withAnimation(.easeOut(duration: animationDuration)) {
-                        keyboardPadding = adjustedPadding
-                    }
+                    self.keyboardHeight = max(0, viewBottom - keyboardTop)
                 }
                 .keyboardWillHide { notification in
                     guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
                         keyboardPadding = 0
+                        keyboardHeight = 0
                         return
                     }
                     
                     // Reset padding and search bar height
                     withAnimation(.easeOut(duration: animationDuration)) {
                         keyboardPadding = 0
+                        keyboardHeight = 0
                     }
                     
                     // Dismiss search when keyboard hides
@@ -202,6 +200,25 @@ struct PartScreen: View {
             // Update keyboard visibility when find navigator changes
             keyboardState.isVisible = newValue
         }
+        .onChange(of: searchBarHeight) { _, newSearchBarHeight in
+            guard keyboardHeight > 0 else { return }
+            let adjustedPadding = max(0, keyboardHeight - newSearchBarHeight)
+            
+            guard keyboardPadding != adjustedPadding else { return }
+            
+            withAnimation {
+                keyboardPadding = adjustedPadding
+            }
+        }
+        .onChange(of: keyboardHeight, { _, newKeyboardHeight in
+            let adjustedPadding = max(0, newKeyboardHeight - searchBarHeight)
+            
+            guard keyboardPadding != adjustedPadding else { return }
+            
+            withAnimation {
+                keyboardPadding = adjustedPadding
+            }
+        })
         .sheet(isPresented: $showSettings) {
             PartSettingsScreen(fontSize: $fontSize)
                 .presentationDetents([.height(180)])
