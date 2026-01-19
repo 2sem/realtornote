@@ -135,7 +135,13 @@ final class AlarmKitManager {
     // MARK: - AlarmKit Implementation
 
     private func scheduleWithAlarmKit(_ alarm: Alarm) async {
-        let alarmID = UUID(uuidString: String(alarm.id)) ?? UUID()
+        // 1. Check before scheduling: Prevent starting if already deleted/disabled
+        if alarm.isDeleted || !alarm.enabled {
+            print("⚠️ Alarm deleted or disabled, skipping schedule: \(alarm.id)")
+            return
+        }
+
+        let alarmID = getAlarmID(from: alarm)
 
         // Create schedule based on alarm settings
         let schedule = createSchedule(for: alarm)
@@ -181,8 +187,22 @@ final class AlarmKitManager {
 //            secondaryIntent: OpenStudyAppIntent(alarmID: alarmID.uuidString)
         )
 
+        // 1. Check before scheduling: Prevent starting if already deleted/disabled
+        if alarm.isDeleted || !alarm.enabled {
+            print("⚠️ Alarm deleted or disabled, skipping schedule: \(alarmID)")
+            return
+        }
+
         do {
             try await AlarmKit.AlarmManager.shared.schedule(id: alarmID, configuration: configuration)
+            
+            // 2. Check after scheduling: Handle race condition where delete happened during await
+            if alarm.isDeleted || !alarm.enabled {
+                print("⚠️ Alarm deleted or disabled during scheduling, cancelling: \(alarmID)")
+                try? await AlarmKit.AlarmManager.shared.cancel(id: alarmID)
+                return
+            }
+            
             print("✅ AlarmKit scheduled: \(alarmID)")
         } catch {
             print("❌ AlarmKit scheduling failed: \(error)")
@@ -192,13 +212,13 @@ final class AlarmKitManager {
     }
 
     private func unscheduleWithAlarmKit(_ alarm: Alarm) async {
-        let alarmID = UUID(uuidString: String(alarm.id)) ?? UUID()
+        let alarmID = getAlarmID(from: alarm)
 
         do {
             try AlarmKit.AlarmManager.shared.cancel(id: alarmID)
-            print("✅ AlarmKit unscheduled: \(alarmID)")
+            print("✅ AlarmKit unscheduled: \(alarmID)") //70A8DD75-5F0E-477F-9EC0-DCC704CB3F9B
         } catch {
-            print("❌ AlarmKit unscheduling failed: \(error)")
+            print("❌ AlarmKit unscheduling failed. ID[\(alarmID)]: \(error)")
         }
     }
 
@@ -247,6 +267,25 @@ final class AlarmKitManager {
         )
     }
 
+    private func getAlarmID(from alarm: Alarm) -> UUID {
+        // Create a deterministic UUID from the Int64 alarm ID
+        // We use the Int64 value to fill the last 8 bytes of the UUID
+        var bytes = [UInt8](repeating: 0, count: 16)
+        let idBytes = withUnsafeBytes(of: alarm.id.bigEndian) { Array($0) }
+        
+        // Fill the last 8 bytes
+        for i in 0..<8 {
+            bytes[8 + i] = idBytes[i]
+        }
+        
+        return UUID(uuid: (
+            bytes[0], bytes[1], bytes[2], bytes[3],
+            bytes[4], bytes[5], bytes[6], bytes[7],
+            bytes[8], bytes[9], bytes[10], bytes[11],
+            bytes[12], bytes[13], bytes[14], bytes[15]
+        ))
+    }
+
     // MARK: - UserNotifications Fallback
 
     private func scheduleWithUserNotifications(_ alarm: Alarm) {
@@ -256,7 +295,7 @@ final class AlarmKitManager {
                 return
             }
 
-            if alarm.enabled {
+            if alarm.enabled && !alarm.isDeleted {
                 UserNotificationManager.shared.register(notifications: notifications)
             }
         }
