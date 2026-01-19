@@ -24,6 +24,7 @@ struct PartScreen: View {
     @State private var searchBarHeight: CGFloat = 0
     @State private var fontSize: CGFloat = 17
     @State private var lastMagnification: CGFloat = 1.0
+    @State private var showSettings: Bool = false
     @Environment(KeyboardState.self) private var keyboardState
     
     // Font size constraints matching UIKit implementation
@@ -110,6 +111,13 @@ struct PartScreen: View {
                         .foregroundColor(.white)
                         .font(.title2)
                 }
+
+                // Settings button
+                Button(action: { showSettings = true }) {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.white)
+                        .font(.title2)
+                }
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -193,6 +201,13 @@ struct PartScreen: View {
         .onChange(of: isSearching) { oldValue, newValue in
             // Update keyboard visibility when find navigator changes
             keyboardState.isVisible = newValue
+        }
+        .sheet(isPresented: $showSettings) {
+            PartSettingsScreen(fontSize: $fontSize)
+                .presentationDetents([.medium])
+                .presentationDetents([.height(150)])
+                .presentationDragIndicator(.visible)
+                .presentationBackgroundInteraction(.enabled)
         }
         .task {
             // Load saved font size
