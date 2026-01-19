@@ -8,6 +8,7 @@ struct RealtorNoteApp: App {
     @State private var isSplashDone = false
     @State private var isSetupDone = false
     @Environment(\.scenePhase) private var scenePhase
+    @State private var isFromBackground = false
     
     @StateObject private var adManager = SwiftUIAdManager()
 
@@ -65,15 +66,22 @@ struct RealtorNoteApp: App {
     }
     
     private func handleScenePhaseChange(from oldPhase: ScenePhase, to newPhase: ScenePhase) {
+        print("scene changed old[\(oldPhase)] new[\(newPhase)]")
+        
         switch newPhase {
-        case .active:
-            handleAppDidBecomeActive()
-        case .inactive:
-            break
-        case .background:
-            break
-        @unknown default:
-            break
+            case .active:
+                if isFromBackground {
+                    handleAppDidBecomeActive()
+                }
+                
+                isFromBackground = false
+            case .inactive:
+                break
+            case .background:
+                isFromBackground = true
+                break
+            @unknown default:
+                break
         }
     }
     
