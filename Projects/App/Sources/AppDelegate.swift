@@ -24,25 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Set up notification center delegate
         UNUserNotificationCenter.current().delegate = self
 
-        // Request notification permission on iOS < 26
-        // On iOS 26+, AlarmKit will be used and permission will be requested when needed
-        if #unavailable(iOS 26.0) {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
-                defer {
-                    RNAlarmManager.shared.sync()
-                }
-
-                guard result else {
-                    return
-                }
-
-                DispatchQueue.main.syncInMain {
-                    application.registerForRemoteNotifications()
-                }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (result, error) in
+            defer {
+//                RNAlarmManager.shared.sync()
             }
-        } else {
-            // iOS 26+: Register for remote notifications to support FCM
-            application.registerForRemoteNotifications()
+
+            guard result else {
+                return
+            }
+
+            DispatchQueue.main.syncInMain {
+                application.registerForRemoteNotifications()
+            }
         }
 
         return true
