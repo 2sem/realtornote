@@ -46,7 +46,15 @@ final class AlarmKitManager {
             return  // Don't set flag
         }
 
-        // Step 1.5: Request AlarmKit authorization BEFORE proceeding
+        let enabledAlarms = alarms.filter { $0.enabled }
+
+        // Step 1.5: Request AlarmKit authorization ONLY if there are alarms to migrate
+        guard !enabledAlarms.isEmpty else {
+            LSDefaults.notificationCleanupCompleted = true
+            print("❌ No alarms to register")
+            return
+        }
+        
         let authorized = await requestAuthorization()
         guard authorized else {
             print("❌ AlarmKit not authorized - aborting migration (will retry when user grants permission)")
@@ -75,7 +83,6 @@ final class AlarmKitManager {
         print("✅ Removed old study alarm notifications")
 
         // Step 3: Re-register all enabled alarms with AlarmKit (guaranteed to work now)
-        let enabledAlarms = alarms.filter { $0.enabled }
         for alarm in enabledAlarms {
             await scheduleWithAlarmKit(alarm)  // Direct call, no fallback
         }
@@ -135,12 +142,6 @@ final class AlarmKitManager {
     // MARK: - AlarmKit Implementation
 
     private func scheduleWithAlarmKit(_ alarm: Alarm) async {
-        // 1. Check before scheduling: Prevent starting if already deleted/disabled
-        if alarm.isDeleted || !alarm.enabled {
-            print("⚠️ Alarm deleted or disabled, skipping schedule: \(alarm.id)")
-            return
-        }
-
         let alarmID = getAlarmID(from: alarm)
 
         // Create schedule based on alarm settings
