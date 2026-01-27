@@ -100,10 +100,7 @@ struct MainScreen: View {
                     }
                 }
 
-                // External links bar above tab bar (hidden when keyboard visible)
-                if !keyboardState.isVisible {
-                    ExternalLinksBar()
-                }
+                
             }
         }
         .environment(keyboardState)
