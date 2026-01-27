@@ -71,8 +71,8 @@ struct PartListScreen: View {
         .toolbarBackground(.hidden, for: .navigationBar)
         .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            // Spacer to account for ExternalLinksBar + Subject TabBar height (only when keyboard hidden)
-            // ExternalLinksBar: ~60pt + Subject TabBar: ~49pt + padding: ~10pt
+            // Spacer to account for Subject TabBar height (only when keyboard hidden)
+            // Subject TabBar: ~49pt + padding: ~10pt
             if !keyboardState.isVisible && UIDevice.current.userInterfaceIdiom != .pad {
                 Color.clear.frame(height: 80)
             }
