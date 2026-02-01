@@ -84,12 +84,13 @@ struct MainScreen: View {
                         appearance.configureWithDefaultBackground()
                         appearance.backgroundColor = UIColor(Color(red: 0.506, green: 0.831, blue: 0.980))
 
-                        // Darker colors for better visibility on sky blue background (iOS 18-25 only)
+                        // Dark blue colors for better visibility on sky blue background (iOS 18-25 only)
                         let itemAppearance = UITabBarItemAppearance()
-                        itemAppearance.normal.iconColor = .white.withAlphaComponent(0.8)
-                        itemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white.withAlphaComponent(0.8)]
-                        itemAppearance.selected.iconColor = .blue.withAlphaComponent(0.4)
-                        itemAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.blue.withAlphaComponent(0.5)]
+                        let darkBlue = UIColor(red: 0.004, green: 0.341, blue: 0.608, alpha: 1.0)
+                        itemAppearance.normal.iconColor = darkBlue.withAlphaComponent(0.6)
+                        itemAppearance.normal.titleTextAttributes = [.foregroundColor: darkBlue.withAlphaComponent(0.6)]
+                        itemAppearance.selected.iconColor = darkBlue
+                        itemAppearance.selected.titleTextAttributes = [.foregroundColor: darkBlue]
 
                         appearance.stackedLayoutAppearance = itemAppearance
                         appearance.inlineLayoutAppearance = itemAppearance

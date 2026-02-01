@@ -89,7 +89,7 @@ struct WeekDayPicker: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("요일 선택")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                 .padding(.leading, 8)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -112,7 +112,7 @@ struct WeekDayPicker: View {
             } label: {
                 Text(selectedWeekDays == .All ? "전체 해제" : "전체 선택")
                     .font(.body)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(Color.white.opacity(0.2))
@@ -159,7 +159,7 @@ struct AlarmTimePicker: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("시간 선택")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                 .padding(.leading, 8)
 
             DatePicker(
@@ -195,7 +195,7 @@ struct ActionButtons: View {
             } label: {
                 Text("취소")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.white.opacity(0.3))

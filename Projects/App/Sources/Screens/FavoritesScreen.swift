@@ -62,7 +62,7 @@ struct FavoritesScreen: View {
                 ForEach(favoritesBySubject, id: \.0.id) { subject, subjectFavorites in
                     Section(header: Text(subject.name)
                         .font(.headline)
-                        .foregroundColor(.white)) {
+                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))) {
                         ForEach(subjectFavorites) { favorite in
                             FavoriteRow(
                                 favorite: favorite,
@@ -103,7 +103,7 @@ struct FavoritesScreen: View {
                     Button("완료") {
                         dismiss()
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                 }
             }
         }
