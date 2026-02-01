@@ -26,7 +26,7 @@ struct AlarmListScreen: View {
                     content(model: model)
                 } else {
                     ProgressView()
-                        .tint(.white)
+                        .tint(Color(red: 0.004, green: 0.341, blue: 0.608))
                 }
             }
             .scrollContentBackground(.hidden)
@@ -148,13 +148,13 @@ struct AlarmListEmptyView: View {
             Spacer()
             Image(systemName: "bell.slash")
                 .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.7))
             Text("설정된 알림이 없습니다")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
             Text("+ 버튼을 눌러 알림을 추가하세요")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.8))
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

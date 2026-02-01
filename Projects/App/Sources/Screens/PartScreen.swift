@@ -104,21 +104,21 @@ struct PartScreen: View {
                     isSearching = true
                 }) {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                         .font(.title2)
                 }
-                
+
                 // Settings button
                 Button(action: { showSettings = true }) {
                     Image(systemName: "gearshape")
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                         .font(.title2)
                 }
-                
+
                 // Favorite button
                 Button(action: viewModel.toggleFavorite) {
                     Image(systemName: viewModel.isFavorited ? "bookmark.fill" : "bookmark")
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                         .font(.title2)
                 }
             }

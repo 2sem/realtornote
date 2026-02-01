@@ -21,12 +21,12 @@ struct SearchBar: View {
             HStack(spacing: 8) {
                 HStack {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.8))
                     
                     TextField("검색", text: $searchText)
                         .focused($isFocused)
                         .textFieldStyle(.plain)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                         .submitLabel(.search)
                         .onSubmit {
                             onSubmit()
@@ -38,7 +38,7 @@ struct SearchBar: View {
                             searchText = ""
                         }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.8))
                         }
                     }
                 }
@@ -50,14 +50,14 @@ struct SearchBar: View {
                 if hasResults {
                     Button(action: onPrevious) {
                         Image(systemName: "chevron.up")
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                             .font(.system(size: 16, weight: .semibold))
                     }
                     .frame(width: 32, height: 32)
-                    
+
                     Button(action: onNext) {
                         Image(systemName: "chevron.down")
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
                             .font(.system(size: 16, weight: .semibold))
                     }
                     .frame(width: 32, height: 32)
@@ -66,7 +66,7 @@ struct SearchBar: View {
                 Button("취소") {
                     onCancel()
                 }
-                .foregroundColor(.white)
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
             }
             .padding(.horizontal)
             .padding(.vertical, 8)

@@ -100,16 +100,16 @@ struct QuizScreen: View {
         VStack(spacing: 20) {
             Image(systemName: "questionmark.circle")
                 .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.8))
 
             Text("문제생성 실패")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
 
             Text("문제 생성을 위한 데이터가 충분하지 않습니다")
                 .font(.body)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.9))
                 .multilineTextAlignment(.center)
         }
         .padding()

@@ -25,7 +25,7 @@ struct PartSettingsScreen: View {
                     Image(systemName: "textformat.size.larger")
                         .font(.title3)
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(Color(red: 0.004, green: 0.341, blue: 0.608))
             }
 
             Spacer()
