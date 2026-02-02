@@ -131,7 +131,7 @@ struct PartScreen: View {
                 SwiftUITextView(
                     text: formattedContent,
                     font: .systemFont(ofSize: fontSize),
-                    textColor: .label,
+                    textColor: UIColor(red: 0.004, green: 0.341, blue: 0.608, alpha: 1.0),
                     backgroundColor: .clear,
                     isEditable: false,
                     isScrollEnabled: true,
