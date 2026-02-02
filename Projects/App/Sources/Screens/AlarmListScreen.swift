@@ -33,6 +33,7 @@ struct AlarmListScreen: View {
             .background(backgroundColor.ignoresSafeArea())
             .navigationTitle("공부시간 알림")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.light, for: .navigationBar)
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

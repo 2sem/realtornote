@@ -27,6 +27,7 @@ struct AlarmSettingsScreen: View {
             .background(backgroundColor)
             .navigationTitle("알림 설정")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.light, for: .navigationBar)
             .toolbarBackground(backgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
     }
@@ -176,7 +177,7 @@ struct AlarmTimePicker: View {
             )
             .datePickerStyle(.wheel)
             .labelsHidden()
-            .colorScheme(.dark)
+            .colorScheme(.light)
         }
     }
 }
