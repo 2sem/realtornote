@@ -34,7 +34,7 @@ struct ChapterPicker: View {
                    let index = chapters.firstIndex(where: { $0.id == chapter.id }) {
                     Text("\((index + 1).toRoman()). \(chapter.name)")
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                        .foregroundColor(Color.themePrimary)
                 } else {
                     Text("챕터 선택")
                         .font(.headline)
@@ -43,7 +43,7 @@ struct ChapterPicker: View {
 
                 Image(systemName: "chevron.down")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                    .foregroundColor(Color.themePrimary)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
