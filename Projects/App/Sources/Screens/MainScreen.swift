@@ -113,7 +113,7 @@ struct MainScreen: View {
                     showAlarmList = true
                 } label: {
                     Image(systemName: "bell.fill")
-                        .foregroundStyle(Color.accentColor)
+                        .foregroundColor(Color.themePrimary)
                 }
             }
 
@@ -135,7 +135,7 @@ struct MainScreen: View {
                         }
                     } label: {
                         Image(systemName: "questionmark.text.page")
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundColor(Color.themePrimary)
                     }
                     .disabled(currentSelectedChapter.wrappedValue == nil)
                     
@@ -144,7 +144,7 @@ struct MainScreen: View {
                         showFavorites = true
                     } label: {
                         Image(systemName: "book")
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundColor(Color.themePrimary)
                     }
                 }
             }
