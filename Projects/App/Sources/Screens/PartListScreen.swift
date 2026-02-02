@@ -19,7 +19,7 @@ struct PartListScreen: View {
     @State private var selectedPartSeq: Int = 0
     
     // Theme colors matching app
-    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    private let backgroundColor = Color.themeBackground
 
     var sortedParts: [Part] {
         chapter.parts.sorted { $0.seq < $1.seq }
