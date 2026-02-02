@@ -6,8 +6,8 @@ extension Color {
     /// Primary theme color - Dark blue for text and interactive elements
     static let themePrimary = Color(red: 0.004, green: 0.341, blue: 0.608)
     
-    /// Background color - Light sky blue
-    static let themeBackground = Color(red: 0.506, green: 0.831, blue: 0.980)
+    /// Background color - Warm beige for reduced eye fatigue
+    static let themeBackground = Color(red: 0.980, green: 0.953, blue: 0.878)
     
     /// Disabled background color
     static let themeDisabledBackground = Color(red: 0.976, green: 0.977, blue: 0.976)
