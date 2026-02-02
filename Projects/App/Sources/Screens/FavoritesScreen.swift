@@ -62,7 +62,7 @@ struct FavoritesScreen: View {
                 ForEach(favoritesBySubject, id: \.0.id) { subject, subjectFavorites in
                     Section(header: Text(subject.name)
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))) {
+                        .foregroundColor(Color.themePrimary)) {
                         ForEach(subjectFavorites) { favorite in
                             FavoriteRow(
                                 favorite: favorite,
@@ -81,9 +81,9 @@ struct FavoritesScreen: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .background(Color(red: 0.506, green: 0.831, blue: 0.980))
+        .background(Color.themeBackground)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color(red: 0.506, green: 0.831, blue: 0.980), for: .navigationBar)
+        .toolbarBackground(Color.themeBackground, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -103,7 +103,7 @@ struct FavoritesScreen: View {
                     Button("완료") {
                         dismiss()
                     }
-                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                    .foregroundColor(Color.themePrimary)
                 }
             }
         }

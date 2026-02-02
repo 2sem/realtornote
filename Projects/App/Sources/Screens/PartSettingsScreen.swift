@@ -5,7 +5,7 @@ struct PartSettingsScreen: View {
 
     private let minFontSize: CGFloat = 14
     private let maxFontSize: CGFloat = 30
-    private let themeColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    private let themeColor = Color.themeBackground
 
     var body: some View {
         VStack(spacing: 20) {
@@ -25,7 +25,7 @@ struct PartSettingsScreen: View {
                     Image(systemName: "textformat.size.larger")
                         .font(.title3)
                 }
-                .foregroundStyle(Color(red: 0.004, green: 0.341, blue: 0.608))
+                .foregroundStyle(Color.themePrimary)
             }
 
             Spacer()

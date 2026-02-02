@@ -15,7 +15,7 @@ struct AlarmSettingsScreen: View {
     let model: AlarmSettingsScreenModel
     
     // Theme colors matching app
-    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    private let backgroundColor = Color.themeBackground
     
     init(model: AlarmSettingsScreenModel) {
         self.model = model
@@ -89,7 +89,7 @@ struct WeekDayPicker: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("요일 선택")
                 .font(.headline)
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                .foregroundColor(Color.themePrimary)
                 .padding(.leading, 8)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -112,7 +112,7 @@ struct WeekDayPicker: View {
             } label: {
                 Text(selectedWeekDays == .All ? "전체 해제" : "전체 선택")
                     .font(.body)
-                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                    .foregroundColor(Color.themePrimary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(Color.white.opacity(0.2))
@@ -131,20 +131,20 @@ struct WeekDayButton: View {
     let isSelected: Bool
     let action: () -> Void
 
-    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    private let backgroundColor = Color.themeBackground
 
     var body: some View {
         Button(action: action) {
             Text(title)
                 .font(.body)
                 .fontWeight(.medium)
-                .foregroundColor(isSelected ? backgroundColor : .white)
+                .foregroundColor(isSelected ? Color.white : Color.themePrimary)
                 .frame(width: 50, height: 50)
-                .background(isSelected ? Color.white : Color.white.opacity(0.2))
+                .background(isSelected ? Color.themePrimary : Color.white.opacity(0.85))
                 .cornerRadius(25)
                 .overlay(
                     RoundedRectangle(cornerRadius: 25)
-                        .stroke(Color.white, lineWidth: 2)
+                        .stroke(Color.themePrimary.opacity(isSelected ? 1 : 0.4), lineWidth: 2)
                 )
         }
     }
@@ -159,7 +159,7 @@ struct AlarmTimePicker: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("시간 선택")
                 .font(.headline)
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                .foregroundColor(Color.themePrimary)
                 .padding(.leading, 8)
 
             DatePicker(
@@ -195,7 +195,7 @@ struct ActionButtons: View {
             } label: {
                 Text("취소")
                     .font(.headline)
-                    .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                    .foregroundColor(Color.themePrimary)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.white.opacity(0.3))
@@ -207,10 +207,10 @@ struct ActionButtons: View {
             } label: {
                 Text("적용")
                     .font(.headline)
-                    .foregroundColor(backgroundColor)
+                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.white)
+                    .background(Color.themePrimary)
                     .cornerRadius(10)
             }
         }

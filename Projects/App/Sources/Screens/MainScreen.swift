@@ -22,7 +22,7 @@ struct MainScreen: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
     @AppStorage(LSDefaults.Keys.LaunchCount) private var launchCount: Int = 0
     
-    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    private let backgroundColor = Color.themeBackground
     
     // Current subject based on selectedTab
     private var currentSubject: Subject? {
@@ -82,7 +82,7 @@ struct MainScreen: View {
                     if #unavailable(iOS 26.0) {
                         let appearance = UITabBarAppearance()
                         appearance.configureWithDefaultBackground()
-                        appearance.backgroundColor = UIColor(Color(red: 0.506, green: 0.831, blue: 0.980))
+                        appearance.backgroundColor = UIColor(Color.themeBackground)
 
                         // Dark blue colors for better visibility on sky blue background (iOS 18-25 only)
                         let itemAppearance = UITabBarItemAppearance()
@@ -100,8 +100,6 @@ struct MainScreen: View {
                         UITabBar.appearance().scrollEdgeAppearance = appearance
                     }
                 }
-
-                
             }
         }
         .environment(keyboardState)

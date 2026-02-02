@@ -89,7 +89,7 @@ struct QuizScreen: View {
     }
     
     private var backgroundColor: Color {
-        Color(red: 0.506, green: 0.831, blue: 0.980)
+        Color.themeBackground
     }
 
     private var cardBackgroundColor: Color {
@@ -100,16 +100,16 @@ struct QuizScreen: View {
         VStack(spacing: 20) {
             Image(systemName: "questionmark.circle")
                 .font(.system(size: 60))
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.8))
+                .foregroundColor(Color.themePrimary.opacity(0.8))
 
             Text("문제생성 실패")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                .foregroundColor(Color.themePrimary)
 
             Text("문제 생성을 위한 데이터가 충분하지 않습니다")
                 .font(.body)
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.9))
+                .foregroundColor(Color.themePrimary.opacity(0.9))
                 .multilineTextAlignment(.center)
         }
         .padding()
@@ -228,7 +228,7 @@ struct QuizScreen: View {
     }
 
     private var correctAnswerColor: Color {
-        Color(red: 0.0, green: 0.3, blue: 0.6)
+        Color.themeAlternativeBlue
     }
     
     private func answerButton(answer: RNQuestionAnswerInfo, index: Int) -> some View {
@@ -281,7 +281,7 @@ struct QuizScreen: View {
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
             return .red
         }
-        return Color(red: 0.2, green: 0.6, blue: 0.9)
+        return Color.themeLightBlue
     }
     
     private func answerTextColor(answer: RNQuestionAnswerInfo, index: Int) -> Color {

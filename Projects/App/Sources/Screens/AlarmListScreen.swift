@@ -17,7 +17,7 @@ struct AlarmListScreen: View {
     @State private var navigationPath = NavigationPath()
     
     // Theme colors matching app
-    private let backgroundColor = Color(red: 0.506, green: 0.831, blue: 0.980)
+    private let backgroundColor = Color.themeBackground
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -26,7 +26,7 @@ struct AlarmListScreen: View {
                     content(model: model)
                 } else {
                     ProgressView()
-                        .tint(Color(red: 0.004, green: 0.341, blue: 0.608))
+                        .tint(Color.themePrimary)
                 }
             }
             .scrollContentBackground(.hidden)
@@ -148,13 +148,13 @@ struct AlarmListEmptyView: View {
             Spacer()
             Image(systemName: "bell.slash")
                 .font(.system(size: 60))
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.7))
+                .foregroundColor(Color.themePrimary.opacity(0.7))
             Text("설정된 알림이 없습니다")
                 .font(.headline)
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608))
+                .foregroundColor(Color.themePrimary)
             Text("+ 버튼을 눌러 알림을 추가하세요")
                 .font(.subheadline)
-                .foregroundColor(Color(red: 0.004, green: 0.341, blue: 0.608).opacity(0.8))
+                .foregroundColor(Color.themePrimary.opacity(0.8))
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -175,9 +175,9 @@ struct AlarmListCell: View {
     
     // Theme colors matching RNAlarmTableViewCell
     private let enabledBackgroundColor = Color(red: 0, green: 0.667, blue: 0.983).opacity(0.3)
-    private let disabledBackgroundColor = Color(red: 0.976, green: 0.977, blue: 0.976)
+    private let disabledBackgroundColor = Color.themeDisabledBackground
     private let enabledBorderColor = Color(red: 0, green: 0.667, blue: 0.983).opacity(0.1)
-    private let disabledBorderColor = Color(red: 0.947, green: 0.947, blue: 0.947)
+    private let disabledBorderColor = Color.themeDisabledBorder
     
     var body: some View {
         Button {
@@ -213,7 +213,7 @@ struct AlarmListCell: View {
                         }
                     ))
                     .labelsHidden()
-                    .tint(Color(red: 0.239, green: 0.675, blue: 0.969))
+                    .tint(Color.themeTint)
                 }
             }
             .padding(16)

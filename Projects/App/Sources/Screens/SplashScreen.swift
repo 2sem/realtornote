@@ -8,7 +8,7 @@ struct SplashScreen: View {
     var body: some View {
         ZStack {
             // Background color
-            Color(red: 0.204, green: 0.396, blue: 0.694)
+            Color.themeSplashBlue
                 .ignoresSafeArea()
             
             VStack(spacing: 30) {
