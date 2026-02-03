@@ -3,8 +3,11 @@ import SwiftUI
 extension Color {
     // MARK: - Theme Colors
     
-    /// Primary theme color - Dark blue for text and interactive elements
+    /// Primary theme color - Dark blue for interactive elements (buttons, icons)
     static let themePrimary = Color(red: 0.004, green: 0.341, blue: 0.608)
+
+    /// Body text color - Rich navy-gray (#1F2A44) for comfortable reading
+    static let themeBodyText = Color(red: 0.122, green: 0.165, blue: 0.267)
     
     /// Background color - Warm beige for reduced eye fatigue
     static let themeBackground = Color(red: 0.980, green: 0.953, blue: 0.878)

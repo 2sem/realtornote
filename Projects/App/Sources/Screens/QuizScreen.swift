@@ -105,11 +105,11 @@ struct QuizScreen: View {
             Text("문제생성 실패")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(Color.themePrimary)
+                .foregroundColor(Color.themeBodyText)
 
             Text("문제 생성을 위한 데이터가 충분하지 않습니다")
                 .font(.body)
-                .foregroundColor(Color.themePrimary.opacity(0.9))
+                .foregroundColor(Color.themeBodyText.opacity(0.8))
                 .multilineTextAlignment(.center)
         }
         .padding()

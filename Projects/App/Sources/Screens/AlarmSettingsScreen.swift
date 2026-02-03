@@ -90,7 +90,7 @@ struct WeekDayPicker: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("요일 선택")
                 .font(.headline)
-                .foregroundColor(Color.themePrimary)
+                .foregroundColor(Color.themeBodyText)
                 .padding(.leading, 8)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -160,7 +160,7 @@ struct AlarmTimePicker: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("시간 선택")
                 .font(.headline)
-                .foregroundColor(Color.themePrimary)
+                .foregroundColor(Color.themeBodyText)
                 .padding(.leading, 8)
 
             DatePicker(
