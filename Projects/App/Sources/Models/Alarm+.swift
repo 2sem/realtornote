@@ -78,7 +78,7 @@ extension Alarm {
             value.title = "공부시간알림"
             value.body = ["공인중개사 공부하실 시간입니다.", "공인중개사 공부하고 계신거죠? 오늘도 화이팅!", "요약집으로 공인중개사 합격!", "쉿! 나만 아는 비밀 요약집으로 공부할 시간이에요."].randomElement() ?? ""
             value.once = false
-            value.userInfo = ["category": RNPushController.Category.alarm.rawValue, "subject": self.subject?.id ?? 0]
+            value.userInfo = ["category": "alarm", "subject": self.subject?.id ?? 0]
 
             value?.handler = { (notification) in
                 print("did touch notification push")

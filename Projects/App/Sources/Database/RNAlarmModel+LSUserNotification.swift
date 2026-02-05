@@ -24,7 +24,7 @@ extension RNAlarmModel{
             //value.sound = UNNotificationSound(named: "siwon.aiff");
             //value.sound = self.sound;
             value.once = false;
-            value.userInfo = ["category" : RNPushController.Category.alarm.rawValue, "subject" : self.subject?.no ?? 0];
+            value.userInfo = ["category" : "alarm", "subject" : self.subject?.no ?? 0];
             
             value?.handler = { (notification) in
                 print("did touch notification push");
