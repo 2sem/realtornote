@@ -85,7 +85,7 @@ class RNExcelController : NSObject{
         let headers = self.loadHeaders(from: sheet)
         
         let row = self.headerRow.advanced(by: 1)
-        let cells = self.loadCells(of: row, with: headers, in: sheet)
+        _ = self.loadCells(of: row, with: headers, in: sheet)
     }
     
     var subjects : [RNExcelSubject] = [];
