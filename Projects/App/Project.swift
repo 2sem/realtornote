@@ -148,7 +148,7 @@ let project = Project(
             dependencies: [
                 .target(name: "App"),
                 // .package(product: "SnapshotTesting", type: .runtime),
-                .package(product: "Testing", type: .runtime)
+                .package(product: "Testing", type: .plugin)
             ]
         ),
         .target(
