@@ -22,7 +22,6 @@ extension RNExcelController{
         let headers = self.loadHeaders(from: sheet)
         var i = 1;
         //var map : [String : RNExcelChapter] = [:];
-        let _ = 2;
         let firstColumn = "B";
         //let firstRow = 3;
                 
