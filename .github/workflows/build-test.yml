@@ -64,6 +64,10 @@ jobs:
       run: |
         tuist setup cache
 
+    - name: Setup Tuist Cache Service
+      run: |
+        tuist generate --no-open
+
     - name: Build App
       run: |
         tuist xcodebuild build -scheme App CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
