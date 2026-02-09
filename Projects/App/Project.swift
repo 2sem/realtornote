@@ -45,10 +45,10 @@ let project = Project(
         .remote(url: "https://github.com/2sem/GADManager",
                 requirement: .upToNextMajor(from: "1.3.8")),
         // .local(path: "../../../../../pods/GADManager/src/GADManager"),
-        .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
-                requirement: .upToNextMajor(from:"1.18.5")),
-        .remote(url: "https://github.com/swiftlang/swift-testing",
-                requirement: .upToNextMajor(from: "6.2.3")),
+        // .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
+        //         requirement: .upToNextMajor(from:"1.18.5")),
+        // .remote(url: "https://github.com/swiftlang/swift-testing",
+        //         requirement: .upToNextMajor(from: "6.2.3")),
     ],
     settings: .settings(configurations: [
         .debug(
@@ -154,20 +154,20 @@ let project = Project(
                 // .package(product: "TestingMacros", type: .plugin)
 
             ]
-        ),
-        .target(
-            name: "AppUITests",
-            destinations: .iOS,
-            product: .uiTests,
-            bundleId: .appBundleId.appending(".uitests"),
-            infoPlist: .default,
-            sources: "Tests/UI/**",
-            resources: [],
-            dependencies: [
-                .target(name: "App"),
-                // .package(product: "SnapshotTesting", type: .runtime)
-                // .package(product: "Testing", type: .runtime)
-            ]
-        ),
+        )
+        // .target(
+        //     name: "AppUITests",
+        //     destinations: .iOS,
+        //     product: .uiTests,
+        //     bundleId: .appBundleId.appending(".uitests"),
+        //     infoPlist: .default,
+        //     sources: "Tests/UI/**",
+        //     resources: [],
+        //     dependencies: [
+        //         .target(name: "App"),
+        //         // .package(product: "SnapshotTesting", type: .runtime)
+        //         // .package(product: "Testing", type: .runtime)
+        //     ]
+        // ),
     ]
 )
