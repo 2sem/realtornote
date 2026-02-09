@@ -1,5 +1,5 @@
 [tools]
-tuist = "4.131.1"
+tuist = "4.140.2"
 
 [env]
 TUIST_EXPERIMENTAL_MODULE_CACHE="1"
