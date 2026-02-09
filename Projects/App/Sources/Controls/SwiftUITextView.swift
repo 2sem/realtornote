@@ -24,6 +24,7 @@ struct SwiftUITextView: UIViewRepresentable {
     @Binding var showSearchBar: Bool
     let contentBottomInset: CGFloat
     @Binding var searchBarHeight: CGFloat
+    let lineSpacing: CGFloat
 
     init(
         text: String,
@@ -38,7 +39,8 @@ struct SwiftUITextView: UIViewRepresentable {
         scrollToRange: NSRange? = nil,
         showSearchBar: Binding<Bool> = .constant(false),
         contentBottomInset: CGFloat = 0,
-        searchBarHeight: Binding<CGFloat> = .constant(0)
+        searchBarHeight: Binding<CGFloat> = .constant(0),
+        lineSpacing: CGFloat = 0
     ) {
         self.text = text
         self.attributedText = attributedText
@@ -53,6 +55,7 @@ struct SwiftUITextView: UIViewRepresentable {
         self._showSearchBar = showSearchBar
         self.contentBottomInset = contentBottomInset
         self._searchBarHeight = searchBarHeight
+        self.lineSpacing = lineSpacing
     }
     
     func makeCoordinator() -> Coordinator {
@@ -83,10 +86,28 @@ struct SwiftUITextView: UIViewRepresentable {
         // Update with attributed text if available, otherwise use plain text
         if let attributedText = attributedText {
             if uiView.attributedText != attributedText {
-                // Apply font to attributed text
+                // Apply font and line spacing to attributed text
                 let mutableAttributedText = NSMutableAttributedString(attributedString: attributedText)
-                mutableAttributedText.addAttribute(.font, value: font, range: NSRange(location: 0, length: mutableAttributedText.length))
+                let fullRange = NSRange(location: 0, length: mutableAttributedText.length)
+                mutableAttributedText.addAttribute(.font, value: font, range: fullRange)
+                if lineSpacing > 0 {
+                    let paragraph = NSMutableParagraphStyle()
+                    paragraph.lineSpacing = lineSpacing
+                    mutableAttributedText.addAttribute(.paragraphStyle, value: paragraph, range: fullRange)
+                }
                 uiView.attributedText = mutableAttributedText
+            }
+        } else if lineSpacing > 0 {
+            // Rebuild attributed text when content, font, or line spacing changes
+            if uiView.text != text || uiView.font != font {
+                let mutableText = NSMutableAttributedString(string: text)
+                let fullRange = NSRange(location: 0, length: mutableText.length)
+                mutableText.addAttribute(.font, value: font, range: fullRange)
+                mutableText.addAttribute(.foregroundColor, value: textColor, range: fullRange)
+                let paragraph = NSMutableParagraphStyle()
+                paragraph.lineSpacing = lineSpacing
+                mutableText.addAttribute(.paragraphStyle, value: paragraph, range: fullRange)
+                uiView.attributedText = mutableText
             }
         } else if uiView.text != text {
             uiView.text = text

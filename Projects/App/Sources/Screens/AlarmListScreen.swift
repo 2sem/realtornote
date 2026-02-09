@@ -152,10 +152,10 @@ struct AlarmListEmptyView: View {
                 .foregroundColor(Color.themePrimary.opacity(0.7))
             Text("설정된 알림이 없습니다")
                 .font(.headline)
-                .foregroundColor(Color.themePrimary)
+                .foregroundColor(Color.themeBodyText)
             Text("+ 버튼을 눌러 알림을 추가하세요")
                 .font(.subheadline)
-                .foregroundColor(Color.themePrimary.opacity(0.8))
+                .foregroundColor(Color.themeBodyText.opacity(0.8))
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

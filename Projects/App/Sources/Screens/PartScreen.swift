@@ -25,7 +25,7 @@ struct PartScreen: View {
     @State private var keyboardPadding: CGFloat = 0
     @State private var searchBarHeight: CGFloat = 0
     @State private var keyboardHeight: CGFloat = 0
-    @State private var fontSize: CGFloat = 17
+    @State private var fontSize: CGFloat = 18
     @State private var lastMagnification: CGFloat = 1.0
     @State private var showSettings: Bool = false
     @Environment(KeyboardState.self) private var keyboardState
@@ -96,7 +96,7 @@ struct PartScreen: View {
                 Text("\(part.seq). \(part.name)")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(Color.themePrimary)
+                    .foregroundColor(Color.themeBodyText)
                 
                 Spacer()
                 
@@ -132,7 +132,7 @@ struct PartScreen: View {
                 SwiftUITextView(
                     text: formattedContent,
                     font: .systemFont(ofSize: fontSize),
-                    textColor: UIColor(red: 0.004, green: 0.341, blue: 0.608, alpha: 1.0),
+                    textColor: UIColor(red: 0.122, green: 0.165, blue: 0.267, alpha: 1.0),
                     backgroundColor: .clear,
                     isEditable: false,
                     isScrollEnabled: true,
@@ -140,7 +140,8 @@ struct PartScreen: View {
                     onScroll: handleScroll,
                     showSearchBar: $isSearching,
                     contentBottomInset: pageIndicatorHeight + (isSearching ? searchBarHeight : 0),
-                    searchBarHeight: $searchBarHeight
+                    searchBarHeight: $searchBarHeight,
+                    lineSpacing: fontSize * 0.6
                 )
                 .padding(.bottom, keyboardPadding)
                 .simultaneousGesture(
