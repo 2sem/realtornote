@@ -148,7 +148,11 @@ let project = Project(
             dependencies: [
                 .target(name: "App"),
                 // .package(product: "SnapshotTesting", type: .runtime),
-                .package(product: "Testing", type: .plugin)
+                .package(product: "Testing", type: .runtime),
+                // .package(product: "TestingMacros", type: .macro, condition: .when([.macos]))
+                // .package(product: "TestingMacros", type: .macro)
+                .package(product: "TestingMacros", type: .plugin)
+
             ]
         ),
         .target(
