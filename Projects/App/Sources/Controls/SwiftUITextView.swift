@@ -91,7 +91,7 @@ struct SwiftUITextView: UIViewRepresentable {
                 let fullRange = NSRange(location: 0, length: mutableAttributedText.length)
                 mutableAttributedText.addAttribute(.font, value: font, range: fullRange)
                 if lineSpacing > 0 {
-                    let paragraph = NSParagraphStyle.mutable()
+                    let paragraph = NSMutableParagraphStyle()
                     paragraph.lineSpacing = lineSpacing
                     mutableAttributedText.addAttribute(.paragraphStyle, value: paragraph, range: fullRange)
                 }
@@ -104,7 +104,7 @@ struct SwiftUITextView: UIViewRepresentable {
                 let fullRange = NSRange(location: 0, length: mutableText.length)
                 mutableText.addAttribute(.font, value: font, range: fullRange)
                 mutableText.addAttribute(.foregroundColor, value: textColor, range: fullRange)
-                let paragraph = NSParagraphStyle.mutable()
+                let paragraph = NSMutableParagraphStyle()
                 paragraph.lineSpacing = lineSpacing
                 mutableText.addAttribute(.paragraphStyle, value: paragraph, range: fullRange)
                 uiView.attributedText = mutableText
