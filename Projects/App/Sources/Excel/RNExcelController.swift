@@ -80,13 +80,6 @@ class RNExcelController : NSObject{
         self.sharedStrings = try! document.parseSharedStrings()
     }
     
-    func loadFromInfos() {
-        let sheet = self.infoSheet!
-        let headers = self.loadHeaders(from: sheet)
-
-        let row = self.headerRow.advanced(by: 1)
-    }
-    
     var subjects : [RNExcelSubject] = [];
     func loadFromFlie(){
         self.subjects = self.loadSubjects(true);
