@@ -71,7 +71,7 @@ extension RNExcelController{
                         return part.chapter == chapter.id;
                     }).forEach({ (part) in
                         chapter.parts.append(part);
-                        parts.remove(at: parts.index(of: part)!);
+                        parts.remove(at: parts.firstIndex(of: part)!);
                     })
                 }
             }

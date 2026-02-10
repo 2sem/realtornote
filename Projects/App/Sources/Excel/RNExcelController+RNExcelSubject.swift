@@ -57,7 +57,7 @@ extension RNExcelController{
                     return chapter.subject == subject.id;
                 }).forEach({ (chapter) in
                     subject.chapters.append(chapter);
-                    chapters.remove(at: chapters.index(of: chapter)!);
+                    chapters.remove(at: chapters.firstIndex(of: chapter)!);
                 })
             }
             
