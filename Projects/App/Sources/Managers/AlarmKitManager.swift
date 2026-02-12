@@ -195,6 +195,10 @@ final class AlarmKitManager {
         }
 
         do {
+            // Cancel any existing alarm with this ID before scheduling to ensure the
+            // updated schedule (time/weekdays) takes effect, not just the notification
+            try? AlarmKit.AlarmManager.shared.cancel(id: alarmID)
+
             try await AlarmKit.AlarmManager.shared.schedule(id: alarmID, configuration: configuration)
             
             // 2. Check after scheduling: Handle race condition where delete happened during await
