@@ -12,7 +12,11 @@ import GoogleMobileAds
 extension RewardedInterstitialAd{
     func isReady(for viewController: UIViewController? = nil) -> Bool{
         do{
-            if let viewController = viewController ?? UIApplication.shared.windows.first?.rootViewController{
+            let rootViewController = viewController ?? UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+                .first { $0.isKeyWindow }?.rootViewController
+            if let viewController = rootViewController{
                 try self.canPresent(from: viewController);
                 return true;
             }
