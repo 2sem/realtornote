@@ -195,7 +195,7 @@ final class AlarmKitManager {
         }
 
         do {
-            try await AlarmKit.AlarmManager.shared.schedule(id: alarmID, configuration: configuration)
+            _ = try await AlarmKit.AlarmManager.shared.schedule(id: alarmID, configuration: configuration)
             
             // 2. Check after scheduling: Handle race condition where delete happened during await
             if alarm.isDeleted || !alarm.enabled {
