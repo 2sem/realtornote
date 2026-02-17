@@ -69,16 +69,16 @@ let project = Project(
                     excluding: ["Resources/Databases/realtornote.xcdatamodeld/**"]
                 )
             ],
+            scripts: [.post(script: "/bin/sh \"${SRCROOT}/Scripts/merge_skadnetworks.sh\"",
+                            name: "Merge SKAdNetworkItems",
+                            inputPaths: ["$(SRCROOT)/Resources/Plists/skNetworks.plist"],
+                            outputPaths: [])],
             dependencies: [
                 .Projects.ThirdParty,
                 .Projects.DynamicThirdParty,
                 .package(product: "GADManager", type: .runtime),
                 .target(name: "Widget")
-            ],
-            scripts: [.post(script: "/bin/sh \"${SRCROOT}/Scripts/merge_skadnetworks.sh\"",
-                            name: "Merge SKAdNetworkItems",
-                            inputPaths: ["$(SRCROOT)/Resources/Plists/skNetworks.plist"],
-                            outputPaths: [])]
+            ]
         ),
         .target(
             name: "Widget",
