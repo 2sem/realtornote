@@ -432,7 +432,7 @@ class UserNotificationManager : NSObject, UNUserNotificationCenterDelegate{
         print("receive push notification in foreground. identifier[\(id)] title[\(title)] body[\(body)] payload[\(payload)]");
         
         //UNNotificationPresentationOptions
-        completionHandler([.alert, .sound]);
+        completionHandler([.banner, .list, .sound]);
     }
 }
 
