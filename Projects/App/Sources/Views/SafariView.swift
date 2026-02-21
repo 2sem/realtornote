@@ -11,6 +11,7 @@ struct SafariURL: Identifiable {
 /// Provides in-app web browsing with Safari's features
 struct SafariView: UIViewControllerRepresentable {
     let url: SafariURL
+    @Environment(\.colorScheme) private var colorScheme
 
     func makeUIViewController(context: Context) -> SFSafariViewController {
         let configuration = SFSafariViewController.Configuration()
@@ -21,11 +22,12 @@ struct SafariView: UIViewControllerRepresentable {
         safariViewController.preferredControlTintColor = .systemBlue
         safariViewController.preferredBarTintColor = .systemBackground
         safariViewController.dismissButtonStyle = .done
+        safariViewController.overrideUserInterfaceStyle = colorScheme == .dark ? .dark : .light
 
         return safariViewController
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
-        // No updates needed
+        uiViewController.overrideUserInterfaceStyle = colorScheme == .dark ? .dark : .light
     }
 }
