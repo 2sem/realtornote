@@ -27,7 +27,6 @@ struct AlarmSettingsScreen: View {
             .background(backgroundColor)
             .navigationTitle("알림 설정")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.light, for: .navigationBar)
             .toolbarBackground(backgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
     }
@@ -57,7 +56,7 @@ struct AlarmSettingsScreen: View {
                         .foregroundColor(.red)
                         .padding(.horizontal)
                         .padding(.vertical, 8)
-                        .background(Color.white)
+                        .background(Color.themeSurface)
                         .cornerRadius(8)
                 }
 
@@ -116,7 +115,7 @@ struct WeekDayPicker: View {
                     .foregroundColor(Color.themePrimary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
-                    .background(Color.white.opacity(0.2))
+                    .background(Color.themeSurface.opacity(0.6))
                     .cornerRadius(8)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -141,7 +140,7 @@ struct WeekDayButton: View {
                 .fontWeight(.medium)
                 .foregroundColor(isSelected ? Color.white : Color.themePrimary)
                 .frame(width: 50, height: 50)
-                .background(isSelected ? Color.themePrimary : Color.white.opacity(0.85))
+                .background(isSelected ? Color.themePrimary : Color.themeSurface)
                 .cornerRadius(25)
                 .overlay(
                     RoundedRectangle(cornerRadius: 25)
@@ -177,7 +176,6 @@ struct AlarmTimePicker: View {
             )
             .datePickerStyle(.wheel)
             .labelsHidden()
-            .colorScheme(.light)
         }
     }
 }
@@ -199,7 +197,7 @@ struct ActionButtons: View {
                     .foregroundColor(Color.themePrimary)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.white.opacity(0.3))
+                    .background(Color.themeSurface)
                     .cornerRadius(10)
             }
 

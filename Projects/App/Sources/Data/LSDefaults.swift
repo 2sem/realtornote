@@ -45,6 +45,8 @@ class LSDefaults{
 
         static let DataMigrationCompleted = "DataMigrationCompleted";
         static let NotificationCleanupCompleted = "NotificationCleanupCompleted";
+
+        static let AppearanceMode = "AppearanceMode";
     }
     
     static var LastFullADShown : Date{

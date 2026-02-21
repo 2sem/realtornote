@@ -9,8 +9,13 @@ struct RealtorNoteApp: App {
     @State private var isSetupDone = false
     @Environment(\.scenePhase) private var scenePhase
     @State private var isFromBackground = false
-    
+    @AppStorage(LSDefaults.Keys.AppearanceMode) private var appearanceModeRaw: String = AppearanceMode.system.rawValue
+
     @StateObject private var adManager = SwiftUIAdManager()
+
+    private var preferredColorScheme: ColorScheme? {
+        AppearanceMode(rawValue: appearanceModeRaw)?.colorScheme
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -26,6 +31,7 @@ struct RealtorNoteApp: App {
                         .transition(.opacity)
                 }
             }
+            .preferredColorScheme(preferredColorScheme)
             .environmentObject(adManager)
             .onAppear {
                 setupAds()

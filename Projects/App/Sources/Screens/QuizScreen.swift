@@ -81,7 +81,6 @@ struct QuizScreen: View {
                 }
             }
             .toolbarBackground(.automatic, for: .navigationBar)
-            .toolbarColorScheme(.light, for: .navigationBar)
             .onDisappear {
                 viewModel.cleanup()
             }
@@ -93,7 +92,7 @@ struct QuizScreen: View {
     }
 
     private var cardBackgroundColor: Color {
-        Color.white
+        Color.themeSurface
     }
     
     private var emptyState: some View {
@@ -224,7 +223,7 @@ struct QuizScreen: View {
     }
     
     private var textColor: Color {
-        .black
+        Color.themeBodyText
     }
 
     private var correctAnswerColor: Color {
@@ -290,7 +289,7 @@ struct QuizScreen: View {
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
             return .red
         }
-        return .black
+        return Color.themeBodyText
     }
     
     private func answerBackground(answer: RNQuestionAnswerInfo, index: Int) -> Color {
@@ -299,7 +298,7 @@ struct QuizScreen: View {
         } else if viewModel.selectedAnswerIndex == index && !answer.isCorrect {
             return Color.red.opacity(0.1)
         }
-        return Color.white
+        return Color.themeSurface
     }
     
     private func answerBorderColor(answer: RNQuestionAnswerInfo, index: Int) -> Color {
