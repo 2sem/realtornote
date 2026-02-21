@@ -81,7 +81,6 @@ struct QuizScreen: View {
                 }
             }
             .toolbarBackground(.automatic, for: .navigationBar)
-            .toolbarColorScheme(.light, for: .navigationBar)
             .onDisappear {
                 viewModel.cleanup()
             }
