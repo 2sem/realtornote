@@ -132,7 +132,7 @@ struct PartScreen: View {
                 SwiftUITextView(
                     text: formattedContent,
                     font: .systemFont(ofSize: fontSize),
-                    textColor: UIColor(red: 0.122, green: 0.165, blue: 0.267, alpha: 1.0),
+                    textColor: UIColor(named: "themeBodyText") ?? UIColor(red: 0.122, green: 0.165, blue: 0.267, alpha: 1.0),
                     backgroundColor: .clear,
                     isEditable: false,
                     isScrollEnabled: true,
