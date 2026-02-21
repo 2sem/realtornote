@@ -12,6 +12,15 @@ struct SafariURL: Identifiable {
 struct SafariView: UIViewControllerRepresentable {
     let url: SafariURL
     @Environment(\.colorScheme) private var colorScheme
+    @AppStorage(LSDefaults.Keys.AppearanceMode) private var appearanceModeRaw: String = AppearanceMode.system.rawValue
+
+    private var interfaceStyleOverride: UIUserInterfaceStyle {
+        switch AppearanceMode(rawValue: appearanceModeRaw) {
+        case .dark:   return .dark
+        case .light:  return .light
+        default:      return .unspecified  // system: let SFSafariViewController follow iOS naturally
+        }
+    }
 
     func makeUIViewController(context: Context) -> SFSafariViewController {
         let configuration = SFSafariViewController.Configuration()
@@ -22,12 +31,12 @@ struct SafariView: UIViewControllerRepresentable {
         safariViewController.preferredControlTintColor = .systemBlue
         safariViewController.preferredBarTintColor = .systemBackground
         safariViewController.dismissButtonStyle = .done
-        safariViewController.overrideUserInterfaceStyle = colorScheme == .dark ? .dark : .light
+        safariViewController.overrideUserInterfaceStyle = interfaceStyleOverride
 
         return safariViewController
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
-        uiViewController.overrideUserInterfaceStyle = colorScheme == .dark ? .dark : .light
+        uiViewController.overrideUserInterfaceStyle = interfaceStyleOverride
     }
 }
