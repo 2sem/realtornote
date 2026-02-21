@@ -144,17 +144,17 @@ struct FavoriteRow: View {
                     if showSubject {
                         Text("\(subject?.name ?? "") 〉 \(chapter?.seq.toRoman() ?? ""). \(chapter?.name ?? "")")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color.themeSecondaryText)
                     } else {
                         Text("\(chapter?.seq.toRoman() ?? ""). \(chapter?.name ?? "")")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color.themeSecondaryText)
                     }
 
                     // Part info
                     Text("\(part.seq). \(part.name)")
                         .font(.body)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.themeBodyText)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -175,7 +175,7 @@ struct FavoriteRow: View {
         .padding(.horizontal, 12)
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
+                .fill(Color.themeSurface)
         )
         .padding(.horizontal, 12)
     }
