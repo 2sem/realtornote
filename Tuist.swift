@@ -11,7 +11,8 @@ let tuist = Tuist(
     fullHandle: "gamehelper/realtornote",
     project: .tuist(compatibleXcodeVersions: .upToNextMajor("26.0"),
                     generationOptions: .options(
-                        enableCaching: true
+                        enableCaching: true,
+                        registryEnabled: true
                     )
 //                    swiftVersion: "",
 //                    plugins: <#T##[PluginLocation]#>,
