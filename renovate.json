@@ -1,0 +1,63 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["custom.regex"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Project\\.swift$/"],
+      "matchStrings": [
+        "\\.package\\(id:\\s*\"(?<depName>[\\w\\-.]+?)\"[\\s,]*from:\\s*\"(?<currentValue>[^\"]+)\"\\)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "{{{replace '\\.' '/' depName}}}"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Project\\.swift$/"],
+      "matchStrings": [
+        "\\.package\\(id:\\s*\"(?<depName>[\\w\\-.]+?)\"[\\s,]*from:\\s*\"(?<currentValue>[^\"]+)\"\\)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "{{{replace '\\.' '/' depName}}}"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Project\\.swift$/"],
+      "matchStrings": [
+        "\\.remote\\(url:\\s*\"(?:https?:\\/\\/)?github\\.com\\/(?<depName>[\\w\\-_]+\\/[\\w\\-_.]+?)(?:\\.git)?\"[\\s,]*requirement:\\s*\\.upToNextMajor\\(from:\\s*\"(?<currentValue>[^\"]+)\"\\)\\)"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Project\\.swift$/"],
+      "matchStrings": [
+        "\\.remote\\(url:\\s*\"(?:https?:\\/\\/)?github\\.com\\/(?<depName>[\\w\\-_]+\\/[\\w\\-_.]+?)(?:\\.git)?\"[\\s,]*requirement:\\s*\\.upToNextMajor\\(from:\\s*\"(?<currentValue>[^\"]+)\"\\)\\)"
+      ],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["custom.regex"],
+      "groupName": "Swift dependencies",
+      "schedule": ["before 9am on Monday"]
+    },
+    {
+      "matchDatasources": ["git-refs"],
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "matchUpdateTypes": ["minor", "major"],
+      "automerge": false
+    }
+  ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2
+}
