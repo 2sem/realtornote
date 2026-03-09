@@ -16,7 +16,7 @@ let project = Project(
         .package(id: "alexiscreuzot.SwiftyGif", from: "5.4.5"),
         .remote(url: "https://github.com/2sem/LSExtensions",
                 requirement: .upToNextMajor(from: "0.1.23")),
-        .package(id: "reactivex.RxSwift", from: "5.1.0"),
+        .package(id: "reactivex.RxSwift", from: "6.10.2"),
         .remote(url: "https://github.com/2sem/StringLogger",
                 requirement: .upToNextMajor(from: "0.7.0"))
     ],
