@@ -17,6 +17,70 @@ let skAdNetworkIDs: [String] = [
 let skAdNetworks: [Plist.Value] = skAdNetworkIDs
     .map { .dictionary(["SKAdNetworkIdentifier": .string("\($0).skadnetwork")]) }
 
+let appTarget: Target = .target(
+    name: "App",
+    destinations: .iOS,
+    product: .app,
+    bundleId: .appBundleId,
+    infoPlist: .extendingDefault(
+        with: [
+            "UILaunchStoryboardName": "LaunchScreen",
+            "GADApplicationIdentifier": "ca-app-pub-9684378399371172~7124016405",
+            "GADUnitIdentifiers": [
+                                    "FullAd": "ca-app-pub-9684378399371172/1235951829",
+                                    "QuizReward" : "ca-app-pub-9684378399371172/9328042795",
+                                    "FavoriteNative" : "ca-app-pub-9684378399371172/5214599479",
+                                    "AppLaunch" : "ca-app-pub-9684378399371172/8962601702"],
+            "Itunes App Id": "1265759928",
+            "NSUserTrackingUsageDescription": "맞춤형 광고 허용을 통해 개발자에게 더  많이 후원할 수 있습니다",
+            "NSAlarmKitUsageDescription": "공부 시간 알림을 위해 알람 설정 권한이 필요합니다",
+            "SKAdNetworkItems": .array(skAdNetworks),
+            "ITSAppUsesNonExemptEncryption": "NO",
+            "CFBundleShortVersionString": "${MARKETING_VERSION}",
+            "CFBundleDisplayName": "공인중개사요약집",
+            "NSAppTransportSecurity": [
+                "NSAllowsArbitraryLoads": true,
+                "NSExceptionDomains": [
+                    "andy1002.cafe24.com" : "",
+                    "www.q-net.or.kr" : "",
+                    "www.quizwin.co.kr" : "",
+                ]
+            ],
+            "UIViewControllerBasedStatusBarAppearance": true,
+            "UISupportedInterfaceOrientations": [
+                "UIInterfaceOrientationPortrait"
+            ]
+        ]
+    ),
+    sources: [
+        "Sources/**",
+        "Extensions/Widget/Sources/StudyAlarmMetadata.swift"
+    ],
+    resources: [
+        .glob(
+            pattern: "Resources/**",
+            excluding: ["Resources/Databases/realtornote.xcdatamodeld/**"]
+        )
+    ],
+    scripts: [
+        .post(
+            script: "CRASHLYTICS_RUN=$(find \"${BUILD_DIR%/Build/*}/SourcePackages/registry/downloads/firebase/firebase-ios-sdk\" -name run | head -1); \"$CRASHLYTICS_RUN\"",
+            name: "Firebase Crashlytics",
+            inputPaths: [
+                "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+                "${INFOPLIST_PATH}"
+            ],
+            basedOnDependencyAnalysis: false
+        )
+    ],
+    dependencies: [
+        .Projects.ThirdParty,
+        .Projects.DynamicThirdParty,
+        .package(product: "GADManager", type: .runtime),
+        .target(name: "Widget")
+    ]
+)
+
 let project = Project(
     name: "App",
     options: .options(defaultKnownRegions: ["ko"],
@@ -39,58 +103,7 @@ let project = Project(
             xcconfig: "Configs/release.xcconfig")
     ]),
     targets: [
-        .target(
-            name: "App",
-            destinations: .iOS,
-            product: .app,
-            bundleId: .appBundleId,
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchStoryboardName": "LaunchScreen",
-                    "GADApplicationIdentifier": "ca-app-pub-9684378399371172~7124016405",
-                    "GADUnitIdentifiers": [
-                                            "FullAd": "ca-app-pub-9684378399371172/1235951829",
-                                            "QuizReward" : "ca-app-pub-9684378399371172/9328042795",
-                                            "FavoriteNative" : "ca-app-pub-9684378399371172/5214599479",
-                                            "AppLaunch" : "ca-app-pub-9684378399371172/8962601702"],
-                    "Itunes App Id": "1265759928",
-                    "NSUserTrackingUsageDescription": "맞춤형 광고 허용을 통해 개발자에게 더  많이 후원할 수 있습니다",
-                    "NSAlarmKitUsageDescription": "공부 시간 알림을 위해 알람 설정 권한이 필요합니다",
-                    "SKAdNetworkItems": .array(skAdNetworks),
-                    "ITSAppUsesNonExemptEncryption": "NO",
-                    "CFBundleShortVersionString": "${MARKETING_VERSION}",
-                    "CFBundleDisplayName": "공인중개사요약집",
-                    "NSAppTransportSecurity": [
-                        "NSAllowsArbitraryLoads": true,
-                        "NSExceptionDomains": [
-                            "andy1002.cafe24.com" : "",
-                            "www.q-net.or.kr" : "",
-                            "www.quizwin.co.kr" : "",
-                        ]
-                    ],
-                    "UIViewControllerBasedStatusBarAppearance": true,
-                    "UISupportedInterfaceOrientations": [
-                        "UIInterfaceOrientationPortrait"
-                    ]
-                ]
-            ),
-            sources: [
-                "Sources/**",
-                "Extensions/Widget/Sources/StudyAlarmMetadata.swift"
-            ],
-            resources: [
-                .glob(
-                    pattern: "Resources/**",
-                    excluding: ["Resources/Databases/realtornote.xcdatamodeld/**"]
-                )
-            ],
-            dependencies: [
-                .Projects.ThirdParty,
-                .Projects.DynamicThirdParty,
-                .package(product: "GADManager", type: .runtime),
-                .target(name: "Widget")
-            ]
-        ),
+        appTarget,
         .target(
             name: "Widget",
             destinations: .iOS,
