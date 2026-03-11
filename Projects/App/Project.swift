@@ -89,6 +89,21 @@ let project = Project(
                 .Projects.DynamicThirdParty,
                 .package(product: "GADManager", type: .runtime),
                 .target(name: "Widget")
+            ],
+            scripts: [
+                .post(
+                    script: """
+                    CRASHLYTICS_RUN=$(find "${BUILD_DIR%/Build/*}/SourcePackages" -name "run" -path "*/Crashlytics/*" | head -n 1)
+                    "$CRASHLYTICS_RUN"
+                    """,
+                    name: "Firebase Crashlytics",
+                    inputPaths: [
+                        "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+                        "${INFOPLIST_PATH}"
+                    ],
+                    basedOnDependencyAnalysis: false,
+                    runForInstallBuildsOnly: false
+                )
             ]
         ),
         .target(
