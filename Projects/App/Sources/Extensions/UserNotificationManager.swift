@@ -375,27 +375,31 @@ class UserNotificationManager : NSObject, UNUserNotificationCenterDelegate{
                  }))
                  })*/
 
-                // Remove every possible per-weekday identifier (plus the bare, no-weekday
-                // identifier), not just the ones derived from `notification.weekdays`.
-                // `notification` here may already carry the NEW (post-edit) schedule -
-                // Alarm.toNotification() mutates the cached LSUserNotification's weekdays
-                // in place before it reaches this function - so limiting removal to the
-                // current weekday selection left previously-scheduled requests for the
-                // OLD weekdays behind (e.g. editing Mon/Wed -> Tue/Thu added Tue/Thu
-                // without ever cancelling Mon/Wed). See #58.
-                var identifiers : [String] = [notification.identifier];
-                DateComponents.DateWeekDay.allWeekDays.forEach({ (day) in
-                    identifiers.append(notification.identifier + day.string);
-                })
-
-                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: identifiers);
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers);
-                print("remove notification identifiers\(identifiers) title[\(notification.title)] body[\(notification.body)]");
+                self.cancelAllWeekdayVariants(of: notification);
 
                 self.notifications[notification.identifier] = notification;
                 completion?(true, notifications, error);
             })
         }
+    }
+
+    /// Cancel every possible per-weekday identifier (plus the bare, no-weekday
+    /// identifier) for a notification, not just the ones derived from its current
+    /// `weekdays`. The caller's `notification` may already carry the NEW (post-edit)
+    /// schedule - `Alarm.toNotification()` mutates the cached `LSUserNotification`'s
+    /// weekdays in place before it reaches here - so limiting removal to the current
+    /// weekday selection left previously-scheduled requests for the OLD weekdays
+    /// behind (e.g. editing Mon/Wed -> Tue/Thu added Tue/Thu without ever cancelling
+    /// Mon/Wed). See #58.
+    private func cancelAllWeekdayVariants(of notification: LSUserNotification) {
+        var identifiers : [String] = [notification.identifier];
+        DateComponents.DateWeekDay.allWeekDays.forEach({ (day) in
+            identifiers.append(notification.identifier + day.string);
+        })
+
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: identifiers);
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers);
+        print("remove notification identifiers\(identifiers) title[\(notification.title)] body[\(notification.body)]");
     }
     
     /// handle action button
