@@ -143,6 +143,7 @@ platform :ios do
           app_identifier: @package_name,
           submit_for_review: true,
           force: true,
+          precheck_include_in_app_purchases: false,
         )
         puts "iOS 심사 제출 완료"
     else
