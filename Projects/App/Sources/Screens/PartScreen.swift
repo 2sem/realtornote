@@ -168,7 +168,7 @@ struct PartScreen: View {
                 )
                 .keyboardWillShow { notification in
                     guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-                          let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+                          notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double != nil else {
                         return
                     }
                     
