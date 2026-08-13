@@ -77,8 +77,23 @@ let appTarget: Target = .target(
         .Projects.ThirdParty,
         .Projects.DynamicThirdParty,
         .package(product: "GADManager", type: .runtime),
+        .package(product: "FirebaseCore"),
+        .package(product: "FirebaseCrashlytics"),
+        .package(product: "FirebaseAnalytics"),
+        .package(product: "GoogleAppMeasurement"),
+        .package(product: "GoogleAppMeasurementCore"),
+        .package(product: "GoogleAppMeasurementIdentitySupport"),
+        .package(product: "FirebaseInstallations"),
+        .package(product: "GULAppDelegateSwizzler"),
+        .package(product: "GULMethodSwizzler"),
+        .package(product: "GULNSData"),
+        .package(product: "GULNetwork"),
+        .package(product: "nanopb"),
         .target(name: "Widget")
-    ]
+    ],
+    settings: .settings(base: [
+        "OTHER_LDFLAGS": "$(inherited) -framework GoogleAppMeasurement -framework GoogleAppMeasurementIdentitySupport"
+    ])
 )
 
 let project = Project(
@@ -88,6 +103,7 @@ let project = Project(
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
                 requirement: .upToNextMajor(from: "1.4.0")),
+        .package(id: "firebase.firebase-ios-sdk", from: "12.17.0"),
         // .local(path: "../../../../../pods/GADManager/src/GADManager"),
         // .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
         //         requirement: .upToNextMajor(from:"1.18.5")),

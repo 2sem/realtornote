@@ -13,7 +13,16 @@ let project = Project(
             dependencies: [.package(product: "FirebaseCrashlytics", type: .runtime),
                            .package(product: "FirebaseAnalytics", type: .runtime),
                            .package(product: "FirebaseMessaging", type: .runtime),
-                           .package(product: "FirebaseRemoteConfig", type: .runtime)
+                           .package(product: "FirebaseRemoteConfig", type: .runtime),
+                           .package(product: "GoogleAppMeasurement"),
+                           .package(product: "GoogleAppMeasurementCore"),
+                           .package(product: "GoogleAppMeasurementIdentitySupport"),
+                           .package(product: "FirebaseInstallations"),
+                           .package(product: "GULAppDelegateSwizzler"),
+                           .package(product: "GULMethodSwizzler"),
+                           .package(product: "GULNSData"),
+                           .package(product: "GULNetwork"),
+                           .package(product: "nanopb")
             ]
         ),
     ]
