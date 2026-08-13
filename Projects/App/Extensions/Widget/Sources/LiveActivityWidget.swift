@@ -168,7 +168,17 @@ struct AlarmProgressView: View {
 struct AlarmControls: View {
     var presentation: AlarmPresentation
     var state: AlarmPresentationState
-    
+
+    // `AlarmPresentation.Alert.stopButton` is deprecated as of iOS 26.1 and will no
+    // longer be populated by the system, so it can't be read here anymore. The stop
+    // button's label/icon mirrors the one configured in AlarmKitManager's alert
+    // presentation (title "확인", "checkmark.circle"), so it's defined locally instead.
+    private static let stopButtonConfig = AlarmButton(
+        text: "확인",
+        textColor: .white,
+        systemImageName: "checkmark.circle"
+    )
+
     var body: some View {
         HStack(spacing: 4) {
             switch state.mode {
@@ -178,7 +188,7 @@ struct AlarmControls: View {
                 EmptyView()
             }
 
-            ButtonView(config: presentation.alert.stopButton, intent: StopIntent(alarmID: state.alarmID.uuidString), tint: .red)
+            ButtonView(config: Self.stopButtonConfig, intent: StopIntent(alarmID: state.alarmID.uuidString), tint: .red)
         }
     }
 }
