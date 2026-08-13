@@ -1,5 +1,5 @@
 {
-  "originHash" : "6ef8fd50cf0226a4e26975c839df759bfde4a4d7439c4fc521367545734806ae",
+  "originHash" : "4d67d23951f294c3fd66621995e52927640f855dd53162ad3efe15e65d5ecb8c",
   "pins" : [
     {
       "identity" : "alamofire.Alamofire",
@@ -194,6 +194,15 @@
       }
     },
     {
+      "identity" : "maxdesiatov.xmlcoder",
+      "kind" : "registry",
+      "location" : "",
+      "originalLocation" : "https://github.com/maxdesiatov/XMLCoder.git",
+      "state" : {
+        "version" : "0.14.0"
+      }
+    },
+    {
       "identity" : "reactivex.RxSwift",
       "kind" : "registry",
       "location" : "",
@@ -224,15 +233,6 @@
       "location" : "",
       "state" : {
         "version" : "0.9.20"
-      }
-    },
-    {
-      "identity" : "xmlcoder",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/maxdesiatov/XMLCoder.git",
-      "state" : {
-        "revision" : "ca932442d7481700f5434a7b138c47dd42d9902b",
-        "version" : "0.14.0"
       }
     }
   ],
