@@ -200,7 +200,7 @@ final class AlarmKitManager {
             // 2. Check after scheduling: Handle race condition where delete happened during await
             if alarm.isDeleted || !alarm.enabled {
                 print("⚠️ Alarm deleted or disabled during scheduling, cancelling: \(alarmID)")
-                try? await AlarmKit.AlarmManager.shared.cancel(id: alarmID)
+                try? AlarmKit.AlarmManager.shared.cancel(id: alarmID)
                 return
             }
             
