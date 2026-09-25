@@ -64,11 +64,10 @@ fastlane ios release description:'변경사항 설명' isReleasing:true
 
 ### Workspace Structure
 
-Two Tuist projects + Tuist-integrated packages for clean dependency management:
+One Tuist project + Tuist-integrated packages (`Tuist/Package.swift`):
 1. **App**: Main application (business logic & UI)
    - **Widget** extension: AlarmKit Live Activities (iOS 26.0+)
-2. **ThirdParty**: Static framework (StringLogger); CoreXLSX, LSExtensions via `Tuist/Package.swift`
-3. **Firebase**: Tuist-integrated SPM (`Tuist/Package.swift`), linked dynamically into App via `.external(name:)`
+2. **Packages** (`Tuist/Package.swift`, linked into App via `.external(name:)`): Firebase (dynamic), CoreXLSX, LSExtensions, StringLogger
 
 ### Data Flow (Legacy UIKit)
 
@@ -226,7 +225,6 @@ Widget/
 - `String+.swift`: `.appBundleId`
 - `Path+.swift`: `.projects()`, `.extensions.widget` (path to Widget extension)
 - `SourceFileGlob+.swift`: `.extensions.widget` (for source file globs)
-- `TargetDependency+.swift`: `.Projects.ThirdParty`
 
 ### Third-Party Services
 - **Google AdMob**: 3 ad units (Donate, FullAd, Launch)

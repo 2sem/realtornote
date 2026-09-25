@@ -11,13 +11,10 @@ realtornote/
 ├── Tuist/
 │   ├── ProjectDescriptionHelpers/
 │   │   ├── String+.swift           # App bundle ID helper
-│   │   ├── Path+.swift             # Path helpers for projects
-│   │   └── TargetDependency+.swift # Dependency helpers
-│   └── Package.swift
+│   │   └── Path+.swift             # Path helpers for projects
+│   └── Package.swift        # Tuist-integrated SPM deps (Firebase, CoreXLSX, LSExtensions, StringLogger)
 ├── Projects/
-│   ├── App/                 # Main application target
-│   ├── ThirdParty/          # Static framework for dependencies
-│   └── DynamicThirdParty/   # Dynamic framework for Firebase
+│   └── App/                 # Main application target
 ├── fastlane/
 │   └── Fastfile             # Fastlane automation scripts
 └── .github/
@@ -53,11 +50,8 @@ Projects/App/
 └── Resources/               # Images, storyboards, assets
 ```
 
-### ThirdParty Project
-Static framework containing most third-party dependencies.
-
-### DynamicThirdParty Project
-Dynamic framework specifically for Firebase dependencies.
+### Dependencies
+All third-party packages live in `Tuist/Package.swift` and are linked into App via `.external(name:)`.
 
 ## Key Files
 
