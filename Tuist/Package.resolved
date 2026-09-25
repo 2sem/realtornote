@@ -1,9 +1,10 @@
 {
+  "originHash" : "7a55064b2a5aa0c2f263b5c15958b43b4995c224329b8e1a5f07afb4ab3eb3af",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/abseil-cpp-binary.git",
+      "location" : "https://github.com/google/abseil-cpp-binary",
       "state" : {
         "revision" : "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
         "version" : "1.2024072200.0"
@@ -12,7 +13,7 @@
     {
       "identity" : "app-check",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/app-check.git",
+      "location" : "https://github.com/google/app-check",
       "state" : {
         "revision" : "97f7d74dd0e8f3d0fe5fc75cc8957aa73bdc948a",
         "version" : "11.3.2"
@@ -39,7 +40,7 @@
     {
       "identity" : "googleappmeasurement",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleAppMeasurement.git",
+      "location" : "https://github.com/google/GoogleAppMeasurement",
       "state" : {
         "revision" : "b8455dd2ff55cc269fda7a4f9eac6c1e3588c53f",
         "version" : "12.19.2"
@@ -48,7 +49,7 @@
     {
       "identity" : "googledatatransport",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleDataTransport.git",
+      "location" : "https://github.com/google/GoogleDataTransport",
       "state" : {
         "revision" : "617af071af9aa1d6a091d59a202910ac482128f9",
         "version" : "10.1.0"
@@ -57,7 +58,7 @@
     {
       "identity" : "googleutilities",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleUtilities.git",
+      "location" : "https://github.com/google/GoogleUtilities",
       "state" : {
         "revision" : "92c8f6dc3ac375d6febdfcb3db68bc3d10633db3",
         "version" : "8.1.3"
@@ -66,7 +67,7 @@
     {
       "identity" : "grpc-binary",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/grpc-binary.git",
+      "location" : "https://github.com/google/grpc-binary",
       "state" : {
         "revision" : "75b31c842f664a0f46a2e590a570e370249fd8f6",
         "version" : "1.69.1"
@@ -75,7 +76,7 @@
     {
       "identity" : "gtm-session-fetcher",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/gtm-session-fetcher.git",
+      "location" : "https://github.com/google/gtm-session-fetcher",
       "state" : {
         "revision" : "c756a29784521063b6a1202907e2cc47f41b667c",
         "version" : "4.5.0"
@@ -84,7 +85,7 @@
     {
       "identity" : "interop-ios-for-google-sdks",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
+      "location" : "https://github.com/google/interop-ios-for-google-sdks",
       "state" : {
         "revision" : "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
         "version" : "101.0.0"
@@ -93,7 +94,7 @@
     {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/leveldb.git",
+      "location" : "https://github.com/firebase/leveldb",
       "state" : {
         "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
         "version" : "1.22.5"
@@ -102,7 +103,7 @@
     {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/nanopb.git",
+      "location" : "https://github.com/firebase/nanopb",
       "state" : {
         "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
         "version" : "2.30910.0"
@@ -111,7 +112,7 @@
     {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/promises.git",
+      "location" : "https://github.com/google/promises",
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
