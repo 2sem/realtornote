@@ -4,7 +4,6 @@ import ProjectDescriptionHelpers
 let project = Project(
     name: "ThirdParty",
     packages: [
-        .package(id: "alamofire.Alamofire", from: "5.12.0"),
         .remote(url: "https://github.com/AssistoLab/DropDown",
                 requirement: .branch("master")),
         .remote(url: "https://github.com/2sem/LProgressWebViewController",
@@ -25,8 +24,7 @@ let project = Project(
             destinations: .iOS,
             product: .staticFramework,
             bundleId: .appBundleId.appending(".thirdparty"),
-            dependencies: [.package(product: "Alamofire", type: .runtime),
-                           .package(product: "DropDown", type: .runtime),
+            dependencies: [.package(product: "DropDown", type: .runtime),
                            .package(product: "ProgressWebViewController", type: .runtime),
                            .package(product: "LSCountDownLabel", type: .runtime),
                            .package(product: "Toast", type: .runtime),
