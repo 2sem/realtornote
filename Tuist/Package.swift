@@ -93,5 +93,6 @@ let package = Package(
         // used - a plain GitHub URL resolves reliably here.
         .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "12.17.0"),
         .package(url: "https://github.com/CoreOffice/CoreXLSX", from: "0.14.2"),
+        .package(url: "https://github.com/2sem/LSExtensions", from: "0.1.24"),
     ]
 )
