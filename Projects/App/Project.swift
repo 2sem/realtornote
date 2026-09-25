@@ -96,6 +96,7 @@ let appTarget: Target = .target(
         .external(name: "FirebaseAnalytics"),
         .external(name: "FirebaseMessaging"),
         .external(name: "FirebaseRemoteConfig"),
+        .external(name: "CoreXLSX"),
         .target(name: "Widget")
     ],
     settings: .settings(
