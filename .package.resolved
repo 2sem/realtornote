@@ -1,5 +1,5 @@
 {
-  "originHash" : "bd309fcd0227669cb2af7f9c58d1ba3da14b86b0c127a5a1e4dd86e6e6e12c8c",
+  "originHash" : "c42925bfa6383582a3ca55e772bfe28cd2bba08d7532b507988a319690736fa6",
   "pins" : [
     {
       "identity" : "alamofire.Alamofire",
@@ -15,14 +15,6 @@
       "location" : "",
       "state" : {
         "version" : "5.4.5"
-      }
-    },
-    {
-      "identity" : "coreoffice.CoreXLSX",
-      "kind" : "registry",
-      "location" : "",
-      "state" : {
-        "version" : "0.14.2"
       }
     },
     {
@@ -89,15 +81,6 @@
       }
     },
     {
-      "identity" : "maxdesiatov.xmlcoder",
-      "kind" : "registry",
-      "location" : "",
-      "originalLocation" : "https://github.com/maxdesiatov/XMLCoder.git",
-      "state" : {
-        "version" : "0.14.0"
-      }
-    },
-    {
       "identity" : "reactivex.RxSwift",
       "kind" : "registry",
       "location" : "",
@@ -120,15 +103,6 @@
       "state" : {
         "revision" : "21a132731379604d9bc6dd9733e52b19084a21be",
         "version" : "0.7.0"
-      }
-    },
-    {
-      "identity" : "weichsel.zipfoundation",
-      "kind" : "registry",
-      "location" : "",
-      "originalLocation" : "https://github.com/weichsel/ZIPFoundation.git",
-      "state" : {
-        "version" : "0.9.20"
       }
     }
   ],
