@@ -84,7 +84,7 @@ let appTarget: Target = .target(
         )
     ],
     dependencies: [
-        .package(product: "GADManager", type: .runtime),
+        .external(name: "GADManager"),
         // Firebase links directly into App rather than through an intermediate
         // dynamic wrapper framework (the old DynamicThirdParty target): Tuist's
         // SPM integration doesn't reliably propagate the binary XCFrameworks
@@ -118,9 +118,7 @@ let project = Project(
     options: .options(defaultKnownRegions: ["ko"],
                          developmentRegion: "ko"),
     packages: [
-        .remote(url: "https://github.com/2sem/GADManager",
-                requirement: .upToNextMajor(from: "1.4.0")),
-        // Firebase is now a Tuist-integrated dependency - see Tuist/Package.swift,
+        // All dependencies are Tuist-integrated - see Tuist/Package.swift,
         // consumed here via `.external(name:)`.
         // .local(path: "../../../../../pods/GADManager/src/GADManager"),
         // .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",

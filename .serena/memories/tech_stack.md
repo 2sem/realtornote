@@ -23,9 +23,7 @@
   - FirebaseAnalytics: Analytics
   - FirebaseMessaging: Push notifications
   - FirebaseRemoteConfig: Remote configuration
-
-### Runtime Dependencies
-- **GADManager** (^1.3.3): Google AdMob wrapper
+- **GADManager** (^1.4.0): Google AdMob wrapper
 
 ## Architecture Patterns
 Based on the source code structure:
