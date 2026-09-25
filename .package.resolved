@@ -1,5 +1,5 @@
 {
-  "originHash" : "d15eb6d1c6654a1430c3f1b5938aa5f46bbe21c0d60ba0231d4ffe8369a3cf92",
+  "originHash" : "95db8421facc580a2c65542ae04294b3514d83ebd8fab7a8dd4d9a6b129100b8",
   "pins" : [
     {
       "identity" : "gadmanager",
@@ -26,15 +26,6 @@
       "originalLocation" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
       "state" : {
         "version" : "3.1.0"
-      }
-    },
-    {
-      "identity" : "lsextensions",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/2sem/LSExtensions",
-      "state" : {
-        "revision" : "2f10a84f1a1fbcf23a4e23f112ea80a3738feb65",
-        "version" : "0.1.24"
       }
     },
     {
