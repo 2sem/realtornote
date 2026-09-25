@@ -1,23 +1,6 @@
 {
-  "originHash" : "03bc70bec4ce4e322f2e9bfeeac980d8a7254473be60ead58895f679cf5b2bed",
+  "originHash" : "d15eb6d1c6654a1430c3f1b5938aa5f46bbe21c0d60ba0231d4ffe8369a3cf92",
   "pins" : [
-    {
-      "identity" : "alexiscreuzot.SwiftyGif",
-      "kind" : "registry",
-      "location" : "",
-      "state" : {
-        "version" : "5.4.5"
-      }
-    },
-    {
-      "identity" : "dropdown",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AssistoLab/DropDown",
-      "state" : {
-        "branch" : "master",
-        "revision" : "2ab6f6ce19f0117d1a76ea043ef8f57722c65d16"
-      }
-    },
     {
       "identity" : "gadmanager",
       "kind" : "remoteSourceControl",
@@ -46,46 +29,12 @@
       }
     },
     {
-      "identity" : "lprogresswebviewcontroller",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/2sem/LProgressWebViewController",
-      "state" : {
-        "revision" : "e67956c993cdcd6414d12ef386df464e86d259ca",
-        "version" : "3.1.0"
-      }
-    },
-    {
-      "identity" : "lscountdownlabel",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/2sem/LSCountDownLabel",
-      "state" : {
-        "revision" : "fbc27fbf59a545e23685cc9c3d9b47189bdef9c1",
-        "version" : "0.0.5"
-      }
-    },
-    {
       "identity" : "lsextensions",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/2sem/LSExtensions",
       "state" : {
         "revision" : "2f10a84f1a1fbcf23a4e23f112ea80a3738feb65",
         "version" : "0.1.24"
-      }
-    },
-    {
-      "identity" : "reactivex.RxSwift",
-      "kind" : "registry",
-      "location" : "",
-      "state" : {
-        "version" : "6.10.2"
-      }
-    },
-    {
-      "identity" : "scalessec.Toast-Swift",
-      "kind" : "registry",
-      "location" : "",
-      "state" : {
-        "version" : "5.1.1"
       }
     },
     {

@@ -4,17 +4,8 @@ import ProjectDescriptionHelpers
 let project = Project(
     name: "ThirdParty",
     packages: [
-        .remote(url: "https://github.com/AssistoLab/DropDown",
-                requirement: .branch("master")),
-        .remote(url: "https://github.com/2sem/LProgressWebViewController",
-                requirement: .upToNextMajor(from: "3.1.0")),
-        .remote(url: "https://github.com/2sem/LSCountDownLabel",
-                requirement: .upToNextMajor(from: "0.0.5")),
-        .package(id: "scalessec.Toast-Swift", from: "5.1.1"),
-        .package(id: "alexiscreuzot.SwiftyGif", from: "5.4.5"),
         .remote(url: "https://github.com/2sem/LSExtensions",
                 requirement: .upToNextMajor(from: "0.1.24")),
-        .package(id: "reactivex.RxSwift", from: "6.10.2"),
         .remote(url: "https://github.com/2sem/StringLogger",
                 requirement: .upToNextMajor(from: "0.7.0"))
     ],
@@ -24,14 +15,7 @@ let project = Project(
             destinations: .iOS,
             product: .staticFramework,
             bundleId: .appBundleId.appending(".thirdparty"),
-            dependencies: [.package(product: "DropDown", type: .runtime),
-                           .package(product: "ProgressWebViewController", type: .runtime),
-                           .package(product: "LSCountDownLabel", type: .runtime),
-                           .package(product: "Toast", type: .runtime),
-                           .package(product: "LSExtensions", type: .runtime),
-                           .package(product: "SwiftyGif", type: .runtime),
-                           .package(product: "RxSwift", type: .runtime),
-                           .package(product: "RxCocoa", type: .runtime),
+            dependencies: [.package(product: "LSExtensions", type: .runtime),
                            .package(product: "StringLogger", type: .runtime),
             ]
         ),
