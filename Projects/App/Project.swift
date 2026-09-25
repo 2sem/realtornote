@@ -53,7 +53,7 @@ let appTarget: Target = .target(
         ]
     ),
     sources: [
-        "Extensions/Widget/Sources/StudyAlarmMetadata.swift"
+        .extensions.widget + "/Sources/StudyAlarmMetadata.swift"
     ],
     buildableFolders: [
         "Sources",
@@ -131,8 +131,8 @@ let project = Project(
                 ]
             ),
             buildableFolders: [
-                "Extensions/Widget/Sources",
-                "Extensions/Widget/Resources"
+                .folder(.extensions.widget + "/Sources"),
+                .folder(.extensions.widget + "/Resources")
             ],
             dependencies: [],
             settings: .settings(configurations: [
