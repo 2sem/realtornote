@@ -64,11 +64,11 @@ fastlane ios release description:'변경사항 설명' isReleasing:true
 
 ### Workspace Structure
 
-Three Tuist projects for clean dependency management:
+Two Tuist projects + Tuist-integrated packages for clean dependency management:
 1. **App**: Main application (business logic & UI)
    - **Widget** extension: AlarmKit Live Activities (iOS 26.0+)
 2. **ThirdParty**: Static framework (RxSwift, KakaoSDK, CoreXLSX)
-3. **DynamicThirdParty**: Dynamic framework (Firebase)
+3. **Firebase**: Tuist-integrated SPM (`Tuist/Package.swift`), linked dynamically into App via `.external(name:)`
 
 ### Data Flow (Legacy UIKit)
 
@@ -226,12 +226,12 @@ Widget/
 - `String+.swift`: `.appBundleId`
 - `Path+.swift`: `.projects()`, `.extensions.widget` (path to Widget extension)
 - `SourceFileGlob+.swift`: `.extensions.widget` (for source file globs)
-- `TargetDependency+.swift`: `.Projects.ThirdParty`, `.Projects.DynamicThirdParty`
+- `TargetDependency+.swift`: `.Projects.ThirdParty`
 
 ### Third-Party Services
 - **Google AdMob**: 3 ad units (Donate, FullAd, Launch)
 - **KakaoTalk**: App key d3be13c89a776659651eef478d4e4268
-- **Firebase**: 11.8.1 SDK (Crashlytics, Analytics, Messaging, RemoteConfig)
+- **Firebase**: 12.x SDK via `Tuist/Package.swift` (Crashlytics, Analytics, Messaging, RemoteConfig)
 - **AlarmKit**: iOS 26.0+ framework for Live Activities and alarm scheduling (Widget extension only)
 
 ### Code Style

@@ -61,7 +61,20 @@ let appTarget: Target = .target(
     ],
     scripts: [
         .post(
-            script: "CRASHLYTICS_RUN=$(find \"${BUILD_DIR%/Build/*}/SourcePackages/registry/downloads/firebase/firebase-ios-sdk\" -name run | head -1); \"$CRASHLYTICS_RUN\"",
+            script: """
+                # Firebase is now a Tuist-integrated dependency (Tuist/Package.swift),
+                # so its checkout lives under Tuist/.build, not Xcode's own
+                # SourcePackages directory. Path is relative to $(SRCROOT)
+                # (Projects/App).
+                CRASHLYTICS_RUN_SCRIPT="${SRCROOT}/../../Tuist/.build/checkouts/firebase-ios-sdk/Crashlytics/run"
+
+                if [ ! -f "$CRASHLYTICS_RUN_SCRIPT" ]; then
+                  echo "error: Firebase Crashlytics run script not found at $CRASHLYTICS_RUN_SCRIPT - run 'tuist install' first"
+                  exit 1
+                fi
+
+                "$CRASHLYTICS_RUN_SCRIPT"
+                """,
             name: "Firebase Crashlytics",
             inputPaths: [
                 "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
@@ -72,25 +85,30 @@ let appTarget: Target = .target(
     ],
     dependencies: [
         .Projects.ThirdParty,
-        .Projects.DynamicThirdParty,
         .package(product: "GADManager", type: .runtime),
-        .package(product: "FirebaseCore"),
-        .package(product: "FirebaseCrashlytics"),
-        .package(product: "FirebaseAnalytics"),
-        .package(product: "GoogleAppMeasurement"),
-        .package(product: "GoogleAppMeasurementCore"),
-        .package(product: "GoogleAppMeasurementIdentitySupport"),
-        .package(product: "FirebaseInstallations"),
-        .package(product: "GULAppDelegateSwizzler"),
-        .package(product: "GULMethodSwizzler"),
-        .package(product: "GULNSData"),
-        .package(product: "GULNetwork"),
-        .package(product: "nanopb"),
+        // Firebase links directly into App rather than through an intermediate
+        // dynamic wrapper framework (the old DynamicThirdParty target): Tuist's
+        // SPM integration doesn't reliably propagate the binary XCFrameworks
+        // Firebase pulls in (GoogleAppMeasurement, nanopb, ...) through such a
+        // wrapper, which shows up as undefined symbols at the *app* target's
+        // link/archive step even though the wrapper itself builds fine.
+        .external(name: "FirebaseCrashlytics"),
+        .external(name: "FirebaseAnalytics"),
+        .external(name: "FirebaseMessaging"),
+        .external(name: "FirebaseRemoteConfig"),
         .target(name: "Widget")
     ],
-    settings: .settings(base: [
-        "OTHER_LDFLAGS": "$(inherited) -framework GoogleAppMeasurement -framework GoogleAppMeasurementIdentitySupport"
-    ])
+    settings: .settings(
+        base: [
+            // The Crashlytics "run" tool lives under Tuist/.build/checkouts,
+            // outside $(SRCROOT), and reads files (GoogleService-Info.plist,
+            // dSYMs, its own sibling binary) that User Script Sandboxing
+            // would otherwise block regardless of the phase's declared
+            // Input Files. Disabling sandboxing for this target only (not
+            // project-wide) is the reliable fix.
+            "ENABLE_USER_SCRIPT_SANDBOXING": "NO",
+        ]
+    )
 )
 
 let project = Project(
@@ -100,7 +118,8 @@ let project = Project(
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
                 requirement: .upToNextMajor(from: "1.4.0")),
-        .package(id: "firebase.firebase-ios-sdk", from: "12.17.0"),
+        // Firebase is now a Tuist-integrated dependency - see Tuist/Package.swift,
+        // consumed here via `.external(name:)`.
         // .local(path: "../../../../../pods/GADManager/src/GADManager"),
         // .remote(url: "https://github.com/pointfreeco/swift-snapshot-testing",
         //         requirement: .upToNextMajor(from:"1.18.5")),

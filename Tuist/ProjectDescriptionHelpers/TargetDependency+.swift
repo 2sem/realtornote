@@ -16,6 +16,5 @@ public extension TargetDependency {
     
     class Projects {
         public static let ThirdParty: TargetDependency = .targetProject("ThirdParty")
-        public static let DynamicThirdParty: TargetDependency = .targetProject("DynamicThirdParty")
     }
 }
