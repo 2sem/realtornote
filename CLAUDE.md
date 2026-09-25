@@ -67,7 +67,7 @@ fastlane ios release description:'변경사항 설명' isReleasing:true
 One Tuist project + Tuist-integrated packages (`Tuist/Package.swift`):
 1. **App**: Main application (business logic & UI)
    - **Widget** extension: AlarmKit Live Activities (iOS 26.0+)
-2. **Packages** (`Tuist/Package.swift`, linked into App via `.external(name:)`): Firebase (dynamic), CoreXLSX, LSExtensions, StringLogger
+2. **Packages** (`Tuist/Package.swift`, linked into App via `.external(name:)`): Firebase (dynamic), GADManager, CoreXLSX, LSExtensions, StringLogger
 
 ### Data Flow (Legacy UIKit)
 

@@ -12,7 +12,7 @@ realtornote/
 │   ├── ProjectDescriptionHelpers/
 │   │   ├── String+.swift           # App bundle ID helper
 │   │   └── Path+.swift             # Path helpers for projects
-│   └── Package.swift        # Tuist-integrated SPM deps (Firebase, CoreXLSX, LSExtensions, StringLogger)
+│   └── Package.swift        # Tuist-integrated SPM deps (Firebase, GADManager, CoreXLSX, LSExtensions, StringLogger)
 ├── Projects/
 │   └── App/                 # Main application target
 ├── fastlane/
