@@ -28,7 +28,6 @@ Use this skill when:
 - `String+.swift`: `.appBundleId`
 - `Path+.swift`: `.projects()`, `.extensions.widget` (path to Widget extension)
 - `SourceFileGlob+.swift`: `.extensions.widget` (for source file globs)
-- `TargetDependency+.swift`: `.Projects.ThirdParty`, `.Projects.DynamicThirdParty`
 
 ## Third-Party Services
 

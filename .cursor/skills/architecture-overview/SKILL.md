@@ -20,11 +20,10 @@ Use this skill when:
 
 ## Workspace Structure
 
-Three Tuist projects for clean dependency management:
+One Tuist project + Tuist-integrated packages (`Tuist/Package.swift`):
 1. **App**: Main application (business logic & UI)
    - **Widget** extension: AlarmKit Live Activities (iOS 26.0+)
-2. **ThirdParty**: Static framework (RxSwift, KakaoSDK, CoreXLSX)
-3. **DynamicThirdParty**: Dynamic framework (Firebase)
+2. **Packages** (`Tuist/Package.swift`, linked into App via `.external(name:)`): Firebase (dynamic), CoreXLSX, LSExtensions, StringLogger
 
 ## Data Flow (Legacy UIKit)
 

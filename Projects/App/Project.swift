@@ -84,7 +84,6 @@ let appTarget: Target = .target(
         )
     ],
     dependencies: [
-        .Projects.ThirdParty,
         .package(product: "GADManager", type: .runtime),
         // Firebase links directly into App rather than through an intermediate
         // dynamic wrapper framework (the old DynamicThirdParty target): Tuist's
@@ -98,6 +97,7 @@ let appTarget: Target = .target(
         .external(name: "FirebaseRemoteConfig"),
         .external(name: "CoreXLSX"),
         .external(name: "LSExtensions"),
+        .external(name: "StringLogger"),
         .target(name: "Widget")
     ],
     settings: .settings(

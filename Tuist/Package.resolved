@@ -1,5 +1,5 @@
 {
-  "originHash" : "6d5f01c368a9ab6c827790bc76738ecffcdbc4cd4bd62ae432c32cebfbdb008b",
+  "originHash" : "5ef07fa7d7712cffbf85305f7cba56a785713d5ecdc7953682f9c8259ebedfa3",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -134,6 +134,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "stringlogger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/2sem/StringLogger",
+      "state" : {
+        "revision" : "1748bde53c90cc522cdfa00e18c68157527a8612",
+        "version" : "0.7.1"
       }
     },
     {
