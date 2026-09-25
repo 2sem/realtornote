@@ -67,7 +67,7 @@ fastlane ios release description:'변경사항 설명' isReleasing:true
 Two Tuist projects + Tuist-integrated packages for clean dependency management:
 1. **App**: Main application (business logic & UI)
    - **Widget** extension: AlarmKit Live Activities (iOS 26.0+)
-2. **ThirdParty**: Static framework (LSExtensions, StringLogger); CoreXLSX via `Tuist/Package.swift`
+2. **ThirdParty**: Static framework (StringLogger); CoreXLSX, LSExtensions via `Tuist/Package.swift`
 3. **Firebase**: Tuist-integrated SPM (`Tuist/Package.swift`), linked dynamically into App via `.external(name:)`
 
 ### Data Flow (Legacy UIKit)

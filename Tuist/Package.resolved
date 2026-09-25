@@ -1,5 +1,5 @@
 {
-  "originHash" : "2217752662d4404593d204aae5287401ab5ffb72055dd717ad373c8ecf079604",
+  "originHash" : "6d5f01c368a9ab6c827790bc76738ecffcdbc4cd4bd62ae432c32cebfbdb008b",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -107,6 +107,15 @@
       "state" : {
         "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
         "version" : "1.22.5"
+      }
+    },
+    {
+      "identity" : "lsextensions",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/2sem/LSExtensions",
+      "state" : {
+        "revision" : "2f10a84f1a1fbcf23a4e23f112ea80a3738feb65",
+        "version" : "0.1.24"
       }
     },
     {
