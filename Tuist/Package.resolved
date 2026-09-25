@@ -1,4 +1,5 @@
 {
+  "originHash" : "e2484cc6515e126f3bf16c75ab42b0deac35da2af54e6d7ec24b5c2d7d2ab829",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -165,7 +166,7 @@
     {
       "identity" : "swift-package-manager-google-user-messaging-platform",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
+      "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform",
       "state" : {
         "revision" : "13b248eaa73b7826f0efb1bcf455e251d65ecb1b",
         "version" : "3.1.0"
