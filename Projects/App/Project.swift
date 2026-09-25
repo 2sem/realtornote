@@ -53,14 +53,11 @@ let appTarget: Target = .target(
         ]
     ),
     sources: [
-        "Sources/**",
-        "Extensions/Widget/Sources/StudyAlarmMetadata.swift"
+        .extensions.widget + "/Sources/StudyAlarmMetadata.swift"
     ],
-    resources: [
-        .glob(
-            pattern: "Resources/**",
-            excluding: ["Resources/Databases/realtornote.xcdatamodeld/**"]
-        )
+    buildableFolders: [
+        "Sources",
+        "Resources"
     ],
     scripts: [
         .post(
@@ -93,10 +90,7 @@ let appTarget: Target = .target(
     ],
     settings: .settings(base: [
         "OTHER_LDFLAGS": "$(inherited) -framework GoogleAppMeasurement -framework GoogleAppMeasurementIdentitySupport"
-    ]),
-    coreDataModels: [
-        .coreDataModel("Resources/Databases/realtornote.xcdatamodeld")
-    ],
+    ])
 )
 
 let project = Project(
@@ -136,8 +130,10 @@ let project = Project(
                     ]
                 ]
             ),
-            sources: .extensions.widget + "/Sources/**",
-            resources: .extensions.widget + "/Resources/**",
+            buildableFolders: [
+                .folder(.extensions.widget + "/Sources"),
+                .folder(.extensions.widget + "/Resources")
+            ],
             dependencies: [],
             settings: .settings(configurations: [
                 .debug(
