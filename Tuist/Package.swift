@@ -91,7 +91,7 @@ let package = Package(
         // integration (this manifest) doesn't need the registry entry that the
         // old Xcode-level `.package(id: "firebase.firebase-ios-sdk", ...)`
         // used - a plain GitHub URL resolves reliably here.
-        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "12.17.0"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk", .upToNextMinor(from: "12.18.0")),
         .package(url: "https://github.com/CoreOffice/CoreXLSX", from: "0.14.2"),
         .package(url: "https://github.com/2sem/LSExtensions", from: "0.1.24"),
         .package(url: "https://github.com/2sem/StringLogger", from: "0.7.0"),
