@@ -1,14 +1,6 @@
 {
-  "originHash" : "c42925bfa6383582a3ca55e772bfe28cd2bba08d7532b507988a319690736fa6",
+  "originHash" : "03bc70bec4ce4e322f2e9bfeeac980d8a7254473be60ead58895f679cf5b2bed",
   "pins" : [
-    {
-      "identity" : "alamofire.Alamofire",
-      "kind" : "registry",
-      "location" : "",
-      "state" : {
-        "version" : "5.12.0"
-      }
-    },
     {
       "identity" : "alexiscreuzot.SwiftyGif",
       "kind" : "registry",
