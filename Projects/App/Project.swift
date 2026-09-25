@@ -93,7 +93,10 @@ let appTarget: Target = .target(
     ],
     settings: .settings(base: [
         "OTHER_LDFLAGS": "$(inherited) -framework GoogleAppMeasurement -framework GoogleAppMeasurementIdentitySupport"
-    ])
+    ]),
+    coreDataModels: [
+        .coreDataModel("Resources/Databases/realtornote.xcdatamodeld")
+    ],
 )
 
 let project = Project(

@@ -16,12 +16,12 @@ on:
     branches: [ "main" ]
     paths:
       - '**/*.swift'
-      - 'mise.toml'
+      - '.mise.toml'
   pull_request:
     branches: [ "main" ]
     paths:
       - '**/*.swift'
-      - 'mise.toml'
+      - '.mise.toml'
 
 jobs:
   build-test:

@@ -46,6 +46,7 @@
       "identity" : "firebase.leveldb",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/firebase/leveldb.git",
       "state" : {
         "version" : "1.22.5"
       }
@@ -54,6 +55,7 @@
       "identity" : "firebase.nanopb",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/firebase/nanopb.git",
       "state" : {
         "version" : "2.30910.0"
       }
@@ -71,6 +73,7 @@
       "identity" : "google.abseil-cpp-binary",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/abseil-cpp-binary.git",
       "state" : {
         "version" : "1.2024072200.0"
       }
@@ -97,6 +100,7 @@
       "identity" : "google.googledatatransport",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/GoogleDataTransport.git",
       "state" : {
         "version" : "10.1.0"
       }
@@ -105,6 +109,7 @@
       "identity" : "google.googleutilities",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
         "version" : "8.1.0"
       }
@@ -113,6 +118,7 @@
       "identity" : "google.grpc-binary",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/grpc-binary.git",
       "state" : {
         "version" : "1.69.1"
       }
@@ -121,6 +127,7 @@
       "identity" : "google.gtm-session-fetcher",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/gtm-session-fetcher.git",
       "state" : {
         "version" : "4.5.0"
       }
@@ -129,6 +136,7 @@
       "identity" : "google.interop-ios-for-google-sdks",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/interop-ios-for-google-sdks.git",
       "state" : {
         "version" : "101.0.0"
       }
@@ -137,6 +145,7 @@
       "identity" : "google.promises",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/google/promises.git",
       "state" : {
         "version" : "2.4.0"
       }
@@ -154,6 +163,7 @@
       "identity" : "googleads.swift-package-manager-google-mobile-ads",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/googleads/swift-package-manager-google-mobile-ads",
       "state" : {
         "version" : "12.14.0"
       }
@@ -162,6 +172,7 @@
       "identity" : "googleads.swift-package-manager-google-user-messaging-platform",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
       "state" : {
         "version" : "3.1.0"
       }
@@ -231,6 +242,7 @@
       "identity" : "weichsel.zipfoundation",
       "kind" : "registry",
       "location" : "",
+      "originalLocation" : "https://github.com/weichsel/ZIPFoundation.git",
       "state" : {
         "version" : "0.9.20"
       }
