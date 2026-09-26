@@ -71,6 +71,8 @@ Tuist/.build
 .gitsecret/keys/random_seed
 !*.secret
 Projects/App/Resources/Excel/realtornote.xlsx
+# Plaintext study content — public repo, never commit (see Scripts/xlsx_to_content.py)
+Projects/App/Resources/Content/
 
 ### Test artifacts ###
 TestArtifacts/
