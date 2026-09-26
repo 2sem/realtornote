@@ -9,7 +9,7 @@ import ProjectDescription
 
 let tuist = Tuist(
     fullHandle: "gamehelper/realtornote",
-    project: .tuist(compatibleXcodeVersions: .upToNextMajor("26.0"),
+    project: .tuist(compatibleXcodeVersions: [.upToNextMajor("26.0"), .upToNextMajor("27.0")],
                     generationOptions: .options(
                         enableCaching: true,
                         registryEnabled: true
