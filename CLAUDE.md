@@ -239,3 +239,22 @@ Widget/
 - AlarmKit.AlarmManager - https://developer.apple.com/documentation/alarmkit/alarmmanager
 - generate project if you insert new file or rename using tuist
 - you should not run tuist generate, it took too much token
+## Content Team (`.claude/agents/`)
+
+| Agent | Role | Skill |
+|-------|------|-------|
+| **law-researcher** | Detect & download law amendments into `Laws/` | `law-update-check` |
+| **content-editor** | Update `Content/parts/*.txt`, fix review findings, package on approval | `law-content-update` |
+| **content-reviewer** | Read-only review vs law text (fresh context) | `law-summary-review` |
+
+```mermaid
+flowchart TD
+    A[law-researcher: check & download] --> B[Manager: assign parts]
+    B --> C[content-editor: edit parts]
+    C --> D[content-reviewer: review]
+    D -->|findings| C
+    D -->|approve| E[content-editor: package Content.zip]
+```
+
+- Reviewer must never be the editor's own session — always a fresh agent.
+- Package only after reviewer approves every assigned part.
