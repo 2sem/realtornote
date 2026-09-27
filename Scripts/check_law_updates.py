@@ -9,11 +9,17 @@ Uses the 국가법령정보 공동활용 Open API (open.law.go.kr). Calls are on
 from the IP registered for the key, so this runs locally, not on CI.
 The key (OC) comes from $LAW_API_OC or Scripts/.env (`LAW_API_OC=...`, gitignored).
 
+--download writes (gitignored) Laws/:
+    Laws/REPORT.md                       the report below
+    Laws/pending.json                    changed laws → versions, files, Content parts to review
+    Laws/<법령명>/<시행일자>_<MST>.md      신구법 비교 + review hits, 제개정이유, full text of that version
+
 Usage:
     python3 Scripts/check_law_updates.py                  # report changes since last review
     python3 Scripts/check_law_updates.py --since 20250101 # report changes since a date
     python3 Scripts/check_law_updates.py --law 공인중개사법  # only laws whose name contains this
     python3 Scripts/check_law_updates.py --out report.md  # also save the report
+    python3 Scripts/check_law_updates.py --download       # also save each changed version to Laws/
     python3 Scripts/check_law_updates.py --update         # mark everything reviewed (after editing content)
 """
 
@@ -34,6 +40,7 @@ LAWS_FILE = SCRIPTS / "laws.json"
 STATE_FILE = SCRIPTS / "law_versions.json"
 ENV_FILE = SCRIPTS / ".env"
 CONTENT_DIR = ROOT / "Projects/App/Resources/Content"
+LAWS_DIR = ROOT / "Laws"
 
 API = "https://www.law.go.kr/DRF"
 PAGE_SIZE = 100
@@ -109,6 +116,49 @@ def comparison(key, mst):
     return call(key, "lawService.do", target="oldAndNew", MST=mst)["OldAndNewService"]
 
 
+def full_text(key, version):
+    return call(key, "lawService.do", target="eflaw", MST=version["법령일련번호"], efYd=version["시행일자"])["법령"]
+
+
+# --- full text → markdown ----------------------------------------------------
+
+def lines_of(value):
+    """Flatten the API's str | [str] | [[str]] text fields into lines."""
+    if isinstance(value, str):
+        return [value.rstrip()] if value.strip() else []
+    if isinstance(value, list):
+        return [line for item in value for line in lines_of(item)]
+    return []
+
+
+def render_articles(articles):
+    out = []
+    for article in as_list(articles):
+        if article.get("조문여부") == "전문":  # 장/절 headings
+            out.append(f"\n#### {article.get('조문내용', '').strip()}\n")
+            continue
+        out.extend(lines_of(article.get("조문내용")))
+        for paragraph in as_list(article.get("항")):
+            out.extend("  " + line.strip() for line in lines_of(paragraph.get("항내용")))
+            for item in as_list(paragraph.get("호")):
+                out.extend("    " + line.strip() for line in lines_of(item.get("호내용")))
+                for sub in as_list(item.get("목")):
+                    out.extend("      " + line.strip() for line in lines_of(sub.get("목내용")))
+        out.append("")
+    return out
+
+
+def write_version(key, law, version, section, out_dir):
+    law_text = full_text(key, version)
+    reason = lines_of((law_text.get("제개정이유") or {}).get("제개정이유내용"))
+    path = out_dir / law["name"] / f"{version['시행일자']}_{version['법령일련번호']}.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    body = [f"# {law['name']}", "", *section, "", "## 제개정이유", "", *(reason or ["(없음)"]),
+            "", "## 전문 (이 버전 기준)", "", *render_articles((law_text.get("조문") or {}).get("조문단위"))]
+    path.write_text("\n".join(body) + "\n", encoding="utf-8")
+    return path
+
+
 # --- diff → report -----------------------------------------------------------
 
 def plain(text):
@@ -175,43 +225,60 @@ def part_hits(parts, part_ids, terms):
     return hits
 
 
-def report_law(key, law, versions, parts, out):
+def report_law(key, law, versions, parts, out, download_dir=None):
+    """Appends the law's report to `out`; with download_dir, also saves each version and returns their entries."""
     name = law["name"]
+    downloaded = []
     today = datetime.date.today().strftime("%Y%m%d")
     out.append(f"## {name}\n")
     for version in versions:
-        pending = " **(시행예정)**" if version["시행일자"] > today else ""
-        out.append(f"### 시행 {fmt(version['시행일자'])}{pending} — {version['제개정구분명']} "
-                   f"(공포 {fmt(version['공포일자'])}, 제{version['공포번호']}호)\n")
-        diff = comparison(key, version["법령일련번호"])
-        old = changed_articles(diff.get("구조문목록", {}).get("조문"))
-        new = changed_articles(diff.get("신조문목록", {}).get("조문"))
-        if not old and not new:
-            out.append("_신구법 비교 없음 (제정/전부개정/타법개정일 수 있음) — law.go.kr에서 직접 확인._\n")
-            continue
-        for head in sorted(set(old) | set(new), key=article_order):
-            out.append(f"- **{head}**")
-            for paragraph in old.get(head, []):
-                out.append(f"  - 구: {plain(paragraph)}")
-            for paragraph in new.get(head, []):
-                out.append(f"  - 신: {plain(paragraph)}")
-        out.append("")
+        start = len(out)
+        version_report(key, law, version, today, parts, out)
+        if download_dir:
+            path = write_version(key, law, version, out[start:], download_dir)
+            downloaded.append({
+                "시행일자": version["시행일자"],
+                "공포일자": version["공포일자"],
+                "법령일련번호": version["법령일련번호"],
+                "시행예정": version["시행일자"] > today,
+                "file": str(path.relative_to(ROOT)),
+            })
+    return downloaded
 
-        if parts is None:
-            continue
-        terms = search_terms(old, new)
-        hits = part_hits(parts, law["parts"], terms)
-        out.append(f"검토할 파트 (검색어: {', '.join(terms) or '없음'}):")
-        if not hits:
-            out.append(f"- 일치 없음 — 연결 파트 {law['parts']} 직접 확인\n")
-            continue
-        for part_id, title, lines in hits:
-            out.append(f"- parts/{part_id}.txt — {title}")
-            for number, line in lines[:MAX_HITS_PER_PART]:
-                out.append(f"  - L{number}: {line}")
-            if len(lines) > MAX_HITS_PER_PART:
-                out.append(f"  - … 외 {len(lines) - MAX_HITS_PER_PART}줄")
-        out.append("")
+
+def version_report(key, law, version, today, parts, out):
+    pending = " **(시행예정)**" if version["시행일자"] > today else ""
+    out.append(f"### 시행 {fmt(version['시행일자'])}{pending} — {version['제개정구분명']} "
+               f"(공포 {fmt(version['공포일자'])}, 제{version['공포번호']}호)\n")
+    diff = comparison(key, version["법령일련번호"])
+    old = changed_articles(diff.get("구조문목록", {}).get("조문"))
+    new = changed_articles(diff.get("신조문목록", {}).get("조문"))
+    if not old and not new:
+        out.append("_신구법 비교 없음 (제정/전부개정/타법개정일 수 있음) — law.go.kr에서 직접 확인._\n")
+        return
+    for head in sorted(set(old) | set(new), key=article_order):
+        out.append(f"- **{head}**")
+        for paragraph in old.get(head, []):
+            out.append(f"  - 구: {plain(paragraph)}")
+        for paragraph in new.get(head, []):
+            out.append(f"  - 신: {plain(paragraph)}")
+    out.append("")
+
+    if parts is None:
+        return
+    terms = search_terms(old, new)
+    hits = part_hits(parts, law["parts"], terms)
+    out.append(f"검토할 파트 (검색어: {', '.join(terms) or '없음'}):")
+    if not hits:
+        out.append(f"- 일치 없음 — 연결 파트 {law['parts']} 직접 확인\n")
+        return
+    for part_id, title, lines in hits:
+        out.append(f"- parts/{part_id}.txt — {title}")
+        for number, line in lines[:MAX_HITS_PER_PART]:
+            out.append(f"  - L{number}: {line}")
+        if len(lines) > MAX_HITS_PER_PART:
+            out.append(f"  - … 외 {len(lines) - MAX_HITS_PER_PART}줄")
+    out.append("")
 
 
 def article_order(head):
@@ -230,6 +297,8 @@ def main():
     parser.add_argument("--since", help="report versions with 시행일자 after YYYYMMDD, ignoring recorded state")
     parser.add_argument("--law", help="only laws whose name contains this text")
     parser.add_argument("--out", help="also write the report to this file")
+    parser.add_argument("--download", action="store_true",
+                        help=f"save each changed version (diff, 제개정이유, full text) to {LAWS_DIR.relative_to(ROOT)}/")
     parser.add_argument("--update", action="store_true", help="record each law's latest version as reviewed")
     args = parser.parse_args()
 
@@ -261,7 +330,8 @@ def main():
     if parts is None:
         out.append(f"_{CONTENT_DIR.relative_to(ROOT)} 없음 (Content.zip 해제 필요) — 파트 검색 생략._\n")
 
-    changed, untracked = [], []
+    download_dir = LAWS_DIR if args.download else None
+    changed, untracked, pending = [], [], []
     for law in laws:
         after = args.since or state.get(law["name"], {}).get("시행일자")
         if not after:
@@ -271,7 +341,9 @@ def main():
         versions = newer_versions(key, law["name"], after)
         if versions:
             changed.append(law["name"])
-            report_law(key, law, versions, parts, out)
+            downloaded = report_law(key, law, versions, parts, out, download_dir)
+            if downloaded:
+                pending.append({"name": law["name"], "parts": law["parts"], "versions": downloaded})
 
     summary = [f"변경 {len(changed)}건 / 확인 {len(laws) - len(untracked)}건"]
     if changed:
@@ -284,6 +356,16 @@ def main():
     print(report)
     if args.out:
         Path(args.out).write_text(report, encoding="utf-8")
+    if download_dir:
+        download_dir.mkdir(exist_ok=True)
+        (download_dir / "REPORT.md").write_text(report, encoding="utf-8")
+        (download_dir / "pending.json").write_text(json.dumps({
+            "checked": datetime.date.today().isoformat(),
+            "since": args.since,
+            "laws": pending,
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Saved {sum(len(law['versions']) for law in pending)} versions to {download_dir.relative_to(ROOT)}/",
+              file=sys.stderr)
 
 
 if __name__ == "__main__":

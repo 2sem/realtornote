@@ -86,3 +86,6 @@ Projects/App/Content.zip
 
 # 국가법령정보 Open API key (OC) for Scripts/check_law_updates.py
 Scripts/.env
+
+# Law texts downloaded by Scripts/check_law_updates.py --download
+Laws/
