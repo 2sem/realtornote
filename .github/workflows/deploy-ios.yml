@@ -52,6 +52,10 @@ jobs:
         run: |
           git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
 
+      - name: Unpack Content
+        run: |
+          unzip -o Projects/App/Content.zip -d Projects/App/Resources
+
       - name: Install Mise
         uses: jdx/mise-action@v2
 

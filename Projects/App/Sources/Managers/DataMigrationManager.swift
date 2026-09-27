@@ -101,11 +101,11 @@ class DataMigrationManager: ObservableObject {
     private func performMigration(modelContext: ModelContext) async throws {
         "[DataMigration] performMigration started".trace()
         
-        currentStep = "엑셀 데이터를 SwiftData로 동기화하는 중..."
+        currentStep = "학습 데이터를 SwiftData로 동기화하는 중..."
         migrationProgress = 0.1
         
-        let syncService = ExcelSyncService(context: modelContext)
-        
+        let syncService = ContentSyncService(context: modelContext)
+
         try await syncService.syncIfNeeded(force: true)
         
         currentStep = "즐겨찾기 데이터를 마이그레이션하는 중..."
