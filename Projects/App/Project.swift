@@ -55,9 +55,27 @@ let appTarget: Target = .target(
     sources: [
         .extensions.widget + "/Sources/StudyAlarmMetadata.swift"
     ],
+    // Bundles `Content/` as a folder reference so `Bundle.main.url(forResource: "Content")`
+    // resolves with its subjects/parts structure intact. Required because the buildable
+    // folder exception below drops it from the target entirely.
+    resources: [
+        .folderReference(path: "Resources/Content")
+    ],
     buildableFolders: [
         "Sources",
-        "Resources"
+        // `Content/` (plain-text study content, replaces the Excel source) must keep its
+        // subjects/parts directory structure at runtime, but Xcode's synchronized groups
+        // (buildable folders) flatten nested resources into the bundle root. Excluding it
+        // here keeps it out of the synchronized group; `resources` above bundles it as a
+        // folder reference instead.
+        // `Content/` is gitignored and only exists locally/on CI after decrypting
+        // Content.zip.
+        .folder(
+            "Resources",
+            exceptions: .exceptions([
+                .exception(excluded: ["Content"])
+            ])
+        )
     ],
     scripts: [
         .post(

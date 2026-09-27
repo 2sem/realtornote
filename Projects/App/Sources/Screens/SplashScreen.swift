@@ -1,4 +1,5 @@
 import SwiftUI
+import StringLogger
 
 struct SplashScreen: View {
     @Environment(\.modelContext) private var modelContext
@@ -124,8 +125,12 @@ struct SplashScreen: View {
             }
             
             guard await migrationManager.checkAndMigrateIfNeeded(modelContext: modelContext) else {
-                let syncService = ExcelSyncService(context: modelContext)
-                try await syncService.syncIfNeeded()
+                let syncService = ContentSyncService(context: modelContext)
+                do {
+                    try await syncService.syncIfNeeded()
+                } catch {
+                    "[Splash] Content sync failed: \(error.localizedDescription)".trace()
+                }
                 return
             }
             
