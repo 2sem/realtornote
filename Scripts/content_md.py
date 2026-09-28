@@ -10,7 +10,7 @@ nested list *is* the tree, so the structure no longer depends on guessing.
 Subcommands (all take a part id):
   tree <id> [--json]  tree the app builds today (port of recognize + parseType)
   render <id>         text the app displays      (port of toString)
-  to-md <id>          txt -> ContentSource/parts/<id>.md
+  to-md <id>          txt -> ContentSource/legacy/<id>.md
   from-md <id> [--json]  md -> tree (explicit structure, no heuristic)
   check <id>          tree(txt) == tree(md) node-for-node AND
                       render(md) == render(txt) byte-for-byte  -> OK / FAIL
@@ -18,7 +18,12 @@ Subcommands (all take a part id):
 
 Content is private (gitignored).  This file must never contain content text.
 
-MARKDOWN RULES (ContentSource/parts/<id>.md)
+This OLD-FORMAT Markdown (one marker per line, mirrors the heuristic tree) now
+lives in ContentSource/legacy/.  The new semantic Markdown source
+(ContentSource/parts/<id>.md, headings/terms/lists) is handled by
+Scripts/content_tree.py (migrate / build / render-a / parity).
+
+OLD-FORMAT MARKDOWN RULES (ContentSource/legacy/<id>.md)
 ------------------------------------------
 * Optional first line: an HTML comment, e.g. `<!-- part 24 -->`.  Blank lines
   and further leading comments are ignored.
@@ -52,7 +57,7 @@ import unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PARTS_DIR = os.path.join(ROOT, "Projects", "App", "Resources", "Content", "parts")
-MD_DIR = os.path.join(ROOT, "ContentSource", "parts")
+MD_DIR = os.path.join(ROOT, "ContentSource", "legacy")
 
 # ---------------------------------------------------------------------------
 # Character classes matching Foundation / ICU semantics
@@ -436,7 +441,10 @@ def lint(pid):
             while anc is not None and anc.type not in RANK:
                 anc = anc.parent
             r, ar = RANK[n.type], (RANK[anc.type] if anc else 0)
-            if ar < r - 1:
+            # a) directly under ◎ is an ordered list under a term (normal in the
+            # new model), not a skipped heading level
+            if ar < r - 1 and not (n.type == ALPHA and n.parent is not None
+                                   and n.parent.type == TERM):
                 out.append(("jump", n.line, "%s under %s" % (
                     index_string(n.type, n.index) if n.type != ALPHA or n.index % 26 else n.type,
                     index_string(anc.type, anc.index) if anc else "root"), snippet(n.raw)))
