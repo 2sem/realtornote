@@ -3,9 +3,14 @@ import SwiftUI
 struct PartSettingsScreen: View {
     @Binding var fontSize: CGFloat
     @AppStorage(LSDefaults.Keys.AppearanceMode) private var appearanceModeRaw: String = AppearanceMode.system.rawValue
+    @AppStorage(LSDefaults.Keys.DataVersion) private var dataVersion: String = "0.0"
 
     private var selectedMode: AppearanceMode {
         AppearanceMode(rawValue: appearanceModeRaw) ?? .system
+    }
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0"
     }
 
     private let minFontSize: CGFloat = 14
@@ -56,6 +61,10 @@ struct PartSettingsScreen: View {
             }
 
             Spacer()
+
+            Text("앱 \(appVersion) · 데이터 \(dataVersion)")
+                .font(.caption2)
+                .foregroundStyle(Color.themeSecondaryText)
         }
         .padding()
     }

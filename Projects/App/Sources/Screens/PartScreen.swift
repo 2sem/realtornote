@@ -223,7 +223,7 @@ struct PartScreen: View {
         })
         .sheet(isPresented: $showSettings) {
             PartSettingsScreen(fontSize: $fontSize)
-                .presentationDetents([.height(280)])
+                .presentationDetents([.height(300)])
                 .presentationDragIndicator(.visible)
         }
         .task {
