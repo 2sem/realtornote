@@ -73,6 +73,8 @@ Tuist/.build
 Projects/App/Resources/Excel/realtornote.xlsx
 # Plaintext study content — public repo, never commit (see Scripts/xlsx_to_content.py)
 Projects/App/Resources/Content/
+# Markdown editing source of the same content (Scripts/content_md.py) — same privacy reason
+ContentSource/
 
 ### Test artifacts ###
 TestArtifacts/
