@@ -68,11 +68,27 @@ struct ContentLoader {
     }
 
     /// The exact UTF-8 body of a part — never trimmed, content is used byte-for-byte.
+    ///
+    /// Content tree migration (docs/plans/content-tree.md): parts move to `parts/<id>.json`
+    /// one at a time, so both formats coexist. Prefers `<id>.json` when it exists in the
+    /// bundle, else falls back to the legacy `<id>.txt`. Either way the raw string is stored
+    /// as-is into `Part.content` — no SwiftData schema change; `String.isContentTreeJSON`
+    /// (checked by consumers, see `ContentRendering`) tells JSON from legacy text by content.
     func loadPartContent(id: Int) throws -> String {
         let root = try requireContentRoot()
-        let relativePath = "parts/\(id).txt"
-        let url = root.appendingPathComponent(relativePath)
 
+        let jsonRelativePath = "parts/\(id).json"
+        let jsonURL = root.appendingPathComponent(jsonRelativePath)
+        if FileManager.default.fileExists(atPath: jsonURL.path) {
+            return try readUTF8(at: jsonURL, relativePath: jsonRelativePath)
+        }
+
+        let txtRelativePath = "parts/\(id).txt"
+        let txtURL = root.appendingPathComponent(txtRelativePath)
+        return try readUTF8(at: txtURL, relativePath: txtRelativePath)
+    }
+
+    private func readUTF8(at url: URL, relativePath: String) throws -> String {
         guard let data = try? Data(contentsOf: url) else {
             throw ContentLoaderError.fileNotFound(relativePath)
         }

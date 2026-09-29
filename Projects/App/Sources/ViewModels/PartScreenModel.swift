@@ -17,12 +17,20 @@ final class PartScreenModel {
     var currentSearchIndex: Int = 0
     var highlightedContent: NSAttributedString?
     
+    /// Display text for `PartScreen` (`SwiftUITextView`, search highlighting, scroll-offset
+    /// math all key off this exact string). Computed once here rather than as a computed
+    /// property on the view, since `PartListScreen` caches one `PartScreenModel` per part —
+    /// so a JSON part's tree is decoded and rendered exactly once, not on every body
+    /// evaluation. See `ContentRendering` for the JSON-vs-legacy-`.txt` branch.
+    let renderedContent: String
+
     private let part: Part
     private let modelContext: ModelContext
-    
+
     init(part: Part, modelContext: ModelContext) {
         self.part = part
         self.modelContext = modelContext
+        self.renderedContent = ContentRendering.displayText(for: part.content)
         checkFavoriteStatus()
     }
     
