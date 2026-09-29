@@ -27,14 +27,16 @@ enum ContentRendering {
     }
 
     /// The paragraph tree `RNQuestionInfo.createQuestions` consumes. For a JSON part this
-    /// renders the tree to Phase A text first and runs it through the *same* legacy
-    /// `LSDocumentRecognizer.recognize`, so the resulting parent/children/indexType/index/text
-    /// shape is exactly what the old heuristic parser would produce for that text — no
-    /// separate bridging logic to keep in sync with the recognizer.
+    /// builds paragraphs directly from the tree via `ContentParagraphAdapter`, preserving
+    /// the JSON's own nesting exactly — it does NOT render to Phase A text and re-run the
+    /// legacy `LSDocumentRecognizer.recognize` heuristic. That render-then-reparse used to
+    /// be the whole implementation, but it would silently rebuild the *old, heuristic* tree
+    /// shape once P3 starts fixing structure in the JSON (docs/plans/content-tree.md P3 /
+    /// §7), making the Quiz disagree with what PartScreen displays. See
+    /// `ContentParagraphAdapter`'s file-level doc comment for the equivalence argument.
     static func paragraphs(for content: String) -> [LSDocumentRecognizer.LSDocumentParagraph] {
         if let document = decodeContentTree(content) {
-            let rendered = ContentTreeRenderer.render(document.nodes)
-            return LSDocumentRecognizer.shared.recognize(doc: rendered)
+            return ContentParagraphAdapter.paragraphs(for: document.nodes)
         }
         return LSDocumentRecognizer.shared.recognize(doc: content)
     }

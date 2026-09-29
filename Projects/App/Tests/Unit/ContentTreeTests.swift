@@ -239,4 +239,215 @@ final class ContentTreeTests: XCTestCase {
         XCTAssertEqual(flatten(fromLegacy).map(\.0), flatten(fromJSON).map(\.0))
         XCTAssertEqual(flatten(fromLegacy).map(\.1), flatten(fromJSON).map(\.1))
     }
+
+    // MARK: - ContentParagraphAdapter: full (level, indexType, index, text) equivalence
+
+    /// Flattens a paragraph forest in pre-order, capturing every field `ContentTreeTests`
+    /// (and, potentially, a future consumer) could rely on: level, indexType, index, text.
+    private func flattenFull(
+        _ paragraphs: [LSDocumentRecognizer.LSDocumentParagraph]
+    ) -> [(level: Int, indexType: LSDocumentRecognizer.LSDocumentParagraph.IndexType, index: Int, text: String)] {
+        paragraphs.flatMap { paragraph in
+            [(paragraph.level, paragraph.indexType, paragraph.index, paragraph.text)] + flattenFull(paragraph.children)
+        }
+    }
+
+    /// Decodes `json`, then asserts `ContentParagraphAdapter.paragraphs(for:)` matches
+    /// `LSDocumentRecognizer.recognize(doc: ContentTreeRenderer.render(nodes))` field for
+    /// field (level, indexType, index, text) in pre-order — the equivalence proof required
+    /// by docs/plans/content-tree.md P3 prerequisite, for trees that mirror the old parse.
+    private func assertParagraphAdapterMatchesRecognize(_ json: String, file: StaticString = #filePath, line: UInt = #line) throws {
+        let document = try JSONDecoder().decode(ContentDocument.self, from: Data(json.utf8))
+        let rendered = ContentTreeRenderer.render(document.nodes)
+        let reference = LSDocumentRecognizer.shared.recognize(doc: rendered)
+        let adapted = ContentParagraphAdapter.paragraphs(for: document.nodes)
+
+        let referenceFlat = flattenFull(reference)
+        let adaptedFlat = flattenFull(adapted)
+
+        XCTAssertEqual(adaptedFlat.count, referenceFlat.count, file: file, line: line)
+        for (i, (ref, got)) in zip(referenceFlat, adaptedFlat).enumerated() {
+            XCTAssertEqual(got.level, ref.level, "level mismatch at node \(i) (\(got.text.prefix(20)))", file: file, line: line)
+            XCTAssertEqual(got.indexType, ref.indexType, "indexType mismatch at node \(i) (\(got.text.prefix(20)))", file: file, line: line)
+            XCTAssertEqual(got.index, ref.index, "index mismatch at node \(i) (\(got.text.prefix(20)))", file: file, line: line)
+            XCTAssertEqual(got.text, ref.text, "text mismatch at node \(i)", file: file, line: line)
+        }
+    }
+
+    /// Section depth coverage: an explicit `depth: 0` root (`.number`, "1.") through natural
+    /// depths 1/2/3 (`.brackets_number`/`.half_bracket_number`/`.half_bracket_alpha`) down to
+    /// an explicit `depth: 4` override (falls back to `.half_bracket_number`, "1)"), each the
+    /// sole child of its parent, ending in a plain dash item. A single unbroken chain (no
+    /// sibling-of-different-type transitions) so the recognizer's `findParent`/`sibil`
+    /// climbing can't reparent anything — every level here is provably a mirror of the old
+    /// parse by construction (index 1 at every level keeps the `sibil` branch's `index == 1`
+    /// case, which re-attaches to `before` exactly as the JSON already has it).
+    func testParagraphAdapter_matchesRecognize_sectionDepthChain() throws {
+        try assertParagraphAdapterMatchesRecognize("""
+        {"part": 9999, "nodes": [
+            {"type": "section", "title": "루트", "depth": 0, "children": [
+                {"type": "section", "title": "레벨1", "children": [
+                    {"type": "section", "title": "레벨2", "children": [
+                        {"type": "section", "title": "레벨3", "children": [
+                            {"type": "section", "title": "레벨4", "depth": 4, "children": [
+                                {"type": "item", "text": "내용"}
+                            ]}
+                        ]}
+                    ]}
+                ]}
+            ]}
+        ]}
+        """)
+    }
+
+    /// term -> dash item -> then item, with a `raw` item followed by all three `note` kinds
+    /// as its siblings (all four share `.none` indexType, so each becomes a sibling of the
+    /// previous one via the recognizer's "same indexType as immediately preceding line"
+    /// branch — matching them being siblings in the JSON's own `children` array).
+    func testParagraphAdapter_matchesRecognize_termItemsAndAllNoteKinds() throws {
+        try assertParagraphAdapterMatchesRecognize("""
+        {"part": 9999, "nodes": [
+            {"type": "section", "title": "대분류", "children": [
+                {"type": "term", "label": "정의", "text": "설명", "children": [
+                    {"type": "item", "text": "항목가", "children": [
+                        {"type": "item", "role": "then", "text": "항목나", "children": [
+                            {"type": "item", "text": "원문", "role": "raw"},
+                            {"type": "note", "kind": "mnemonic", "text": "암기내용"},
+                            {"type": "note", "kind": "tip", "text": "참고내용"},
+                            {"type": "note", "kind": "formula", "text": "공식내용"}
+                        ]}
+                    ]}
+                ]}
+            ]}
+        ]}
+        """)
+    }
+
+    /// A `list` at the very top of the document (no enclosing section, `before == nil` at
+    /// the start) with a `start` gap and a per-item `n` override, to exercise the
+    /// recognizer's index-override quirk (`before.index + 1` wins over an explicit `n`
+    /// when the immediately preceding line shares the same `.half_bracket_alpha`
+    /// indexType) while list-item transparency keeps every item a document root.
+    func testParagraphAdapter_matchesRecognize_topLevelListWithStartAndNGaps() throws {
+        try assertParagraphAdapterMatchesRecognize("""
+        {"part": 9999, "nodes": [
+            {"type": "list", "ordered": true, "start": 3, "items": [
+                {"text": "목록셋"},
+                {"text": "목록다섯", "n": 5},
+                {"text": "목록여섯"}
+            ]}
+        ]}
+        """)
+    }
+
+    /// Two top-level sections at the same natural depth, the second with an explicit `n`
+    /// gap — same index-override quirk as the list test above, for numbered sections.
+    func testParagraphAdapter_matchesRecognize_topLevelSectionsWithNGap() throws {
+        try assertParagraphAdapterMatchesRecognize("""
+        {"part": 9999, "nodes": [
+            {"type": "section", "title": "A"},
+            {"type": "section", "title": "B", "n": 5}
+        ]}
+        """)
+    }
+
+    /// Same equivalence proof, run over the earlier hand-traced fixture (section -> section
+    /// -> term -> dash item -> then item -> ordered list whose second item carries trailing
+    /// notes), which exercises list-item children and multiple same-type note siblings.
+    func testParagraphAdapter_matchesRecognizeOfRenderedText_forHandTracedFixture() throws {
+        let json = """
+        {"part": 9999, "nodes": [
+            {"type": "section", "title": "대분류", "children": [
+                {"type": "section", "title": "중분류", "children": [
+                    {"type": "term", "label": "정의", "text": "이것은 설명이다", "children": [
+                        {"type": "item", "text": "항목가", "children": [
+                            {"type": "item", "role": "then", "text": "항목나", "children": [
+                                {"type": "list", "ordered": true, "items": [
+                                    {"text": "목록하나"},
+                                    {"text": "목록둘", "children": [
+                                        {"type": "note", "kind": "mnemonic", "text": "두문자니모닉"},
+                                        {"type": "note", "kind": "tip", "text": "참고사항입니다"}
+                                    ]}
+                                ]}
+                            ]}
+                        ]}
+                    ]}
+                ]}
+            ]}
+        ]}
+        """
+
+        let document = try JSONDecoder().decode(ContentDocument.self, from: Data(json.utf8))
+        let rendered = ContentTreeRenderer.render(document.nodes)
+        let reference = LSDocumentRecognizer.shared.recognize(doc: rendered)
+        let adapted = ContentParagraphAdapter.paragraphs(for: document.nodes)
+
+        XCTAssertEqual(flattenFull(adapted).map(\.text), flattenFull(reference).map(\.text))
+        XCTAssertEqual(flattenFull(adapted).map(\.level), flattenFull(reference).map(\.level))
+        XCTAssertEqual(flattenFull(adapted).map(\.indexType), flattenFull(reference).map(\.indexType))
+        XCTAssertEqual(flattenFull(adapted).map(\.index), flattenFull(reference).map(\.index))
+
+        // And the parent chain RNQuestionInfo.text actually walks reads the same way: the
+        // deepest "then" item's ancestor chain should read term -> section -> section.
+        func findFirst(_ paragraphs: [LSDocumentRecognizer.LSDocumentParagraph], where predicate: (LSDocumentRecognizer.LSDocumentParagraph) -> Bool) -> LSDocumentRecognizer.LSDocumentParagraph? {
+            for p in paragraphs {
+                if predicate(p) { return p }
+                if let found = findFirst(p.children, where: predicate) { return found }
+            }
+            return nil
+        }
+        let thenItem = try XCTUnwrap(findFirst(adapted) { $0.indexType == .next })
+        var chain: [String] = []
+        var walker: LSDocumentRecognizer.LSDocumentParagraph? = thenItem
+        while let current = walker {
+            chain.append(current.text)
+            walker = current.parent
+        }
+        XCTAssertEqual(chain, ["항목나", "항목가", "정의 : 이것은 설명이다", "중분류", "대분류"])
+    }
+
+    /// docs/plans/content-tree.md P3's whole reason to exist: once a part's JSON is *fixed*
+    /// (e.g. a `◎` term correctly nested under the section it belongs to, where the old
+    /// heuristic parser would have hoisted it to a sibling of that section — see plan §7 /
+    /// `ContentParagraphAdapter`'s file header), the adapter must follow the JSON tree, not
+    /// rebuild the old (wrong) shape. This synthetic fixture models exactly that: a term
+    /// nested two sections deep, in a position the legacy line-by-line heuristic would NOT
+    /// have produced on its own (a section with no numbered/bulleted content before the
+    /// term, so the heuristic's `indexingParent`/`sibilsHasChild` dance can drift) — the
+    /// adapter must keep it as the section's own child because that is what the JSON says.
+    func testParagraphAdapter_followsFixedTreeStructure_notTheOldHeuristic() throws {
+        let json = """
+        {"part": 9999, "nodes": [
+            {"type": "section", "title": "대분류", "children": [
+                {"type": "section", "title": "중분류", "children": [
+                    {"type": "term", "label": "정의", "text": "이것은 고쳐진 위치다"}
+                ]}
+            ]}
+        ]}
+        """
+        let document = try JSONDecoder().decode(ContentDocument.self, from: Data(json.utf8))
+        let adapted = ContentParagraphAdapter.paragraphs(for: document.nodes)
+
+        // Root is "대분류"; its only child is "중분류"; the term is "중분류"'s own child —
+        // exactly the JSON's nesting, three levels deep.
+        let root = try XCTUnwrap(adapted.first)
+        XCTAssertEqual(root.text, "대분류")
+        XCTAssertEqual(root.level, 0)
+
+        let middle = try XCTUnwrap(root.children.first)
+        XCTAssertEqual(middle.text, "중분류")
+        XCTAssertEqual(middle.level, 1)
+
+        let term = try XCTUnwrap(middle.children.first)
+        XCTAssertEqual(term.indexType, .term)
+        XCTAssertEqual(term.text, "정의 : 이것은 고쳐진 위치다")
+        XCTAssertEqual(term.level, 2)
+        XCTAssertTrue(term.parent === middle, "adapter must attach the term to its JSON parent, not re-derive a parent heuristically")
+
+        // Sanity: this is genuinely the tree a naive render-then-reparse would NOT be
+        // guaranteed to reproduce once nodes move around under P3 — the adapter path taken
+        // here never renders text or calls `LSDocumentRecognizer.recognize` at all.
+        XCTAssertEqual(root.children.count, 1)
+        XCTAssertEqual(middle.children.count, 1)
+    }
 }
