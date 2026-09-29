@@ -46,7 +46,8 @@ class QuizScreenModel {
         
         let sortedParts = (chapter.parts).sorted { $0.seq < $1.seq }
         for part in sortedParts {
-            let paragraphs = LSDocumentRecognizer.shared.recognize(doc: part.content)
+            // Picks the content-tree JSON path or the legacy path per part — see ContentRendering.
+            let paragraphs = ContentRendering.paragraphs(for: part.content)
             for paragraph in paragraphs {
                 allParagraphs.append(paragraph)
                 allParagraphs.append(contentsOf: paragraph.allParagraphs)

@@ -38,10 +38,11 @@ struct PartScreen: View {
     private let pageIndicatorHeight: CGFloat = 22
     private static let restoreDelays: [Int] = [0, 200, 400, 800]
     
-    // Format content using LSDocumentRecognizer (like UIKit version)
+    // Display text: legacy `.txt` parts go through LSDocumentRecognizer (like the UIKit
+    // version); content-tree JSON parts are decoded + Phase A rendered. Cached once on
+    // viewModel (see PartScreenModel.renderedContent) rather than recomputed here.
     private var formattedContent: String {
-        let paragraphs = LSDocumentRecognizer.shared.recognize(doc: part.content)
-        return LSDocumentRecognizer.shared.toString(paragraphs)
+        viewModel.renderedContent
     }
 
     // Handle scroll position changes
