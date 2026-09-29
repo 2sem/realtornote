@@ -34,6 +34,14 @@ python3 Scripts/law_diff.py diff --part <id> > <scratchpad>/part<id>.diff; wc -c
 
 ## 3. Per part: edit
 
+**Tree parts** (`Projects/App/Resources/Content/parts/<id>.json` exists, no `.txt`): the source is `ContentSource/parts/<id>.md` (syntax in `Scripts/content_tree.py` docstring and `docs/plans/content-tree.md` §2). Edit the Markdown with the same rules below, then:
+```bash
+python3 Scripts/content_tree.py build <id> --strict        # fails on syntax errors / leftover TODOs
+cp ContentSource/build/parts/<id>.json Projects/App/Resources/Content/parts/<id>.json
+python3 Scripts/content_tree.py render-a <id>              # what the app will show
+```
+Show the user `diff -u "$B/…/<id>.md"`-style edits of the Markdown instead of the txt diff. Never recreate the `.txt` for a tree part.
+
 1. Read `Projects/App/Resources/Content/parts/<id>.txt` once (`cat -n`).
 2. Edit to match the law in force **on the exam date**. Use `Edit` with small hunks — never rewrite the whole file.
 3. Match the existing style exactly:
@@ -62,7 +70,8 @@ Then ask the user to review the edits (`diff -ru "$B" Projects/App/Resources/Con
    (cd Projects/App/Resources && zip -rqX ../Content.zip Content -x '*.DS_Store')
    unzip -l Projects/App/Content.zip | sed -n 4,6p   # expect Content/...
    ```
-3. Encrypt: `git secret hide -m` (re-encrypts changed files only). Stage `Projects/App/Content.zip.secret` (and `.gitsecret/paths/mapping.cfg` if it changed). Never stage plaintext `Content.zip` or `Content/`.
+3. If any `ContentSource/parts/*.md` changed, refresh the source backup first: `rm -f ContentSource.zip && zip -rqX ContentSource.zip ContentSource/parts -x '*.DS_Store'`.
+   Encrypt: `git secret hide -m` (re-encrypts changed files only). Stage `Projects/App/Content.zip.secret`, `ContentSource.zip.secret` (and `.gitsecret/paths/mapping.cfg` if it changed). Never stage plaintext `Content.zip` or `Content/`.
 4. Mark the processed laws reviewed:
    ```bash
    python3 Scripts/check_law_updates.py --update --law "<법령명>"   # per processed law

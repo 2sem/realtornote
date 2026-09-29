@@ -91,3 +91,4 @@ Scripts/.env
 
 # Law texts downloaded by Scripts/check_law_updates.py --download
 Laws/
+ContentSource.zip

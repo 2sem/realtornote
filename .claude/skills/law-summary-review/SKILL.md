@@ -14,6 +14,7 @@ Best run in a fresh session (or right after `/clear`) so the editing context doe
 
 - **Backup**: latest `Laws/.backup/Content-*` unless `--backup` is given: `ls -d Laws/.backup/Content-* | tail -1`.
 - **Content diff**: `diff -u "$B/parts/<id>.txt" Projects/App/Resources/Content/parts/<id>.txt`. Empty → nothing to review for this part; say so.
+  For a **tree part** (`parts/<id>.json`, no `.txt`) diff the Markdown source instead — compare `ContentSource/parts/<id>.md` with the copy inside the previous `ContentSource.zip` backup (or the editor's pre-edit copy) — and confirm `python3 Scripts/content_tree.py build <id> --strict` passes and the shipped `parts/<id>.json` equals `ContentSource/build/parts/<id>.json`.
 - **Law diff**: `python3 Scripts/law_diff.py diff --part <id> > <scratchpad>/review<id>.diff` (full texts are cached, so this is cheap). Same token rules as law-content-update: don't read `Laws/<법령명>/*.md` or `Laws/REPORT.md`.
 - **Exact wording** when a claim needs checking: `python3 Scripts/law_diff.py article "<법령명>" <조> [<조> …]` (exam-date version; `--at 20241212` for the old one). Fetch only the articles you need.
 - Read the edited part itself (`cat -n`) once, for context around the hunks.
@@ -27,7 +28,7 @@ For every `+`/`-` hunk and every change in the law diff:
 3. **Leftovers** — old rules still in the part: grep the part for the old side of the diff (`[-…-]` fragments, deleted articles' key terms), e.g. `grep -n "지부\|설립인가" parts/<id>.txt`. Also flag old wording in untouched lines of the same part.
 4. **Unchanged rules intact** — lines the edit removed or reworded whose law provision did *not* change (the edit went beyond the amendment).
 5. **Style** — same as neighbouring lines: `(1)` → `1)` → `a)` → `-`, `◎`, `⇒`; terse endings; `.` separators (`시.도지사`); no markdown; no dates/article numbers unless the part already uses them.
-6. **Scope** — only `parts/*.txt` changed: `diff -rq "$B" Projects/App/Resources/Content` must list parts only — no `subjects/*.json`, no new/removed files. `manifest.json` changes are expected only after packaging.
+6. **Scope** — only `parts/*.txt` / `parts/*.json` (and their `ContentSource/parts/*.md`) changed: `diff -rq "$B" Projects/App/Resources/Content` must list parts only — no `subjects/*.json`, no new/removed files. `manifest.json` changes are expected only after packaging.
 7. **Other parts** — terms renamed by the amendment that still appear elsewhere: `grep -rln "<old term>" Projects/App/Resources/Content/parts` → list as follow-ups (not findings for this part).
 
 ## 3. Report
