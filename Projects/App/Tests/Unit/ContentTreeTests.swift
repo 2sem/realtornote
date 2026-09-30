@@ -300,10 +300,10 @@ final class ContentTreeTests: XCTestCase {
         """)
     }
 
-    /// term -> dash item -> then item, with a `raw` item followed by all three `note` kinds
-    /// as its siblings (all four share `.none` indexType, so each becomes a sibling of the
-    /// previous one via the recognizer's "same indexType as immediately preceding line"
-    /// branch — matching them being siblings in the JSON's own `children` array).
+    /// term -> dash item -> then item, with two `raw` items as siblings (both share `.none`
+    /// indexType, so the second becomes a sibling of the first via the recognizer's "same
+    /// indexType as immediately preceding line" branch — matching them being siblings in the
+    /// JSON's own `children` array). Notes are covered separately: the quiz adapter skips them.
     func testParagraphAdapter_matchesRecognize_termItemsAndAllNoteKinds() throws {
         try assertParagraphAdapterMatchesRecognize("""
         {"part": 9999, "nodes": [
@@ -312,9 +312,7 @@ final class ContentTreeTests: XCTestCase {
                     {"type": "item", "text": "항목가", "children": [
                         {"type": "item", "role": "then", "text": "항목나", "children": [
                             {"type": "item", "text": "원문", "role": "raw"},
-                            {"type": "note", "kind": "mnemonic", "text": "암기내용"},
-                            {"type": "note", "kind": "tip", "text": "참고내용"},
-                            {"type": "note", "kind": "formula", "text": "공식내용"}
+                            {"type": "item", "text": "원문둘", "role": "raw"}
                         ]}
                     ]}
                 ]}
@@ -352,8 +350,7 @@ final class ContentTreeTests: XCTestCase {
     }
 
     /// Same equivalence proof, run over the earlier hand-traced fixture (section -> section
-    /// -> term -> dash item -> then item -> ordered list whose second item carries trailing
-    /// notes), which exercises list-item children and multiple same-type note siblings.
+    /// -> term -> dash item -> then item -> ordered list with several items), which exercises list items nested under a `then` item.
     func testParagraphAdapter_matchesRecognizeOfRenderedText_forHandTracedFixture() throws {
         let json = """
         {"part": 9999, "nodes": [
@@ -364,10 +361,8 @@ final class ContentTreeTests: XCTestCase {
                             {"type": "item", "role": "then", "text": "항목나", "children": [
                                 {"type": "list", "ordered": true, "items": [
                                     {"text": "목록하나"},
-                                    {"text": "목록둘", "children": [
-                                        {"type": "note", "kind": "mnemonic", "text": "두문자니모닉"},
-                                        {"type": "note", "kind": "tip", "text": "참고사항입니다"}
-                                    ]}
+                                    {"text": "목록둘"},
+                                    {"text": "목록셋"}
                                 ]}
                             ]}
                         ]}
@@ -449,5 +444,76 @@ final class ContentTreeTests: XCTestCase {
         // here never renders text or calls `LSDocumentRecognizer.recognize` at all.
         XCTAssertEqual(root.children.count, 1)
         XCTAssertEqual(middle.children.count, 1)
+    }
+
+    // MARK: - Quiz excludes notes
+
+    private func allTexts(_ paragraphs: [LSDocumentRecognizer.LSDocumentParagraph]) -> [String] {
+        paragraphs.flatMap { [$0.text] + allTexts($0.children) }
+    }
+
+    private let noteFixture = """
+    {"part": 9999, "nodes": [
+        {"type": "section", "title": "대분류", "children": [
+            {"type": "term", "label": "용어가", "text": "설명가", "children": [
+                {"type": "note", "kind": "mnemonic", "text": "암기문구"}
+            ]},
+            {"type": "term", "label": "용어나", "text": "설명나", "children": [
+                {"type": "item", "text": "항목가"},
+                {"type": "note", "kind": "tip", "text": "참고문구"},
+                {"type": "item", "text": "항목나", "children": [
+                    {"type": "note", "kind": "formula", "text": "공식문구"}
+                ]}
+            ]},
+            {"type": "note", "kind": "mnemonic", "text": "최상위암기"}
+        ]}
+    ]}
+    """
+
+    func testParagraphAdapter_excludesNotesEverywhere() throws {
+        let document = try JSONDecoder().decode(ContentDocument.self, from: Data(noteFixture.utf8))
+        let adapted = ContentParagraphAdapter.paragraphs(for: document.nodes)
+        let texts = allTexts(adapted)
+
+        for needle in ["암기문구", "참고문구", "공식문구", "최상위암기", "※ 암기법"] {
+            XCTAssertFalse(texts.contains { $0.contains(needle) }, "note text leaked into quiz paragraphs: \(needle)")
+        }
+        XCTAssertEqual(texts, ["대분류", "용어가 : 설명가", "용어나 : 설명나", "항목가", "항목나"])
+    }
+
+    func testParagraphAdapter_parentWithOnlyNoteChildrenHasNoChildren() throws {
+        let document = try JSONDecoder().decode(ContentDocument.self, from: Data(noteFixture.utf8))
+        let adapted = ContentParagraphAdapter.paragraphs(for: document.nodes)
+        let section = try XCTUnwrap(adapted.first)
+        let onlyNote = try XCTUnwrap(section.children.first { $0.text.hasPrefix("용어가") })
+        XCTAssertTrue(onlyNote.children.isEmpty, "a term whose only child is a note must not become a question")
+        let withItems = try XCTUnwrap(section.children.first { $0.text.hasPrefix("용어나") })
+        XCTAssertEqual(withItems.children.map(\.text), ["항목가", "항목나"])
+        XCTAssertTrue(try XCTUnwrap(withItems.children.last).children.isEmpty)
+    }
+
+    func testParagraphAdapter_matchesRecognize_ofTreeWithNotesStripped() throws {
+        // Removing notes from the JSON and running the full equivalence proof shows the
+        // adapter's remaining shape (incl. index bookkeeping) is unchanged by the skip.
+        try assertParagraphAdapterMatchesRecognize("""
+        {"part": 9999, "nodes": [
+            {"type": "section", "title": "대분류", "children": [
+                {"type": "term", "label": "용어나", "text": "설명나", "children": [
+                    {"type": "item", "text": "항목가"},
+                    {"type": "item", "text": "항목나"}
+                ]}
+            ]}
+        ]}
+        """)
+    }
+
+    func testRenderer_stillRendersNotesForDisplay() throws {
+        let document = try JSONDecoder().decode(ContentDocument.self, from: Data(noteFixture.utf8))
+        let rendered = ContentTreeRenderer.render(document.nodes)
+        XCTAssertTrue(rendered.contains("(※ 암기법 : 암기문구)"))
+        XCTAssertTrue(rendered.contains("* 참고문구"))
+        XCTAssertTrue(rendered.contains("* 공식문구"))
+        XCTAssertTrue(rendered.contains("(※ 암기법 : 최상위암기)"))
+        XCTAssertTrue(ContentRendering.displayText(for: noteFixture).contains("암기문구"))
     }
 }
