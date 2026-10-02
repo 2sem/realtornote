@@ -134,8 +134,10 @@ struct FavoriteRow: View {
     }
 
     var body: some View {
-        HStack {
-            // Left side: Content (tap to navigate)
+        HStack(spacing: 0) {
+            // Left side: Content (tap anywhere on it to navigate).
+            // The padding and `contentShape` live inside the label so the whole area —
+            // not just the text — is tappable (`.plain` buttons only hit-test drawn content).
             Button {
                 onTap()
             } label: {
@@ -157,22 +159,24 @@ struct FavoriteRow: View {
                         .foregroundColor(Color.themeBodyText)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 8)
+                .padding(.leading, 12)
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
 
-            Spacer()
-
-            // Right side: Delete button
+            // Right side: Delete button (padded so the tap target isn't just the icon)
             Button {
                 onDelete(favorite)
             } label: {
                 Image(systemName: "trash")
                     .foregroundColor(.red)
+                    .padding(.horizontal, 12)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.themeSurface)
