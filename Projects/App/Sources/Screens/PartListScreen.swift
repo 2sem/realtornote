@@ -9,13 +9,21 @@
 import SwiftUI
 import SwiftData
 
+/// Holds one `PartScreenModel` per part. Plain class (not `@Observable`) so reads and writes
+/// during view updates don't trigger SwiftUI invalidation.
+final class PartScreenModelCache {
+    var models: [Int: PartScreenModel] = [:]
+}
+
 struct PartListScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(KeyboardState.self) private var keyboardState
     let chapter: Chapter
     let initialPartSeq: Int?
     
-    @State private var viewModels: [Int: PartScreenModel] = [:]
+    // Reference-type cache: filling it while `body` runs must not mutate view state
+    // ("Modifying state during view update"), which a `@State` dictionary would.
+    @State private var viewModelCache = PartScreenModelCache()
     @State private var selectedPartSeq: Int = 0
     
     // Theme colors matching app
@@ -46,11 +54,11 @@ struct PartListScreen: View {
     }
 
     private func getViewModel(for part: Part) -> PartScreenModel {
-        if let existing = viewModels[part.seq] {
+        if let existing = viewModelCache.models[part.seq] {
             return existing
         }
         let newModel = PartScreenModel(part: part, modelContext: modelContext)
-        viewModels[part.seq] = newModel
+        viewModelCache.models[part.seq] = newModel
         return newModel
     }
 
