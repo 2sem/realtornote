@@ -1,0 +1,8 @@
+{
+  "_comment": "Exam calendar used by check_law_updates.py and law_diff.py. The exam tests the laws in force on the exam date, so an amendment taking effect after that date belongs to the NEXT cycle. Add each year's date (YYYYMMDD) once Q-Net announces it; round is informational. window_days: weekly checks, release only in-scope changes. freeze_days: no content releases except corrections.",
+  "exams": [
+    { "year": 2026, "round": 37, "date": "20261031" }
+  ],
+  "window_days": 60,
+  "freeze_days": 14
+}
