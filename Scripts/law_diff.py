@@ -33,8 +33,9 @@ import check_law_updates as clu  # noqa: E402  (API key, call(), text rendering)
 
 PART_ARTICLES_FILE = clu.SCRIPTS / "part_articles.json"
 CACHE_DIR = clu.LAWS_DIR / "cache"
-DEFAULT_FROM = "20241212"  # last content update (realtornote.xlsx)
-DEFAULT_TO = "20261031"    # 2026 제37회 시험일
+_exam = clu.exam_calendar.status()
+DEFAULT_FROM = _exam["baseline_from"]   # previous exam date = what the content already reflects
+DEFAULT_TO = _exam["exam_date"] or "20261031"  # next exam date (Scripts/exam.json)
 
 # Annotations the API appends to amended text — they change on every amendment.
 ANNOTATIONS = re.compile(r"\s*[<\[]\s*(?:개정|신설|본조신설|전문개정|제목개정|종전|삭제|시행일|타법개정|본조제목개정)[^>\]]*[>\]]")
