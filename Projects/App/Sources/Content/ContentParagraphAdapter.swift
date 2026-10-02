@@ -36,6 +36,10 @@
 //  full (level, indexType, index, text) equivalence against `recognize(render(tree))`, so
 //  this adapter reproduces the override exactly via a single threaded `before` reference.
 //
+//  Notes are excluded from the quiz: `note` nodes are never emitted (see `walk`), so the
+//  adapter intentionally differs from `recognize(render(tree))` for trees containing notes;
+//  equivalence holds for the tree with its notes removed.
+//
 //  Do not "fix" or simplify this against `ContentTreeRenderer.walk` without re-running the
 //  equivalence tests — the two must stay in lockstep (same emission order, same per-call
 //  `lastNumberByDepth` reset) since the override quirk depends on emission order.
@@ -152,15 +156,14 @@ enum ContentParagraphAdapter {
                 )
                 walk(item.children ?? [], parent: paragraph, parentDepth: parentDepth, roots: &roots, before: &before)
 
-            case .note(let note):
-                // No Phase A marker of its own — the whole rendered line (parens/asterisk
-                // included) is what `recognize` would treat as this paragraph's `.text`
-                // (matches `IndexType.none`'s catch-all: no marker to strip). No children
-                // in the schema, matching `NoteNode` and `ContentTreeRenderer`.
-                let literal = note.kind == "mnemonic"
-                    ? "(※ 암기법 : \(note.text))"
-                    : "* " + note.text
-                emit(indexType: .none, naturalIndex: 0, text: literal, parent: parent, roots: &roots, before: &before)
+            case .note:
+                // Quiz-only path: notes (mnemonic / tip / formula) are study aids, not
+                // facts to ask about. `RNQuestionInfo` treats any paragraph with children
+                // as a question and children as answers/distractors, so an emitted note
+                // would become a "correct answer" like "(※ 암기법 : ...)" or make its
+                // parent a question. Skip entirely (no paragraph, `before` untouched).
+                // Display is unaffected: `ContentTreeRenderer` still renders notes.
+                continue
 
             case .table:
                 emitTableLines(node, parent: parent, roots: &roots, before: &before)
