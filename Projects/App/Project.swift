@@ -127,6 +127,11 @@ let appTarget: Target = .target(
             // Input Files. Disabling sandboxing for this target only (not
             // project-wide) is the reliable fix.
             "ENABLE_USER_SCRIPT_SANDBOXING": "NO",
+            // Firebase/GoogleUtilities link statically now (dynamic frameworks
+            // ship unsigned -> ITMS-91065). Without -ObjC the linker drops ObjC
+            // categories like NSData+GULGzip and Firebase crashes with
+            // "unrecognized selector gul_dataByGzippingData:error:".
+            "OTHER_LDFLAGS": "$(inherited) -ObjC",
         ]
     )
 )
