@@ -36,6 +36,6 @@ let package = Package(
         .package(url: "https://github.com/CoreOffice/CoreXLSX", from: "0.14.2"),
         .package(url: "https://github.com/2sem/LSExtensions", from: "0.1.24"),
         .package(url: "https://github.com/2sem/StringLogger", from: "0.7.0"),
-        .package(url: "https://github.com/2sem/GADManager", from: "1.4.0"),
+        .package(url: "https://github.com/2sem/GADManager", from: "1.5.0"),
     ]
 )
