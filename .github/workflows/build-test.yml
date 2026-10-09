@@ -68,7 +68,7 @@ jobs:
       run: |
         tuist setup cache
 
-    - name: Setup Tuist Cache Service
+    - name: Generate Project
       run: |
         tuist generate --no-open
 
