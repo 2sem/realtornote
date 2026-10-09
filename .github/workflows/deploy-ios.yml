@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: macos-26
+    runs-on: xcode-27
     env:
         PRODUCT_NAME: 'realtornote'
         PACKAGE_NAME: 'com.y2k.realtornote'
@@ -34,10 +34,6 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: |
-          sudo xcode-select -s /Applications/Xcode_26.5.app
 
       - name: Import Secret Key
         run: |
