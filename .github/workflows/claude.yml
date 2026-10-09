@@ -26,7 +26,7 @@ jobs:
       actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
@@ -36,7 +36,7 @@ jobs:
           enable-cache: true
     
       - name: Cache uv tools
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.local/share/uv/tools
           key: ${{ runner.os }}-uv-tools-serena
@@ -51,7 +51,7 @@ jobs:
         run: echo "hash=${{ runner.os }}-serena-cache-${{ hashFiles('**/*.swift', 'Tuist/**/*', 'Projects/**/*.swift') }}" >> $GITHUB_OUTPUT
 
       - name: Cache Serena data
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         id: cache-serena
         with:
           path: .serena
