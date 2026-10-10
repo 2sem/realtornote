@@ -31,7 +31,8 @@ If the log shows `사용자 정보 검증에 실패` / IP 등록 message: the AP
 Read only the summary lines at the top of `Laws/REPORT.md` and `Laws/pending.json`, then tell the user:
 
 - How many laws changed out of how many checked, grouped by subject (tracked-law → subject mapping is in `Scripts/laws.json`; part ids 11–14 부동산학, 15–33 민법, 34–46 중개법, 47–67 공시법/세법, 68–73 공법).
-- Versions marked `시행예정` in `pending.json`, and whether each takes effect before the exam date (the exam uses laws in force on the exam date — check the year's Q-Net 공고; 2026 제37회 = 2026-10-31).
+- The exam phase line at the top of the report (from `Scripts/exam.json` via `exam_calendar.py`: normal / window ≤60d / freeze ≤14d / needs-next-exam) and the 반영 대상 vs 이월 counts. The exam uses laws in force on the exam date, so versions taking effect after it are 이월 (next cycle) — don't edit content for them. In `freeze`, only corrections; no content releases. When the exam has passed (`needs-next-exam`), add the next year's date (YYYYMMDD, from the Q-Net 공고) to `Scripts/exam.json` before the next run.
+- `pending.json` entries carry `in_scope` per version and an `exam` block; `시행예정` marks versions not yet in force today.
 - Where things are: `Laws/REPORT.md` (all diffs + part hits), `Laws/<법령명>/<시행일자>_<MST>.md` (per-version file).
 - Next step: run the `law-content-update` skill.
 
