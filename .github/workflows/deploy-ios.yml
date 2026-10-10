@@ -63,14 +63,6 @@ jobs:
       #   run: |
       #     mise install tuist
 
-      - name: Cache SPM dependencies
-        uses: actions/cache@v6
-        with:
-          path: |
-            Tuist/.build
-            ~/.cache/swifterpm
-          key: spm-${{ runner.os }}-${{ hashFiles('Tuist/Package.resolved') }}
-
       - name: Install Dependencies
         run: |
           tuist install
