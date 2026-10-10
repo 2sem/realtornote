@@ -75,14 +75,6 @@ jobs:
         run: |
           tuist install
 
-      - name: Log in Tuist
-        run: |
-          tuist auth login
-
-      - name: Set up Tuist Cache
-        run: |
-          tuist setup cache
-
       - name: Import signing certificate
         env:
           IOS_CERT_BASE64: $IOS_CERT_PATH.base64
