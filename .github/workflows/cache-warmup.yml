@@ -1,0 +1,44 @@
+# GitHub evicts caches not accessed for 7 days. Restoring them on a schedule
+# refreshes last-access (on hit) or recreates them (on miss), so CI/CD runs
+# always start with a warm SPM cache. Scheduled runs use the default branch,
+# so the caches are visible to PR and deploy runs.
+name: Cache Warmup
+
+on:
+  schedule:
+    # 00:00 UTC on day 1, 8, 15, 22, 29 of each month (gap never exceeds 7 days)
+    - cron: '0 0 1,8,15,22,29 * *'
+  workflow_dispatch:
+
+jobs:
+  warmup:
+    name: Warm SPM cache (${{ matrix.prefix }})
+    runs-on: xcode-27
+    strategy:
+      fail-fast: false
+      matrix:
+        # Must match the cache keys in build-test.yml and deploy-ios.yml
+        prefix: [spm, spm-deploy]
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v7
+
+    - name: Install Mise
+      uses: jdx/mise-action@v5
+
+    - name: Cache SPM dependencies
+      id: spm-cache
+      uses: actions/cache@v6
+      with:
+        path: |
+          Tuist/.build
+          ~/.cache/swifterpm
+        key: ${{ matrix.prefix }}-${{ runner.os }}-${{ hashFiles('Tuist/Package.resolved') }}
+
+    - name: Install Dependencies
+      if: steps.spm-cache.outputs.cache-hit != 'true'
+      run: |
+        tuist install
