@@ -33,11 +33,12 @@ struct RealtorNoteApp: App {
             }
             .preferredColorScheme(preferredColorScheme)
             .environmentObject(adManager)
-            .onAppear {
-                setupAds()
+            .onChange(of: isSplashDone) { _, _ in
+                startAdsIfNeeded()
             }
             .onChange(of: scenePhase) { oldPhase, newPhase in
                 handleScenePhaseChange(from: oldPhase, to: newPhase)
+                startAdsIfNeeded()
             }
         }.modelContainer(for: [Subject.self, Chapter.self, Part.self, Favorite.self, Alarm.self],
                          inMemory: false,
@@ -45,30 +46,45 @@ struct RealtorNoteApp: App {
                          isUndoEnabled: true)
     }
     
-    private func setupAds() {
-        guard !isSetupDone else {
+    /// Runs once, after the splash is dismissed and the app is active:
+    /// ATT request -> MobileAds start -> ads prepare -> launch ad.
+    /// ATT dialog silently fails unless the app is `.active`, so wait for both conditions.
+    private func startAdsIfNeeded() {
+        guard isSplashDone, scenePhase == .active, !isSetupDone else {
             return
         }
         
-        MobileAds.shared.start { [weak adManager] status in
-            guard let adManager = adManager else { return }
-            
-            adManager.setup()
-            
-            MobileAds.shared.requestConfiguration.testDeviceIdentifiers = ["8a00796a760e384800262e0b7c3d08fe"]
-            
-            #if DEBUG
-            adManager.prepare(interstitialUnit: .full, interval: 60.0)
-            adManager.prepare(openingUnit: .launch, interval: 60.0)
-            #else
-            adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60)
-            adManager.prepare(openingUnit: .launch, interval: 60.0 * 5)
-            #endif
-            adManager.prepare(rewardUnit: .reward)
-            adManager.canShowFirstTime = true
-        }
-        
         isSetupDone = true
+        
+        Task { @MainActor in
+            await adManager.requestTrackingAuthorizationIfNeeded()
+            await setupAds()
+            await adManager.show(unit: .launch)
+        }
+    }
+    
+    @MainActor
+    private func setupAds() async {
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            MobileAds.shared.start { [weak adManager] _ in
+                defer { continuation.resume() }
+                guard let adManager = adManager else { return }
+                
+                adManager.setup()
+                
+                MobileAds.shared.requestConfiguration.testDeviceIdentifiers = ["8a00796a760e384800262e0b7c3d08fe"]
+                
+                #if DEBUG
+                adManager.prepare(interstitialUnit: .full, interval: 60.0)
+                adManager.prepare(openingUnit: .launch, interval: 60.0)
+                #else
+                adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60)
+                adManager.prepare(openingUnit: .launch, interval: 60.0 * 5)
+                #endif
+                adManager.prepare(rewardUnit: .reward)
+                adManager.canShowFirstTime = true
+            }
+        }
     }
     
     private func handleScenePhaseChange(from oldPhase: ScenePhase, to newPhase: ScenePhase) {
@@ -98,7 +114,6 @@ struct RealtorNoteApp: App {
                 LSDefaults.increaseLaunchCount()
             }
             
-            await adManager.requestAppTrackingIfNeed()
             await adManager.show(unit: .launch)
         }
     }
