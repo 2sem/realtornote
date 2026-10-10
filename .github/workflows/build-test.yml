@@ -38,19 +38,12 @@ jobs:
       actions: read
       contents: read
 
-      # required for Tuist OIDC authentication
-      id-token: write
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v7
 
     - name: Install Mise
       uses: jdx/mise-action@v5
-
-    - name: Log in Tuist
-      run: |
-        tuist auth login
 
     - name: Cache SPM dependencies
       uses: actions/cache@v6
@@ -64,10 +57,8 @@ jobs:
       run: |
         tuist install
 
-    - name: Setup Tuist Cache Service
-      run: |
-        tuist setup cache
-
+    # No job populates Tuist's binary cache, so lookups always miss and only
+    # add latency. Build from sources instead.
     - name: Test App
       run: |
-        tuist test
+        tuist test --no-binary-cache
