@@ -48,11 +48,8 @@ jobs:
     - name: Install Mise
       uses: jdx/mise-action@v5
 
-    - name: Log in Tuist
-      run: |
-        tuist auth login
-
     - name: Cache SPM dependencies
+      id: spm-cache
       uses: actions/cache@v6
       with:
         path: |
@@ -60,14 +57,23 @@ jobs:
           ~/.cache/swifterpm
         key: spm-${{ runner.os }}-${{ hashFiles('Tuist/Package.resolved') }}
 
+    - name: Log in Tuist
+      if: steps.spm-cache.outputs.cache-hit == 'true'
+      run: |
+        tuist auth login
+
     - name: Install Dependencies
       run: |
         tuist install
 
     - name: Setup Tuist Cache Service
+      if: steps.spm-cache.outputs.cache-hit == 'true'
       run: |
         tuist setup cache
 
+    # On a GitHub cache miss, skip Tuist's binary cache and build from sources.
     - name: Test App
+      env:
+        TUIST_TEST_BINARY_CACHE: ${{ steps.spm-cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
       run: |
         tuist test
