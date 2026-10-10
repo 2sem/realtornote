@@ -36,6 +36,7 @@ jobs:
         path: |
           Tuist/.build
           ~/.cache/swifterpm
+          ~/.cache/tuist
         key: ${{ matrix.prefix }}-${{ runner.os }}-${{ hashFiles('Tuist/Package.resolved') }}
 
     - name: Install Dependencies
