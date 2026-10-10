@@ -38,6 +38,9 @@ jobs:
       actions: read
       contents: read
 
+      # required for Tuist OIDC authentication
+      id-token: write
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v7
@@ -46,6 +49,7 @@ jobs:
       uses: jdx/mise-action@v5
 
     - name: Cache SPM dependencies
+      id: spm-cache
       uses: actions/cache@v6
       with:
         path: |
@@ -53,12 +57,23 @@ jobs:
           ~/.cache/swifterpm
         key: spm-${{ runner.os }}-${{ hashFiles('Tuist/Package.resolved') }}
 
+    - name: Log in Tuist
+      if: steps.spm-cache.outputs.cache-hit == 'true'
+      run: |
+        tuist auth login
+
     - name: Install Dependencies
       run: |
         tuist install
 
-    # No job populates Tuist's binary cache, so lookups always miss and only
-    # add latency. Build from sources instead.
-    - name: Test App
+    - name: Setup Tuist Cache Service
+      if: steps.spm-cache.outputs.cache-hit == 'true'
       run: |
-        tuist test --no-binary-cache
+        tuist setup cache
+
+    # On a GitHub cache miss, skip Tuist's binary cache and build from sources.
+    - name: Test App
+      env:
+        TUIST_TEST_BINARY_CACHE: ${{ steps.spm-cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
+      run: |
+        tuist test
