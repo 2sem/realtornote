@@ -248,7 +248,6 @@ struct MainScreen: View {
         }
         
         Task {
-            await adManager.requestAppTrackingIfNeed()
             await adManager.show(unit: .full)
             action()
         }

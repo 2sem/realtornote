@@ -8,6 +8,7 @@
 import UIKit
 import GADManager
 import GoogleMobileAds
+import AppTrackingTransparency
 
 // MARK: - SwiftUI Ad Manager
 class SwiftUIAdManager: NSObject, ObservableObject {
@@ -84,25 +85,18 @@ class SwiftUIAdManager: NSObject, ObservableObject {
         }
     }
     
-    // 앱 추적 권한 요청 (필요한 경우에만)
+    // 앱 추적 권한 요청 (아직 결정되지 않은 경우에만)
+    // gadManager 생성 전에도 동작해야 하므로 ATTrackingManager를 직접 호출한다.
+    @MainActor
     @discardableResult
-    func requestAppTrackingIfNeed() async -> Bool {
-        guard !LSDefaults.AdsTrackingRequested else {
-            debugPrint(#function, "Already requested")
-            return false
+    func requestTrackingAuthorizationIfNeeded() async -> Bool {
+        guard ATTrackingManager.trackingAuthorizationStatus == .notDetermined else {
+            debugPrint(#function, "Already determined", ATTrackingManager.trackingAuthorizationStatus.rawValue)
+            return ATTrackingManager.trackingAuthorizationStatus == .authorized
         }
         
-        guard LSDefaults.LaunchCount > 1 else {
-            debugPrint(#function, "GAD requestPermission", "LaunchCount", LSDefaults.LaunchCount)
-            return false
-        }
-        
-        return await withCheckedContinuation { continuation in
-            self.requestPermission { granted in
-                LSDefaults.AdsTrackingRequested = true
-                continuation.resume(returning: granted)
-            }
-        }
+        let status = await ATTrackingManager.requestTrackingAuthorization()
+        return status == .authorized
     }
 }
 

@@ -56,7 +56,6 @@ struct SubjectScreen: View {
         }
         
         Task {
-            await adManager.requestAppTrackingIfNeed()
             await adManager.show(unit: .full)
             action()
         }
