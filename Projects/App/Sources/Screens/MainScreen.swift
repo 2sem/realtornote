@@ -1,6 +1,16 @@
 import SwiftUI
 import SwiftData
 
+/// Holds the quiz model created on button tap so the sheet reuses it.
+final class QuizModelHolder {
+    private(set) var model: QuizScreenModel?
+
+    func replace(with newModel: QuizScreenModel) {
+        model?.cleanup() // stop generation of any previous model
+        model = newModel
+    }
+}
+
 struct MainScreen: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Subject.id) private var subjects: [Subject]
@@ -8,7 +18,11 @@ struct MainScreen: View {
     @State private var selectedTab: Int = 0
     @State private var showFavorites: Bool = false
     @State private var showQuiz: Bool = false
-    @State private var quizModel: QuizScreenModel? = nil // Created before the ad so AI generation overlaps it
+    @State private var isPreparingQuiz: Bool = false
+    // Created before the ad so AI generation overlaps it. A reference holder (not an optional @State)
+    // so the toolbar button and the sheet always see the same model; a stale nil here made the sheet
+    // build a second model and orphan the one that was already generating.
+    @State private var quizHolder = QuizModelHolder()
     @State private var showAlarmList: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
@@ -130,11 +144,15 @@ struct MainScreen: View {
                 HStack(spacing: 16) {
                     // Quiz button
                     Button {
+                        // Ignore repeat taps while the ad is loading; each tap would start another generation.
+                        guard !isPreparingQuiz else { return }
+                        isPreparingQuiz = true
                         if let chapter = currentSelectedChapter.wrappedValue {
-                            quizModel = QuizScreenModel(chapter: chapter)
+                            quizHolder.replace(with: QuizScreenModel(chapter: chapter))
                         }
                         presentFullAdThen {
                             showQuiz = true
+                            isPreparingQuiz = false
                         }
                     } label: {
                         Image(systemName: "questionmark.text.page")
@@ -185,11 +203,8 @@ struct MainScreen: View {
             }
         }
         .sheet(isPresented: $showQuiz) {
-            // quizModel is created on button tap (before the ad); fall back to a fresh one if missing.
-            if let quizModel {
-                QuizScreen(model: quizModel)
-            } else if let chapter = currentSelectedChapter.wrappedValue {
-                QuizScreen(chapter: chapter)
+            if let model = quizHolder.model {
+                QuizScreen(model: model)
             }
         }
         .sheet(isPresented: $showAlarmList) {

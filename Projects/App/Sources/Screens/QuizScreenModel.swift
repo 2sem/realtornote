@@ -86,7 +86,7 @@ class QuizScreenModel {
                 quizLog.notice("Refinement not started: model never became ready")
                 return
             }
-            quizLog.notice("Refinement started for \(targets.count, privacy: .public) questions")
+            quizLog.notice("Refinement started for \(targets.count, privacy: .public) questions (model \(ObjectIdentifier(self).hashValue, privacy: .public))")
             // One model request for all questions; apply whatever validated results come back.
             let results = await QuizQuestionRefiner.refinements(for: targets)
             if Task.isCancelled { return }

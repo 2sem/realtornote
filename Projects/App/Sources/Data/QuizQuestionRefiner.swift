@@ -77,6 +77,12 @@ enum QuizQuestionRefiner {
         text.filter { !$0.isWhitespace && !$0.isPunctuation }.lowercased()
     }
 
+    /// The model sometimes appends the section 〉 part path to the stem; keep only the sentence before it.
+    static func withoutPath(_ stem: String) -> String {
+        guard let cut = stem.firstIndex(of: "〉") else { return stem }
+        return String(stem[..<cut]).trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     static func isValidStem(_ stem: String, correct: String) -> Bool {
         let value = stem.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !value.isEmpty, value.count <= 120, isKorean(value) else { return false }
@@ -116,8 +122,20 @@ private struct GeneratedItem {
     @Guide(description: "항목의 주제를 문장 안에 자연스럽게 넣은 시험 문제 질문 문장 한 개. 예: '다음 중 ○○에 관한 설명으로 옳은 것은?'. 한국어. 〉 같은 경로 표기와 보기·정답 내용은 쓰지 않는다.")
     var stem: String
 
-    @Guide(description: "긍정형 문제는 그럴듯하지만 이 항목에는 해당하지 않는 오답 보기 4개, 부정형 문제는 빈 배열. 한국어.")
-    var wrong: [String]
+    // Four separate fields (not an array) so the model writes four different wrong choices.
+    @Guide(description: "오답 1: 정답의 핵심 단어나 수치 하나를 바꿔 틀리게 만든 보기. 정답과 달라야 한다. 한국어.")
+    var wrong1: String
+
+    @Guide(description: "오답 2: 정답과 반대되는 의미의 보기. 한국어.")
+    var wrong2: String
+
+    @Guide(description: "오답 3: 같은 상위 주제의 다른 개념에 해당하는 보기. 한국어.")
+    var wrong3: String
+
+    @Guide(description: "오답 4: 대상이나 범위를 바꿔 틀리게 만든 보기. 한국어.")
+    var wrong4: String
+
+    var wrong: [String] { [wrong1, wrong2, wrong3, wrong4] }
 }
 
 @available(iOS 26.0, *)
@@ -189,14 +207,18 @@ private enum FoundationModelsRefiner {
         var result: [Int: QuizRefinement] = [:]
         for input in inputs {
             guard let draft = drafts[input.number] else { continue }
-            guard QuizQuestionRefiner.isValidStem(draft.stem, correct: input.correct) else {
+            let draftStem = QuizQuestionRefiner.withoutPath(draft.stem)
+            guard QuizQuestionRefiner.isValidStem(draftStem, correct: input.correct) else {
                 quizLog.notice("FM rejected #\(input.number, privacy: .public): invalid stem=\(draft.stem, privacy: .public)")
                 continue
             }
-            let stem = draft.stem.trimmingCharacters(in: .whitespacesAndNewlines)
+            let stem = draftStem.trimmingCharacters(in: .whitespacesAndNewlines)
             if input.positive {
                 let wrong = QuizQuestionRefiner.sanitizedWrong(draft.wrong, trueItems: input.children, correct: input.correct, limit: distractorCount)
                 quizLog.notice("FM #\(input.number, privacy: .public) usable wrong \(wrong.count, privacy: .public)/\(draft.wrong.count, privacy: .public)")
+                if wrong.count < draft.wrong.count {
+                    quizLog.notice("FM #\(input.number, privacy: .public) raw wrong=\(draft.wrong.joined(separator: " | "), privacy: .public) true=\(input.children.joined(separator: " | "), privacy: .public)")
+                }
                 result[input.number - 1] = QuizRefinement(stem: stem, wrong: wrong)
             } else {
                 result[input.number - 1] = QuizRefinement(stem: stem, wrong: nil)
@@ -247,7 +269,7 @@ private enum FoundationModelsRefiner {
         let prompt = """
         아래 \(inputs.count)개 문제 각각에 대해 작성하세요. 번호를 그대로 쓰고 번호 순서대로 답하세요.
         - stem: 항목의 주제(마지막 항목명)를 문장에 포함한 완결된 질문 문장. 문제 유형에 맞게 쓰고, 경로 표기(〉)와 보기 내용은 쓰지 않는다.
-        - wrong: 긍정형은 정답과 같은 주제·형식이지만 이 항목에는 속하지 않는 오답 4개('실제로 속하는 내용'을 그대로 쓰면 안 됨). 부정형은 빈 배열.
+        - wrong1~wrong4: 서로 다른 그럴듯한 오답 4개. '실제로 속하는 내용'이나 정답을 복사하지 말고 새로 만든다. (부정형 문제는 아무 오답으로 채워도 된다)
 
         \(blocks)
         """
