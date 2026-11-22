@@ -19,6 +19,11 @@ struct QuizScreen: View {
     init(chapter: Chapter) {
         _viewModel = State(initialValue: QuizScreenModel(chapter: chapter))
     }
+
+    /// Uses a model created earlier, so AI generation can run while the pre-quiz ad is showing.
+    init(model: QuizScreenModel) {
+        _viewModel = State(initialValue: model)
+    }
     
     var body: some View {
         NavigationStack {

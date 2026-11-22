@@ -8,6 +8,7 @@ struct MainScreen: View {
     @State private var selectedTab: Int = 0
     @State private var showFavorites: Bool = false
     @State private var showQuiz: Bool = false
+    @State private var quizModel: QuizScreenModel? = nil // Created before the ad so AI generation overlaps it
     @State private var showAlarmList: Bool = false
     @State private var selectedChapters: [Int: Chapter] = [:] // Track selected chapter per subject ID
     @State private var keyboardState = KeyboardState() // Keyboard visibility state
@@ -129,6 +130,9 @@ struct MainScreen: View {
                 HStack(spacing: 16) {
                     // Quiz button
                     Button {
+                        if let chapter = currentSelectedChapter.wrappedValue {
+                            quizModel = QuizScreenModel(chapter: chapter)
+                        }
                         presentFullAdThen {
                             showQuiz = true
                         }
@@ -181,7 +185,10 @@ struct MainScreen: View {
             }
         }
         .sheet(isPresented: $showQuiz) {
-            if let chapter = currentSelectedChapter.wrappedValue {
+            // quizModel is created on button tap (before the ad); fall back to a fresh one if missing.
+            if let quizModel {
+                QuizScreen(model: quizModel)
+            } else if let chapter = currentSelectedChapter.wrappedValue {
                 QuizScreen(chapter: chapter)
             }
         }
