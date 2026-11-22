@@ -235,12 +235,14 @@ struct QuizScreen: View {
                     .foregroundColor(textColor)
                     .fixedSize(horizontal: false, vertical: true)
 
-                // Question text
-                Text(question.text)
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .foregroundColor(textColor)
-                    .fixedSize(horizontal: false, vertical: true)
+                // Rule-based questions show the raw section 〉 part path; AI stems already contain the topic.
+                if question.generatedStem == nil {
+                    Text(question.text)
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundColor(textColor)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             .padding(20)
             .frame(maxWidth: .infinity, alignment: .leading)

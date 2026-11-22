@@ -87,15 +87,13 @@ class QuizScreenModel {
                 return
             }
             quizLog.notice("Refinement started for \(targets.count, privacy: .public) questions")
-            for question in targets {
-                if Task.isCancelled { return }
-                guard let refinement = await QuizQuestionRefiner.refinement(for: question) else {
-                    quizLog.notice("Refinement failed; keeping rule-based question")
-                    continue
-                }
-                if Task.isCancelled { return }
-                self.apply(refinement, to: question)
+            // One model request for all questions; apply whatever validated results come back.
+            let results = await QuizQuestionRefiner.refinements(for: targets)
+            if Task.isCancelled { return }
+            for (index, refinement) in results.sorted(by: { $0.key < $1.key }) {
+                self.apply(refinement, to: targets[index])
             }
+            quizLog.notice("Refinement finished: \(results.count, privacy: .public)/\(targets.count, privacy: .public) applied")
         }
     }
 
@@ -108,14 +106,13 @@ class QuizScreenModel {
             return
         }
 
-        if let distractors = refinement.distractors {
-            let wrong = question.answers.filter { !$0.isCorrect }
-            guard wrong.count == distractors.count else {
-                quizLog.notice("Refinement dropped: wrong-answer count mismatch \(wrong.count, privacy: .public) vs \(distractors.count, privacy: .public)")
-                return
-            }
-            for (answer, title) in zip(wrong, distractors) {
-                answer.title = title
+        if let newWrong = refinement.wrong {
+            // Model-written wrong choices first; any missing slot keeps its rule-based wrong choice.
+            let slots = question.answers.filter { !$0.isCorrect }
+            let kept = slots.map(\.title).filter { old in !newWrong.contains(old) }
+            let titles = newWrong + kept
+            for (slot, title) in zip(slots, titles) {
+                slot.title = title
             }
         }
         question.generatedStem = refinement.stem

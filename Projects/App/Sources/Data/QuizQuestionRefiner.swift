@@ -18,10 +18,11 @@ import FoundationModels
 let quizLog = Logger(subsystem: Bundle.main.bundleIdentifier ?? "realtornote", category: "QuizFM")
 
 struct QuizRefinement {
-    /// Natural Korean question stem for the chosen paragraph.
+    /// Natural Korean question stem that contains the topic.
     let stem: String
-    /// Replacement wrong choices (4). nil for negative questions, whose wrong choices are real items.
-    let distractors: [String]?
+    /// Validated model-written wrong choices (0...4). nil for negative questions, whose wrong choices are real items.
+    /// Missing ones are filled from the rule-based question by the caller.
+    let wrong: [String]?
 }
 
 /// Why AI question generation can or can't run right now. Drives the in-quiz guidance banner.
@@ -36,7 +37,7 @@ enum QuizAIStatus: Equatable {
 }
 
 enum QuizQuestionRefiner {
-    private static let timeoutSeconds: UInt64 = 10
+    private static let timeoutSeconds: UInt64 = 60
     private static let distractorCount = 4
 
     /// Cheap check callers can use to skip scheduling work entirely.
@@ -54,15 +55,16 @@ enum QuizQuestionRefiner {
         return .unsupported
     }
 
-    /// Returns a validated refinement, or nil on unavailability, timeout, error or invalid output.
+    /// Refines all questions with ONE model request. Returns validated refinements keyed by the
+    /// question's position in `questions`; missing keys mean "keep the rule-based question".
     @MainActor
-    static func refinement(for question: RNQuestionInfo) async -> QuizRefinement? {
+    static func refinements(for questions: [RNQuestionInfo]) async -> [Int: QuizRefinement] {
         #if canImport(FoundationModels)
         if #available(iOS 26.0, *) {
-            return await FoundationModelsRefiner.refinement(for: question, timeout: timeoutSeconds, distractorCount: distractorCount)
+            return await FoundationModelsRefiner.refinements(for: questions, timeout: timeoutSeconds, distractorCount: distractorCount)
         }
         #endif
-        return nil
+        return [:]
     }
 
     // MARK: - Validation (framework independent)
@@ -84,44 +86,45 @@ enum QuizQuestionRefiner {
         return true
     }
 
-    /// `trueItems` are real members of the paragraph (including the correct answer); a distractor must not match them.
-    static func validDistractors(_ raw: [String], trueItems: [String], count: Int) -> [String]? {
-        let blocked = trueItems.map(normalized).filter { !$0.isEmpty }
-        var result: [String] = []
+    /// Keeps the usable wrong choices; drops (instead of failing the whole quiz) any that are empty,
+    /// not Korean, duplicated, or equal to a real item / the correct answer.
+    static func sanitizedWrong(_ raw: [String], trueItems: [String], correct: String, limit: Int) -> [String] {
+        var blocked = Set(trueItems.map(normalized).filter { !$0.isEmpty })
+        blocked.insert(normalized(correct))
         var seen = Set<String>()
+        var result: [String] = []
 
         for item in raw {
             let title = item.trimmingCharacters(in: .whitespacesAndNewlines)
             let key = normalized(title)
-            guard !key.isEmpty, isKorean(title), title.count <= 200 else { return nil }
-            guard seen.insert(key).inserted else { return nil }
-            // Reject equal / containing / contained-in a true item.
-            for true_ in blocked where key == true_ || key.contains(true_) || (key.count >= 4 && true_.contains(key)) {
-                return nil
-            }
+            guard !key.isEmpty, isKorean(title), title.count <= 200 else { continue }
+            guard !blocked.contains(key), seen.insert(key).inserted else { continue }
             result.append(title)
+            if result.count == limit { break }
         }
-
-        return result.count == count ? result : nil
+        return result
     }
 }
 
 #if canImport(FoundationModels)
 @available(iOS 26.0, *)
 @Generable
-private struct GeneratedStem {
-    @Guide(description: "시험 문제의 질문 문장 한 개. 한국어. 보기나 정답 내용을 포함하지 않는다.")
+private struct GeneratedItem {
+    @Guide(description: "문제 번호. 입력에서 받은 번호를 그대로 쓴다.")
+    var number: Int
+
+    @Guide(description: "항목의 주제를 문장 안에 자연스럽게 넣은 시험 문제 질문 문장 한 개. 예: '다음 중 ○○에 관한 설명으로 옳은 것은?'. 한국어. 〉 같은 경로 표기와 보기·정답 내용은 쓰지 않는다.")
     var stem: String
+
+    @Guide(description: "긍정형 문제는 그럴듯하지만 이 항목에는 해당하지 않는 오답 보기 4개, 부정형 문제는 빈 배열. 한국어.")
+    var wrong: [String]
 }
 
 @available(iOS 26.0, *)
 @Generable
-private struct GeneratedQuestion {
-    @Guide(description: "시험 문제의 질문 문장 한 개. 한국어. 보기나 정답 내용을 포함하지 않는다.")
-    var stem: String
-
-    @Guide(description: "정답과 같은 주제의 그럴듯하지만 질문에는 해당하지 않는 오답 보기 4개. 한국어.", .count(4))
-    var distractors: [String]
+private struct GeneratedBatch {
+    @Guide(description: "입력된 문제 수와 같은 개수, 번호 순서대로.")
+    var items: [GeneratedItem]
 }
 
 @available(iOS 26.0, *)
@@ -152,96 +155,106 @@ private enum FoundationModelsRefiner {
     새로운 법률 사실을 만들어내지 마세요. 항상 한국어로 답합니다.
     """
 
+    private struct Input {
+        let number: Int
+        let path: String
+        let children: [String]
+        let correct: String
+        let positive: Bool
+    }
+
     @MainActor
-    static func refinement(for question: RNQuestionInfo, timeout: UInt64, distractorCount: Int) async -> QuizRefinement? {
-        guard isAvailable,
-              let reference = question.reference,
-              let correct = question.answers.first(where: { $0.isCorrect })?.title,
-              !correct.isEmpty else {
-            quizLog.notice("FM skip: unavailable or question has no reference/correct answer")
-            return nil
+    static func refinements(for questions: [RNQuestionInfo], timeout: UInt64, distractorCount: Int) async -> [Int: QuizRefinement] {
+        guard isAvailable else { return [:] }
+
+        var inputs: [Input] = []
+        for (offset, question) in questions.enumerated() {
+            guard let reference = question.reference,
+                  let correct = question.answers.first(where: { $0.isCorrect })?.title,
+                  !correct.isEmpty else { continue }
+            // Kept short: ten questions share one context window.
+            inputs.append(Input(number: offset + 1,
+                                path: question.text,
+                                children: reference.children.prefix(5).map { String($0.text.prefix(50)) },
+                                correct: String(correct.prefix(80)),
+                                positive: question.positive))
         }
+        guard !inputs.isEmpty else { return [:] }
 
-        let path = question.text
-        let childTexts = reference.children.prefix(8).map { String($0.text.prefix(120)) }
-        let positive = question.positive
-        quizLog.notice("FM request start positive=\(positive, privacy: .public) path=\(path, privacy: .public)")
+        quizLog.notice("FM batch request start count=\(inputs.count, privacy: .public)")
         let started = Date()
+        let drafts = await generateWithSplit(inputs, timeout: timeout)
+        quizLog.notice("FM batch done in \(Date().timeIntervalSince(started), privacy: .public)s, drafts=\(drafts.count, privacy: .public)")
 
+        var result: [Int: QuizRefinement] = [:]
+        for input in inputs {
+            guard let draft = drafts[input.number] else { continue }
+            guard QuizQuestionRefiner.isValidStem(draft.stem, correct: input.correct) else {
+                quizLog.notice("FM rejected #\(input.number, privacy: .public): invalid stem=\(draft.stem, privacy: .public)")
+                continue
+            }
+            let stem = draft.stem.trimmingCharacters(in: .whitespacesAndNewlines)
+            if input.positive {
+                let wrong = QuizQuestionRefiner.sanitizedWrong(draft.wrong, trueItems: input.children, correct: input.correct, limit: distractorCount)
+                quizLog.notice("FM #\(input.number, privacy: .public) usable wrong \(wrong.count, privacy: .public)/\(draft.wrong.count, privacy: .public)")
+                result[input.number - 1] = QuizRefinement(stem: stem, wrong: wrong)
+            } else {
+                result[input.number - 1] = QuizRefinement(stem: stem, wrong: nil)
+            }
+        }
+        return result
+    }
+
+    /// One request for the whole batch; if the model fails (e.g. context window exceeded), retry as two halves.
+    @MainActor
+    private static func generateWithSplit(_ inputs: [Input], timeout: UInt64) async -> [Int: GeneratedItem] {
         do {
-            return try await withThrowingTaskGroup(of: QuizRefinement?.self) { group in
-                group.addTask { @MainActor in
-                    try await generate(path: path, children: childTexts, correct: correct, positive: positive, distractorCount: distractorCount)
-                }
+            return try await withThrowingTaskGroup(of: [Int: GeneratedItem]?.self) { group in
+                group.addTask { @MainActor in try await generate(inputs) }
                 group.addTask {
                     try await Task.sleep(nanoseconds: timeout * 1_000_000_000)
                     return nil
                 }
                 let first = try await group.next() ?? nil
                 group.cancelAll()
-                let secs = Date().timeIntervalSince(started)
-                if first == nil {
-                    quizLog.notice("FM request returned nil after \(secs, privacy: .public)s (timeout or invalid output)")
-                } else {
-                    quizLog.notice("FM request ok in \(secs, privacy: .public)s")
+                guard let first else {
+                    quizLog.notice("FM batch timed out")
+                    return [:]
                 }
                 return first
             }
         } catch {
-            quizLog.error("FM request error: \(String(describing: error), privacy: .public)")
-            return nil
+            quizLog.error("FM batch error (n=\(inputs.count, privacy: .public)): \(String(describing: error), privacy: .public)")
+            guard inputs.count > 1, !Task.isCancelled else { return [:] }
+            let mid = inputs.count / 2
+            let left = await generateWithSplit(Array(inputs[..<mid]), timeout: timeout)
+            let right = await generateWithSplit(Array(inputs[mid...]), timeout: timeout)
+            return left.merging(right) { a, _ in a }
         }
     }
 
     @MainActor
-    private static func generate(path: String, children: [String], correct: String, positive: Bool, distractorCount: Int) async throws -> QuizRefinement? {
+    private static func generate(_ inputs: [Input]) async throws -> [Int: GeneratedItem] {
         let session = LanguageModelSession(instructions: instructions)
-        let kind = positive
-            ? "보기 중 아래 항목에 속하거나 알맞게 설명하는 것을 고르는 문제"
-            : "보기 중 아래 항목에 속하지 않거나 알맞지 않은 것을 고르는 문제"
-        let members = children.map { "- \($0)" }.joined(separator: "\n")
+        let blocks = inputs.map { input -> String in
+            let kind = input.positive ? "긍정형(속하거나 알맞은 것 고르기)" : "부정형(속하지 않거나 알맞지 않은 것 고르기)"
+            let members = input.children.map { "  - \($0)" }.joined(separator: "\n")
+            var block = "[문제 \(input.number)] \(kind)\n항목: \(input.path)\n실제로 속하는 내용(모두 참):\n\(members)"
+            if input.positive { block += "\n정답 보기: \(input.correct)" }
+            return block
+        }.joined(separator: "\n\n")
 
-        if positive {
-            let prompt = """
-            문제 유형: \(kind)
-            항목(상위 〉 하위): \(path)
-            이 항목에 실제로 속하는 내용(모두 참):
-            \(members)
-            정답 보기: \(correct)
+        let prompt = """
+        아래 \(inputs.count)개 문제 각각에 대해 작성하세요. 번호를 그대로 쓰고 번호 순서대로 답하세요.
+        - stem: 항목의 주제(마지막 항목명)를 문장에 포함한 완결된 질문 문장. 문제 유형에 맞게 쓰고, 경로 표기(〉)와 보기 내용은 쓰지 않는다.
+        - wrong: 긍정형은 정답과 같은 주제·형식이지만 이 항목에는 속하지 않는 오답 4개('실제로 속하는 내용'을 그대로 쓰면 안 됨). 부정형은 빈 배열.
 
-            1) 질문 문장을 자연스러운 시험 문체로 한 개 작성하세요.
-            2) 정답과 같은 주제·형식이지만 이 항목에는 속하지 않는 오답 보기 \(distractorCount)개를 작성하세요. \
-            위 '실제로 속하는 내용'과 같거나 비슷한 것은 안 됩니다.
-            """
-            let draft = try await session.respond(to: prompt, generating: GeneratedQuestion.self).content
-            let joined = draft.distractors.joined(separator: " | ")
-            quizLog.notice("FM draft stem=\(draft.stem, privacy: .public) distractors=\(joined, privacy: .public)")
-            guard QuizQuestionRefiner.isValidStem(draft.stem, correct: correct) else {
-                quizLog.notice("FM rejected: invalid stem")
-                return nil
-            }
-            guard let distractors = QuizQuestionRefiner.validDistractors(draft.distractors, trueItems: children + [correct], count: distractorCount) else {
-                quizLog.notice("FM rejected: invalid distractors")
-                return nil
-            }
-            return QuizRefinement(stem: draft.stem.trimmingCharacters(in: .whitespacesAndNewlines), distractors: distractors)
-        } else {
-            let prompt = """
-            문제 유형: \(kind)
-            항목(상위 〉 하위): \(path)
-            이 항목에 실제로 속하는 내용(모두 참):
-            \(members)
-
-            질문 문장을 자연스러운 시험 문체로 한 개 작성하세요. 보기 내용은 포함하지 마세요.
-            """
-            let draft = try await session.respond(to: prompt, generating: GeneratedStem.self).content
-            quizLog.notice("FM draft stem=\(draft.stem, privacy: .public)")
-            guard QuizQuestionRefiner.isValidStem(draft.stem, correct: correct) else {
-                quizLog.notice("FM rejected: invalid stem")
-                return nil
-            }
-            return QuizRefinement(stem: draft.stem.trimmingCharacters(in: .whitespacesAndNewlines), distractors: nil)
-        }
+        \(blocks)
+        """
+        let batch = try await session.respond(to: prompt, generating: GeneratedBatch.self).content
+        var byNumber: [Int: GeneratedItem] = [:]
+        for item in batch.items { byNumber[item.number] = item }
+        return byNumber
     }
 }
 #endif

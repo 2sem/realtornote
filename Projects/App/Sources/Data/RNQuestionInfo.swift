@@ -77,36 +77,17 @@ class RNQuestionInfo : NSObject{
     
     static func createQuestions(_ paragraphs : [LSDocumentRecognizer.LSDocumentParagraph], count: Int = 10) -> [RNQuestionInfo]{
         var values : [RNQuestionInfo] = [];
-        var remain = count;
-        let paragraphs = paragraphs;
         
-        (1...count/2).forEach { (i) in
-            let q = self.createQuestion(paragraphs, type: RNQuestionInfo.QuestionType.multipleChoice_child, positive: true);
-            guard q != nil && !values.contains(where: { (question) -> Bool in
-                return question.reference === q!.reference;
-            }) else{
-                return;
+        // Keep drawing until `count` distinct paragraphs are used (random draws often collide).
+        var attempts = 0;
+        while values.count < count && attempts < count * 20 {
+            attempts += 1;
+            let positive = values.count < count / 2;
+            guard let q = self.createQuestion(paragraphs, type: RNQuestionInfo.QuestionType.multipleChoice_child, positive: positive),
+                  !values.contains(where: { $0.reference === q.reference }) else{
+                continue;
             }
-            
-            values.append(q!);
-            /*paragraphs.remove(q!.reference, where: { (left, right) -> Bool in
-                return left === right;
-            });*/
-        }
-        
-        remain = count - values.count;
-        (1...remain).forEach { (i) in
-            let q = self.createQuestion(paragraphs, type: RNQuestionInfo.QuestionType.multipleChoice_child, positive: false);
-            guard q != nil && !values.contains(where: { (question) -> Bool in
-                return question.reference === q!.reference;
-            }) else{
-                return;
-            }
-            
-            values.append(q!);
-            /*paragraphs.remove(q!.reference, where: { (left, right) -> Bool in
-                return left === right;
-            });*/
+            values.append(q);
         }
         
         return values.suffle(where: { (left, right) -> Bool in
