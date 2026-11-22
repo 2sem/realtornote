@@ -100,8 +100,10 @@ class QuizScreenModel {
     }
 
     private func apply(_ refinement: QuizRefinement, to question: RNQuestionInfo) {
-        // Skip questions already on screen or answered.
-        guard let index = questions.firstIndex(where: { $0 === question }), index > currentIndex else {
+        // Skip questions already on screen or answered. Before the quiz starts (e.g. while the
+        // pre-quiz ad is showing) the first question is still untouched and may be refined.
+        guard let index = questions.firstIndex(where: { $0 === question }),
+              index > currentIndex || (index == currentIndex && !isQuizActive && !isQuizComplete) else {
             quizLog.notice("Refinement dropped: question already shown (current=\(self.currentIndex, privacy: .public))")
             return
         }
