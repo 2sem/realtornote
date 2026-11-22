@@ -5,6 +5,11 @@
 name: Cache Warmup
 
 on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Tuist/Package.resolved'
+      - '.mise.toml'
   schedule:
     # 00:00 UTC on day 1, 8, 15, 22, 29 of each month (gap never exceeds 7 days)
     - cron: '0 0 1,8,15,22,29 * *'
@@ -43,3 +48,43 @@ jobs:
       if: steps.spm-cache.outputs.cache-hit != 'true'
       run: |
         tuist install
+
+  # Populates Tuist's remote binary cache (used by build-test.yml only; the
+  # deploy workflow builds from source with --cache-profile none).
+  # Must use the same runner/Xcode, Debug configuration and simulator
+  # destination as `tuist test`, otherwise cache hashes won't match.
+  binary-cache:
+    name: Warm Tuist binary cache
+    runs-on: xcode-27
+    permissions:
+      contents: read
+      # required for Tuist OIDC authentication
+      id-token: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v7
+
+    - name: Install Mise
+      uses: jdx/mise-action@v5
+
+    - name: Cache SPM dependencies
+      uses: actions/cache@v6
+      with:
+        path: |
+          Tuist/.build
+          ~/.cache/swifterpm
+          ~/.cache/tuist
+        key: spm-${{ runner.os }}-${{ hashFiles('Tuist/Package.resolved') }}
+
+    - name: Log in Tuist
+      run: |
+        tuist auth login
+
+    - name: Install Dependencies
+      run: |
+        tuist install
+
+    - name: Warm binary cache (external dependencies, Debug, simulator)
+      run: |
+        tuist cache warm --cache-profile only-external --configuration Debug --destination simulator
