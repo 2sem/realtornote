@@ -344,6 +344,7 @@ def main():
                 "공포일자": latest["공포일자"],
             }
             print(f"✓ {law['name']}: {fmt(latest['시행일자'])}")
+        state["_lastChecked"] = datetime.date.today().isoformat()  # per-law lookups ignore this key
         STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"Recorded {len(laws)} laws in {STATE_FILE.relative_to(ROOT)} "
               f"(versions in force on {fmt(exam['exam_date']) if exam['exam_date'] else 'today'})")
