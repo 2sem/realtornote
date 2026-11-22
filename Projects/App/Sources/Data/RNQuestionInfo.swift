@@ -22,10 +22,17 @@ class RNQuestionInfo : NSObject{
     
     var answers : [RNQuestionAnswerInfo] = [];
     
+    /// Question stem written by Foundation Models (see QuizQuestionRefiner); nil keeps the rule-based title.
+    var generatedStem : String?;
+
     var title : String{
         get{
+            if let generatedStem, !generatedStem.isEmpty{
+                return generatedStem;
+            }
+
             var value = ""
-            
+
             switch self.questionType {
                 case .multipleChoice_child:
                     if self.positive{

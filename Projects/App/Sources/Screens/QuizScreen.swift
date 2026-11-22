@@ -33,6 +33,13 @@ struct QuizScreen: View {
                     ZStack {
                         quizContent(question: question)
 
+                        if let message = aiGuidance {
+                            VStack {
+                                aiGuidanceBanner(message)
+                                Spacer()
+                            }
+                        }
+
                         // Show results overlay on last question when complete
                         if viewModel.isQuizComplete {
                             resultsOverlay
@@ -87,6 +94,34 @@ struct QuizScreen: View {
         }
     }
     
+    /// Guidance shown only when the user can act on it (model downloading / Apple Intelligence off).
+    private var aiGuidance: String? {
+        switch viewModel.aiStatus {
+        case .preparing:
+            return "AI 문제 생성 준비 중이에요 (Apple Intelligence 모델 다운로드 중). 지금은 기본 문제로 진행하고, 준비되면 이후 문제부터 AI가 다듬어요."
+        case .notEnabled:
+            return "설정 > Apple Intelligence 및 Siri 를 켜면 AI가 문제를 더 자연스럽게 만들어 줘요. 지금은 기본 문제로 진행해요."
+        case .ready, .unsupported:
+            return nil
+        }
+    }
+
+    private func aiGuidanceBanner(_ message: String) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: "sparkles")
+                .foregroundColor(.accentColor)
+            Text(message)
+                .font(.footnote)
+                .foregroundColor(Color.themeBodyText)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(12)
+        .background(Color.themeSurface, in: RoundedRectangle(cornerRadius: 12))
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
+        .transition(.opacity)
+    }
+
     private var backgroundColor: Color {
         Color.themeBackground
     }

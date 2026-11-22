@@ -22,8 +22,11 @@ class QuizScreenModel {
     var showCorrectAnswer: Bool = false
     var correctCount: Int = 0
     var incorrectCount: Int = 0
+    /// Current AI generation status, shown as guidance in the quiz when AI can't be used yet.
+    var aiStatus: QuizAIStatus = .unsupported
     
     private var timer: Timer?
+    @ObservationIgnored private var refinementTask: Task<Void, Never>?
     private let totalQuestions: Int = 10
     private let countdownDuration: Int = 60
     
@@ -56,6 +59,65 @@ class QuizScreenModel {
         
         // Generate 10 random questions
         self.questions = RNQuestionInfo.createQuestions(allParagraphs, count: totalQuestions)
+        startRefinement()
+    }
+
+    /// Upgrades rule-based questions with Foundation Models output in the background.
+    /// The quiz never waits for it: a question is only touched while it has not been shown yet,
+    /// and any failure leaves the rule-based question as is.
+    private func startRefinement() {
+        aiStatus = QuizQuestionRefiner.status
+        guard aiStatus == .ready || aiStatus == .preparing else {
+            quizLog.notice("Refinement not started: FM unavailable (\(String(describing: self.aiStatus), privacy: .public)), using rule-based questions")
+            return
+        }
+        let targets = questions
+
+        refinementTask = Task { @MainActor [weak self] in
+            // Model still downloading: re-check every 5s for up to 2 minutes, then give up.
+            var attempts = 0
+            while let current = self?.aiStatus, current == .preparing, attempts < 24 {
+                try? await Task.sleep(nanoseconds: 5_000_000_000)
+                if Task.isCancelled { return }
+                attempts += 1
+                self?.aiStatus = QuizQuestionRefiner.status
+            }
+            guard let self, self.aiStatus == .ready else {
+                quizLog.notice("Refinement not started: model never became ready")
+                return
+            }
+            quizLog.notice("Refinement started for \(targets.count, privacy: .public) questions")
+            for question in targets {
+                if Task.isCancelled { return }
+                guard let refinement = await QuizQuestionRefiner.refinement(for: question) else {
+                    quizLog.notice("Refinement failed; keeping rule-based question")
+                    continue
+                }
+                if Task.isCancelled { return }
+                self.apply(refinement, to: question)
+            }
+        }
+    }
+
+    private func apply(_ refinement: QuizRefinement, to question: RNQuestionInfo) {
+        // Skip questions already on screen or answered.
+        guard let index = questions.firstIndex(where: { $0 === question }), index > currentIndex else {
+            quizLog.notice("Refinement dropped: question already shown (current=\(self.currentIndex, privacy: .public))")
+            return
+        }
+
+        if let distractors = refinement.distractors {
+            let wrong = question.answers.filter { !$0.isCorrect }
+            guard wrong.count == distractors.count else {
+                quizLog.notice("Refinement dropped: wrong-answer count mismatch \(wrong.count, privacy: .public) vs \(distractors.count, privacy: .public)")
+                return
+            }
+            for (answer, title) in zip(wrong, distractors) {
+                answer.title = title
+            }
+        }
+        question.generatedStem = refinement.stem
+        quizLog.notice("Refinement applied to question \(index, privacy: .public)")
     }
     
     func startQuiz() {
@@ -160,6 +222,8 @@ class QuizScreenModel {
     func cleanup() {
         timer?.invalidate()
         timer = nil
+        refinementTask?.cancel()
+        refinementTask = nil
     }
     
     deinit {
