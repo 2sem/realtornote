@@ -74,7 +74,7 @@ Then ask the user to review the edits (`diff -ru "$B" Projects/App/Resources/Con
    Encrypt: `git secret hide -m` (re-encrypts changed files only). Stage `Projects/App/Content.zip.secret`, `ContentSource.zip.secret` (and `.gitsecret/paths/mapping.cfg` if it changed). Never stage plaintext `Content.zip` or `Content/`.
 4. Mark the processed laws reviewed:
    ```bash
-   python3 Scripts/check_law_updates.py --update --law "<법령명>"   # per processed law
+   python3 Scripts/check_law_updates.py --update --law "<법령명>"   # per processed law (records the version in force on the exam date; later versions stay 이월)
    ```
    `--law` is a substring match (`건축법` also hits `건축법 시행령`) — only run it for names whose every match was processed. Stage `Scripts/law_versions.json`.
 5. Build once so the app still loads the content (the `Content` folder reference must be bundled), then commit (`feat(content): 법령 개정 반영 — <laws>`), push, open a PR with the summary table (no diff/content text in the body — the content is private), and open it in the browser. Don't merge; wait for the user's simulator check.

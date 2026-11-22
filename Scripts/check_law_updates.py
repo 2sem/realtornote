@@ -20,7 +20,12 @@ Usage:
     python3 Scripts/check_law_updates.py --law 공인중개사법  # only laws whose name contains this
     python3 Scripts/check_law_updates.py --out report.md  # also save the report
     python3 Scripts/check_law_updates.py --download       # also save each changed version to Laws/
-    python3 Scripts/check_law_updates.py --update         # mark everything reviewed (after editing content)
+    python3 Scripts/check_law_updates.py --update         # mark reviewed up to the exam date (after editing content)
+
+The exam date comes from Scripts/exam.json (see exam_calendar.py): versions taking effect on or
+before it are "대상" (must be reflected); later ones are "이월" (next exam cycle). --update records,
+per law, the latest version in force on the exam date, so carried-over versions are still reported
+next cycle.
 """
 
 import argparse
@@ -35,6 +40,9 @@ import urllib.request
 from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPTS))
+import exam_calendar  # noqa: E402
+
 ROOT = SCRIPTS.parent
 LAWS_FILE = SCRIPTS / "laws.json"
 STATE_FILE = SCRIPTS / "law_versions.json"
@@ -109,6 +117,14 @@ def newer_versions(key, name, after):
 def latest_version(key, name):
     data = call(key, "lawSearch.do", target="eflaw", query=name, display=PAGE_SIZE, sort="efdes")
     rows = [row for row in as_list(data["LawSearch"].get("law")) if row["법령명한글"] == name]
+    return rows[0] if rows else None
+
+
+def latest_version_on(key, name, date):
+    """Latest version of `name` whose 시행일자 is on or before `date` (YYYYMMDD)."""
+    data = call(key, "lawSearch.do", target="eflaw", query=name, display=PAGE_SIZE, sort="efdes")
+    rows = [row for row in as_list(data["LawSearch"].get("law"))
+            if row["법령명한글"] == name and row["시행일자"] <= date]
     return rows[0] if rows else None
 
 
@@ -225,7 +241,7 @@ def part_hits(parts, part_ids, terms):
     return hits
 
 
-def report_law(key, law, versions, parts, out, download_dir=None):
+def report_law(key, law, versions, parts, out, download_dir=None, exam_date=None):
     """Appends the law's report to `out`; with download_dir, also saves each version and returns their entries."""
     name = law["name"]
     downloaded = []
@@ -233,7 +249,7 @@ def report_law(key, law, versions, parts, out, download_dir=None):
     out.append(f"## {name}\n")
     for version in versions:
         start = len(out)
-        version_report(key, law, version, today, parts, out)
+        version_report(key, law, version, today, parts, out, exam_date)
         if download_dir:
             path = write_version(key, law, version, out[start:], download_dir)
             downloaded.append({
@@ -241,13 +257,16 @@ def report_law(key, law, versions, parts, out, download_dir=None):
                 "공포일자": version["공포일자"],
                 "법령일련번호": version["법령일련번호"],
                 "시행예정": version["시행일자"] > today,
+                "in_scope": exam_calendar.in_scope(version["시행일자"], exam_date),
                 "file": str(path.relative_to(ROOT)),
             })
     return downloaded
 
 
-def version_report(key, law, version, today, parts, out):
+def version_report(key, law, version, today, parts, out, exam_date=None):
     pending = " **(시행예정)**" if version["시행일자"] > today else ""
+    if not exam_calendar.in_scope(version["시행일자"], exam_date):
+        pending += " **(이월: 시험일 이후 시행)**"
     out.append(f"### 시행 {fmt(version['시행일자'])}{pending} — {version['제개정구분명']} "
                f"(공포 {fmt(version['공포일자'])}, 제{version['공포번호']}호)\n")
     diff = comparison(key, version["법령일련번호"])
@@ -307,10 +326,14 @@ def main():
     if args.law:
         laws = [law for law in laws if args.law in law["name"]]
     state = json.loads(STATE_FILE.read_text(encoding="utf-8")) if STATE_FILE.exists() else {}
+    exam = exam_calendar.status()
 
     if args.update:
         for law in laws:
-            latest = latest_version(key, law["name"])
+            # Baseline = latest version in force on the exam date, so versions taking effect after
+            # it stay "pending" for the next cycle. Without a configured exam, the latest overall.
+            latest = (latest_version_on(key, law["name"], exam["exam_date"]) if exam["exam_date"]
+                      else latest_version(key, law["name"]))
             if not latest:
                 print(f"! {law['name']}: not found", file=sys.stderr)
                 continue
@@ -322,16 +345,20 @@ def main():
             }
             print(f"✓ {law['name']}: {fmt(latest['시행일자'])}")
         STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        print(f"Recorded {len(laws)} laws in {STATE_FILE.relative_to(ROOT)}")
+        print(f"Recorded {len(laws)} laws in {STATE_FILE.relative_to(ROOT)} "
+              f"(versions in force on {fmt(exam['exam_date']) if exam['exam_date'] else 'today'})")
         return
 
     parts = load_parts()
     out = [f"# 법령 개정 확인 ({datetime.date.today().isoformat()})\n"]
+    if exam["exam_date"]:
+        out.append(f"> 시험일 {fmt(exam['exam_date'])} ({exam['phase']}) — {exam['advice']}\n")
     if parts is None:
         out.append(f"_{CONTENT_DIR.relative_to(ROOT)} 없음 (Content.zip 해제 필요) — 파트 검색 생략._\n")
 
     download_dir = LAWS_DIR if args.download else None
     changed, untracked, pending = [], [], []
+    n_scope = n_later = 0
     for law in laws:
         after = args.since or state.get(law["name"], {}).get("시행일자")
         if not after:
@@ -341,11 +368,16 @@ def main():
         versions = newer_versions(key, law["name"], after)
         if versions:
             changed.append(law["name"])
-            downloaded = report_law(key, law, versions, parts, out, download_dir)
+            downloaded = report_law(key, law, versions, parts, out, download_dir, exam["exam_date"])
+            in_scope = [v for v in versions if exam_calendar.in_scope(v["시행일자"], exam["exam_date"])]
+            n_scope += len(in_scope)
+            n_later += len(versions) - len(in_scope)
             if downloaded:
                 pending.append({"name": law["name"], "parts": law["parts"], "versions": downloaded})
 
     summary = [f"변경 {len(changed)}건 / 확인 {len(laws) - len(untracked)}건"]
+    if exam["exam_date"]:
+        summary.append(f"시험일({fmt(exam['exam_date'])}) 기준: 반영 대상 {n_scope}건 / 이월(시험일 이후 시행) {n_later}건 — {exam['advice']}")
     if changed:
         summary.append("변경된 법령: " + ", ".join(changed))
     if untracked:
@@ -362,6 +394,7 @@ def main():
         (download_dir / "pending.json").write_text(json.dumps({
             "checked": datetime.date.today().isoformat(),
             "since": args.since,
+            "exam": {"date": exam["exam_date"], "phase": exam["phase"], "days_left": exam["days_left"]},
             "laws": pending,
         }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"Saved {sum(len(law['versions']) for law in pending)} versions to {download_dir.relative_to(ROOT)}/",
