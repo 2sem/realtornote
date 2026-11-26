@@ -115,16 +115,18 @@ class QuizScreenModel {
             }
         }
 
-        if let newWrong = refinement.wrong {
-            // Model-written wrong choices first; any missing slot keeps its rule-based wrong choice.
+        if let newWrong = refinement.wrong, !newWrong.isEmpty {
+            // Rewrites are already applied. Model-written wrong choices override only the slots they
+            // fill, taking slots that still show memo notation first; unfilled slots keep their text.
             let slots = question.answers.filter { !$0.isCorrect }
-            let kept = slots.map(\.title).filter { old in !newWrong.contains(old) }
-            let titles = newWrong + kept
-            for (slot, title) in zip(slots, titles) {
+            let ordered = slots.filter { QuizQuestionRefiner.isMemo($0.title) } + slots.filter { !QuizQuestionRefiner.isMemo($0.title) }
+            for (slot, title) in zip(ordered, newWrong) {
                 slot.title = title
             }
         }
-        question.generatedStem = refinement.stem
+        if let stem = refinement.stem {
+            question.generatedStem = stem
+        }
         quizLog.notice("Refinement applied to question \(index, privacy: .public)")
     }
     

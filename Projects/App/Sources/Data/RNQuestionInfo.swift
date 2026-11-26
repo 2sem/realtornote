@@ -147,18 +147,27 @@ class RNQuestionInfo : NSObject{
                         return !value.reference!.children.contains(paragraph);
                     }
                     
+                    // Prefer plain paragraphs as wrong choices; memo-style ones only when we run out.
+                    var preferred = candidates.filter { !QuizQuestionRefiner.isMemo($0.text) }
+                    var fallback = candidates.filter { QuizQuestionRefiner.isMemo($0.text) }
+                    
                     for _ in 1...4{
-                        let paragraph = candidates.random;
+                        let usePreferred = !preferred.isEmpty
+                        guard let paragraph = usePreferred ? preferred.random : fallback.random else{
+                            break;
+                        }
                         let answer = RNQuestionAnswerInfo();
-                        answer.title = paragraph?.text ?? "";
+                        answer.title = paragraph.text;
                         
                         value.answers.append(answer);
                         if value.answers.count >= 5{
                             break;
                         }
                         
-                        candidates.remove(paragraph!) { (left, right) -> Bool in
-                            return left === right;
+                        if usePreferred{
+                            preferred.removeAll { $0 === paragraph }
+                        }else{
+                            fallback.removeAll { $0 === paragraph }
                         }
                     }
                 }else{

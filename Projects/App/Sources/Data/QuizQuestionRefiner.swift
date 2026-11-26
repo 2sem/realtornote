@@ -18,14 +18,20 @@ import FoundationModels
 let quizLog = Logger(subsystem: Bundle.main.bundleIdentifier ?? "realtornote", category: "QuizFM")
 
 struct QuizRefinement {
-    /// Natural Korean question stem that contains the topic.
-    let stem: String
+    /// Natural Korean question stem that contains the topic. nil when only choice rewrites exist.
+    let stem: String?
     /// Validated model-written wrong choices (0...4). nil for negative questions, whose wrong choices are real items.
     /// Missing ones are filled from the rule-based question by the caller.
     let wrong: [String]?
     /// Validated natural-language rewrites of choices that came from the summary, keyed by the
     /// choice's ORIGINAL title (answers are shuffled, so never match by position).
     var rewrites: [String: String] = [:]
+
+    init(stem: String?, wrong: [String]?, rewrites: [String: String] = [:]) {
+        self.stem = stem
+        self.wrong = wrong
+        self.rewrites = rewrites
+    }
 }
 
 /// Why AI question generation can or can't run right now. Drives the in-quiz guidance banner.
@@ -74,6 +80,12 @@ enum QuizQuestionRefiner {
 
     static func isKorean(_ text: String) -> Bool {
         text.unicodeScalars.contains { (0xAC00...0xD7A3).contains($0.value) }
+    }
+
+    /// True when the text still looks like a summary memo (arrows, "A < B < C" chains).
+    static func isMemo(_ text: String) -> Bool {
+        if ["=>", "→", "⇒", "<-", "->"].contains(where: { text.contains($0) }) { return true }
+        return text.range(of: #"[^\s<>]\s*[<>]\s*[^\s<>]"#, options: .regularExpression) != nil
     }
 
     static func normalized(_ text: String) -> String {
@@ -135,8 +147,8 @@ enum QuizQuestionRefiner {
             quizLog.notice("FM rewrite rejected (digits changed): \(original, privacy: .public) -> \(value, privacy: .public)")
             return nil
         }
-        if ["=>", "→", "⇒"].contains(where: { value.contains($0) }) {
-            quizLog.notice("FM rewrite rejected (memo arrow left): \(value, privacy: .public)")
+        if isMemo(value) {
+            quizLog.notice("FM rewrite rejected (memo notation left): \(value, privacy: .public)")
             return nil
         }
         let key = normalized(value)
@@ -220,6 +232,23 @@ private struct GeneratedBatch {
 }
 
 @available(iOS 26.0, *)
+@Generable
+private struct GeneratedNote {
+    @Guide(description: "입력에서 받은 번호를 그대로 쓴다.")
+    var id: Int
+
+    @Guide(description: "메모를 의미 그대로 실제 시험 보기처럼 자연스러운 단어(구) 또는 문장으로 다시 쓴 것. 기호(=>, →, <, > 등) 금지. 숫자·법률 용어 유지, 새 사실 금지. 한국어.")
+    var text: String
+}
+
+@available(iOS 26.0, *)
+@Generable
+private struct GeneratedNoteBatch {
+    @Guide(description: "입력된 메모 수와 같은 개수.")
+    var items: [GeneratedNote]
+}
+
+@available(iOS 26.0, *)
 private enum FoundationModelsRefiner {
     static var isAvailable: Bool { status == .ready }
 
@@ -255,6 +284,8 @@ private enum FoundationModelsRefiner {
         let positive: Bool
         /// Full original titles of the choices the model rewrites: [correct] for positive, all answers for negative.
         let choices: [String]
+        /// Current rule-based wrong titles (positive questions only); model wrong choices may replace them.
+        let wrongTitles: [String]
     }
 
     @MainActor
@@ -273,7 +304,8 @@ private enum FoundationModelsRefiner {
                                 children: question.positive ? reference.children.prefix(5).map { String($0.text.prefix(50)) } : [],
                                 correct: String(correct.prefix(80)),
                                 positive: question.positive,
-                                choices: question.positive ? [correct] : question.answers.map(\.title)))
+                                choices: question.positive ? [correct] : question.answers.map(\.title),
+                                wrongTitles: question.positive ? question.answers.filter { !$0.isCorrect }.map(\.title) : []))
         }
         guard !inputs.isEmpty else { return [:] }
 
@@ -295,6 +327,7 @@ private enum FoundationModelsRefiner {
             if input.positive {
                 let finalCorrect = rewrites[input.choices[0]] ?? input.correct
                 let wrong = QuizQuestionRefiner.sanitizedWrong(draft.wrong, trueItems: input.children, correct: finalCorrect, limit: distractorCount)
+                    .filter { !QuizQuestionRefiner.isMemo($0) }
                 quizLog.notice("FM #\(input.number, privacy: .public) usable wrong \(wrong.count, privacy: .public)/\(draft.wrong.count, privacy: .public)")
                 if wrong.count < draft.wrong.count {
                     quizLog.notice("FM #\(input.number, privacy: .public) raw wrong=\(draft.wrong.joined(separator: " | "), privacy: .public) true=\(input.children.joined(separator: " | "), privacy: .public)")
@@ -304,7 +337,77 @@ private enum FoundationModelsRefiner {
                 result[input.number - 1] = QuizRefinement(stem: stem, wrong: nil, rewrites: rewrites)
             }
         }
+
+        // Second chance: rewrite notes that would still be shown as raw memo.
+        var leaks: [(number: Int, original: String, others: [String])] = []
+        for input in inputs {
+            let all = input.choices + input.wrongTitles
+            for original in memoNotes(input: input, refinement: result[input.number - 1]) {
+                leaks.append((input.number, original, all.filter { $0 != original }))
+            }
+        }
+        if !leaks.isEmpty {
+            quizLog.notice("FM second pass start notes=\(leaks.count, privacy: .public)")
+            let paths = Dictionary(uniqueKeysWithValues: inputs.map { ($0.number, $0.path) })
+            let rewritten = await rewriteNotes(leaks.map { (paths[$0.number] ?? "", $0.original) }, timeout: timeout)
+            for (id, leak) in leaks.enumerated() {
+                guard let raw = rewritten[id],
+                      let value = QuizQuestionRefiner.validatedRewrite(raw, original: leak.original, others: leak.others) else { continue }
+                var refinement = result[leak.number - 1] ?? QuizRefinement(stem: nil, wrong: nil)
+                refinement.rewrites[leak.original] = value
+                result[leak.number - 1] = refinement
+            }
+        }
+
+        for input in inputs {
+            let rest = memoNotes(input: input, refinement: result[input.number - 1])
+            quizLog.notice("FM #\(input.number, privacy: .public) memo remaining=\(rest.count, privacy: .public) (answers \(input.choices.count, privacy: .public), wrong \(input.wrongTitles.count, privacy: .public), draft=\(drafts[input.number] != nil, privacy: .public))")
+        }
         return result
+    }
+
+    /// Original titles that would still show memo notation after rewrites and model wrong choices.
+    /// Model wrong choices replace memo wrong slots first (same order as QuizScreenModel.apply).
+    private static func memoNotes(input: Input, refinement: QuizRefinement?) -> [String] {
+        let rewrites = refinement?.rewrites ?? [:]
+        var notes = input.choices.filter { QuizQuestionRefiner.isMemo(rewrites[$0] ?? $0) }
+        let memoWrong = input.wrongTitles.filter { QuizQuestionRefiner.isMemo(rewrites[$0] ?? $0) }
+        notes += memoWrong.dropFirst(refinement?.wrong?.count ?? 0)
+        return notes
+    }
+
+    /// One short request rewriting only the leftover notes. Returns text by index; empty on failure/timeout.
+    @MainActor
+    private static func rewriteNotes(_ notes: [(path: String, text: String)], timeout: UInt64) async -> [Int: String] {
+        do {
+            let found = try await withThrowingTaskGroup(of: [Int: String]?.self) { group in
+                group.addTask { @MainActor in
+                    let session = LanguageModelSession(instructions: instructions)
+                    let lines = notes.enumerated().map { "[\($0.offset)] 항목: \(String($0.element.path.prefix(60))) / 메모: \(String($0.element.text.prefix(80)))" }.joined(separator: "\n")
+                    let prompt = """
+                    아래 암기 메모를 각각 의미 그대로 실제 시험 보기처럼 자연스러운 단어(구) 또는 문장으로 다시 쓰세요. 기호(=>, →, <, >)는 쓰지 말고 숫자·법률 용어는 유지하며 새 사실은 만들지 마세요. 번호를 그대로 쓰세요.
+
+                    \(lines)
+                    """
+                    let batch = try await session.respond(to: prompt, generating: GeneratedNoteBatch.self).content
+                    var byId: [Int: String] = [:]
+                    for item in batch.items { byId[item.id] = item.text }
+                    return byId
+                }
+                group.addTask {
+                    try await Task.sleep(nanoseconds: timeout * 1_000_000_000)
+                    return nil
+                }
+                let first = try await group.next() ?? nil
+                group.cancelAll()
+                return first
+            }
+            if found == nil { quizLog.notice("FM second pass timed out") }
+            return found ?? [:]
+        } catch {
+            quizLog.error("FM second pass error: \(String(describing: error), privacy: .public)")
+            return [:]
+        }
     }
 
     /// Validates each rewritten choice on its own; a rejected one keeps its original text.
