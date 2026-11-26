@@ -106,6 +106,15 @@ class QuizScreenModel {
             return
         }
 
+        // Rewritten summary choices, matched by original title (answers are shuffled). isCorrect never changes.
+        let rewrites = refinement.rewrites
+        if !rewrites.isEmpty {
+            let originals = question.answers.map(\.title)
+            for (answer, original) in zip(question.answers, originals) {
+                if let text = rewrites[original] { answer.title = text }
+            }
+        }
+
         if let newWrong = refinement.wrong {
             // Model-written wrong choices first; any missing slot keeps its rule-based wrong choice.
             let slots = question.answers.filter { !$0.isCorrect }
