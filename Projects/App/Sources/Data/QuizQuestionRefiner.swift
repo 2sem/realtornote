@@ -77,10 +77,27 @@ enum QuizQuestionRefiner {
         text.filter { !$0.isWhitespace && !$0.isPunctuation }.lowercased()
     }
 
-    /// The model sometimes appends the section 〉 part path to the stem; keep only the sentence before it.
-    static func withoutPath(_ stem: String) -> String {
-        guard let cut = stem.firstIndex(of: "〉") else { return stem }
-        return String(stem[..<cut]).trimmingCharacters(in: .whitespacesAndNewlines)
+    private static let questionEndings = ["것은", "것을", "것인가", "무엇인가", "무엇입니까", "인가", "일까", "는가", "은가", "나요", "습니까"]
+
+    /// Returns the stem as a complete question (ending with "?"), or nil if it is a fragment.
+    /// A missing "?" is appended only after a typical question ending.
+    static func completeQuestion(_ text: String) -> String? {
+        let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !value.isEmpty else { return nil }
+        if value.hasSuffix("?") || value.hasSuffix("？") { return value }
+        if questionEndings.contains(where: { value.hasSuffix($0) }) { return value + "?" }
+        return nil
+    }
+
+    /// The model sometimes writes the section 〉 part path inside the stem. Without 〉 the stem is used as is.
+    /// With 〉, prefer the text before the first 〉 if it is a complete question, else the text after the last 〉.
+    /// Returns nil when no complete question can be recovered.
+    static func cleanedStem(_ stem: String) -> String? {
+        guard let first = stem.firstIndex(of: "〉"), let last = stem.lastIndex(of: "〉") else {
+            return completeQuestion(stem)
+        }
+        if let head = completeQuestion(String(stem[..<first])) { return head }
+        return completeQuestion(String(stem[stem.index(after: last)...]))
     }
 
     static func isValidStem(_ stem: String, correct: String) -> Bool {
@@ -119,7 +136,7 @@ private struct GeneratedItem {
     @Guide(description: "문제 번호. 입력에서 받은 번호를 그대로 쓴다.")
     var number: Int
 
-    @Guide(description: "항목의 주제를 문장 안에 자연스럽게 넣은 시험 문제 질문 문장 한 개. 예: '다음 중 ○○에 관한 설명으로 옳은 것은?'. 한국어. 〉 같은 경로 표기와 보기·정답 내용은 쓰지 않는다.")
+    @Guide(description: "항목의 주제를 문장 안에 자연스럽게 넣은 시험 문제 질문 문장 한 개. 예: '다음 중 ○○에 관한 설명으로 옳은 것은?'. 반드시 물음표(?)로 끝나는 완결된 문장. 한국어. 〉 같은 경로 표기와 보기·정답 내용은 쓰지 않는다.")
     var stem: String
 
     // Four separate fields (not an array) so the model writes four different wrong choices.
@@ -207,8 +224,8 @@ private enum FoundationModelsRefiner {
         var result: [Int: QuizRefinement] = [:]
         for input in inputs {
             guard let draft = drafts[input.number] else { continue }
-            let draftStem = QuizQuestionRefiner.withoutPath(draft.stem)
-            guard QuizQuestionRefiner.isValidStem(draftStem, correct: input.correct) else {
+            guard let draftStem = QuizQuestionRefiner.cleanedStem(draft.stem),
+                  QuizQuestionRefiner.isValidStem(draftStem, correct: input.correct) else {
                 quizLog.notice("FM rejected #\(input.number, privacy: .public): invalid stem=\(draft.stem, privacy: .public)")
                 continue
             }
