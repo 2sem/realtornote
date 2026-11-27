@@ -36,7 +36,11 @@ struct QuizScreen: View {
                     emptyState
                 } else if let question = viewModel.currentQuestion {
                     ZStack {
-                        quizContent(question: question)
+                        if viewModel.showsLoader {
+                            loadingView
+                        } else {
+                            quizContent(question: question)
+                        }
 
                         if let message = aiGuidance {
                             VStack {
@@ -125,6 +129,20 @@ struct QuizScreen: View {
         .padding(.horizontal, 16)
         .padding(.top, 8)
         .transition(.opacity)
+    }
+
+    /// Shown while the AI is still writing the current question (capped; falls back to the rule-based one).
+    private var loadingView: some View {
+        VStack(spacing: 16) {
+            ProgressView()
+                .controlSize(.large)
+                .tint(Color.themePrimary)
+            Text("퀴즈 생성 중…")
+                .font(.headline)
+                .foregroundColor(Color.themeBodyText)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityElement(children: .combine)
     }
 
     private var backgroundColor: Color {

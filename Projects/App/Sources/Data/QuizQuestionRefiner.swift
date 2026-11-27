@@ -46,7 +46,7 @@ enum QuizAIStatus: Equatable {
 }
 
 enum QuizQuestionRefiner {
-    private static let timeoutSeconds: UInt64 = 60
+    private static let timeoutSeconds: UInt64 = 15
     private static let distractorCount = 4
 
     /// Cheap check callers can use to skip scheduling work entirely.
@@ -64,16 +64,26 @@ enum QuizQuestionRefiner {
         return .unsupported
     }
 
-    /// Refines all questions with ONE model request. Returns validated refinements keyed by the
-    /// question's position in `questions`; missing keys mean "keep the rule-based question".
-    @MainActor
-    static func refinements(for questions: [RNQuestionInfo]) async -> [Int: QuizRefinement] {
+    /// Warms the on-device model so the first question is generated sooner. No-op when unavailable.
+    static func prewarm() {
         #if canImport(FoundationModels)
-        if #available(iOS 26.0, *) {
-            return await FoundationModelsRefiner.refinements(for: questions, timeout: timeoutSeconds, distractorCount: distractorCount)
+        if #available(iOS 26.0, *), FoundationModelsRefiner.isAvailable {
+            FoundationModelsRefiner.prewarm()
         }
         #endif
-        return [:]
+    }
+
+    /// Refines ONE question with its own model request. Returns a validated refinement, or nil
+    /// (failure/timeout/unsupported question) meaning "keep the rule-based question".
+    /// `number` is the 1-based position, used for logging only.
+    @MainActor
+    static func refinement(for question: RNQuestionInfo, number: Int) async -> QuizRefinement? {
+        #if canImport(FoundationModels)
+        if #available(iOS 26.0, *) {
+            return await FoundationModelsRefiner.refinement(for: question, number: number, timeout: timeoutSeconds, distractorCount: distractorCount)
+        }
+        #endif
+        return nil
     }
 
     // MARK: - Validation (framework independent)
@@ -192,9 +202,6 @@ enum QuizQuestionRefiner {
 @available(iOS 26.0, *)
 @Generable
 private struct GeneratedPositive {
-    @Guide(description: "문제 번호. 입력에서 받은 번호를 그대로 쓴다.")
-    var number: Int
-
     @Guide(description: "마지막 항목명 하나만 주제로 넣은 짧은 시험 문제 질문 문장 한 개. 경로를 '속에서'·'중'·'의'로 이어 쓰지 않는다. 예: '다음 중 ○○에 관한 설명으로 옳은 것은?'. 반드시 '?' 또는 '고르시오.'로 끝나는 완결된 문장. 한국어. 〉 같은 경로 표기와 보기·정답 내용은 쓰지 않는다. 반드시 채운다.")
     var stem: String
 
@@ -217,17 +224,7 @@ private struct GeneratedPositive {
 
 @available(iOS 26.0, *)
 @Generable
-private struct GeneratedPositiveBatch {
-    @Guide(description: "입력된 문제 수와 같은 개수, 번호 순서대로.")
-    var items: [GeneratedPositive]
-}
-
-@available(iOS 26.0, *)
-@Generable
 private struct GeneratedNegative {
-    @Guide(description: "문제 번호. 입력에서 받은 번호를 그대로 쓴다.")
-    var number: Int
-
     @Guide(description: "마지막 항목명 하나만 주제로 넣은 짧은 시험 문제 질문 문장 한 개. 경로를 '속에서'·'중'·'의'로 이어 쓰지 않는다. 예: '다음 중 ○○에 해당하지 않는 것은?'. 반드시 '?' 또는 '고르시오.'로 끝나는 완결된 문장. 한국어. 〉 같은 경로 표기와 보기 내용은 쓰지 않는다. 반드시 채운다.")
     var stem: String
 
@@ -245,13 +242,6 @@ private struct GeneratedNegative {
 
     @Guide(description: "보기 5를 같은 규칙으로 다시 쓴 것. 반드시 채운다. 빈 문자열 금지.")
     var choice5: String
-}
-
-@available(iOS 26.0, *)
-@Generable
-private struct GeneratedNegativeBatch {
-    @Guide(description: "입력된 문제 수와 같은 개수, 번호 순서대로.")
-    var items: [GeneratedNegative]
 }
 
 @available(iOS 26.0, *)
@@ -320,101 +310,104 @@ private enum FoundationModelsRefiner {
         let wrong: [String]
     }
 
-    private enum Kind: String { case positive, negative }
+    /// Loads the model into memory ahead of the first request.
+    static func prewarm() {
+        LanguageModelSession(instructions: instructions).prewarm()
+    }
 
     @MainActor
-    static func refinements(for questions: [RNQuestionInfo], timeout: UInt64, distractorCount: Int) async -> [Int: QuizRefinement] {
-        guard isAvailable else { return [:] }
-
-        var inputs: [Input] = []
-        for (offset, question) in questions.enumerated() {
-            guard let reference = question.reference,
-                  let correct = question.answers.first(where: { $0.isCorrect })?.title,
-                  !correct.isEmpty else { continue }
-            // Kept short: ten questions share one context window.
-            // Negative questions: the choices ARE the real items, so no separate children list.
-            inputs.append(Input(number: offset + 1,
-                                path: question.text,
-                                children: question.positive ? reference.children.prefix(5).map { String($0.text.prefix(50)) } : [],
-                                correct: String(correct.prefix(80)),
-                                positive: question.positive,
-                                choices: question.positive ? [correct] : question.answers.map(\.title),
-                                wrongTitles: question.positive ? question.answers.filter { !$0.isCorrect }.map(\.title) : []))
+    static func refinement(for question: RNQuestionInfo, number: Int, timeout: UInt64, distractorCount: Int) async -> QuizRefinement? {
+        guard let reference = question.reference,
+              let correct = question.answers.first(where: { $0.isCorrect })?.title,
+              !correct.isEmpty else {
+            quizLog.notice("FM q#\(number, privacy: .public) skipped (no reference/correct answer)")
+            return nil
         }
-        guard !inputs.isEmpty else { return [:] }
-
-        // Two requests with only their own required fields; one mixed schema made the model leave every choice empty.
-        let positives = inputs.filter(\.positive)
-        let negatives = inputs.filter { !$0.positive && $0.choices.count == 5 }
-        let skipped = inputs.filter { !$0.positive && $0.choices.count != 5 }
-        if !skipped.isEmpty {
-            quizLog.notice("FM negative skipped (choices != 5), keeping original: \(skipped.map(\.number).map(String.init).joined(separator: ","), privacy: .public)")
+        let input = Input(number: number,
+                          path: question.text,
+                          children: question.positive ? reference.children.prefix(5).map { String($0.text.prefix(50)) } : [],
+                          correct: String(correct.prefix(80)),
+                          positive: question.positive,
+                          // Negative questions: the choices ARE the real items, so no separate children list.
+                          choices: question.positive ? [correct] : question.answers.map(\.title),
+                          wrongTitles: question.positive ? question.answers.filter { !$0.isCorrect }.map(\.title) : [])
+        let kind = input.positive ? "positive" : "negative"
+        guard input.positive || input.choices.count == 5 else {
+            quizLog.notice("FM q#\(number, privacy: .public) \(kind, privacy: .public) skipped (choices != 5), keeping original")
+            return nil
         }
 
-        var drafts: [Int: Draft] = [:]
-        for (kind, group) in [(Kind.positive, positives), (Kind.negative, negatives)] where !group.isEmpty {
-            quizLog.notice("FM \(kind.rawValue, privacy: .public) request start count=\(group.count, privacy: .public)")
-            let started = Date()
-            let part = await generateWithSplit(group, kind: kind, timeout: timeout)
-            quizLog.notice("FM \(kind.rawValue, privacy: .public) done in \(Date().timeIntervalSince(started), privacy: .public)s, drafts=\(part.count, privacy: .public)/\(group.count, privacy: .public)")
-            drafts.merge(part) { a, _ in a }
+        let started = Date()
+        guard let draft = await generateDraft(input, timeout: timeout) else {
+            quizLog.notice("FM q#\(number, privacy: .public) \(kind, privacy: .public) failed after \(Date().timeIntervalSince(started), privacy: .public)s, keeping rule-based")
+            return nil
         }
 
-        var result: [Int: QuizRefinement] = [:]
-        for input in inputs {
-            guard let draft = drafts[input.number] else { continue }
-            // An invalid stem only drops the stem; rewrites and wrong choices are still used.
-            var stem: String?
-            if let draftStem = QuizQuestionRefiner.cleanedStem(draft.stem) {
-                if let reason = QuizQuestionRefiner.stemRejectionReason(draftStem, correct: input.correct) {
-                    quizLog.notice("FM #\(input.number, privacy: .public) stem rejected (\(reason, privacy: .public)): \(draft.stem, privacy: .public)")
-                } else {
-                    stem = draftStem.trimmingCharacters(in: .whitespacesAndNewlines)
-                }
+        // An invalid stem only drops the stem; rewrites and wrong choices are still used.
+        var stem: String?
+        var stemStatus = "ok"
+        if let draftStem = QuizQuestionRefiner.cleanedStem(draft.stem) {
+            if let reason = QuizQuestionRefiner.stemRejectionReason(draftStem, correct: input.correct) {
+                stemStatus = "rejected: \(reason)"
+                quizLog.notice("FM q#\(number, privacy: .public) stem rejected (\(reason, privacy: .public)): \(draft.stem, privacy: .public)")
             } else {
-                quizLog.notice("FM #\(input.number, privacy: .public) stem rejected (incomplete): \(draft.stem, privacy: .public)")
+                stem = draftStem.trimmingCharacters(in: .whitespacesAndNewlines)
             }
-            let rewrites = rewrittenChoices(input: input, draft: draft)
-            if input.positive {
-                let finalCorrect = rewrites[input.choices[0]] ?? input.correct
-                let wrong = QuizQuestionRefiner.sanitizedWrong(draft.wrong, trueItems: input.children, correct: finalCorrect, limit: distractorCount)
-                    .filter { !QuizQuestionRefiner.isMemo($0) }
-                quizLog.notice("FM #\(input.number, privacy: .public) usable wrong \(wrong.count, privacy: .public)/\(draft.wrong.count, privacy: .public)")
-                if wrong.count < draft.wrong.count {
-                    quizLog.notice("FM #\(input.number, privacy: .public) raw wrong=\(draft.wrong.joined(separator: " | "), privacy: .public) true=\(input.children.joined(separator: " | "), privacy: .public)")
-                }
-                result[input.number - 1] = QuizRefinement(stem: stem, wrong: wrong, rewrites: rewrites)
-            } else {
-                result[input.number - 1] = QuizRefinement(stem: stem, wrong: nil, rewrites: rewrites)
-            }
+        } else {
+            stemStatus = "rejected: incomplete"
+            quizLog.notice("FM q#\(number, privacy: .public) stem rejected (incomplete): \(draft.stem, privacy: .public)")
         }
+
+        var rewrites = rewrittenChoices(input: input, draft: draft)
+        var wrong: [String]?
+        if input.positive {
+            let finalCorrect = rewrites[input.choices[0]] ?? input.correct
+            wrong = QuizQuestionRefiner.sanitizedWrong(draft.wrong, trueItems: input.children, correct: finalCorrect, limit: distractorCount)
+                .filter { !QuizQuestionRefiner.isMemo($0) }
+        }
+        var refinement = QuizRefinement(stem: stem, wrong: wrong, rewrites: rewrites)
 
         // Second chance: rewrite notes that would still be shown as raw memo.
-        var leaks: [(number: Int, original: String, others: [String])] = []
-        for input in inputs {
-            let all = input.choices + input.wrongTitles
-            for original in memoNotes(input: input, refinement: result[input.number - 1]) {
-                leaks.append((input.number, original, all.filter { $0 != original }))
-            }
-        }
+        let all = input.choices + input.wrongTitles
+        let leaks = memoNotes(input: input, refinement: refinement)
         if !leaks.isEmpty {
-            quizLog.notice("FM second pass start notes=\(leaks.count, privacy: .public)")
-            let paths = Dictionary(uniqueKeysWithValues: inputs.map { ($0.number, $0.path) })
-            let rewritten = await rewriteNotes(leaks.map { (paths[$0.number] ?? "", $0.original) }, timeout: timeout)
-            for (id, leak) in leaks.enumerated() {
+            quizLog.notice("FM q#\(number, privacy: .public) second pass notes=\(leaks.count, privacy: .public)")
+            let rewritten = await rewriteNotes(leaks.map { (input.path, $0) }, timeout: secondPassTimeout)
+            for (id, original) in leaks.enumerated() {
                 guard let raw = rewritten[id],
-                      let value = QuizQuestionRefiner.validatedRewrite(raw, original: leak.original, others: leak.others) else { continue }
-                var refinement = result[leak.number - 1] ?? QuizRefinement(stem: nil, wrong: nil)
-                refinement.rewrites[leak.original] = value
-                result[leak.number - 1] = refinement
+                      let value = QuizQuestionRefiner.validatedRewrite(raw, original: original, others: all.filter { $0 != original }) else { continue }
+                rewrites[original] = value
             }
+            refinement.rewrites = rewrites
         }
 
-        for input in inputs {
-            let rest = memoNotes(input: input, refinement: result[input.number - 1])
-            quizLog.notice("FM #\(input.number, privacy: .public) memo remaining=\(rest.count, privacy: .public) (answers \(input.choices.count, privacy: .public), wrong \(input.wrongTitles.count, privacy: .public), draft=\(drafts[input.number] != nil, privacy: .public))")
+        let rest = memoNotes(input: input, refinement: refinement).count
+        let elapsed = Date().timeIntervalSince(started)
+        quizLog.notice("FM q#\(number, privacy: .public) \(kind, privacy: .public) done in \(elapsed, privacy: .public)s (stem \(stemStatus, privacy: .public), rewrites \(refinement.rewrites.count, privacy: .public)/\(input.choices.count, privacy: .public), wrong \(wrong?.count ?? 0, privacy: .public)/\(input.positive ? distractorCount : 0, privacy: .public), memo remaining \(rest, privacy: .public))")
+        return refinement
+    }
+
+    private static let secondPassTimeout: UInt64 = 8
+
+    /// One request for one question, raced against a timeout. nil on failure/timeout.
+    @MainActor
+    private static func generateDraft(_ input: Input, timeout: UInt64) async -> Draft? {
+        do {
+            return try await withThrowingTaskGroup(of: Draft?.self) { group in
+                group.addTask { @MainActor in try await generate(input) }
+                group.addTask {
+                    try await Task.sleep(nanoseconds: timeout * 1_000_000_000)
+                    return nil
+                }
+                let first = try await group.next() ?? nil
+                group.cancelAll()
+                if first == nil { quizLog.notice("FM q#\(input.number, privacy: .public) timed out after \(timeout, privacy: .public)s") }
+                return first
+            }
+        } catch {
+            quizLog.error("FM q#\(input.number, privacy: .public) error: \(String(describing: error), privacy: .public)")
+            return nil
         }
-        return result
     }
 
     /// Original titles that would still show memo notation after rewrites and model wrong choices.
@@ -475,51 +468,18 @@ private enum FoundationModelsRefiner {
         return result
     }
 
-    /// One request for the whole group; if the model fails (e.g. context window exceeded), retry as two halves.
-    @MainActor
-    private static func generateWithSplit(_ inputs: [Input], kind: Kind, timeout: UInt64) async -> [Int: Draft] {
-        do {
-            return try await withThrowingTaskGroup(of: [Int: Draft]?.self) { group in
-                group.addTask { @MainActor in try await generate(inputs, kind: kind) }
-                group.addTask {
-                    try await Task.sleep(nanoseconds: timeout * 1_000_000_000)
-                    return nil
-                }
-                let first = try await group.next() ?? nil
-                group.cancelAll()
-                guard let first else {
-                    quizLog.notice("FM \(kind.rawValue, privacy: .public) timed out")
-                    return [:]
-                }
-                return first
-            }
-        } catch {
-            quizLog.error("FM \(kind.rawValue, privacy: .public) error (n=\(inputs.count, privacy: .public)): \(String(describing: error), privacy: .public)")
-            guard inputs.count > 1, !Task.isCancelled else { return [:] }
-            let mid = inputs.count / 2
-            let left = await generateWithSplit(Array(inputs[..<mid]), kind: kind, timeout: timeout)
-            let right = await generateWithSplit(Array(inputs[mid...]), kind: kind, timeout: timeout)
-            return left.merging(right) { a, _ in a }
-        }
-    }
 
     private static let styleRule = "보기 문체 규칙: 원문은 암기용 요약 메모다. 뜻을 이해한 뒤 실제 시험 보기처럼 자연스러운 단어(구) 또는 문장으로 쓴다. 기호(=>, →, <, 괄호 등)는 남기지 않는다. 한 문제의 보기는 같은 형태. 숫자·법률 용어·기간·금액·비율은 유지, 새 사실 금지."
     private static let exampleRule = "예: \"미채굴 광물은 소유권이 없다 => 국가소유\" → \"미채굴 광물은 국가 소유이다\" (질문이 소유자를 물으면 \"국가\") / \"지상권\" → \"지상권\""
 
-    @MainActor
-    private static func generate(_ inputs: [Input], kind: Kind) async throws -> [Int: Draft] {
-        let session = LanguageModelSession(instructions: instructions)
-        var drafts: [Int: Draft] = [:]
-        var empty = 0
 
-        switch kind {
-        case .positive:
-            let blocks = inputs.map { input -> String in
-                let members = input.children.map { "  - \($0)" }.joined(separator: "\n")
-                return "[문제 \(input.number)] 긍정형(속하거나 알맞은 것 고르기)\n항목: \(input.path)\n실제로 속하는 내용(모두 참):\n\(members)\n정답 보기: \(input.correct)"
-            }.joined(separator: "\n\n")
+    @MainActor
+    private static func generate(_ input: Input) async throws -> Draft {
+        let session = LanguageModelSession(instructions: instructions)
+        if input.positive {
+            let members = input.children.map { "  - \($0)" }.joined(separator: "\n")
             let prompt = """
-            아래 \(inputs.count)개 문제 각각에 대해 작성하세요. 번호를 그대로 쓰고 번호 순서대로 답하세요.
+            아래 문제 하나를 작성하세요.
             - stem: 주제는 마지막 항목명 하나만 쓴다. 경로를 '속에서'·'중'·'의'로 이어 쓰지 않는다(나쁜 예: '부동산의 분류 속에서 기타 토지에 속하지 않는 것', 좋은 예: '다음 중 기타 토지에 속하지 않는 것은?'). 짧게, '?' 또는 '고르시오.'로 끝낸다. 보기 내용은 쓰지 않는다.
             - correct: '정답 보기'를 의미 그대로 다시 쓴 것.
             - wrong1~wrong4: 서로 다른 그럴듯한 오답 4개(복사 금지, 새로 만들고 correct와 같은 문체).
@@ -527,39 +487,37 @@ private enum FoundationModelsRefiner {
             - \(exampleRule)
             - 모든 필드를 반드시 채운다. 빈 문자열 금지.
 
-            \(blocks)
+            긍정형(속하거나 알맞은 것 고르기)
+            항목: \(input.path)
+            실제로 속하는 내용(모두 참):
+            \(members)
+            정답 보기: \(input.correct)
             """
-            let batch = try await session.respond(to: prompt, generating: GeneratedPositiveBatch.self).content
-            for item in batch.items {
-                let fields = [item.stem, item.correct, item.wrong1, item.wrong2, item.wrong3, item.wrong4]
-                empty += fields.filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
-                drafts[item.number] = Draft(stem: item.stem, texts: [item.correct], wrong: [item.wrong1, item.wrong2, item.wrong3, item.wrong4])
-            }
-            quizLog.notice("FM positive raw: items=\(batch.items.count, privacy: .public) emptyFields=\(empty, privacy: .public)/\(batch.items.count * 6, privacy: .public)")
-        case .negative:
-            let blocks = inputs.map { input -> String in
-                let choices = input.choices.enumerated().map { "  보기\($0.offset + 1): \(String($0.element.prefix(80)))" }.joined(separator: "\n")
-                return "[문제 \(input.number)] 부정형(속하지 않거나 알맞지 않은 것 고르기)\n항목: \(input.path)\n\(choices)"
-            }.joined(separator: "\n\n")
+            let item = try await session.respond(to: prompt, generating: GeneratedPositive.self).content
+            let fields = [item.stem, item.correct, item.wrong1, item.wrong2, item.wrong3, item.wrong4]
+            let empty = fields.filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
+            quizLog.notice("FM q#\(input.number, privacy: .public) positive raw: emptyFields=\(empty, privacy: .public)/6")
+            return Draft(stem: item.stem, texts: [item.correct], wrong: [item.wrong1, item.wrong2, item.wrong3, item.wrong4])
+        } else {
+            let choices = input.choices.enumerated().map { "  보기\($0.offset + 1): \(String($0.element.prefix(80)))" }.joined(separator: "\n")
             let prompt = """
-            아래 \(inputs.count)개 문제 각각에 대해 작성하세요. 번호를 그대로 쓰고 번호 순서대로 답하세요.
+            아래 문제 하나를 작성하세요.
             - stem: 주제는 마지막 항목명 하나만 쓴다. 경로를 '속에서'·'중'·'의'로 이어 쓰지 않는다(나쁜 예: '부동산의 분류 속에서 기타 토지에 속하지 않는 것', 좋은 예: '다음 중 기타 토지에 속하지 않는 것은?'). 짧게, '?' 또는 '고르시오.'로 끝낸다. 보기 내용은 쓰지 않는다.
             - choice1~choice5: 보기1~5를 각각 의미 그대로 다시 쓴 것.
             - \(styleRule)
             - \(exampleRule)
             - 모든 필드를 반드시 채운다. 빈 문자열 금지.
 
-            \(blocks)
+            부정형(속하지 않거나 알맞지 않은 것 고르기)
+            항목: \(input.path)
+            \(choices)
             """
-            let batch = try await session.respond(to: prompt, generating: GeneratedNegativeBatch.self).content
-            for item in batch.items {
-                let texts = [item.choice1, item.choice2, item.choice3, item.choice4, item.choice5]
-                empty += ([item.stem] + texts).filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
-                drafts[item.number] = Draft(stem: item.stem, texts: texts, wrong: [])
-            }
-            quizLog.notice("FM negative raw: items=\(batch.items.count, privacy: .public) emptyFields=\(empty, privacy: .public)/\(batch.items.count * 6, privacy: .public)")
+            let item = try await session.respond(to: prompt, generating: GeneratedNegative.self).content
+            let texts = [item.choice1, item.choice2, item.choice3, item.choice4, item.choice5]
+            let empty = ([item.stem] + texts).filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
+            quizLog.notice("FM q#\(input.number, privacy: .public) negative raw: emptyFields=\(empty, privacy: .public)/6")
+            return Draft(stem: item.stem, texts: texts, wrong: [])
         }
-        return drafts
     }
 }
 #endif
