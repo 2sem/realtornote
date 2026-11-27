@@ -27,7 +27,7 @@ on:
 jobs:
   build-test:
     name: Build & Test
-    runs-on: xcode-27
+    runs-on: tuist-macos
     permissions:
       # required for all workflows
       security-events: write

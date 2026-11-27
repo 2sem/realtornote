@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: xcode-27
+    runs-on: tuist-macos
     env:
         PRODUCT_NAME: 'realtornote'
         PACKAGE_NAME: 'com.y2k.realtornote'

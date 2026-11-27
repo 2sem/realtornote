@@ -18,7 +18,7 @@ on:
 jobs:
   warmup:
     name: Warm SPM cache (${{ matrix.prefix }})
-    runs-on: xcode-27
+    runs-on: tuist-macos
     strategy:
       fail-fast: false
       matrix:
@@ -55,7 +55,7 @@ jobs:
   # destination as `tuist test`, otherwise cache hashes won't match.
   binary-cache:
     name: Warm Tuist binary cache
-    runs-on: xcode-27
+    runs-on: tuist-macos
     permissions:
       contents: read
       # required for Tuist OIDC authentication
